@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Salon"
+        android:icon="@drawable/Salon"/>
+    <item android:title="Prospect"
+        android:icon="@drawable/Salon"/>
+    <item android:title="Attente"
+        android:icon="@drawable/Salon" />
+    <item android:title="Projet"
+        android:icon="@drawable/Salon"/>
+    <item android:title="Compte"
+        android:icon="@drawable/Salon"/>
+</menu>

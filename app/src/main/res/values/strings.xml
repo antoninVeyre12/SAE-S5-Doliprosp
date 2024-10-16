@@ -1,3 +1,10 @@
 <resources>
+
+    <!-- Bottom nav bar -->
     <string name="app_name">DoliProsp</string>
+    <string name="attente">Attente</string>
+    <string name="prospect">Prospect</string>
+    <string name="salon">Salon</string>
+    <string name="compte">Compte</string>
+    <string name="projet">Projet</string>
 </resources>
