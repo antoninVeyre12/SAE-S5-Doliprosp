@@ -1,18 +1,21 @@
 package com.example.doliprosp;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.LinearLayout;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-
 public class MainActivity extends AppCompatActivity {
+
+    private TextView[] textViews;
+    private ImageView[] imageViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
-        TextView[] textViews = new TextView[]{
+        textViews = new TextView[]{
                 bottomNav.findViewById(R.id.text_show),
                 bottomNav.findViewById(R.id.text_prospect),
                 bottomNav.findViewById(R.id.text_waiting),
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.findViewById(R.id.text_user)
         };
 
-        ImageView[] imageViews = new ImageView[]{
+        imageViews = new ImageView[]{
                 bottomNav.findViewById(R.id.image_show),
                 bottomNav.findViewById(R.id.image_prospect),
                 bottomNav.findViewById(R.id.image_waiting),
@@ -40,46 +43,51 @@ public class MainActivity extends AppCompatActivity {
         // Chargement du fragment par défaut
         if (savedInstanceState == null) {
             loadFragment(new ShowFragment());
+            setColors(0);
         }
+
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
             final int index = i;
             bottomNav.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch (index) {
-                        case 0:
-                            textViews[index].setTextColor(getResources().getColor(R.color.color_primary));
-                            //imageViews[index].setColorFilter(ContextCompat.getColor(this, R.color.color_primary));
-                            loadFragment(new ProjectFragment());
-                            break;
-                        case 1:
-                            textViews[index].setTextColor(getResources().getColor(R.color.color_primary));
-                            loadFragment(new ProspectFragment());
-                            break;
-                        case 2:
-                            textViews[index].setTextColor(getResources().getColor(R.color.color_primary));
-                            loadFragment(new ShowFragment());
-                            break;
-                        case 3:
-                            textViews[index].setTextColor(getResources().getColor(R.color.color_primary));
-                            loadFragment(new ShowFragment());
-                            break;
-                        case 4:
-                            textViews[index].setTextColor(getResources().getColor(R.color.color_primary));
-                            loadFragment(new UserFragment());
-                            break;
-                    }
+                    loadFragment(getFragmentByIndex(index));
+                    setColors(index);
                 }
             });
         }
-
     }
 
+    // Méthode pour récupérer le fragment approprié
+    private Fragment getFragmentByIndex(int index) {
+        switch (index) {
+            case 0: return new ShowFragment();
+            case 1: return new ProspectFragment();
+            case 2: return new ProjectFragment();
+            case 3: return new ProjectFragment();
+            case 4: return new UserFragment();
+            default: return null;
+        }
+    }
 
+    // Méthode pour charger un fragment
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    // Méthode pour changer les couleurs
+    private void setColors(int selectedIndex) {
+        LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
+        for (int i = 0; i < bottomNav.getChildCount(); i++) {
+            textViews[i].setTextColor(Color.BLACK);
+            imageViews[i].setColorFilter(Color.BLACK);
+        }
+
+        // Changer la couleur pour l'élément sélectionné
+        textViews[selectedIndex].setTextColor(getResources().getColor(R.color.color_primary));
+        imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.color_primary));
     }
 }
