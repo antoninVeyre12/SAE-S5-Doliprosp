@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_secondary">
 
-</LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/myButton"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/btn_new_marginBottom"
+        android:layout_marginEnd="@dimen/btn_new_marginEnd"
+        android:background="@drawable/round_button"
+        android:text="@string/plus"
+        android:textSize="@dimen/btn_new_size"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_bar_height"/>
+
+</RelativeLayout>

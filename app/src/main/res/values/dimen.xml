@@ -8,4 +8,9 @@
     <dimen name="nav_bar_img_width">60dp</dimen>
     <dimen name="nav_bar_img_height">60dp</dimen>
 
+    <!-- Buttun new -->
+    <dimen name="btn_new_size">50dp</dimen>
+    <dimen name="btn_new_marginEnd">50dp</dimen>
+    <dimen name="btn_new_marginBottom">150dp</dimen>
+
 </resources>
