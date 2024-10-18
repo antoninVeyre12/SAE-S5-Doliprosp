@@ -25,6 +25,10 @@ public class Application implements IApplication {
         listLocalShow.add(localShow);
     }
 
+    public List<Show> getLocalShow()
+    {
+        return listLocalShow;
+    }
     public void deleteProspect(Prospect prospect)
     {
         listProspect.remove(prospect);
@@ -40,9 +44,10 @@ public class Application implements IApplication {
         listLocalShow.remove(show);
     }
 
-    public void getSavedShow()
+    public List<Show> getSavedShow()
     {
         /*TODO récupérer la liste des salons existnats dans l'erp et les ajouter a ListSavedShow*/
+        return null;
     }
 
     public void sendProspect(Prospect prospect)

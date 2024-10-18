@@ -1,4 +1,4 @@
-package com.example.doliprosp;
+package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -7,12 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.doliprosp.R;
+import com.example.doliprosp.treatment.Application;
+import com.example.doliprosp.treatment.IApplication;
+import com.example.doliprosp.treatment.Show;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class CreateShowDialogFragment extends DialogFragment {
 
+    private IApplication applicationManager;
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -33,7 +40,8 @@ public class CreateShowDialogFragment extends DialogFragment {
         buttonSubmit.setOnClickListener(v -> {
             String title = editTextTitle.getText().toString();
 
-            // mettre la méthode tu vois
+            Show newShow = new Show(title);
+            applicationManager.addLocalShow(newShow);
 
             dismiss();
         });

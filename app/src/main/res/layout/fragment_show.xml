@@ -43,16 +43,23 @@
                 android:imeOptions="actionSearch" />
 
         </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/showRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonCreateShow"
         style="@style/button_create" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
 
 
     <View

@@ -1,5 +1,7 @@
 package com.example.doliprosp.treatment;
 
+import java.util.List;
+
 public interface IApplication {
 
     public void addProspect(Prospect prospect);
@@ -16,7 +18,8 @@ public interface IApplication {
 
     public void deleteLocalShow(Show show);
 
-    public void getSavedShow();
+    public List<Show> getLocalShow();
+    public List<Show> getSavedShow();
 
     public void sendProspect(Prospect prospect);
 
