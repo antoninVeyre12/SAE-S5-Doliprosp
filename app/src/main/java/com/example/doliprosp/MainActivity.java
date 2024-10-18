@@ -12,6 +12,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.doliprosp.fragment.ProjectFragment;
+import com.example.doliprosp.fragment.ProspectFragment;
+import com.example.doliprosp.fragment.ShowFragment;
+import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.treatment.Show;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView[] textViews;
@@ -64,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
             case 0: return new ShowFragment();
             case 1: return new ProspectFragment();
             case 2: return new ProjectFragment();
-            case 3: return new ProjectFragment();
-            case 4: return new UserFragment();
+            case 3: return new UserFragment();
             default: return null;
         }
     }

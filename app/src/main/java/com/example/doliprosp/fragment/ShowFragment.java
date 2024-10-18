@@ -1,5 +1,4 @@
-package com.example.doliprosp;
-
+package com.example.doliprosp.fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.doliprosp.R;
 
 public class ShowFragment extends Fragment {
 
