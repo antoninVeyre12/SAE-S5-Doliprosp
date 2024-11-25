@@ -1,6 +1,7 @@
 package com.example.doliprosp.fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.example.doliprosp.adapter.ShowAdapter;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShowFragment extends Fragment {
@@ -35,11 +37,11 @@ public class ShowFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
+        ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
         IApplication applicationManager = viewModel.getApplication();
         RecyclerView recyclerView = view.findViewById(R.id.showRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        List<Show> showList = applicationManager.getSavedShow();
+        ArrayList<Show> showList = applicationManager.getLocalShow();
         ShowAdapter adapter = new ShowAdapter(showList);
         recyclerView.setAdapter(adapter);
 

@@ -8,7 +8,10 @@ public class ApplicationViewModel extends ViewModel {
     private IApplication application;
 
     public ApplicationViewModel() {
-        application = new Application();
+        if (application == null) {
+            application = new Application();
+
+        }
     }
 
     public IApplication getApplication() {

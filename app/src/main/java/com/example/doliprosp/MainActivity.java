@@ -2,6 +2,7 @@ package com.example.doliprosp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
         IApplication applicationManager = viewModel.getApplication();
-
         applicationManager.addLocalShow(new Show("Testttt"));
+        applicationManager.addLocalShow(new Show("testppp"));
+
 
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
