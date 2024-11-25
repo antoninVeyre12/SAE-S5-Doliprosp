@@ -48,13 +48,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/showRecyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subtitle_text_size"
+                    android:layout_marginTop="@dimen/subtitle_marginTop"
+                    android:layout_marginBottom="@dimen/subtitle_marginBottom"
 
+                    android:layout_marginLeft="@dimen/subtitle_marginLeft"
+                    android:text="@string/salons_suggere" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/showRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subtitle_text_size"
+                    android:layout_marginTop="@dimen/subtitle_marginTop"
+                    android:layout_marginBottom="@dimen/subtitle_marginBottom"
+                    android:layout_marginLeft="@dimen/subtitle_marginLeft"
+                    android:text="@string/mes_salons" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myShowRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton

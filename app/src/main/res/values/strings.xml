@@ -17,4 +17,8 @@
     <string name="creer">Créer</string>
     <string name="hint_show">Entrez le nom du salon</string>
 
+    <!-- Page Salon -->
+    <string name="mes_salons">Mes salons</string>
+    <string name="salons_suggere">Salons suggéré</string>
+
 </resources>

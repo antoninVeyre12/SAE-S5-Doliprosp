@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
         IApplication applicationManager = viewModel.getApplication();
-        applicationManager.addLocalShow(new Show("Testttt"));
-        applicationManager.addLocalShow(new Show("testppp"));
-
 
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -59,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.findViewById(R.id.image_user)
         };
 
-        // Chargement du fragment par défaut
+        // Chargement du fragment par défaut (Salon)
         if (savedInstanceState == null) {
             loadFragment(new ShowFragment());
-            setColors(0);
+            setColors(1);
         }
 
         for (int i = 0; i < bottomNav.getChildCount(); i++) {

@@ -53,6 +53,12 @@ public class Application implements IApplication {
 
     public ArrayList<Show> getSavedShow()
     {
+
+        ArrayList<Show> listSavedShow = new ArrayList<>();
+        listSavedShow.add(new Show("Testttt"));
+        listSavedShow.add(new Show("testppp"));
+        listSavedShow.add(new Show("Testttt"));
+        listSavedShow.add(new Show("testppp"));
         /*TODO récupérer la liste des salons existnats dans l'erp et les ajouter a ListSavedShow*/
         return listSavedShow;
     }

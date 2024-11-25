@@ -42,13 +42,19 @@ public class CreateShowDialogFragment extends DialogFragment {
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
         Button buttonCancel = view.findViewById(R.id.buttonCancel);
 
+
+
         buttonSubmit.setOnClickListener(v -> {
             String title = editTextTitle.getText().toString();
+            if (title.length() >= 2 && title.length() <= 50) {
+                Show newShow = new Show(title);
+                applicationManager.addLocalShow(newShow);
 
-            Show newShow = new Show(title);
-            applicationManager.addLocalShow(newShow);
+                dismiss();
+            } else {
 
-            dismiss();
+            }
+
         });
 
         buttonCancel.setOnClickListener(v -> {

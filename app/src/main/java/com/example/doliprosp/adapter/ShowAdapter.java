@@ -33,13 +33,16 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     // Remplit le ViewHolder avec les données
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Show show = showList.get(position);
-        holder.show_name.setText(show.getName());
+        if (position < 6) {
+            Show show = showList.get(position);
+            holder.show_name.setText(show.getName());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return showList.size();
+        // Limite le nombre d'éléments affichés à 6 (2 lignes)
+        return Math.min(showList.size(), 6);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
