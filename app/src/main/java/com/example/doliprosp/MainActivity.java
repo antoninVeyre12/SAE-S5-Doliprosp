@@ -11,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.doliprosp.ViewModel.ApplicationViewModel;
 import com.example.doliprosp.fragment.ProjectFragment;
 import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
 import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,10 +26,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView[] textViews;
     private ImageView[] imageViews;
 
+    private IApplication applicationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
+        IApplication applicationManager = viewModel.getApplication();
+
+        applicationManager.addLocalShow(new Show("Testttt"));
 
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -95,4 +105,5 @@ public class MainActivity extends AppCompatActivity {
         textViews[selectedIndex].setTextColor(getResources().getColor(R.color.color_primary));
         imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.color_primary));
     }
+
 }
