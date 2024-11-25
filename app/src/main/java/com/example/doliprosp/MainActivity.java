@@ -19,6 +19,7 @@ import com.example.doliprosp.fragment.ProjectFragment;
 import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
 import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.fragment.WaitingFragment;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
@@ -43,17 +44,17 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
         textViews = new TextView[]{
+                bottomNav.findViewById(R.id.text_waiting),
                 bottomNav.findViewById(R.id.text_show),
                 bottomNav.findViewById(R.id.text_prospect),
-                bottomNav.findViewById(R.id.text_waiting),
                 bottomNav.findViewById(R.id.text_project),
                 bottomNav.findViewById(R.id.text_user)
         };
 
         imageViews = new ImageView[]{
+                bottomNav.findViewById(R.id.image_waiting),
                 bottomNav.findViewById(R.id.image_show),
                 bottomNav.findViewById(R.id.image_prospect),
-                bottomNav.findViewById(R.id.image_waiting),
                 bottomNav.findViewById(R.id.image_project),
                 bottomNav.findViewById(R.id.image_user)
         };
@@ -79,10 +80,11 @@ public class MainActivity extends AppCompatActivity {
     // Méthode pour récupérer le fragment approprié
     private Fragment getFragmentByIndex(int index) {
         switch (index) {
-            case 0: return new ShowFragment();
-            case 1: return new ProspectFragment();
-            case 2: return new ProjectFragment();
-            case 3: return new UserFragment();
+            case 0: return new WaitingFragment();
+            case 1: return new ShowFragment();
+            case 2: return new ProspectFragment();
+            case 3: return new ProjectFragment();
+            case 4: return new UserFragment();
             default: return null;
         }
     }
