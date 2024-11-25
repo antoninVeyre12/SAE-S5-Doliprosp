@@ -7,7 +7,7 @@ Ce projet a pour but de créer une application Android destinée aux commerciaux
 
 ## Equipe & Rôles :
 
-Nael Briot       ==> aurorakali ==> nael.briot@iut-rodez.fr
+Nael Briot       ==> BriotNael ==> nael.briot@iut-rodez.fr
 
 Alix Brugier     ==> alixB31  ==> alix.brugier@iut-rodez.fr
 
