@@ -17,4 +17,15 @@
     <string name="creer">Créer</string>
     <string name="hint_show">Entrez le nom du salon</string>
 
+
+        <!-- Page connexion -->
+    <string name="btn_connexion">Se connecter</string>
+    <string name="login">Login</string>
+    <string name="url">URL</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de Passe</string>
+    <string name="prospects">Prospects</string>
+
+
+
 </resources>

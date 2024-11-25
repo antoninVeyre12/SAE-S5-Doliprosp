@@ -25,17 +25,16 @@ public class ConnexionActivity extends AppCompatActivity {
         setContentView(R.layout.connexion);
 
         editTextUrl = findViewById(R.id.url);
-        editTextUserName = findViewById(R.id.userName);
+        editTextUserName = findViewById(R.id.username);
         editTextPassword = findViewById(R.id.password);
 
-        Button buttonSubmit = view.findViewById(R.id.connexion);
-
+        Button buttonSubmit = findViewById(R.id.connexion);
     }
 
     public void connexion(View bouton) {
-        String url = editTextUrl.GetText().ToString();
-        String userName = editTextUserName.GetText().ToString();
-        String password = editTextPassword.GetText().ToString();
+        String url = editTextUrl.getText().toString();
+        String userName = editTextUserName.getText().toString();
+        String password = editTextPassword.getText().toString();
         User commercial = new User(url, userName, password);
 
         ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
