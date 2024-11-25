@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.doliprosp.R;
+import com.example.doliprosp.ViewModel.ApplicationViewModel;
 import com.example.doliprosp.treatment.Application;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
@@ -16,6 +17,7 @@ import com.example.doliprosp.treatment.Show;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class CreateShowDialogFragment extends DialogFragment {
 
@@ -32,6 +34,9 @@ public class CreateShowDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_create_show, container, false);
+
+        ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
+        IApplication applicationManager = viewModel.getApplication();
 
         EditText editTextTitle = view.findViewById(R.id.editTextTitle);
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
