@@ -7,9 +7,6 @@ public class Show {
     private UUID idShow;
     private String name;
 
-    private IApplication applicationManager;
-
-
     public Show(String name)
     {
         this.idShow = UUID.randomUUID();

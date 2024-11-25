@@ -14,8 +14,6 @@ public class Prospect {
     private String phoneNumber;
     private Boolean isClient;
 
-    private IApplication applicationManager;
-
 
     public Prospect(UUID idShow, String firstName, String lastName, int postCode,
                     String city, String postalAddress, String email, String phoneNumber,

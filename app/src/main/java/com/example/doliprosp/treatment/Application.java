@@ -17,6 +17,10 @@ public class Application implements IApplication {
     }
     private User commercial;
 
+    public void setUser(User newUser)
+    {
+        commercial = newUser;
+    }
     public void addProspect(Prospect prospect)
     {
         listProspect.add(prospect);
