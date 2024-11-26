@@ -108,7 +108,7 @@ public class ConnexionActivity extends AppCompatActivity {
         JSONTokener tokenJSON = new JSONTokener(resultatJson.toString());
         JSONObject objectJSON = (JSONObject) tokenJSON.nextValue();
         StringBuilder resultatFormate = new StringBuilder();
-        zoneResultat.setText(resultatFormate.append(objectJSON.getString("Token")));
+        zoneResultat.setText(resultatFormate.append(objectJSON.getString("token")));
 
     }
 }
