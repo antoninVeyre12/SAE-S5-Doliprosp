@@ -7,6 +7,8 @@ public interface IApplication {
 
     public void setUser(User newUser);
 
+    public User getUser();
+
     public void addProspect(Prospect prospect);
 
     public void addProject(Project project);

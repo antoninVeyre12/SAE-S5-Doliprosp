@@ -60,7 +60,6 @@
     </EditText>
 
     <Button
-        android:onClick="connexion"
         android:id="@+id/connexion"
         android:layout_width="300dp"
         android:layout_gravity="center"

@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.ViewModel.ApplicationViewModel;
+import com.example.doliprosp.fragment.ConnexionFragment;
 import com.example.doliprosp.fragment.ProjectFragment;
 import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
@@ -61,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Chargement du fragment par défaut
         if (savedInstanceState == null) {
-            loadFragment(new ShowFragment());
-            setColors(0);
+            ConnexionFragment connexionFragment = new ConnexionFragment();
+            loadFragment(connexionFragment);
         }
 
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Méthode pour charger un fragment
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);

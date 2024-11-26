@@ -21,6 +21,12 @@ public class Application implements IApplication {
     {
         commercial = newUser;
     }
+
+    @Override
+    public User getUser() {
+        return commercial;
+    }
+
     public void addProspect(Prospect prospect)
     {
         listProspect.add(prospect);
