@@ -30,7 +30,6 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
 
     }
 
-    // Remplit le ViewHolder avec les données
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (position < 6) {

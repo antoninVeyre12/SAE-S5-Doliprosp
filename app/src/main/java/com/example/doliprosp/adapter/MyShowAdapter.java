@@ -3,17 +3,13 @@ package com.example.doliprosp.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.doliprosp.R;
-import com.example.doliprosp.ViewModel.ApplicationViewModel;
-import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
@@ -31,7 +27,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_show, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_show, parent, false);
         return new MyViewHolder(view);
     }
 
