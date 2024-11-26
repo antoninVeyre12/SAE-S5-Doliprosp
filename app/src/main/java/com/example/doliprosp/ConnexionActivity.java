@@ -2,6 +2,7 @@ package com.example.doliprosp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,10 @@ import com.example.doliprosp.ViewModel.ApplicationViewModel;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.UnsupportedEncodingException;
 
 public class ConnexionActivity extends AppCompatActivity {
@@ -31,6 +36,7 @@ public class ConnexionActivity extends AppCompatActivity {
     private static final String URL = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/login?login=G42&password=3iFJWj26z";
     private RequestQueue fileRequete;
     private TextView resultatJson;
+    private TextView zoneResultat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class ConnexionActivity extends AppCompatActivity {
         editTextUserName = findViewById(R.id.username);
         editTextPassword = findViewById(R.id.password);
         resultatJson     = findViewById(R.id.json);
+        zoneResultat = findViewById(R.id.Zonejson);
 
         Button buttonSubmit = findViewById(R.id.connexion);
     }
@@ -71,8 +78,8 @@ public class ConnexionActivity extends AppCompatActivity {
         return fileRequete;
     }
 
-    public void connexionTest(View bouton) {
-        // le titre du film est insésré dans l'URL de recherche du film
+    public void connexionTest(View bouton) throws JSONException {
+        //l'URL de connexion
         String url = URL;
         /*
          * on crée une requête GET, paramètrée par l'url préparée ci-dessus,
@@ -97,5 +104,11 @@ public class ConnexionActivity extends AppCompatActivity {
                 });
         // la requête est placée dans la file d'attente des requêtes
         getFileRequete().add(requeteVolley);
+
+        JSONTokener tokenJSON = new JSONTokener(resultatJson.toString());
+        JSONObject objectJSON = (JSONObject) tokenJSON.nextValue();
+        StringBuilder resultatFormate = new StringBuilder();
+        zoneResultat.setText(resultatFormate.append(objectJSON.getString("Token")));
+
     }
 }
