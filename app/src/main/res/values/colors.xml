@@ -3,4 +3,6 @@
     <color name="color_primary">#FA0000</color>
     <color name="color_secondary">#EBE9E9</color>
     <color name="black">#000000</color>
+    <color name="green">#43CD49</color>
+    <color name="red">#FF0000</color>
 </resources>

@@ -1,6 +1,11 @@
 package com.example.doliprosp.treatment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface IApplication {
+
+    public void setUser(User newUser);
 
     public void addProspect(Prospect prospect);
 
@@ -16,7 +21,8 @@ public interface IApplication {
 
     public void deleteLocalShow(Show show);
 
-    public void getSavedShow();
+    public ArrayList<Show> getLocalShow();
+    public ArrayList<Show> getSavedShow();
 
     public void sendProspect(Prospect prospect);
 

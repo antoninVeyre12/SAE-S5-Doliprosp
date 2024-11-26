@@ -4,23 +4,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_secondary">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/title"
+            android:text="@string/salon" />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/search_bar_marginTop"
+            android:layout_marginLeft="@dimen/search_bar_marginLeft"
+            android:layout_marginRight="@dimen/search_bar_marginRight"
+            android:orientation="horizontal"
+            android:padding="@dimen/search_bar_padding"
+            android:background="@drawable/search_bar_background"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:src="@drawable/ic_search"
+                android:layout_width="@dimen/search_img_width"
+                android:layout_height="@dimen/search_img_height"
+                android:padding="@dimen/search_bar_padding"/>
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_search"
+                android:padding="@dimen/search_bar_padding"
+                android:textColor="@color/black"
+                android:background="@android:color/transparent"
+                android:imeOptions="actionSearch" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/showRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/myButton"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="@dimen/btn_new_marginBottom"
-        android:layout_marginEnd="@dimen/btn_new_marginEnd"
-        android:background="@drawable/round_button"
-        android:text="@string/plus"
-        android:textSize="@dimen/btn_new_size"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:id="@+id/buttonCreateShow"
+        style="@style/button_create" />
 
 
     <View

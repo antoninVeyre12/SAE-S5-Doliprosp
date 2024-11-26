@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
 
-</LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonCreateShow"
+        style="@style/button_create" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_bar_height"/>
+
+</RelativeLayout>

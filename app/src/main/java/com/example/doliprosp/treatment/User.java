@@ -22,10 +22,10 @@ public class User {
         this.connexion();
     }
 
-    public String connexion()
+    public boolean connexion()
     {
-        /* Todo appel à l'api pour récupérer l'apikey et retourner l'apikey*/
-        return null ;
+        /* Todo appel à l'api pour récupérer l'apikey et l'ajouter*/
+        return true ;
     }
 
     public void chiffrementApiKey()

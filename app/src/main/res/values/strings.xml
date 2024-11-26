@@ -7,5 +7,25 @@
     <string name="salon">Salon</string>
     <string name="compte">Compte</string>
     <string name="projet">Projet</string>
+
+    <!-- Barre de recherche -->
+    <string name="hint_search">Entrez votre recherche</string>
+
+    <!-- Ajout -->
     <string name="plus">+</string>
+    <string name="annuler">Annuler</string>
+    <string name="creer">Créer</string>
+    <string name="hint_show">Entrez le nom du salon</string>
+
+
+        <!-- Page connexion -->
+    <string name="btn_connexion">Se connecter</string>
+    <string name="login">Login</string>
+    <string name="url">URL</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de Passe</string>
+    <string name="prospects">Prospects</string>
+
+
+
 </resources>

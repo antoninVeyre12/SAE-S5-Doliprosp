@@ -6,4 +6,40 @@
     </style>
 
     <style name="Theme.DoliProsp" parent="Base.Theme.DoliProsp" />
+
+    <style name="title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:color">@color/black</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textAlignment">center</item>
+
+    </style>
+
+
+    <style name="button_validate">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/creer</item>
+    </style>
+
+    <style name="button_cancel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/annuler</item>
+    </style>
+
+
+    <style name="button_create">
+        <item name="android:layout_width">@dimen/btn_new_width</item>
+        <item name="android:layout_height">@dimen/btn_new_height</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginBottom">@dimen/btn_new_marginBottom</item>
+        <item name="android:layout_marginEnd">@dimen/btn_new_marginEnd</item>
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:text">@string/plus</item>
+        <item name="android:textSize">@dimen/btn_new_text_size</item>
+    </style>
 </resources>

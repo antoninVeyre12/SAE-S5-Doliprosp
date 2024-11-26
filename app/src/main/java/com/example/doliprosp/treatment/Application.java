@@ -1,15 +1,26 @@
 package com.example.doliprosp.treatment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Application implements IApplication {
-    private List<Prospect> listProspect;
-    private List<Project> listProject;
-    private List<Show> listLocalShow;
-    private List<Show> listSavedShow;
+    private ArrayList<Prospect> listProspect;
+    private ArrayList<Project> listProject;
+    private ArrayList<Show> listLocalShow;
+    private ArrayList<Show> listSavedShow;
+    public Application() {
+        this.listProject = new ArrayList<Project>();
+        this.listProspect = new ArrayList<Prospect>();
+        this.listLocalShow = new ArrayList<Show>();
+        this.listSavedShow = new ArrayList<Show>();
 
+    }
     private User commercial;
 
+    public void setUser(User newUser)
+    {
+        commercial = newUser;
+    }
     public void addProspect(Prospect prospect)
     {
         listProspect.add(prospect);
@@ -25,6 +36,10 @@ public class Application implements IApplication {
         listLocalShow.add(localShow);
     }
 
+    public ArrayList<Show> getLocalShow()
+    {
+        return listLocalShow;
+    }
     public void deleteProspect(Prospect prospect)
     {
         listProspect.remove(prospect);
@@ -40,9 +55,10 @@ public class Application implements IApplication {
         listLocalShow.remove(show);
     }
 
-    public void getSavedShow()
+    public ArrayList<Show> getSavedShow()
     {
         /*TODO récupérer la liste des salons existnats dans l'erp et les ajouter a ListSavedShow*/
+        return listSavedShow;
     }
 
     public void sendProspect(Prospect prospect)
