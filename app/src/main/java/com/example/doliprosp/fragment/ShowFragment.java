@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
 import com.example.doliprosp.ViewModel.ApplicationViewModel;
+import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ShowAdapter;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
@@ -25,8 +26,13 @@ import com.example.doliprosp.treatment.Show;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowFragment extends Fragment {
+public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickListener {
 
+
+    private IApplication applicationManager;
+    private ArrayList<Show> showList;
+    private ShowAdapter adapterShow;
+    private MyShowAdapter adapterMyShow;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,17 +45,18 @@ public class ShowFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
-        IApplication applicationManager = viewModel.getApplication();
+        applicationManager = viewModel.getApplication();
 
         // Salon existant
         RecyclerView recyclerView = view.findViewById(R.id.showRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<Show> showList = (ArrayList<Show>) applicationManager.getSavedShow();
+        showList = (ArrayList<Show>) applicationManager.getSavedShow();
 
-        ShowAdapter adapter = new ShowAdapter(showList);
-        recyclerView.setAdapter(adapter);
+        // Set l'adapter des shows récupéré
+        adapterShow = new ShowAdapter(showList);
+        recyclerView.setAdapter(adapterShow);
 
         // Salon créer
         RecyclerView recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
@@ -58,15 +65,27 @@ public class ShowFragment extends Fragment {
 
         ArrayList<Show> myShowList = (ArrayList<Show>) applicationManager.getLocalShow();
 
-        ShowAdapter adapterMyShow = new ShowAdapter(myShowList);
+        // Set l'adapter des shows de l'utilisateur
+        adapterMyShow = new MyShowAdapter(myShowList, this);
         recyclerViewMyShow.setAdapter(adapterMyShow);
 
         Button buttonCreateShow = view.findViewById(R.id.buttonCreateShow);
         buttonCreateShow.setOnClickListener(v -> {
             CreateShowDialogFragment dialog = new CreateShowDialogFragment();
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
+            adapterMyShow.notifyDataSetChanged();
         });
 
+    }
+    @Override
+    public void onDeleteClick(int position) {
+        Show show = showList.get(position);
+
+        applicationManager.deleteLocalShow(show);
+
+        // mets a jour la liste des salons
+        showList.remove(position);
+        adapterMyShow.notifyItemRemoved(position);
     }
 
 }
