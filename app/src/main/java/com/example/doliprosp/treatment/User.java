@@ -1,11 +1,25 @@
 package com.example.doliprosp.treatment;
 
+import android.view.View;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 public class User {
     private String url;
     private String userName;
     private String password;
     private String apiKey;
     private IApplication applicationManager;
+
 
     public User(String url, String userName, String password)
     {
@@ -19,13 +33,40 @@ public class User {
         this.setUrl(url);
         this.setUserName(userName);
         this.setPassword(password);
-        this.connexion();
     }
 
-    public boolean connexion()
-    {
-        /* Todo appel à l'api pour récupérer l'apikey et l'ajouter*/
-        return true ;
+
+    /*
+     * on crée une requête GET, paramètrée par l'url préparée ci-dessus,
+     * Le résultat de cette requête sera une chaîne de caractères, donc la requête
+     * est de type StringRequest
+     */
+    public String connexion(String url, String userName, String password) throws JSONException {
+
+        final String[] resultat = new String[1];
+        StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
+                // écouteur de la réponse renvoyée par la requête
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String reponse) {
+                        resultat[0] = reponse.substring(0, Math.min(400, reponse.length()));
+                    }
+                },
+                // écouteur du retour de la requête si aucun résultat n'est renvoyé
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError erreur) {
+
+                    }
+                });
+        // la requête est placée dans la file d'attente des requêtes
+        getFileRequete().add(requeteVolley);
+
+        JSONTokener tokenJSON = new JSONTokener(resultat.toString());
+        JSONObject objectJSON = (JSONObject) tokenJSON.nextValue();
+        StringBuilder resultatFormate = new StringBuilder();
+        return resultatFormate.append(objectJSON.getString("token")).toString();
+
     }
 
     public void chiffrementApiKey()

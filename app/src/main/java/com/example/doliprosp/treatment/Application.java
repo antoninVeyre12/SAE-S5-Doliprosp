@@ -1,5 +1,8 @@
 package com.example.doliprosp.treatment;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,8 @@ public class Application implements IApplication {
     private ArrayList<Project> listProject;
     private ArrayList<Show> listLocalShow;
     private ArrayList<Show> listSavedShow;
+    private RequestQueue fileRequete;
+
     public Application() {
         this.listProject = new ArrayList<Project>();
         this.listProspect = new ArrayList<Prospect>();
@@ -96,4 +101,6 @@ public class Application implements IApplication {
         /* TODO transformer le json renvoyé par l'API en objet Prospect*/
         return null;
     }
+
+
 }
