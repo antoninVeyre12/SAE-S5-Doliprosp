@@ -1,65 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_secondary"
-    android:orientation="vertical"
-    android:stretchColumns="0,1,2">
-    <TableRow>
+    android:orientation="vertical">
 
     <TextView
         style="@style/title"
         android:text="@string/monCompte" />
-    </TableRow>
 
 
-    <TableRow>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="URL : "
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_basic" />
-    </TableRow>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/btn_new_marginEnd"
+        android:text="URL : "
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic" />
 
-    <TableRow>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/id_url"
-            android:text=""
-            android:textSize="@dimen/text_basic"
-            android:textColor="@color/black"/>
-    </TableRow>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_url"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
+     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UserName : "
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic"/>
 
-    <TableRow>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="UserName : "
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_basic"/>
-    </TableRow>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_userName"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
 
-    <TableRow>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/id_userName"
-            android:text=""
-            android:textSize="@dimen/text_basic"
-            android:textColor="@color/black"/>
-    </TableRow>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/adresseMail"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic"/>
 
-    <TableRow>
-        <Button
-            android:id="@+id/btnDeconnexion"
-            android:layout_width="@dimen/btn_deconnexion_width"
-            android:layout_height="@dimen/deconnexion_height"
-            android:text="Deconnexion"
-            android:backgroundTint="@color/red"
-            android:layout_marginTop="@dimen/btn_new_marginBottom" />
-    </TableRow>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_mail"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/adresse"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic"/>
 
-</TableLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_adresse"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/codePostal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/codePostal"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ville"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_ville"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/numéroTéléphone"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_numTelephone"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dateNaissance"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_basic"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_date_naissance"
+        android:text=""
+        android:textSize="@dimen/text_basic"
+        android:textColor="@color/black"/>
+
+
+    <Button
+        android:id="@+id/btnDeconnexion"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Deconnexion"
+        android:backgroundTint="@color/red"
+        android:layout_marginTop="@dimen/btn_new_marginBottom" />
+</LinearLayout>
