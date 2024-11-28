@@ -3,6 +3,7 @@
 
     <dimen name="title_text_size">50sp</dimen>
     <dimen name="subtitle_text_size">30sp</dimen>
+    <dimen name="text_basic">10sp</dimen>
 
     <!-- Bottom nav bar -->
     <dimen name="nav_bar_height">100dp</dimen>
@@ -25,6 +26,13 @@
     <dimen name="btn_new_marginEnd">25dp</dimen>
     <dimen name="btn_new_marginBottom">50dp</dimen>
 
+
+    <!-- Button deconnexion -->
+    <dimen name="btn_deconnexion_width">75dp</dimen>
+    <dimen name="deconnexion_height">75dp</dimen>
+
+
+
     <!-- Item show -->
     <dimen name="item_show_width">200dp</dimen>
     <dimen name="item_show_height">150dp</dimen>
@@ -36,4 +44,9 @@
     <dimen name="subtitle_marginBottom">25dp</dimen>
 
 
+    <dimen name="item_show_height">200dp</dimen>
+    <dimen name="item_show_elevation">200dp</dimen>
+
+    <dimen name="espaceHaut">150dp</dimen>
+    <dimen name="espaceBas">30dp</dimen>
 </resources>

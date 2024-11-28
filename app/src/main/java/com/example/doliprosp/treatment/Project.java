@@ -9,8 +9,6 @@ public class Project {
     private String title;
     private String description;
 
-    private IApplication applicationManager;
-
     public Project(UUID idProspect, String title, String description)
     {
         this.idProject = UUID.randomUUID();

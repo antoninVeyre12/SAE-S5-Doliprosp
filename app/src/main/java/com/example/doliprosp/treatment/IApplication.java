@@ -1,9 +1,22 @@
 package com.example.doliprosp.treatment;
 
+import android.content.Context;
+
+import com.android.volley.RequestQueue;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public interface IApplication {
+
+    public void setUser(User newUser);
+
+    public User getUser();
+
+
+    public void setContext(Context context);
+
+    public RequestQueue getRequestQueue();
 
     public void addProspect(Prospect prospect);
 

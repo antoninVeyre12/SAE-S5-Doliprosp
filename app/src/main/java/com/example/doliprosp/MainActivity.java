@@ -14,7 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.ViewModel.ApplicationViewModel;
+import com.example.doliprosp.fragment.ConnexionFragment;
 import com.example.doliprosp.fragment.ProjectFragment;
 import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
@@ -24,7 +27,7 @@ import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
 public class MainActivity extends AppCompatActivity {
-
+    private RequestQueue fileRequete;
     private TextView[] textViews;
     private ImageView[] imageViews;
 
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
@@ -58,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Chargement du fragment par défaut (Salon)
         if (savedInstanceState == null) {
-            loadFragment(new ShowFragment());
-            setColors(1);
+            ConnexionFragment connexionFragment = new ConnexionFragment();
+            loadFragment(connexionFragment);
         }
 
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Méthode pour charger un fragment
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
@@ -105,6 +109,13 @@ public class MainActivity extends AppCompatActivity {
         // Changer la couleur pour l'élément sélectionné
         textViews[selectedIndex].setTextColor(getResources().getColor(R.color.color_primary));
         imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.color_primary));
+    }
+
+    public RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this);
+        }
+        return fileRequete;
     }
 
 }
