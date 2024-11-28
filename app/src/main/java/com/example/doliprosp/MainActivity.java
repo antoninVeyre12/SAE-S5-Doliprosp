@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         ApplicationViewModel.createApplication();
@@ -61,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.findViewById(R.id.image_user)
         };
 
-        // Chargement du fragment par défaut (Salon)
+        // Chargement du fragment par défaut (Connexion)
         if (savedInstanceState == null) {
+            bottomNav.setVisibility(View.GONE);
             ConnexionFragment connexionFragment = new ConnexionFragment();
             loadFragment(connexionFragment);
         }
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Méthode pour changer les couleurs
-    private void setColors(int selectedIndex) {
+    public void setColors(int selectedIndex) {
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
             textViews[i].setTextColor(Color.BLACK);

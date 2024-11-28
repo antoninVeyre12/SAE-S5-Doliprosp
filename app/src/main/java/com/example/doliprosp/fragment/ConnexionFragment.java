@@ -1,5 +1,6 @@
 package com.example.doliprosp.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,6 +59,10 @@ public class ConnexionFragment extends Fragment {
         editTextUserName = view.findViewById(R.id.username);
         editTextPassword = view.findViewById(R.id.password);
 
+        // Recupere la bottom nav bar de l'activité
+        Activity activity = getActivity();
+        LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
+
         Button buttonSubmit  = view.findViewById(R.id.connexion);
         buttonSubmit.setOnClickListener(v -> {
             String url = editTextUrl.getText().toString();
@@ -82,8 +88,11 @@ public class ConnexionFragment extends Fragment {
                 commercial.chiffrementApiKey();
                 commercial.setApiKey(apiKey);
                 applicationManager.setUser(commercial);
+                // Rend visible la bottom nav bar
+                bottomNav.setVisibility(View.VISIBLE);
                 ShowFragment showFragment = new ShowFragment();
                 ((MainActivity) getActivity()).loadFragment(showFragment);
+                ((MainActivity) getActivity()).setColors(1);
             } catch(Exception e) {
                 Log.d("text", e.getMessage());
             }
