@@ -82,12 +82,12 @@ public class Application implements IApplication {
 
     public ArrayList<Show> getSavedShow(Context context) throws JSONException {
         ArrayList<Show> listSavedShow = new ArrayList<>();
-        listSavedShow.add(new Show("Testttt"));
-        String url = this.getUser().getUrl();
+
+        //String url = this.getUser().getUrl();
+        String url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=100";
         String apiKey = this.getUser().getApiKey();
         final StringBuilder resultatFormate = new StringBuilder();
         JSONObject objectJSON = Outils.appelAPIGet(url,apiKey,context);
-
         /*JSONObject successJSON = objectJSON.getJSONObject("success");
 
         String token = successJSON.getString("token");
