@@ -49,50 +49,79 @@ public class User {
      * est de type StringRequest
      */
     public String connexion(String url, Context context) throws JSONException {
-        Log.d("URL",url);
+        //Log.d("URL",url);
         ApplicationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ApplicationViewModel.class);
         applicationManager = viewModel.getApplication();
+        if (!url.startsWith("http://")) {
+            Log.d("ERREUR", url);
+        } else {
+            // Le résultat de la requête Volley sera un JSONObject directement
+            final StringBuilder resultatFormate = new StringBuilder(); // Utiliser un StringBuilder pour l'accumulation
+            StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
+                    // Écouteur de la réponse renvoyée par la requête
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String reponse) {
+                            try {
+                                // Crée un JSONObject à partir de la réponse
+                                JSONObject objectJSON = new JSONObject(reponse);
 
-        // Le résultat de la requête Volley sera un JSONObject directement
-        final StringBuilder resultatFormate = new StringBuilder(); // Utiliser un StringBuilder pour l'accumulation
-        StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
-                // Écouteur de la réponse renvoyée par la requête
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String reponse) {
-                        try {
-                            // Crée un JSONObject à partir de la réponse
-                            JSONObject objectJSON = new JSONObject(reponse);
+                                // Récupère l'objet 'success' imbriqué
+                                JSONObject successJSON = objectJSON.getJSONObject("success");
 
-                            // Récupère l'objet 'success' imbriqué
-                            JSONObject successJSON = objectJSON.getJSONObject("success");
+                                // Récupère le champ 'token' et 'code' dans l'objet 'success'
+                                String token = successJSON.getString("token");
+                                String code = successJSON.getString("code");
 
-                            // Récupère le champ 'token' dans l'objet 'success'
-                            String token = successJSON.getString("token");
+                                // Stocker le token dans le StringBuilder
+                                resultatFormate.append(token);
+                                resultatFormate.append(code);
 
-                            // Stocker le token dans le StringBuilder
-                            resultatFormate.append(token);
+                                // Log pour vérification
+                                Log.d("REPONSEAPITOKEN", "Token extrait : " + token);
 
-                            // Log pour vérification
-                            Log.d("REPONSEAPI", "Token extrait : " + token);
-                        } catch (JSONException e) {
-                            // Log si le JSON est mal formé
-                            Log.e("JSON_ERROR", "Erreur dans le parsing du JSON : " + e.getMessage());
+                            } catch (JSONException e) {
+                                // Log si le JSON est mal formé
+                                Log.e("JSON_ERROR", "Erreur dans le parsing du JSON : " + e.getMessage());
+                            }
                         }
-                    }
-                },
-                // Écouteur en cas d'erreur de la requête
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError erreur) {
-                        // Log l'erreur pour diagnostic
-                        Log.e("VOLLEY_ERROR", "Erreur de requête : " + erreur.getMessage());
-                    }
-                });
-        // Ajouter la requête à la file d'attente
-        applicationManager.getRequestQueue().add(requeteVolley);
-        // Retourner le résultat (attention : cela sera asynchrone !)
-        return resultatFormate.toString();
+                    },
+                    // Écouteur en cas d'erreur de la requête
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError erreur) {
+                            try {
+                                // Récupérer le JSON d'erreur
+                                if (erreur.networkResponse != null && erreur.networkResponse.data != null) {
+                                    String responseBody = new String(erreur.networkResponse.data);
+                                    JSONObject errorJSON = new JSONObject(responseBody);
+
+                                    // Récupérer l'objet 'error' imbriqué
+                                    JSONObject errorDetailJSON = errorJSON.getJSONObject("error");
+
+                                    // Récupérer les champs d'erreur
+                                    String errorMessage = errorDetailJSON.getString("message");
+                                    String errorCode = errorDetailJSON.getString("code");
+
+                                    // Ajouter les détails de l'erreur au StringBuilder
+                                    resultatFormate.append("Error Message : ").append(errorMessage);
+                                    resultatFormate.append(" Error Code : ").append(errorCode);
+
+                                    // Log de l'erreur pour diagnostic
+                                    Log.e("VOLLEY_ERROR", "Erreur dans la requête : " + errorMessage);
+                                }
+                            } catch (JSONException e) {
+                                // Log si le JSON d'erreur est mal formé
+                                Log.e("JSON_ERROR", "Erreur dans le parsing du JSON d'erreur : " + e.getMessage());
+                            }
+                        }
+                    });
+            // Ajouter la requête à la file d'attente
+            applicationManager.getRequestQueue().add(requeteVolley);
+            // Retourner le résultat (attention : cela sera asynchrone !)
+            return resultatFormate.toString();
+        }
+        return url;
     }
 
     public void chiffrementApiKey()

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,29 +65,36 @@ public class ConnexionFragment extends Fragment {
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
 
-            if (url.isEmpty() || userName.isEmpty() || password.isEmpty()) {
-                Log.d("TEST VIDE", "OK");
-            }
+            if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
+                // Affiche un toast au lieu d'un log
+                Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
+            } else if (!url.startsWith("http://")) {
+                Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
+            } else {
+                try {
+                    String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
+                    String passwordEncoder = URLEncoder.encode(password, "UTF-8");
+                    urlConnexion = String.format("%s?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
 
-            try {
-                String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
-                String passwordEncoder = URLEncoder.encode(password, "UTF-8");
-                urlConnexion = String.format("%s?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
 
-
-            User commercial = new User(url, userName, password);
-            try {
-                String apiKey = commercial.connexion(urlConnexion,getContext());
-                commercial.chiffrementApiKey();
-                commercial.setApiKey(apiKey);
-                applicationManager.setUser(commercial);
-                ShowFragment showFragment = new ShowFragment();
-                ((MainActivity) getActivity()).loadFragment(showFragment);
-            } catch(Exception e) {
-                Log.d("text", e.getMessage());
+                User commercial = new User(url, userName, password);
+                try {
+                    String apiKey = commercial.connexion(urlConnexion, getContext());
+                    if (apiKey.isEmpty()) {
+                        Toast.makeText(getContext(),R.string.informations_saisies_incorrecte, Toast.LENGTH_LONG).show();
+                    } else {
+                        commercial.chiffrementApiKey();
+                        commercial.setApiKey(apiKey);
+                        applicationManager.setUser(commercial);
+                        ShowFragment showFragment = new ShowFragment();
+                        ((MainActivity) getActivity()).loadFragment(showFragment);
+                    }
+                } catch (Exception e) {
+                    Log.d("text", e.getMessage());
+                }
             }
         });
 
