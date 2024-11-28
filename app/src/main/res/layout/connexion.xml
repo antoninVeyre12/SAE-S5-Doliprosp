@@ -69,7 +69,6 @@
     </Button>
 
     <Button
-        android:onClick="connexionTest"
         android:id="@+id/connexionTest"
         android:layout_width="300dp"
         android:layout_gravity="center"

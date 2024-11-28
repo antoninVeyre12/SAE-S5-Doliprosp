@@ -30,14 +30,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class ConnexionFragment extends Fragment {
     private EditText editTextUrl;
     private EditText editTextUserName;
     private EditText editTextPassword;
 
-    private static final String URL = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/login?login=G42&password=3iFJWj26z";
-    private TextView resultatJson;
-    private TextView zoneResultat;
+    private String urlConnexion;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,20 +53,30 @@ public class ConnexionFragment extends Fragment {
 
         ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
         IApplication applicationManager = viewModel.getApplication();
-
+        //String urlConnexion;
         editTextUrl = view.findViewById(R.id.url);
         editTextUserName = view.findViewById(R.id.username);
         editTextPassword = view.findViewById(R.id.password);
 
         Button buttonSubmit = view.findViewById(R.id.connexion);
-        buttonSubmit.setOnClickListener(v -> {
+        Button buttonTest  = view.findViewById(R.id.connexionTest);
+        buttonTest.setOnClickListener(v -> {
             String url = editTextUrl.getText().toString();
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
 
+            try {
+                String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
+                String passwordEncoder = URLEncoder.encode(password, "UTF-8");
+                urlConnexion = String.format("%s?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+
+
             User commercial = new User(url, userName, password);
             try {
-                String apiKey = commercial.connexion(url,userName,password);
+                String apiKey = commercial.connexion(urlConnexion,getContext());
                 commercial.chiffrementApiKey();
                 commercial.setApiKey(apiKey);
                 applicationManager.setUser(commercial);
@@ -75,6 +86,6 @@ public class ConnexionFragment extends Fragment {
                 Log.d("text", e.getMessage());
             }
         });
-    }
 
+    }
 }

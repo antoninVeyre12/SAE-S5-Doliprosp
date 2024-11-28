@@ -1,6 +1,11 @@
 package com.example.doliprosp.treatment;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.View;
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -8,7 +13,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.doliprosp.ViewModel.ApplicationViewModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -41,32 +48,51 @@ public class User {
      * Le résultat de cette requête sera une chaîne de caractères, donc la requête
      * est de type StringRequest
      */
-    public String connexion(String url, String userName, String password) throws JSONException {
+    public String connexion(String url, Context context) throws JSONException {
+        Log.d("URL",url);
+        ApplicationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ApplicationViewModel.class);
+        applicationManager = viewModel.getApplication();
 
-        final String[] resultat = new String[1];
+        // Le résultat de la requête Volley sera un JSONObject directement
+        final StringBuilder resultatFormate = new StringBuilder(); // Utiliser un StringBuilder pour l'accumulation
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
-                // écouteur de la réponse renvoyée par la requête
+                // Écouteur de la réponse renvoyée par la requête
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String reponse) {
-                        resultat[0] = reponse.substring(0, Math.min(400, reponse.length()));
+                        try {
+                            // Crée un JSONObject à partir de la réponse
+                            JSONObject objectJSON = new JSONObject(reponse);
+
+                            // Récupère l'objet 'success' imbriqué
+                            JSONObject successJSON = objectJSON.getJSONObject("success");
+
+                            // Récupère le champ 'token' dans l'objet 'success'
+                            String token = successJSON.getString("token");
+
+                            // Stocker le token dans le StringBuilder
+                            resultatFormate.append(token);
+
+                            // Log pour vérification
+                            Log.d("REPONSEAPI", "Token extrait : " + token);
+                        } catch (JSONException e) {
+                            // Log si le JSON est mal formé
+                            Log.e("JSON_ERROR", "Erreur dans le parsing du JSON : " + e.getMessage());
+                        }
                     }
                 },
-                // écouteur du retour de la requête si aucun résultat n'est renvoyé
+                // Écouteur en cas d'erreur de la requête
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
-
+                        // Log l'erreur pour diagnostic
+                        Log.e("VOLLEY_ERROR", "Erreur de requête : " + erreur.getMessage());
                     }
                 });
-        // la requête est placée dans la file d'attente des requêtes
+        // Ajouter la requête à la file d'attente
         applicationManager.getRequestQueue().add(requeteVolley);
-
-        JSONTokener tokenJSON = new JSONTokener(resultat.toString());
-        JSONObject objectJSON = (JSONObject) tokenJSON.nextValue();
-        StringBuilder resultatFormate = new StringBuilder();
-        return resultatFormate.append(objectJSON.getString("token")).toString();
-
+        // Retourner le résultat (attention : cela sera asynchrone !)
+        return resultatFormate.toString();
     }
 
     public void chiffrementApiKey()
