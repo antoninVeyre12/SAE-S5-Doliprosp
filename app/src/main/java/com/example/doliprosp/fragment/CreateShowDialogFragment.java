@@ -35,8 +35,7 @@ public class CreateShowDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_create_show, container, false);
 
-        ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
-        IApplication applicationManager = viewModel.getApplication();
+        IApplication applicationManager = ApplicationViewModel.getApplication();
 
         EditText editTextTitle = view.findViewById(R.id.editTextTitle);
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);

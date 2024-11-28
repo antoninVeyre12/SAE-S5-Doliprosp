@@ -2,9 +2,11 @@ package com.example.doliprosp.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -32,26 +34,22 @@ public class UserFragment extends Fragment {
     {
         super.onViewCreated(view, savedInstanceState);
 
-        ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
-        applicationManager = viewModel.getApplication();
+        applicationManager = ApplicationViewModel.getApplication();
 
         EditText editTextUrl = view.findViewById(R.id.id_url);
         EditText editTextUserName = view.findViewById(R.id.id_userName);
 
+
+        Log.d("User into userFragment", applicationManager.getUser().toString());
         String url = applicationManager.getUser().getUrl();
         editTextUrl.setText(url);
         String userName = applicationManager.getUser().getUserName();
         editTextUserName.setText(userName);
-    }
-
-    public void deconnexion(View bouton)
-    {
-        ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
-        applicationManager = viewModel.getApplication();
-
-        applicationManager.setUser(new User("","",""));
-
-        ConnexionFragment connexionFragment = new ConnexionFragment();
-        ((MainActivity) getActivity()).loadFragment(connexionFragment);
+        Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
+        btnDeconnexion.setOnClickListener(v -> {
+            applicationManager.setUser(new User("","",""));
+            ConnexionFragment connexionFragment = new ConnexionFragment();
+            ((MainActivity) getActivity()).loadFragment(connexionFragment);
+        });
     }
 }

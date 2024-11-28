@@ -5,16 +5,17 @@ import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Application;
 
 public class ApplicationViewModel extends ViewModel {
-    private IApplication application;
+    private static IApplication application;
 
-    public ApplicationViewModel() {
+    public static void createApplication()
+    {
         if (application == null) {
             application = new Application();
 
         }
     }
 
-    public IApplication getApplication() {
+    public static IApplication getApplication() {
         return application;
     }
 }

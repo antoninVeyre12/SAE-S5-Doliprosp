@@ -23,6 +23,7 @@ import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
 import com.example.doliprosp.fragment.UserFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
+import com.example.doliprosp.treatment.Application;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
@@ -39,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
-        IApplication applicationManager = viewModel.getApplication();
+        ApplicationViewModel.createApplication();
+        applicationManager = ApplicationViewModel.getApplication();
 
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 

@@ -28,7 +28,7 @@
 
 
     <!-- Button deconnexion -->
-    <dimen name="btn_deconnexion_width">75dp</dimen>
+    <dimen name="btn_deconnexion_width">200dp</dimen>
     <dimen name="deconnexion_height">75dp</dimen>
 
 

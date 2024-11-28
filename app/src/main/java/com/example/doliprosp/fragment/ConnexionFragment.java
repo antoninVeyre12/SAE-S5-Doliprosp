@@ -51,8 +51,7 @@ public class ConnexionFragment extends Fragment {
     {
         super.onCreate(savedInstanceState);
 
-        ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
-        IApplication applicationManager = viewModel.getApplication();
+        IApplication applicationManager = ApplicationViewModel.getApplication();
         //String urlConnexion;
         editTextUrl = view.findViewById(R.id.url);
         editTextUserName = view.findViewById(R.id.username);

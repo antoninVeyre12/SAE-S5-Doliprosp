@@ -1,45 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:orientation="vertical">
-
-<TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="URL : "
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
-    
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/id_url"
-        android:text=""
-        android:textSize="@dimen/text_basic"
-        android:textColor="@color/black"/>
+    android:background="@color/color_secondary"
+    android:orientation="vertical"
+    android:stretchColumns="0,1,2">
+    <TableRow>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="UserName : "
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
+        style="@style/title"
+        android:text="@string/monCompte" />
+    </TableRow>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/id_userName"
-        android:text=""
-        android:textSize="@dimen/text_basic"
-        android:textColor="@color/black"/>
-    
-    <Button
-        android:layout_width="@dimen/btn_deconnexion_width"
-        android:layout_height="@dimen/deconnexion_height"
-        android:text="Deconnexion"
-        android:backgroundTint="@color/red"
-        android:onClick="deconnexion"/>
-</LinearLayout>
+
+    <TableRow>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="URL : "
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_basic" />
+    </TableRow>
+
+    <TableRow>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/id_url"
+            android:text=""
+            android:textSize="@dimen/text_basic"
+            android:textColor="@color/black"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UserName : "
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_basic"/>
+    </TableRow>
+
+    <TableRow>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/id_userName"
+            android:text=""
+            android:textSize="@dimen/text_basic"
+            android:textColor="@color/black"/>
+    </TableRow>
+
+    <TableRow>
+        <Button
+            android:id="@+id/btnDeconnexion"
+            android:layout_width="@dimen/btn_deconnexion_width"
+            android:layout_height="@dimen/deconnexion_height"
+            android:text="Deconnexion"
+            android:backgroundTint="@color/red"
+            android:layout_marginTop="@dimen/btn_new_marginBottom" />
+    </TableRow>
+
+</TableLayout>
