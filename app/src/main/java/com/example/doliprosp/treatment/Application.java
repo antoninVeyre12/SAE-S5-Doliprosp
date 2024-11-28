@@ -1,5 +1,7 @@
 package com.example.doliprosp.treatment;
 
+import android.content.Context;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
@@ -12,6 +14,7 @@ public class Application implements IApplication {
     private ArrayList<Show> listLocalShow;
     private ArrayList<Show> listSavedShow;
     private RequestQueue fileRequete;
+    private Context context;
 
     public Application() {
         this.listProject = new ArrayList<Project>();
@@ -30,6 +33,18 @@ public class Application implements IApplication {
     @Override
     public User getUser() {
         return commercial;
+    }
+
+    public void setContext(Context context)
+    {
+        this.context = context;
+    }
+
+    public RequestQueue getRequestQueue() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(context);
+        }
+        return fileRequete;
     }
 
     public void addProspect(Prospect prospect)

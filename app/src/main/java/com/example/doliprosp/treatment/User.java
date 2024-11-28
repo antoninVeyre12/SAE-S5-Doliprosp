@@ -60,7 +60,7 @@ public class User {
                     }
                 });
         // la requête est placée dans la file d'attente des requêtes
-        getFileRequete().add(requeteVolley);
+        applicationManager.getRequestQueue().add(requeteVolley);
 
         JSONTokener tokenJSON = new JSONTokener(resultat.toString());
         JSONObject objectJSON = (JSONObject) tokenJSON.nextValue();

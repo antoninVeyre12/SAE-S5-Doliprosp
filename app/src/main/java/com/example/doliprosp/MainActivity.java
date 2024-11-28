@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         ApplicationViewModel viewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
         IApplication applicationManager = viewModel.getApplication();
+        applicationManager.setContext(this);
         applicationManager.addLocalShow(new Show("Testttt"));
         applicationManager.addLocalShow(new Show("testppp"));
 
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.color_primary));
     }
 
-    private RequestQueue getFileRequete() {
+    public RequestQueue getFileRequete() {
         if (fileRequete == null) {
             fileRequete = Volley.newRequestQueue(this);
         }
