@@ -58,12 +58,15 @@ public class ConnexionFragment extends Fragment {
         editTextUserName = view.findViewById(R.id.username);
         editTextPassword = view.findViewById(R.id.password);
 
-        Button buttonSubmit = view.findViewById(R.id.connexion);
-        Button buttonTest  = view.findViewById(R.id.connexionTest);
-        buttonTest.setOnClickListener(v -> {
+        Button buttonSubmit  = view.findViewById(R.id.connexion);
+        buttonSubmit.setOnClickListener(v -> {
             String url = editTextUrl.getText().toString();
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
+
+            if (url.isEmpty() || userName.isEmpty() || password.isEmpty()) {
+                Log.d("TEST VIDE", "OK");
+            }
 
             try {
                 String userNameEncoder = URLEncoder.encode(userName, "UTF-8");

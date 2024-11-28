@@ -68,14 +68,6 @@
         android:layout_height="wrap_content">
     </Button>
 
-    <Button
-        android:id="@+id/connexionTest"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:text="Test"
-        android:backgroundTint="@color/black"
-        android:layout_height="wrap_content">
-    </Button>
     <TextView
         android:id="@+id/json"
         android:layout_width="300dp"
