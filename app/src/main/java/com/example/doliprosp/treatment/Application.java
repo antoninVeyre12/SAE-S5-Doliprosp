@@ -87,7 +87,18 @@ public class Application implements IApplication {
         String url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=100";
         String apiKey = this.getUser().getApiKey();
         final StringBuilder resultatFormate = new StringBuilder();
-        JSONObject objectJSON = Outils.appelAPIGet(url,apiKey,context);
+        JSONObject objectJSON = Outils.appelAPIGet(url,apiKey,context, new Outils.ApiCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                Log.d("API_SUCCESS", "Réponse reçue : " + response.toString());
+            }
+
+            @Override
+            public void onError(Exception error) {
+                Log.e("API_ERROR", "Erreur : " + error.getMessage());
+            }
+        });
+        
         /*JSONObject successJSON = objectJSON.getJSONObject("success");
 
         String token = successJSON.getString("token");

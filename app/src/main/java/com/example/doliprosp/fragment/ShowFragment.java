@@ -52,9 +52,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
         RecyclerView recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
 
-        ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
-        IApplication applicationManager = viewModel.getApplication();
-        //applicationManager = ApplicationViewModel.getApplication();
+        applicationManager = ApplicationViewModel.getApplication();
 
         // Salon existant
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
