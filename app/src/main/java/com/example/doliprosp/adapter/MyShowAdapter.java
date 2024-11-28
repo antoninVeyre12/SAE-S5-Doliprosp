@@ -1,5 +1,7 @@
 package com.example.doliprosp.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +38,21 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
         Show show = showList.get(position);
         holder.show_name.setText(show.getName());
 
+        // Définir l'événement de clic pour le bouton de suppression
         holder.show_delete.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onDeleteClick(position);
+                // Créer et afficher la boîte de dialogue de confirmation
+                new AlertDialog.Builder(v.getContext())
+                        .setMessage("Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé")
+                        .setPositiveButton("Oui", (dialog, which) -> {
+                            // Si l'utilisateur confirme, appeler la méthode de suppression
+                            onItemClickListener.onDeleteClick(position);
+                        })
+                        .setNegativeButton("Non", (dialog, which) -> {
+                            // L'utilisateur annule la suppression
+                            dialog.dismiss();
+                        })
+                        .show();
             }
         });
     }

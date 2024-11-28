@@ -49,6 +49,7 @@ public class Application implements IApplication {
     public void deleteLocalShow(Show show)
     {
         listLocalShow.remove(show);
+        // SUpprimer les prospects et projets du salon
     }
 
     public ArrayList<Show> getSavedShow()

@@ -31,6 +31,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
     private IApplication applicationManager;
     private ArrayList<Show> showList;
+    private ArrayList<Show> myShowList;
     private ShowAdapter adapterShow;
     private MyShowAdapter adapterMyShow;
     @Override
@@ -44,11 +45,16 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Button buttonCreateShow = view.findViewById(R.id.buttonCreateShow);
+        RecyclerView recyclerView = view.findViewById(R.id.showRecyclerView);
+
+        RecyclerView recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
+
+
         ApplicationViewModel viewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
         applicationManager = viewModel.getApplication();
 
         // Salon existant
-        RecyclerView recyclerView = view.findViewById(R.id.showRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -59,31 +65,32 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         recyclerView.setAdapter(adapterShow);
 
         // Salon créer
-        RecyclerView recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
         GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
         recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
 
-        ArrayList<Show> myShowList = (ArrayList<Show>) applicationManager.getLocalShow();
+         myShowList = (ArrayList<Show>) applicationManager.getLocalShow();
 
         // Set l'adapter des shows de l'utilisateur
         adapterMyShow = new MyShowAdapter(myShowList, this);
         recyclerViewMyShow.setAdapter(adapterMyShow);
 
-        Button buttonCreateShow = view.findViewById(R.id.buttonCreateShow);
         buttonCreateShow.setOnClickListener(v -> {
             CreateShowDialogFragment dialog = new CreateShowDialogFragment();
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
 
     }
+
+
     @Override
     public void onDeleteClick(int position) {
-        Show show = showList.get(position);
+        Show show = myShowList.get(position);
 
         applicationManager.deleteLocalShow(show);
 
         // mets a jour la liste des salons
         showList.remove(position);
+        Log.d("showlist",showList.toString());
         adapterMyShow.notifyItemRemoved(position);
     }
 
