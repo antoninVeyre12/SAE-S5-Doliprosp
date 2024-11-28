@@ -14,7 +14,6 @@ public class Application implements IApplication {
     private ArrayList<Show> listLocalShow;
     private ArrayList<Show> listSavedShow;
     private RequestQueue fileRequete;
-    private Context context;
 
     public Application() {
         this.listProject = new ArrayList<Project>();
@@ -35,12 +34,7 @@ public class Application implements IApplication {
         return commercial;
     }
 
-    public void setContext(Context context)
-    {
-        this.context = context;
-    }
-
-    public RequestQueue getRequestQueue() {
+    public RequestQueue getRequestQueue(Context context) {
         if (fileRequete == null) {
             fileRequete = Volley.newRequestQueue(context);
         }

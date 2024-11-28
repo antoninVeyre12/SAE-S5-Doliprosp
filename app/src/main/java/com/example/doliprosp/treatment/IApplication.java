@@ -13,10 +13,7 @@ public interface IApplication {
 
     public User getUser();
 
-
-    public void setContext(Context context);
-
-    public RequestQueue getRequestQueue();
+    public RequestQueue getRequestQueue(Context context);
 
     public void addProspect(Prospect prospect);
 

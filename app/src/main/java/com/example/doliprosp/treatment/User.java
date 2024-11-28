@@ -90,7 +90,7 @@ public class User {
                     }
                 });
         // Ajouter la requête à la file d'attente
-        applicationManager.getRequestQueue().add(requeteVolley);
+        applicationManager.getRequestQueue(context).add(requeteVolley);
         // Retourner le résultat (attention : cela sera asynchrone !)
         return resultatFormate.toString();
     }
