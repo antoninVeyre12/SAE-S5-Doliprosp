@@ -1,9 +1,13 @@
 package com.example.doliprosp.treatment;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,15 +79,25 @@ public class Application implements IApplication {
         // SUpprimer les prospects et projets du salon
     }
 
-    public ArrayList<Show> getSavedShow()
-    {
 
+    public ArrayList<Show> getSavedShow(Context context) throws JSONException {
         ArrayList<Show> listSavedShow = new ArrayList<>();
         listSavedShow.add(new Show("Testttt"));
+        String url = this.getUser().getUrl();
+        String apiKey = this.getUser().getApiKey();
+        final StringBuilder resultatFormate = new StringBuilder();
+        JSONObject objectJSON = Outils.appelAPIGet(url,apiKey,context);
+
+        /*JSONObject successJSON = objectJSON.getJSONObject("success");
+
+        String token = successJSON.getString("token");
+        resultatFormate.append(token);*/
+
+        Log.d("json", String.valueOf(objectJSON));
+        /*listSavedShow.add(new Show("Testttt"));
         listSavedShow.add(new Show("testppp"));
         listSavedShow.add(new Show("Testttt"));
-        listSavedShow.add(new Show("testppp"));
-        /*TODO récupérer la liste des salons existnats dans l'erp et les ajouter a ListSavedShow*/
+        listSavedShow.add(new Show("testppp"));*/
         return listSavedShow;
     }
 

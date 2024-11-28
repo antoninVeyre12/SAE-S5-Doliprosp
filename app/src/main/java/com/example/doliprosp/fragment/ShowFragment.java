@@ -23,6 +23,8 @@ import com.example.doliprosp.adapter.ShowAdapter;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,11 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
-        showList = (ArrayList<Show>) applicationManager.getSavedShow();
+        try {
+            showList = (ArrayList<Show>) applicationManager.getSavedShow(getContext());
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
         // Set l'adapter des shows récupéré
         adapterShow = new ShowAdapter(showList);
@@ -68,7 +74,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
         recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
 
-         myShowList = (ArrayList<Show>) applicationManager.getLocalShow();
+        myShowList = (ArrayList<Show>) applicationManager.getLocalShow();
 
         // Set l'adapter des shows de l'utilisateur
         adapterMyShow = new MyShowAdapter(myShowList, this);
