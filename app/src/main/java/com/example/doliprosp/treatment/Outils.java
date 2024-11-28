@@ -23,7 +23,7 @@ public class Outils {
 
     private static IApplication applicationManager;
 
-    public static JSONObject appelAPIGet(String url, String apiKey, Context context, final ApiCallback callback) throws JSONException {
+    public static JSONObject appelAPIGet(String url, String apiKey, Context context) throws JSONException {
         Log.d("URL",url);
         applicationManager = ApplicationViewModel.getApplication();
         JSONObject objectJSON = null;
@@ -35,12 +35,10 @@ public class Outils {
                         try {
                             // Crée un JSONObject à partir de la réponse
                             JSONObject objectJSON = new JSONObject(reponse);
-                            callback.onSuccess(objectJSON);
 
                         } catch (JSONException e) {
 
                             Log.e("JSON_ERROR", "Erreur dans le parsing du JSON : " + e.getMessage());
-                            callback.onError(e);
 
                         }
                     }
@@ -50,7 +48,6 @@ public class Outils {
                     public void onErrorResponse(VolleyError erreur) {
                         // Log l'erreur pour diagnostic
                         Log.e("VOLLEY_ERROR", "Erreur de requête : " + erreur.getMessage());
-                        callback.onError(erreur);
                     }
                 })
         {
