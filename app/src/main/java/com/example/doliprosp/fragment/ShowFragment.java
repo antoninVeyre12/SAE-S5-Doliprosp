@@ -73,7 +73,6 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         buttonCreateShow.setOnClickListener(v -> {
             CreateShowDialogFragment dialog = new CreateShowDialogFragment();
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
-            adapterMyShow.notifyDataSetChanged();
         });
 
     }
