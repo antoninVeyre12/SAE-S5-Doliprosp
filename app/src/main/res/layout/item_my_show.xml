@@ -22,6 +22,7 @@
         android:layout_marginBottom="@dimen/item_show_text_margin"
         android:layout_marginLeft="@dimen/item_show_text_margin"
         android:layout_marginRight="@dimen/item_show_text_margin"
+        android:textSize="30dp"
         android:layout_gravity="center"
         android:inputType="text"
         android:textColor="@color/black" />
