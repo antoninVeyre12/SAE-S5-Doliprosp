@@ -44,7 +44,6 @@
     <dimen name="subtitle_marginBottom">25dp</dimen>
 
 
-    <dimen name="item_show_height">200dp</dimen>
     <dimen name="item_show_elevation">200dp</dimen>
 
     <dimen name="espaceHaut">150dp</dimen>
