@@ -79,7 +79,8 @@ public class ConnexionFragment extends Fragment {
                 String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
                 String passwordEncoder = URLEncoder.encode(password, "UTF-8");
                 //urlConnexion = String.format("%s?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
-                urlConnexion = String.format("%s/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
+                urlConnexion = String.format("%s/api/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
+                Log.d("URLL", urlConnexion);
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
