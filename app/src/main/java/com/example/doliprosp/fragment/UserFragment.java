@@ -18,6 +18,7 @@ import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Outils;
 import com.example.doliprosp.treatment.User;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class UserFragment extends Fragment {
@@ -47,16 +48,19 @@ public class UserFragment extends Fragment {
         textViewUserName.setText(userName);
 
         String urlRequeteGetCommercial = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/users/5";
-        try {
-            JSONObject jsonObject = Outils.appelAPIGet(urlRequeteGetCommercial, getContext());
+        Outils.appelAPIGet(urlRequeteGetCommercial, getContext(), new Outils.APIResponseCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                // Cela s'exécutera lorsque l'API renvoie une réponse valide
+                Log.d("feoejf,oeakf", response.toString());
+            }
 
-
-        } catch (Exception e) {
-            Log.d("BAD APPEL API", e.getMessage());
-        }
-
-
-
+            @Override
+            public void onError(String errorMessage) {
+                // Cela s'exécutera en cas d'erreur dans l'appel API
+                Log.d("BAD APPEL API", errorMessage);
+            }
+        });
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {

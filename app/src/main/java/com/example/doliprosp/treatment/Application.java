@@ -17,6 +17,8 @@ public class Application implements IApplication {
     private ArrayList<Project> listProject;
     private ArrayList<Show> listLocalShow;
     private ArrayList<Show> listSavedShow;
+
+    private JSONObject objectJSON;
     private RequestQueue fileRequete;
 
     public Application() {
@@ -87,7 +89,21 @@ public class Application implements IApplication {
         String url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=100";
         String apiKey = this.getUser().getApiKey();
         final StringBuilder resultatFormate = new StringBuilder();
-        JSONObject objectJSON = Outils.appelAPIGet(url,context);
+        Outils.appelAPIGet(url, context, new Outils.APIResponseCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                // Cela s'exécutera lorsque l'API renvoie une réponse valide
+                objectJSON = response;
+                Log.d("feoejf,oeakf", response.toString());
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                // Cela s'exécutera en cas d'erreur dans l'appel API
+                Log.d("BAD APPEL API", errorMessage);
+            }
+        });
+        //JSONObject objectJSON = Outils.appelAPIGet(url,context);
 
         
         /*JSONObject successJSON = objectJSON.getJSONObject("success");
@@ -95,7 +111,6 @@ public class Application implements IApplication {
         String token = successJSON.getString("token");
         resultatFormate.append(token);*/
 
-        Log.d("json", String.valueOf(objectJSON));
         /*listSavedShow.add(new Show("Testttt"));
         listSavedShow.add(new Show("testppp"));
         listSavedShow.add(new Show("Testttt"));

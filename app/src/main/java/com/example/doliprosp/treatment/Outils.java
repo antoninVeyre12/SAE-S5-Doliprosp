@@ -1,7 +1,6 @@
 package com.example.doliprosp.treatment;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -24,25 +23,22 @@ public class Outils {
 
     private static IApplication applicationManager;
 
-    private static JSONObject objectJSON = new JSONObject();
+    // Méthode qui effectue l'appel API et utilise un callback
+    public static void appelAPIGet(String url, Context context, APIResponseCallback callback) {
 
-    public static JSONObject appelAPIGet(String url, Context context) throws JSONException {
-        Log.d("URL",url);
         applicationManager = ApplicationViewModel.getApplication();
-        //String apiKey =applicationManager.getUser().getApiKey();
         String apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
-
-        // Le résultat de la requête Volley sera un JSONObject directement
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String reponse) {
                         try {
                             // Crée un JSONObject à partir de la réponse
-                            objectJSON = new JSONObject(reponse);
-                        } catch (JSONException e) {
-                            Log.e("JSON_ERROR", "Erreur dans le parsing du JSON : " + e.getMessage());
+                            JSONObject objectJSON = new JSONObject(reponse);
 
+                            callback.onSuccess(objectJSON); // Notifie la méthode appelante avec la réponse
+                        } catch (JSONException e) {
+                            callback.onError("Erreur de parsing JSON : " + e.getMessage()); // Notifie l'erreur
                         }
                     }
                 },
@@ -50,21 +46,24 @@ public class Outils {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
                         // Log l'erreur pour diagnostic
-                        Log.e("VOLLEY_ERROR", "Erreur de requête : " + erreur.getMessage());
+                        callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
                     }
-                })
-        {
+                }) {
             @Override
-            public Map getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("DOLAPIKEY",apiKey);
-                Log.d("HEADERS", "API Key : " + apiKey);
+                headers.put("DOLAPIKEY", apiKey);
                 return headers;
             }
-
         };
+
         // Ajouter la requête à la file d'attente
         applicationManager.getRequestQueue(context).add(requeteVolley);
-        return objectJSON;
+    }
+
+
+    public interface APIResponseCallback {
+        void onSuccess(JSONObject response);
+        void onError(String errorMessage);
     }
 }
