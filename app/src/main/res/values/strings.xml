@@ -31,7 +31,8 @@
 
     <!-- Page user -->
     <string name = "monCompte"> Mon compte</string>
-    <string name = "dateNaissance"> Date de naissance : </string>
+    <string name = "nom"> Nom : </string>
+    <string name = "prenom"> Prénom : </string>
     <string name = "adresse"> Adresse : </string>
     <string name = "codePostal"> Code postal : </string>
     <string name = "ville"> Ville : </string>

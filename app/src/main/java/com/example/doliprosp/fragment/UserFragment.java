@@ -21,9 +21,13 @@ import com.example.doliprosp.treatment.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class UserFragment extends Fragment {
     private String mail;
     private IApplication applicationManager;
+    private JSONObject objectJSON;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -37,22 +41,55 @@ public class UserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         applicationManager = ApplicationViewModel.getApplication();
+        User userActuel = applicationManager.getUser();
 
-        TextView textViewUrl = view.findViewById(R.id.id_url);
+        String userName = userActuel.getUserName();
+
+        TextView textViewNom = view.findViewById(R.id.id_nom);
+        TextView textViewPrenom = view.findViewById(R.id.id_prenom);
         TextView textViewUserName = view.findViewById(R.id.id_userName);
         TextView textViewMail = view.findViewById(R.id.id_mail);
+        TextView textViewAdresse = view.findViewById(R.id.id_adresse);
+        TextView textViewCodePostale = view.findViewById(R.id.id_codePostal);
+        TextView textViewVille = view.findViewById(R.id.id_ville);
+        TextView textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
 
-        String url = applicationManager.getUser().getUrl();
-        textViewUrl.setText(url);
-        String userName = applicationManager.getUser().getUserName();
-        textViewUserName.setText(userName);
-
-        String urlRequeteGetCommercial = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/users/5";
-        Outils.appelAPIGet(urlRequeteGetCommercial, getContext(), new Outils.APIResponseCallback() {
+        String urlUtilisateur = userActuel.getUrl();
+        try {
+            String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
+            urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
+        } catch (UnsupportedEncodingException e) {
+            Log.d("erreur url getCommercial", e.getMessage());
+        }
+        Log.d("urlllll", urlUtilisateur);
+        Outils.appelAPIGet(urlUtilisateur, getContext(), new Outils.APIResponseCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 // Cela s'exécutera lorsque l'API renvoie une réponse valide
                 Log.d("feoejf,oeakf", response.toString());
+                objectJSON = response;
+                Log.d("objectJSON", String.valueOf(objectJSON.length()));
+                try {
+                    String nom = objectJSON.getString("lastname");
+                    textViewNom.setText(nom);
+                    String prenom = objectJSON.getString("firstname");
+                    textViewPrenom.setText(prenom);
+                    String userName = objectJSON.getString("login");
+                    textViewUserName.setText(userName);
+                    String mail = objectJSON.getString("email");
+                    textViewMail.setText(mail);
+                    String adresse = objectJSON.getString("address");
+                    textViewAdresse.setText(adresse);
+                    String codePostale = objectJSON.getString("zip");
+                    textViewCodePostale.setText(codePostale);
+                    String ville = objectJSON.getString("town");
+                    textViewVille.setText(ville);
+                    String numTelephone = objectJSON.getString("office_phone");
+                    textViewNumTelephone.setText(numTelephone);
+                } catch(Exception e) {
+                    Log.d("ERROR JSON EXCEPTION", e.getMessage());
+                }
+
             }
 
             @Override

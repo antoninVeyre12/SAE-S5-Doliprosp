@@ -76,7 +76,8 @@ public class ConnexionFragment extends Fragment {
             try {
                 String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
                 String passwordEncoder = URLEncoder.encode(password, "UTF-8");
-                urlConnexion = String.format("%s?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
+                //urlConnexion = String.format("%s?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
+                urlConnexion = String.format("%s/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
@@ -87,7 +88,7 @@ public class ConnexionFragment extends Fragment {
                 String apiKey = commercial.connexion(urlConnexion,getContext());
                 Log.d("APIKEY", apiKey);
                 //commercial.chiffrementApiKey();
-                //commercial.setApiKey(apiKey);
+                commercial.setApiKey(apiKey);
                 applicationManager.setUser(commercial);
                 // Rend visible la bottom nav bar
                 bottomNav.setVisibility(View.VISIBLE);
