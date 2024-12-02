@@ -15,89 +15,117 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/btn_new_marginEnd"
+        android:layout_marginLeft="@dimen/user_margin_left"
         android:text="URL : "
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_basic" />
+        android:textSize="@dimen/text_formulaire_compte" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id_url"
         android:text=""
-        android:textSize="@dimen/text_basic"
-        android:textColor="@color/black"/>
-     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="UserName : "
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/id_userName"
-        android:text=""
-        android:textSize="@dimen/text_basic"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
         android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/user_margin_top"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textStyle="bold"
+        android:text="UserName : "
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_formulaire_compte" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_userName"
+        android:text=""
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/user_margin_top"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/user_margin_left"
         android:text="@string/adresseMail"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
+        android:textSize="@dimen/text_formulaire_compte" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id_mail"
         android:text=""
-        android:textSize="@dimen/text_basic"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
         android:textColor="@color/black"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/adresse"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
+        android:layout_marginTop="@dimen/user_margin_top"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
+        />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id_adresse"
         android:text=""
-        android:textSize="@dimen/text_basic"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
         android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/codePostal"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
+        android:layout_marginTop="@dimen/user_margin_top"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
+        />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/codePostal"
         android:text=""
-        android:textSize="@dimen/text_basic"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
         android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ville"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
+        android:layout_marginTop="@dimen/user_margin_top"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
+        />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id_ville"
         android:text=""
-        android:textSize="@dimen/text_basic"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
         android:textColor="@color/black"/>
 
     <TextView
@@ -105,29 +133,39 @@
         android:layout_height="wrap_content"
         android:text="@string/numéroTéléphone"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/user_margin_top"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
+        />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id_numTelephone"
         android:text=""
-        android:textSize="@dimen/text_basic"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
         android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dateNaissance"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_basic"/>
+        android:layout_marginTop="@dimen/user_margin_top"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
+        />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id_date_naissance"
         android:text=""
-        android:textSize="@dimen/text_basic"
+        android:layout_marginLeft="@dimen/user_margin_left"
+        android:textSize="@dimen/text_formulaire_compte"
         android:textColor="@color/black"/>
 
 
@@ -138,5 +176,6 @@
         android:layout_gravity="center"
         android:text="Deconnexion"
         android:backgroundTint="@color/red"
-        android:layout_marginTop="@dimen/btn_new_marginBottom" />
+        android:layout_marginTop="@dimen/margin_top_btn_deconnexion"
+        android:layout_marginBottom="@dimen/margin_bottom_btn_deconnexion"/>
 </LinearLayout>

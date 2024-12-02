@@ -1,6 +1,7 @@
 package com.example.doliprosp.treatment;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -23,11 +24,14 @@ public class Outils {
 
     private static IApplication applicationManager;
 
-    public static JSONObject appelAPIGet(String url, String apiKey, Context context) throws JSONException {
+    private static JSONObject objectJSON = new JSONObject();
+
+    public static JSONObject appelAPIGet(String url, Context context) throws JSONException {
         Log.d("URL",url);
-        ApplicationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ApplicationViewModel.class);
-        applicationManager = viewModel.getApplication();
-        JSONObject objectJSON = null;
+        applicationManager = ApplicationViewModel.getApplication();
+        //String apiKey =applicationManager.getUser().getApiKey();
+        String apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+
         // Le résultat de la requête Volley sera un JSONObject directement
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -35,10 +39,8 @@ public class Outils {
                     public void onResponse(String reponse) {
                         try {
                             // Crée un JSONObject à partir de la réponse
-                            JSONObject objectJSON = new JSONObject(reponse);
-
+                            objectJSON = new JSONObject(reponse);
                         } catch (JSONException e) {
-
                             Log.e("JSON_ERROR", "Erreur dans le parsing du JSON : " + e.getMessage());
                         }
                     }
@@ -55,6 +57,7 @@ public class Outils {
             public Map getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("DOLAPIKEY",apiKey);
+                Log.d("HEADERS", "API Key : " + apiKey);
                 return headers;
             }
 

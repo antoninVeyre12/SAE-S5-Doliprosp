@@ -85,8 +85,9 @@ public class ConnexionFragment extends Fragment {
             User commercial = new User(url, userName, password);
             try {
                 String apiKey = commercial.connexion(urlConnexion,getContext());
-                commercial.chiffrementApiKey();
-                commercial.setApiKey(apiKey);
+                Log.d("APIKEY", apiKey);
+                //commercial.chiffrementApiKey();
+                //commercial.setApiKey(apiKey);
                 applicationManager.setUser(commercial);
                 // Rend visible la bottom nav bar
                 bottomNav.setVisibility(View.VISIBLE);

@@ -33,6 +33,8 @@ public class User {
         this.url = url;
         this.userName = userName;
         this.password = password;
+        this.apiKey = null;
+
     }
 
     public void changementUtilisateur(String url, String userName, String password)
@@ -40,6 +42,7 @@ public class User {
         this.setUrl(url);
         this.setUserName(userName);
         this.setPassword(password);
+        this.apiKey = null;
     }
 
 
@@ -50,8 +53,8 @@ public class User {
      */
     public String connexion(String url, Context context) throws JSONException {
         Log.d("URL",url);
-        ApplicationViewModel viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ApplicationViewModel.class);
-        applicationManager = viewModel.getApplication();
+
+        applicationManager = ApplicationViewModel.getApplication();
 
         // Le résultat de la requête Volley sera un JSONObject directement
         final StringBuilder resultatFormate = new StringBuilder(); // Utiliser un StringBuilder pour l'accumulation
@@ -69,7 +72,7 @@ public class User {
 
                             // Récupère le champ 'token' dans l'objet 'success'
                             String token = successJSON.getString("token");
-
+                            apiKey = token;
                             // Stocker le token dans le StringBuilder
                             resultatFormate.append(token);
 

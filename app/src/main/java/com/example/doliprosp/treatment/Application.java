@@ -86,7 +86,7 @@ public class Application implements IApplication {
         String url = this.getUser().getUrl();
         String apiKey = this.getUser().getApiKey();
         final StringBuilder resultatFormate = new StringBuilder();
-        JSONObject objectJSON = Outils.appelAPIGet(url,apiKey,context);
+        JSONObject objectJSON = Outils.appelAPIGet(url,context);
 
         /*JSONObject successJSON = objectJSON.getJSONObject("success");
 

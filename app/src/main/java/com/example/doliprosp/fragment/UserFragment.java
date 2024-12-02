@@ -1,26 +1,27 @@
 package com.example.doliprosp.fragment;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
 import com.example.doliprosp.ViewModel.ApplicationViewModel;
 import com.example.doliprosp.treatment.IApplication;
+import com.example.doliprosp.treatment.Outils;
 import com.example.doliprosp.treatment.User;
 
+import org.json.JSONObject;
+
 public class UserFragment extends Fragment {
+    private String mail;
     private IApplication applicationManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,15 +37,27 @@ public class UserFragment extends Fragment {
 
         applicationManager = ApplicationViewModel.getApplication();
 
-        EditText editTextUrl = view.findViewById(R.id.id_url);
-        EditText editTextUserName = view.findViewById(R.id.id_userName);
+        TextView textViewUrl = view.findViewById(R.id.id_url);
+        TextView textViewUserName = view.findViewById(R.id.id_userName);
+        TextView textViewMail = view.findViewById(R.id.id_mail);
 
-
-        Log.d("User into userFragment", applicationManager.getUser().toString());
         String url = applicationManager.getUser().getUrl();
-        editTextUrl.setText(url);
+        textViewUrl.setText(url);
         String userName = applicationManager.getUser().getUserName();
-        editTextUserName.setText(userName);
+        textViewUserName.setText(userName);
+
+        String urlRequeteGetCommercial = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/users/5";
+        try {
+            JSONObject jsonObject = Outils.appelAPIGet(urlRequeteGetCommercial, getContext());
+
+
+        } catch (Exception e) {
+            Log.d("BAD APPEL API", e.getMessage());
+        }
+
+
+
+
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
             applicationManager.setUser(new User("","",""));
