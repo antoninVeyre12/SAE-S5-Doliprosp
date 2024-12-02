@@ -42,6 +42,7 @@ public class Outils {
                             objectJSON = new JSONObject(reponse);
                         } catch (JSONException e) {
                             Log.e("JSON_ERROR", "Erreur dans le parsing du JSON : " + e.getMessage());
+
                         }
                     }
                 },
