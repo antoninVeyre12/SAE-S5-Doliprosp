@@ -54,7 +54,7 @@ public class User {
      * est de type StringRequest
      */
     public void connexion(String url, Context context, APIResponseCallback callback) throws JSONException {
-        Outils.appelAPIGet(url, context, new Outils.APIResponseCallback() {
+        Outils.appelAPIConnexion(url, context, new Outils.APIResponseCallback() {
 
             @Override
             public void onSuccess(JSONObject reponse) throws JSONException {

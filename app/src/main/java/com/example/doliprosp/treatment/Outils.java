@@ -24,6 +24,35 @@ public class Outils {
 
     private static IApplication applicationManager;
 
+    public static void appelAPIConnexion(String url, Context context, APIResponseCallback callback) {
+
+        applicationManager = ApplicationViewModel.getApplication();
+        StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String reponse) {
+                        try {
+                            // Crée un JSONObject à partir de la réponse
+                            JSONObject objectJSON = new JSONObject(reponse);
+
+                            callback.onSuccess(objectJSON); // Notifie la méthode appelante avec la réponse
+                        } catch (JSONException e) {
+                            callback.onError("Erreur de parsing JSON : " + e.getMessage()); // Notifie l'erreur
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError erreur) {
+                        // Log l'erreur pour diagnostic
+                        callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
+                    }
+                }) {
+        };
+        // Ajouter la requête à la file d'attente
+        applicationManager.getRequestQueue(context).add(requeteVolley);
+    }
+
 
     public static void appelAPIGet(String url, Context context, APIResponseCallback callback) {
 
