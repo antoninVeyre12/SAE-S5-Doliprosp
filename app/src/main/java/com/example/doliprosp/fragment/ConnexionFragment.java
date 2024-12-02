@@ -26,6 +26,8 @@ import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
 import com.example.doliprosp.ViewModel.ApplicationViewModel;
 import com.example.doliprosp.treatment.IApplication;
+import com.example.doliprosp.treatment.Outils;
+import com.example.doliprosp.treatment.Show;
 import com.example.doliprosp.treatment.User;
 
 import org.json.JSONException;
@@ -84,16 +86,27 @@ public class ConnexionFragment extends Fragment {
 
             User commercial = new User(url, userName, password);
             try {
-                String apiKey = commercial.connexion(urlConnexion,getContext());
-                Log.d("APIKEY", apiKey);
-                //commercial.chiffrementApiKey();
-                //commercial.setApiKey(apiKey);
-                applicationManager.setUser(commercial);
-                // Rend visible la bottom nav bar
-                bottomNav.setVisibility(View.VISIBLE);
-                ShowFragment showFragment = new ShowFragment();
-                ((MainActivity) getActivity()).loadFragment(showFragment);
-                ((MainActivity) getActivity()).setColors(1);
+                commercial.connexion(urlConnexion,getContext(), new User.APIResponseCallback() {
+
+                    @Override
+                    public void onSuccess(String reponse) throws JSONException {
+
+                        commercial.setApiKey(reponse);
+                        //commercial.chiffrementApiKey();
+                        applicationManager.setUser(commercial);
+                        // Rend visible la bottom nav bar
+                        bottomNav.setVisibility(View.VISIBLE);
+                        ShowFragment showFragment = new ShowFragment();
+                        ((MainActivity) getActivity()).loadFragment(showFragment);
+                        ((MainActivity) getActivity()).setColors(1);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.d("error",error);
+                    }
+                });
+
             } catch(Exception e) {
                 Log.d("text", e.getMessage());
             }

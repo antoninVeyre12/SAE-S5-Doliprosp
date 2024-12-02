@@ -20,6 +20,7 @@ import com.example.doliprosp.R;
 import com.example.doliprosp.ViewModel.ApplicationViewModel;
 import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ShowAdapter;
+import com.example.doliprosp.treatment.Application;
 import com.example.doliprosp.treatment.IApplication;
 import com.example.doliprosp.treatment.Show;
 
@@ -60,32 +61,44 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         recyclerView.setLayoutManager(layoutManager);
 
         try {
-            showList = (ArrayList<Show>) applicationManager.getSavedShow(getContext());
+            applicationManager.getSavedShow(getContext(), new Application.APIResponseCallback<ArrayList<Show>>() {
+                @Override
+                public void onSuccess(ArrayList<Show> shows) {
+                    showList = shows;
+
+                    // Set l'adapter des shows récupéré
+                    adapterShow = new ShowAdapter(showList);
+                    recyclerView.setAdapter(adapterShow);
+
+                    // Salon créer
+                    GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
+                    recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
+
+                    myShowList = (ArrayList<Show>) applicationManager.getLocalShow();
+
+                    // Set l'adapter des shows de l'utilisateur
+                    adapterMyShow = new MyShowAdapter(myShowList, ShowFragment.this);
+                    recyclerViewMyShow.setAdapter(adapterMyShow);
+
+                    buttonCreateShow.setOnClickListener(v -> {
+                        CreateShowDialogFragment dialog = new CreateShowDialogFragment();
+                        dialog.show(getChildFragmentManager(), "CreateShowDialog");
+                    });
+
+                }
+
+                @Override
+                public void onError(String error) {
+
+                    Log.d("SHOW_LIST_ERROR", error);
+                }
+            });
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
 
-        // Set l'adapter des shows récupéré
-        adapterShow = new ShowAdapter(showList);
-        recyclerView.setAdapter(adapterShow);
-
-        // Salon créer
-        GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
-        recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
-
-        myShowList = (ArrayList<Show>) applicationManager.getLocalShow();
-
-        // Set l'adapter des shows de l'utilisateur
-        adapterMyShow = new MyShowAdapter(myShowList, this);
-        recyclerViewMyShow.setAdapter(adapterMyShow);
-
-        buttonCreateShow.setOnClickListener(v -> {
-            CreateShowDialogFragment dialog = new CreateShowDialogFragment();
-            dialog.show(getChildFragmentManager(), "CreateShowDialog");
-        });
 
     }
-
 
     @Override
     public void onDeleteClick(int position) {

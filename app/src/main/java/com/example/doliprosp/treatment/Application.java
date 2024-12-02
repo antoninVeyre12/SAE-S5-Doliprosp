@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,7 +19,7 @@ public class Application implements IApplication {
     private ArrayList<Show> listLocalShow;
     private ArrayList<Show> listSavedShow;
 
-    private JSONObject objectJSON;
+    private JSONArray arrayJSON;
     private RequestQueue fileRequete;
 
     public Application() {
@@ -65,6 +66,7 @@ public class Application implements IApplication {
     {
         return listLocalShow;
     }
+
     public void deleteProspect(Prospect prospect)
     {
         listProspect.remove(prospect);
@@ -82,40 +84,31 @@ public class Application implements IApplication {
     }
 
 
-    public ArrayList<Show> getSavedShow(Context context) throws JSONException {
+    public void getSavedShow(Context context, APIResponseCallback<ArrayList<Show>> callback) throws JSONException {
         ArrayList<Show> listSavedShow = new ArrayList<>();
-
         //String url = this.getUser().getUrl();
         String url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=100";
         String apiKey = this.getUser().getApiKey();
-        final StringBuilder resultatFormate = new StringBuilder();
-        Outils.appelAPIGet(url, context, new Outils.APIResponseCallback() {
+        Outils.appelAPIGetList(url, context, new Outils.APIResponseCallbackArray() {
             @Override
-            public void onSuccess(JSONObject response) {
-                // Cela s'exécutera lorsque l'API renvoie une réponse valide
-                objectJSON = response;
-                Log.d("feoejf,oeakf", response.toString());
+            public void onSuccess(JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String nom = object.getString("label");
+                        listSavedShow.add(new Show(nom));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.onSuccess(listSavedShow);
             }
 
             @Override
-            public void onError(String errorMessage) {
-                // Cela s'exécutera en cas d'erreur dans l'appel API
-                Log.d("BAD APPEL API", errorMessage);
+            public void onError(String error) {
+                callback.onError(error);
             }
         });
-        //JSONObject objectJSON = Outils.appelAPIGet(url,context);
-
-        
-        /*JSONObject successJSON = objectJSON.getJSONObject("success");
-
-        String token = successJSON.getString("token");
-        resultatFormate.append(token);*/
-
-        /*listSavedShow.add(new Show("Testttt"));
-        listSavedShow.add(new Show("testppp"));
-        listSavedShow.add(new Show("Testttt"));
-        listSavedShow.add(new Show("testppp"));*/
-        return listSavedShow;
     }
 
     public void sendProspect(Prospect prospect)
@@ -148,5 +141,10 @@ public class Application implements IApplication {
         return null;
     }
 
+
+    public interface APIResponseCallback<T> {
+        void onSuccess(T response);
+        void onError(String error);
+    }
 
 }

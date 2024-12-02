@@ -32,7 +32,7 @@ public interface IApplication {
     public void deleteLocalShow(Show show);
 
     public ArrayList<Show> getLocalShow();
-    public ArrayList<Show> getSavedShow(Context context) throws JSONException;
+    public void getSavedShow(Context context, Application.APIResponseCallback<ArrayList<Show>> callback) throws JSONException;
 
     public void sendProspect(Prospect prospect);
 
