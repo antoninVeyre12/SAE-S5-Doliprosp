@@ -29,6 +29,7 @@ public class Outils {
 
         applicationManager = ApplicationViewModel.getApplication();
         String apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        //String apiKey = applicationManager.getUser().getApiKey();
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
