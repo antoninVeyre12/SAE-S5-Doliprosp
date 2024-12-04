@@ -1,32 +1,31 @@
-package com.example.doliprosp.treatment;
+package com.example.doliprosp.Service;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.doliprosp.ViewModel.ApplicationViewModel;
+import com.android.volley.toolbox.Volley;
+import com.example.doliprosp.Model.Salon;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-
 public class Outils {
 
-    private static IApplication applicationManager;
+    private static RequestQueue fileRequete;
+
 
     public static void appelAPIConnexion(String url, Context context, APIResponseCallback callback) {
 
-        applicationManager = ApplicationViewModel.getApplication();
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -50,13 +49,13 @@ public class Outils {
                 }) {
         };
         // Ajouter la requête à la file d'attente
-        applicationManager.getRequestQueue(context).add(requeteVolley);
+        fileRequete = getRequestQueue(context);
+        fileRequete.add(requeteVolley);
     }
 
 
     public static void appelAPIGet(String url, Context context, APIResponseCallback callback) {
 
-        applicationManager = ApplicationViewModel.getApplication();
         String apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         //String apiKey = applicationManager.getUser().getApiKey();
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
@@ -88,14 +87,14 @@ public class Outils {
             }
         };
         // Ajouter la requête à la file d'attente
-        applicationManager.getRequestQueue(context).add(requeteVolley);
+        fileRequete = getRequestQueue(context);
+        fileRequete.add(requeteVolley);
     }
 
 
 
     public static void appelAPIGetList(String url, Context context, APIResponseCallbackArray callback) {
 
-        applicationManager = ApplicationViewModel.getApplication();
         String apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -126,11 +125,17 @@ public class Outils {
             }
         };
         // Ajouter la requête à la file d'attente
-        applicationManager.getRequestQueue(context).add(requeteVolley);
+        fileRequete = getRequestQueue(context);
+        fileRequete.add(requeteVolley);
     }
 
 
-
+    public static RequestQueue getRequestQueue(Context context) {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(context);
+        }
+        return fileRequete;
+    }
 
     public interface APIResponseCallback {
         void onSuccess(JSONObject response) throws JSONException;
@@ -139,6 +144,10 @@ public class Outils {
 
     public interface APIResponseCallbackArray {
         void onSuccess(JSONArray response);
+        void onError(String errorMessage);
+    }
+    public interface APIResponseCallbackArrayTest {
+        void onSuccess(ArrayList<Salon> response);
         void onError(String errorMessage);
     }
 }

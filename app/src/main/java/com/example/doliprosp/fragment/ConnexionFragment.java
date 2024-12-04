@@ -9,38 +9,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.doliprosp.Interface.ConnexionCallBack;
+import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
+import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.ViewModel.ApplicationViewModel;
-import com.example.doliprosp.treatment.IApplication;
-import com.example.doliprosp.treatment.Outils;
-import com.example.doliprosp.treatment.Show;
-import com.example.doliprosp.treatment.User;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import com.example.doliprosp.Service.ConnexionService;
 
 public class ConnexionFragment extends Fragment {
     private EditText editTextUrl;
     private EditText editTextUserName;
     private EditText editTextPassword;
+    private IConnexionService connexionService;
 
     private String urlConnexion;
 
@@ -55,7 +41,8 @@ public class ConnexionFragment extends Fragment {
     {
         super.onCreate(savedInstanceState);
 
-        IApplication applicationManager = ApplicationViewModel.getApplication();
+        connexionService = new ConnexionService();
+
         //String urlConnexion;
         editTextUrl = view.findViewById(R.id.url);
         editTextUserName = view.findViewById(R.id.username);
@@ -74,38 +61,25 @@ public class ConnexionFragment extends Fragment {
             if (url.isEmpty() || userName.isEmpty() || password.isEmpty()) {
                 Log.d("TEST VIDE", "OK");
             }
-
             try {
-                String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
-                String passwordEncoder = URLEncoder.encode(password, "UTF-8");
-                //urlConnexion = String.format("%s?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
-                urlConnexion = String.format("%s/api/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
-                Log.d("URLL", urlConnexion);
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+                connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
+                    public void onSuccess(Utilisateur utilisateur) {
+                        // Traitez l'utilisateur récupéré ici
+                        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
+                        utilisateur.setApiKey(apiKeyChiffre);
+                        UserFragment.nouvelUtilisateur(utilisateur);
 
-
-            User commercial = new User(url, userName, password);
-            try {
-                commercial.connexion(urlConnexion,getContext(), new User.APIResponseCallback() {
-
-                    @Override
-                    public void onSuccess(String reponse) throws JSONException {
-
-                        commercial.setApiKey(reponse);
-                        //commercial.chiffrementApiKey();
-                        applicationManager.setUser(commercial);
-                        // Rend visible la bottom nav bar
-                        bottomNav.setVisibility(View.VISIBLE);
+                        // Navigation vers ShowFragment
                         ShowFragment showFragment = new ShowFragment();
                         ((MainActivity) getActivity()).loadFragment(showFragment);
                         ((MainActivity) getActivity()).setColors(1);
+                        bottomNav.setVisibility(View.VISIBLE);
                     }
 
-                    @Override
-                    public void onError(String error) {
-                        Log.d("error",error);
+
+                    public void onError(String errorMessage) {
+                        Log.d("Error Connexion", errorMessage);
+                        Toast.makeText(getContext(), "Erreur de connexion : " + errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -113,6 +87,5 @@ public class ConnexionFragment extends Fragment {
                 Log.d("text", e.getMessage());
             }
         });
-
     }
 }

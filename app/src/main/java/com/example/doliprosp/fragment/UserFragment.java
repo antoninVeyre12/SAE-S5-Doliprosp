@@ -12,13 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.doliprosp.MainActivity;
+import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.ViewModel.ApplicationViewModel;
-import com.example.doliprosp.treatment.IApplication;
-import com.example.doliprosp.treatment.Outils;
-import com.example.doliprosp.treatment.User;
+import com.example.doliprosp.Service.Outils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -26,7 +23,8 @@ import java.net.URLEncoder;
 
 public class UserFragment extends Fragment {
     private String mail;
-    private IApplication applicationManager;
+    private IUtilisateurService utilisateurManager;
+    private static Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,10 +38,9 @@ public class UserFragment extends Fragment {
     {
         super.onViewCreated(view, savedInstanceState);
 
-        applicationManager = ApplicationViewModel.getApplication();
-        User userActuel = applicationManager.getUser();
+        //utilisateurManager = new UtilisateurService();
 
-        String userName = userActuel.getUserName();
+        String userName = utilisateurActuel.getUserName();
 
         TextView textViewNom = view.findViewById(R.id.id_nom);
         TextView textViewPrenom = view.findViewById(R.id.id_prenom);
@@ -54,7 +51,7 @@ public class UserFragment extends Fragment {
         TextView textViewVille = view.findViewById(R.id.id_ville);
         TextView textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
 
-        String urlUtilisateur = userActuel.getUrl();
+        String urlUtilisateur = utilisateurActuel.getUrl();
         try {
             String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
             urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
@@ -101,9 +98,17 @@ public class UserFragment extends Fragment {
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
-            applicationManager.setUser(new User("","",""));
+            utilisateurActuel = null;
+            System.gc(); //Supprime l'intsance de Utilisateur
             ConnexionFragment connexionFragment = new ConnexionFragment();
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
         });
+    }
+
+    public static void nouvelUtilisateur(Utilisateur utilisateur)
+    {
+        utilisateurActuel = utilisateur;
+        Log.d("username", utilisateurActuel.getUserName());
+        Log.d("utilisateur nouveau", "utilisateur chargé");
     }
 }

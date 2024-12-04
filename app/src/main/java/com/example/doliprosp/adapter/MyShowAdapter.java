@@ -1,15 +1,14 @@
 package com.example.doliprosp.adapter;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.R;
-import com.example.doliprosp.treatment.Show;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +16,11 @@ import java.util.List;
 
 public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHolder> {
 
-    private List<Show> showList;
+    private List<Salon> showList;
     private OnItemClickListener onItemClickListener;
 
     // Constructeur pour initialiser la liste des shows et le listener
-    public MyShowAdapter(List<Show> showList, OnItemClickListener onItemClickListener) {
+    public MyShowAdapter(List<Salon> showList, OnItemClickListener onItemClickListener) {
         this.showList = showList;
         this.onItemClickListener = onItemClickListener;
     }
@@ -35,8 +34,8 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Show show = showList.get(position);
-        holder.show_name.setText(show.getName());
+        Salon show = showList.get(position);
+        holder.show_name.setText(show.getNom());
 
         // Définir l'événement de clic pour le bouton de suppression
         holder.show_delete.setOnClickListener(v -> {

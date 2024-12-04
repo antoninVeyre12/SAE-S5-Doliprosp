@@ -5,8 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.R;
-import com.example.doliprosp.treatment.Show;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +14,10 @@ import java.util.List;
 
 public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> {
 
-    private List<Show> showList;
+    private List<Salon> showList;
 
 
-    public ShowAdapter(List<Show> showList) {
+    public ShowAdapter(List<Salon> showList) {
         this.showList = showList;
     }
 
@@ -33,8 +33,8 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (position < 6) {
-            Show show = showList.get(position);
-            holder.show_name.setText(show.getName());
+            Salon show = showList.get(position);
+            holder.show_name.setText(show.getNom());
         }
     }
 

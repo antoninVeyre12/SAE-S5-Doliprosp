@@ -4,11 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.R;
-import com.example.doliprosp.ViewModel.ApplicationViewModel;
-import com.example.doliprosp.treatment.IApplication;
 
 public class ProjectFragment extends Fragment {
     @Override

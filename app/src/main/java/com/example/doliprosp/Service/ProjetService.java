@@ -1,20 +1,26 @@
-package com.example.doliprosp.treatment;
+package com.example.doliprosp.Service;
+
+import com.example.doliprosp.Interface.IProjet;
 
 import java.util.UUID;
 
-public class Project {
+public class ProjetService implements IProjet {
 
     private UUID idProject;
     private UUID idProspect;
     private String title;
     private String description;
 
-    public Project(UUID idProspect, String title, String description)
+    public ProjetService(UUID idProspect, String title, String description)
     {
         this.idProject = UUID.randomUUID();
         this.idProspect = idProspect;
         this.title = title;
         this.description = description;
+    }
+    public ProjetService()
+    {
+
     }
 
     public void updateProject(String newTitle, String newDescription)
@@ -28,9 +34,39 @@ public class Project {
         return this.idProject;
     }
 
+    @Override
+    public void ajouterProjet(ProjetService projet) {
+
+    }
+
+    @Override
+    public void supprimerProjet(ProjetService projet) {
+
+    }
+
+    @Override
+    public void envoyerProjet(ProjetService projet) {
+
+    }
+
+    @Override
+    public void updateProjet(String titre, String description) {
+
+    }
+
+    @Override
+    public UUID getIdProjet() {
+        return null;
+    }
+
     public UUID getIdProspect()
     {
         return this.idProspect;
+    }
+
+    @Override
+    public String getTitre() {
+        return "";
     }
 
     public String getTitle()
@@ -41,6 +77,11 @@ public class Project {
     public String getDescription()
     {
         return this.description;
+    }
+
+    @Override
+    public void setTitre(String titre) {
+
     }
 
     public void setTitle(String title)
