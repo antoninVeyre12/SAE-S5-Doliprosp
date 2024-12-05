@@ -1,10 +1,12 @@
 package com.example.doliprosp.fragment;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +25,7 @@ import java.net.URLEncoder;
 
 public class UserFragment extends Fragment {
     private String mail;
-    private static Utilisateur utilisateurActuel;
+    public static Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,9 +40,10 @@ public class UserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //utilisateurManager = new UtilisateurService();
-
         String userName = utilisateurActuel.getUserName();
+        Activity activity = getActivity();
 
+        LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
         TextView textViewNom = view.findViewById(R.id.id_nom);
         TextView textViewPrenom = view.findViewById(R.id.id_prenom);
         TextView textViewUserName = view.findViewById(R.id.id_userName);
@@ -101,6 +104,7 @@ public class UserFragment extends Fragment {
             System.gc(); //Supprime l'intsance de Utilisateur
             ConnexionFragment connexionFragment = new ConnexionFragment();
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
+            bottomNav.setVisibility(View.GONE);
         });
     }
 

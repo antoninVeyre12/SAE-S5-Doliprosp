@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.fragment.UserFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,9 +20,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.lifecycle.ViewModelProvider;
+
 public class Outils {
 
     private static RequestQueue fileRequete;
+
+    private static String apiKey;
 
 
     public static void appelAPIConnexion(String url, Context context, APIResponseCallback callback) {
@@ -55,9 +60,8 @@ public class Outils {
 
 
     public static void appelAPIGet(String url, Context context, APIResponseCallback callback) {
-
-        String apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
-        //String apiKey = applicationManager.getUser().getApiKey();
+        apiKey = UserFragment.utilisateurActuel.getApiKey();
+        //apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -94,8 +98,8 @@ public class Outils {
 
 
     public static void appelAPIGetList(String url, Context context, APIResponseCallbackArray callback) {
-
-        String apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        apiKey = UserFragment.utilisateurActuel.getApiKey();
+        //apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
@@ -20,6 +21,8 @@ import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ConnexionService;
+import com.example.doliprosp.viewModel.SalonViewModel;
+import com.example.doliprosp.viewModel.UtilisateurViewModele;
 
 public class ConnexionFragment extends Fragment {
     private EditText editTextUrl;
@@ -63,16 +66,17 @@ public class ConnexionFragment extends Fragment {
             if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
                 // Affiche un toast au lieu d'un log
                 Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
-            } else if (!url.startsWith("http://")) {
+            } /*else if (!url.startsWith("http://")) {
                 Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
-            } else {
+            } */else {
                 connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
                     public void onSuccess(Utilisateur utilisateur) {
                         // Traitez l'utilisateur récupéré ici
                         String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
                         utilisateur.setApiKey(apiKeyChiffre);
                         UserFragment.nouvelUtilisateur(utilisateur);
-
+                        //UtilisateurViewModele utilisateurViewModele =  new ViewModelProvider(requireActivity()).get(UtilisateurViewModele.class);
+                        //.createUtilisateur(utilisateur);
                         // Navigation vers ShowFragment
                         ShowFragment showFragment = new ShowFragment();
                         ((MainActivity) getActivity()).loadFragment(showFragment);
@@ -81,11 +85,11 @@ public class ConnexionFragment extends Fragment {
                     }
 
                     public void onError(String errorMessage) {
-                        if (url.endsWith("/")) {
+                        /*if (url.endsWith("/")) {
                             Toast.makeText(getContext(),R.string.url_invalide_2, Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getContext(),R.string.informations_saisies_incorrecte, Toast.LENGTH_LONG).show();
-                        }
+                        }*/
                     }
                 });
             }
