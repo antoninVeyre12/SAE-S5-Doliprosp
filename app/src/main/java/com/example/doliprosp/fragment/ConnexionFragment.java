@@ -20,7 +20,7 @@ import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Service.ConnexionService;
+import com.example.doliprosp.Services.ConnexionService;
 
 public class ConnexionFragment extends Fragment {
     private EditText editTextUrl;
@@ -57,6 +57,9 @@ public class ConnexionFragment extends Fragment {
             String url = editTextUrl.getText().toString();
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
+            url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
+            userName= "G42";
+            password = "3iFJWj26z";
 
             if (url.isEmpty() || userName.isEmpty() || password.isEmpty()) {
                 Log.d("TEST VIDE", "OK");

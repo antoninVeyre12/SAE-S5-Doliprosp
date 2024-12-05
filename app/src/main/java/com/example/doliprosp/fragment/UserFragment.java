@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Service.Outils;
+import com.example.doliprosp.Services.Outils;
 
 import org.json.JSONObject;
 

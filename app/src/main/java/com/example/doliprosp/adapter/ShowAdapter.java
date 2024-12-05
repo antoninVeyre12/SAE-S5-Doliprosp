@@ -19,7 +19,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     private ShowAdapter.OnItemClickListener onItemClickListener;
 
 
-    public ShowAdapter(List<Salon> salonList) {
+    public ShowAdapter(List<Salon> salonList, ShowAdapter.OnItemClickListener onItemClickListener) {
         this.salonList = salonList;
         this.onItemClickListener = onItemClickListener;
     }

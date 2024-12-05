@@ -1,6 +1,6 @@
 package com.example.doliprosp.Interface;
 
-import com.example.doliprosp.Service.ProjetService;
+import com.example.doliprosp.Services.ProjetService;
 
 import java.util.UUID;
 

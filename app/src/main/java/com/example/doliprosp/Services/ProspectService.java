@@ -1,4 +1,4 @@
-package com.example.doliprosp.Service;
+package com.example.doliprosp.Services;
 
 import com.example.doliprosp.Interface.IProspect;
 

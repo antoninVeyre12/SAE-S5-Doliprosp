@@ -20,7 +20,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
     private OnItemClickListener onItemClickListener;
 
     // Constructeur pour initialiser la liste des shows et le listener
-    public MyShowAdapter(List<Salon> showList, OnItemClickListener onItemClickListener) {
+    public MyShowAdapter(List<Salon> salonList, OnItemClickListener onItemClickListener) {
         this.salonList = salonList;
         this.onItemClickListener = onItemClickListener;
     }

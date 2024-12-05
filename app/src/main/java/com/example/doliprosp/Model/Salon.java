@@ -1,13 +1,9 @@
 package com.example.doliprosp.Model;
 
-import android.content.Context;
-
-import com.example.doliprosp.Service.SalonService;
-
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Salon {
+public class Salon implements Serializable {
     private UUID idSalon;
     private String nom;
 
@@ -31,5 +27,7 @@ public class Salon {
     {
         this.nom = nom;
     }
+
+
 
 }

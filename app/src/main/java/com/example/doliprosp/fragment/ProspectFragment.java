@@ -26,7 +26,7 @@ public class ProspectFragment extends Fragment {
         if (bundle != null) {
             salonActuel = (Salon) bundle.getSerializable("salon");
         } else {
-            // Creer un dialog qui demande de choisir dans une liste
+            salonActuel = new Salon("stub");
         }
         return inflater.inflate(R.layout.fragment_prospect, container, false);
     }

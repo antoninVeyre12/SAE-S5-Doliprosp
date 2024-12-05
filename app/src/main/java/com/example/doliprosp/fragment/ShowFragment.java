@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,22 +17,24 @@ import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Service.Outils;
+import com.example.doliprosp.Services.Outils;
+import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ShowAdapter;
-import com.example.doliprosp.Service.SalonService;
+import com.example.doliprosp.viewModel.SalonViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickListener {
+public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickListener, ShowAdapter.OnItemClickListener {
 
     private ISalonService salonService;
     private ArrayList<Salon> showSavedList;
-    private static ArrayList<Salon> showLocalList;
     private ShowAdapter adapterShow;
     private MyShowAdapter adapterMyShow;
+    private static SalonViewModel salonViewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,19 +45,19 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         salonService = new SalonService();
-        showLocalList = new ArrayList<Salon>();
+        salonViewModel = new ViewModelProvider(requireActivity()).get(SalonViewModel.class);
         showSavedList = new ArrayList<Salon>();
-        showLocalList.add(new Salon("Test"));
 
         Button buttonCreateShow = view.findViewById(R.id.buttonCreateShow);
         RecyclerView recyclerView = view.findViewById(R.id.showRecyclerView);
-
         RecyclerView recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
-
         // Salon existant
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
+
+
 
         salonService.getSalonsEnregistres(getContext(), new Outils.APIResponseCallbackArrayTest() {
             @Override
@@ -63,7 +66,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 showSavedList = shows;
 
                 // Set l'adapter des shows récupéré
-                adapterShow = new ShowAdapter(showSavedList);
+                adapterShow = new ShowAdapter(showSavedList, ShowFragment.this);
                 recyclerView.setAdapter(adapterShow);
 
                 // Salon créer
@@ -72,7 +75,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
 
                 // Set l'adapter des shows de l'utilisateur
-                adapterMyShow = new MyShowAdapter(showLocalList, ShowFragment.this);
+                adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
                 recyclerViewMyShow.setAdapter(adapterMyShow);
 
                 buttonCreateShow.setOnClickListener(v -> {
@@ -95,21 +98,14 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
     public static void ajouterSalonLocal(Salon salonLocal)
     {
-        showLocalList.add(salonLocal);
-    }
-    public static void supprimerSalonLocal(Salon salon)
-    {
-
+        salonViewModel.addSalon(salonLocal);
     }
 
     @Override
     public void onDeleteClick(int position) {
-        Salon salon = showLocalList.get(position);
-
-        supprimerSalonLocal(salon);
 
         // mets a jour la liste des salons
-        showSavedList.remove(position);
+        salonViewModel.getSalonList().remove(position);
         adapterMyShow.notifyItemRemoved(position);
     }
 
