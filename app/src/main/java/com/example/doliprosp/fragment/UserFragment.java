@@ -23,7 +23,6 @@ import java.net.URLEncoder;
 
 public class UserFragment extends Fragment {
     private String mail;
-    private IUtilisateurService utilisateurManager;
     private static Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
     @Override
