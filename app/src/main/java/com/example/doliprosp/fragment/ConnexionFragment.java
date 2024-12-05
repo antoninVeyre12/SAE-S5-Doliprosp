@@ -2,7 +2,6 @@ package com.example.doliprosp.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,10 +57,12 @@ public class ConnexionFragment extends Fragment {
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
 
-            if (url.isEmpty() || userName.isEmpty() || password.isEmpty()) {
-                Log.d("TEST VIDE", "OK");
-            }
-            try {
+            if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
+                // Affiche un toast au lieu d'un log
+                Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
+            } else if (!url.startsWith("http://")) {
+                Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
+            } else {
                 connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
                     public void onSuccess(Utilisateur utilisateur) {
                         // Traitez l'utilisateur récupéré ici
@@ -76,15 +77,14 @@ public class ConnexionFragment extends Fragment {
                         bottomNav.setVisibility(View.VISIBLE);
                     }
 
-
                     public void onError(String errorMessage) {
-                        Log.d("Error Connexion", errorMessage);
-                        Toast.makeText(getContext(), "Erreur de connexion : " + errorMessage, Toast.LENGTH_SHORT).show();
+                        if (url.endsWith("/")) {
+                            Toast.makeText(getContext(),R.string.url_invalide_2, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getContext(),R.string.informations_saisies_incorrecte, Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
-
-            } catch(Exception e) {
-                Log.d("text", e.getMessage());
             }
         });
     }
