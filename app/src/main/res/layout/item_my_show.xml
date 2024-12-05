@@ -9,6 +9,7 @@
     android:layout_marginBottom="@dimen/item_show_margin">
 
     <View
+        android:id="@+id/salon_case"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/item_show_background"

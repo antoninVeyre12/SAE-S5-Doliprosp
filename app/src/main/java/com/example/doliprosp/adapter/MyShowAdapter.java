@@ -16,12 +16,12 @@ import java.util.List;
 
 public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHolder> {
 
-    private List<Salon> showList;
+    private List<Salon> salonList;
     private OnItemClickListener onItemClickListener;
 
     // Constructeur pour initialiser la liste des shows et le listener
     public MyShowAdapter(List<Salon> showList, OnItemClickListener onItemClickListener) {
-        this.showList = showList;
+        this.salonList = salonList;
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -34,8 +34,8 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Salon show = showList.get(position);
-        holder.show_name.setText(show.getNom());
+        Salon salon = salonList.get(position);
+        holder.show_name.setText(salon.getNom());
 
         // Définir l'événement de clic pour le bouton de suppression
         holder.show_delete.setOnClickListener(v -> {
@@ -54,27 +54,39 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                         .show();
             }
         });
+        holder.salon_case.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onSelectClick(position, salonList);
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return showList.size();
+        return salonList.size();
     }
 
     // Interface pour le gestionnaire de clics
     public interface OnItemClickListener {
         void onDeleteClick(int position);
+        void onSelectClick(int position, List<Salon> salonList);
+
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView show_name;
         public ImageButton show_delete;
+        public View salon_case;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
             show_name = itemView.findViewById(R.id.show_name);
             show_delete = itemView.findViewById(R.id.show_delete);
+            salon_case = itemView.findViewById(R.id.salon_case);
+
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.ISalonService;
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Service.Outils;
@@ -20,7 +21,9 @@ import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ShowAdapter;
 import com.example.doliprosp.Service.SalonService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickListener {
 
@@ -107,8 +110,16 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
         // mets a jour la liste des salons
         showSavedList.remove(position);
-        Log.d("showlist", showSavedList.toString());
         adapterMyShow.notifyItemRemoved(position);
     }
 
+    @Override
+    public void onSelectClick(int position, List<Salon> salonList) {
+        Salon salon = salonList.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("salon", (Serializable) salon);
+        ProspectFragment prospectFragment = new ProspectFragment();
+        prospectFragment.setArguments(bundle);
+        ((MainActivity) getActivity()).loadFragment(prospectFragment);
+    }
 }

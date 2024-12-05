@@ -3,8 +3,8 @@
     <!-- Bottom nav bar -->
     <string name="app_name">DoliProsp</string>
     <string name="attente">Attente</string>
-    <string name="prospect">Prospect</string>
-    <string name="salon">Salon</string>
+    <string name="prospects">Prospects</string>
+    <string name="salons">Salons</string>
     <string name="compte">Compte</string>
     <string name="projet">Projet</string>
 
@@ -27,7 +27,6 @@
     <string name="url">URL</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="password">Mot de Passe</string>
-    <string name="prospects">Prospects</string>
 
     <!-- Page user -->
     <string name = "monCompte"> Mon compte</string>
