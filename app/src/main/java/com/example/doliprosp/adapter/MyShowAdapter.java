@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -35,10 +36,10 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Salon salon = salonList.get(position);
-        holder.show_name.setText(salon.getNom());
+        holder.salon_nom.setText(salon.getNom());
 
         // Définir l'événement de clic pour le bouton de suppression
-        holder.show_delete.setOnClickListener(v -> {
+        holder.salon_supprimer.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 // Créer et afficher la boîte de dialogue de confirmation
                 new AlertDialog.Builder(v.getContext())
@@ -76,15 +77,15 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView show_name;
-        public ImageButton show_delete;
-        public View salon_case;
+        public TextView salon_nom;
+        public ImageButton salon_supprimer;
+        public FrameLayout salon_case;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            show_name = itemView.findViewById(R.id.show_name);
-            show_delete = itemView.findViewById(R.id.show_delete);
+            salon_nom = itemView.findViewById(R.id.salon_nom);
+            salon_supprimer = itemView.findViewById(R.id.salon_supprimer);
             salon_case = itemView.findViewById(R.id.salon_case);
 
         }

@@ -3,6 +3,7 @@ package com.example.doliprosp.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.doliprosp.Model.Salon;
@@ -37,7 +38,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (position < 6) {
             Salon salon = salonList.get(position);
-            holder.show_name.setText(salon.getNom());
+            holder.salon_nom.setText(salon.getNom());
             holder.salon_case.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
                     onItemClickListener.onSelectClick(position,salonList);
@@ -60,11 +61,11 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView show_name;
-        public View salon_case;
+        public TextView salon_nom;
+        public FrameLayout salon_case;
         public MyViewHolder(View itemView) {
             super(itemView);
-            show_name = itemView.findViewById(R.id.show_name);
+            salon_nom = itemView.findViewById(R.id.salon_nom);
             salon_case = itemView.findViewById(R.id.salon_case);
         }
     }

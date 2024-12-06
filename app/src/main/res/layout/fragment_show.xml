@@ -24,15 +24,15 @@
             android:background="@drawable/search_bar_background"
             android:gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/search_icon"
-                android:src="@drawable/ic_search"
+            <ImageButton
+                android:id="@+id/bouton_recherche"
+                android:background="@drawable/ic_search"
                 android:layout_width="@dimen/search_img_width"
                 android:layout_height="@dimen/search_img_height"
                 android:padding="@dimen/search_bar_padding"/>
 
             <EditText
-                android:id="@+id/search_input"
+                android:id="@+id/texte_recherche"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,7 +40,10 @@
                 android:padding="@dimen/search_bar_padding"
                 android:textColor="@color/black"
                 android:background="@android:color/transparent"
-                android:imeOptions="actionSearch" />
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="text"/>
+            <!--android:imeOptions="actionSearch"-->
 
         </LinearLayout>
 

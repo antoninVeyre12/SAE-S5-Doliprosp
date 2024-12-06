@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +35,12 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     private ArrayList<Salon> showSavedList;
     private ShowAdapter adapterShow;
     private MyShowAdapter adapterMyShow;
+    private ImageButton boutonRecherche;
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewMyShow;
     private static SalonViewModel salonViewModel;
+    private Button boutonCreerSalon;
+    private EditText texteRecherche;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,16 +57,28 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         salonViewModel = new ViewModelProvider(requireActivity()).get(SalonViewModel.class);
         showSavedList = new ArrayList<Salon>();
 
-        Button buttonCreateShow = view.findViewById(R.id.buttonCreateShow);
-        RecyclerView recyclerView = view.findViewById(R.id.showRecyclerView);
-        RecyclerView recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
+        boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
+        recyclerView = view.findViewById(R.id.showRecyclerView);
+        recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
+        boutonRecherche = view.findViewById(R.id.bouton_recherche);
+        texteRecherche = view.findViewById(R.id.texte_recherche);
+
+
         // Salon existant
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
+        String rechercheVide = "";
+        rechercheSalons(rechercheVide);
 
+        //Lance la recherche mais ce coup ci avec le texte saisie
+        boutonRecherche.setOnClickListener(v -> {
+            String recherche = texteRecherche.getText().toString();
+            rechercheSalons(recherche);
+        });
+    }
 
-
-        salonService.getSalonsEnregistres(getContext(), new Outils.APIResponseCallbackArrayTest() {
+    private void rechercheSalons(String recherche){
+        salonService.getSalonsEnregistres(getContext(),recherche, new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
 
@@ -78,7 +97,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
                 recyclerViewMyShow.setAdapter(adapterMyShow);
 
-                buttonCreateShow.setOnClickListener(v -> {
+                boutonCreerSalon.setOnClickListener(v -> {
                     CreateShowDialogFragment dialog = new CreateShowDialogFragment();
                     dialog.show(getChildFragmentManager(), "CreateShowDialog");
                 });
@@ -92,10 +111,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 Log.d("SHOW_LIST_ERROR", error);
             }
         });
-
-
     }
-
     public static void ajouterSalonLocal(Salon salonLocal)
     {
         salonViewModel.addSalon(salonLocal);
@@ -117,5 +133,10 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         ProspectFragment prospectFragment = new ProspectFragment();
         prospectFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(prospectFragment);
+        ((MainActivity) getActivity()).setColors(2);
     }
+
+
+
+
 }

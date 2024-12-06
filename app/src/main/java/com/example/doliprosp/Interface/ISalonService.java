@@ -8,7 +8,7 @@ import com.example.doliprosp.Services.SalonService;
 public interface ISalonService {
 
 
-    public void getSalonsEnregistres(Context context, Outils.APIResponseCallbackArrayTest callback);
+    public void getSalonsEnregistres(Context context, String recherche, Outils.APIResponseCallbackArrayTest callback);
     public void envoyerSalon(SalonService salon);
 
 }

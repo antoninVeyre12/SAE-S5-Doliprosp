@@ -22,7 +22,6 @@ import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ConnexionService;
 import com.example.doliprosp.viewModel.SalonViewModel;
-import com.example.doliprosp.viewModel.UtilisateurViewModele;
 
 public class ConnexionFragment extends Fragment {
     private EditText editTextUrl;
