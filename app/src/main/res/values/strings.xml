@@ -20,6 +20,10 @@
     <!-- Page Salon -->
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggere">Salons suggéré</string>
+    <string name="erreur_pas_de_salons">Aucun salons existe ou aucun salons correspond a votre recherche</string>
+    <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit etre compris entre 2 et 50 caractéres</string>
+    <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
+
 
     <!-- Page connexion -->
     <string name="btn_connexion">Se connecter</string>

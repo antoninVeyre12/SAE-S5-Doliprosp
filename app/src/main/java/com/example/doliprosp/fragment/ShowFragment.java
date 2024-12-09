@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +40,12 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     private MyShowAdapter adapterMyShow;
     private SalonViewModel salonViewModel;
     private UtilisateurViewModel utilisateurViewModel;
+    private ImageButton boutonRecherche;
+    private TextView erreur;
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewMyShow;
+    private Button boutonCreerSalon;
+    private EditText texteRecherche;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,19 +63,34 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         showSavedList = new ArrayList<Salon>();
 
-        Button buttonCreateShow = view.findViewById(R.id.buttonCreateShow);
-        RecyclerView recyclerView = view.findViewById(R.id.showRecyclerView);
-        RecyclerView recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
+        boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
+        recyclerView = view.findViewById(R.id.showRecyclerView);
+        recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
+        boutonRecherche = view.findViewById(R.id.bouton_recherche);
+        texteRecherche = view.findViewById(R.id.texte_recherche);
+        erreur = view.findViewById(R.id.erreur_pas_de_salons);
+
         // Salon existant
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
+        String rechercheVide = "";
+        rechercheSalons(rechercheVide);
 
+        //Lance la recherche mais ce coup ci avec le texte saisie
+        boutonRecherche.setOnClickListener(v -> {
+            String recherche = texteRecherche.getText().toString();
+            // Les appels API ne supporte pas les espaces ont les remplace donc par des %20
+            String rechercheEspace = recherche.replace(" ", "%20");
+            rechercheSalons(rechercheEspace);
+        });
+    }
 
-
-        salonService.getSalonsEnregistres(getContext(), utilisateurViewModel.getUtilisateur(getContext()), new Outils.APIResponseCallbackArrayTest() {
+    private void rechercheSalons(String recherche){
+        salonService.getSalonsEnregistres(getContext(),recherche,utilisateurViewModel.getUtilisateur(getContext()), new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
 
+                erreur.setVisibility(View.GONE);
                 showSavedList = shows;
 
                 // Set l'adapter des shows récupéré
@@ -82,22 +106,20 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
                 recyclerViewMyShow.setAdapter(adapterMyShow);
 
-                buttonCreateShow.setOnClickListener(v -> {
+                boutonCreerSalon.setOnClickListener(v -> {
                     CreateShowDialogFragment dialog = new CreateShowDialogFragment();
                     dialog.show(getChildFragmentManager(), "CreateShowDialog");
                 });
-
+                Log.d("azzzzzzzzzzzzz",showSavedList.toString());
             }
-
 
             @Override
             public void onError(String error) {
+                erreur.setVisibility(View.VISIBLE);
+                showSavedList.clear();
 
-                Log.d("SHOW_LIST_ERROR", error);
             }
         });
-
-
     }
 
     @Override
@@ -116,5 +138,23 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         ProspectFragment prospectFragment = new ProspectFragment();
         prospectFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(prospectFragment);
+        ((MainActivity) getActivity()).setColors(2);
     }
+
+    public static boolean salonExiste(String nomRecherche) {
+        for (Salon salon : showSavedList) {
+            // Vérification si le nom du salon correspond à nomRecherche
+            if (salon.getNom().equals(nomRecherche)) {
+                return true;
+            }
+        }
+        for (Salon salon : salonViewModel.getSalonList()){
+            if (salon.getNom().equals(nomRecherche)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

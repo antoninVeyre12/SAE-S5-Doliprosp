@@ -1,7 +1,7 @@
 package com.example.doliprosp.Services;
 
-import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.Model.Salon;
@@ -15,22 +15,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-
 public class SalonService implements ISalonService {
 
     private String url;
     private String urlAppel;
-    public SalonService(){}
 
-    public void getSalonsEnregistres(Context context, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback)
+
+    public void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback)
     {
         ArrayList<Salon> listSavedShow = new ArrayList<Salon>();
-        //url = UserFragment.utilisateurActuel.getUrl();
-
-        urlAppel = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=100";
-        Outils.appelAPIGetList(urlAppel, utilisateur, context, new Outils.APIResponseCallbackArray() {
+        url = UserFragment.utilisateurActuel.getUrl();
+        urlAppel = url + "/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
+        Outils.appelAPIGetList(urlAppel, context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {

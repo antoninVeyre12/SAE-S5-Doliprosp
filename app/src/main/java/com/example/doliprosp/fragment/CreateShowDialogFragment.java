@@ -1,12 +1,15 @@
 package com.example.doliprosp.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.R;
@@ -20,6 +23,10 @@ import androidx.lifecycle.ViewModelProvider;
 public class CreateShowDialogFragment extends DialogFragment {
 
     private SalonViewModel salonViewModel;
+    private EditText editTextTitle;
+    private TextView erreurNom;
+    private Button buttonSubmit;
+    private Button buttonCancel;
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -38,17 +45,27 @@ public class CreateShowDialogFragment extends DialogFragment {
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
         Button buttonCancel = view.findViewById(R.id.buttonCancel);
 
+        editTextTitle = view.findViewById(R.id.editTextTitle);
+        buttonSubmit = view.findViewById(R.id.buttonSubmit);
+        buttonCancel = view.findViewById(R.id.buttonCancel);
+        erreurNom = view.findViewById(R.id.erreur_nom);
+
 
 
         buttonSubmit.setOnClickListener(v -> {
             String title = editTextTitle.getText().toString();
-            if (title.length() >= 2 && title.length() <= 50) {
+            if (title.length() <= 2 || title.length() >= 50 ) {
+                erreurNom.setText(R.string.erreur_nom_salon_longeur);
+                erreurNom.setVisibility(View.VISIBLE);
+            } else if(ShowFragment.salonExiste(title)){
+                Log.d("aaaa","aaaaaaaaaaaaaaaaaaa");
+                erreurNom.setText(R.string.erreur_nom_salon_existe);
+                erreurNom.setVisibility(View.VISIBLE);
+
+            } else {
                 Salon newShow = new Salon(title);
                 salonViewModel.addSalon(newShow);
-
                 dismiss();
-            } else {
-
             }
 
         });
@@ -59,4 +76,6 @@ public class CreateShowDialogFragment extends DialogFragment {
 
         return view;
     }
+
+
 }

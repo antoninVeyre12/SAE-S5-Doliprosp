@@ -4,6 +4,7 @@
     <dimen name="title_text_size">50sp</dimen>
     <dimen name="subtitle_text_size">30sp</dimen>
     <dimen name="text_basic">10sp</dimen>
+    <dimen name="erreur_texte">30sp</dimen>
 
     <!-- Bottom nav bar -->
     <dimen name="nav_bar_height">100dp</dimen>
@@ -33,19 +34,16 @@
 
 
 
-    <!-- Item show -->
+    <!-- Item salon -->
     <dimen name="item_show_width">200dp</dimen>
     <dimen name="item_show_height">150dp</dimen>
     <dimen name="item_show_margin">15dp</dimen>
     <dimen name="item_show_text_margin">5dp</dimen>
-
+    <dimen name="subtitle_marginRight">25dp</dimen>
     <dimen name="subtitle_marginLeft">25dp</dimen>
     <dimen name="subtitle_marginTop">25dp</dimen>
     <dimen name="subtitle_marginBottom">25dp</dimen>
-
-
     <dimen name="item_show_elevation">200dp</dimen>
-
     <dimen name="espaceHaut">150dp</dimen>
     <dimen name="espaceBas">30dp</dimen>
 
@@ -56,6 +54,6 @@
     <dimen name="margin_top_btn_deconnexion"> 10dp </dimen>
     <dimen name="margin_bottom_btn_deconnexion"> 10dp </dimen>
 
-    <!-- dialog choix salon -->
+    <!-- dialog salon -->
     <dimen name="dialog_choix_hauteur">50dp</dimen>
 </resources>
