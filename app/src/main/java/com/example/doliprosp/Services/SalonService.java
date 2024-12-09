@@ -7,6 +7,7 @@ import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.viewModel.SalonViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONArray;
@@ -24,9 +25,9 @@ public class SalonService implements ISalonService {
     public void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback)
     {
         ArrayList<Salon> listSavedShow = new ArrayList<Salon>();
-        url = UserFragment.utilisateurActuel.getUrl();
+        url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
-        Outils.appelAPIGetList(urlAppel, context, new Outils.APIResponseCallbackArray() {
+        Outils.appelAPIGetList(urlAppel, utilisateur.getApiKey(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
@@ -46,6 +47,21 @@ public class SalonService implements ISalonService {
                 callback.onError(error);
             }
         });
+    }
+
+    public boolean salonExiste(String nomRecherche, ArrayList<Salon> showSavedList, SalonViewModel salonViewModel) {
+        for (Salon salon : showSavedList) {
+            // Vérification si le nom du salon correspond à nomRecherche
+            if (salon.getNom().equals(nomRecherche)) {
+                return true;
+            }
+        }
+        for (Salon salon : salonViewModel.getSalonList()){
+            if (salon.getNom().equals(nomRecherche)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

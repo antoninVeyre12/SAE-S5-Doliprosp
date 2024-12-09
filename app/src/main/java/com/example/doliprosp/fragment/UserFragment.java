@@ -66,7 +66,7 @@ public class UserFragment extends Fragment {
             Log.d("erreur url getCommercial", e.getMessage());
         }
         Log.d("urlllll", urlUtilisateur);
-        Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext()), getContext(), new Outils.APIResponseCallback() {
+        Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext()).getApiKey(), getContext(), new Outils.APIResponseCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 // Cela s'exécutera lorsque l'API renvoie une réponse valide

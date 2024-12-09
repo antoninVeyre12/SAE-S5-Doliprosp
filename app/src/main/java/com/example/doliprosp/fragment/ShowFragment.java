@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.SalonService;
@@ -86,7 +87,8 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     }
 
     private void rechercheSalons(String recherche){
-        salonService.getSalonsEnregistres(getContext(),recherche,utilisateurViewModel.getUtilisateur(getContext()), new Outils.APIResponseCallbackArrayTest() {
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext());
+        salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
 
@@ -141,7 +143,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         ((MainActivity) getActivity()).setColors(2);
     }
 
-    public static boolean salonExiste(String nomRecherche) {
+    public boolean salonExiste(String nomRecherche) {
         for (Salon salon : showSavedList) {
             // Vérification si le nom du salon correspond à nomRecherche
             if (salon.getNom().equals(nomRecherche)) {

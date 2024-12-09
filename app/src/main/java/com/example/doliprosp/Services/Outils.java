@@ -62,9 +62,7 @@ public class Outils {
     }
 
 
-    public static void appelAPIGet(String url, Utilisateur utilisateur, Context context, APIResponseCallback callback) {
-        apiKey = utilisateur.getApiKey();
-        //apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+    public static void appelAPIGet(String url, String apiKey, Context context, APIResponseCallback callback) {
 
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -101,9 +99,7 @@ public class Outils {
 
 
 
-    public static void appelAPIGetList(String url, Utilisateur utilisateur, Context context, APIResponseCallbackArray callback) {
-        apiKey = utilisateur.getApiKey();
-        //apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+    public static void appelAPIGetList(String url, String apiKey, Context context, APIResponseCallbackArray callback) {
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
