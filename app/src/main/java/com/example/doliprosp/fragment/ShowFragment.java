@@ -87,7 +87,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     }
 
     private void rechercheSalons(String recherche){
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext());
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
         salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {

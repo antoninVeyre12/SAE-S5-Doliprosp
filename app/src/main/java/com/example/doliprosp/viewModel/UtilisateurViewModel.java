@@ -1,10 +1,15 @@
 package com.example.doliprosp.viewModel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.lifecycle.ViewModel;
 import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.R;
+
 import java.io.Serializable;
 
 public class UtilisateurViewModel extends ViewModel implements Serializable {
@@ -26,7 +31,7 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
         editor.apply();
     }
 
-    public Utilisateur getUtilisateur(Context context) {
+    public Utilisateur getUtilisateur(Context context, Activity activity) {
         if (utilisateurActuel == null) {
             // Chargement depuis SharedPreferences
             SharedPreferences sharedPreferences = context.getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
@@ -37,6 +42,10 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
 
             if (username != null) {
                 utilisateurActuel = new Utilisateur(url, username, motDePasse, apiKey);
+
+                LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
+                bottomNav.setVisibility(View.GONE);
+
             }
         }
         return utilisateurActuel;

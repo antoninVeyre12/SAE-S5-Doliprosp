@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             bottomNav.setVisibility(View.GONE);
             UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
-            if(utilisateurViewModel.getUtilisateur(this) == null) {
+            if(utilisateurViewModel.getUtilisateur(this, this) == null) {
                 ConnexionFragment connexionFragment = new ConnexionFragment();
                 loadFragment(connexionFragment);
             } else {
