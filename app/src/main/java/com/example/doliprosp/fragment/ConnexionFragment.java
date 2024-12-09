@@ -21,8 +21,7 @@ import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ConnexionService;
-import com.example.doliprosp.viewModel.SalonViewModel;
-import com.example.doliprosp.viewModel.UtilisateurViewModele;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 public class ConnexionFragment extends Fragment {
     private EditText editTextUrl;
@@ -59,9 +58,9 @@ public class ConnexionFragment extends Fragment {
             String url = editTextUrl.getText().toString();
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
-            url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
-            userName= "G42";
-            password = "3iFJWj26z";
+            //url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
+            //userName= "G42";
+            //password = "3iFJWj26z";
 
             if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
                 // Affiche un toast au lieu d'un log
@@ -74,8 +73,8 @@ public class ConnexionFragment extends Fragment {
                         // Traitez l'utilisateur récupéré ici
                         String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
                         utilisateur.setApiKey(apiKeyChiffre);
-                        UserFragment.nouvelUtilisateur(utilisateur);
-                        //UtilisateurViewModele utilisateurViewModele =  new ViewModelProvider(requireActivity()).get(UtilisateurViewModele.class);
+                        UtilisateurViewModel utilisateurViewModele = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+                        utilisateurViewModele.setUtilisateur(utilisateur, getContext());
                         //.createUtilisateur(utilisateur);
                         // Navigation vers ShowFragment
                         ShowFragment showFragment = new ShowFragment();

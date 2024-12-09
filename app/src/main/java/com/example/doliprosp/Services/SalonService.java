@@ -5,8 +5,9 @@ import android.content.Context;
 
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.fragment.UserFragment;
-import com.example.doliprosp.viewModel.UtilisateurViewModele;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,17 +22,15 @@ public class SalonService implements ISalonService {
 
     private String url;
     private String urlAppel;
-    public SalonService()
-    {
-    }
+    public SalonService(){}
 
-    public void getSalonsEnregistres(Context context, Outils.APIResponseCallbackArrayTest callback)
+    public void getSalonsEnregistres(Context context, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback)
     {
         ArrayList<Salon> listSavedShow = new ArrayList<Salon>();
         //url = UserFragment.utilisateurActuel.getUrl();
 
         urlAppel = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=100";
-        Outils.appelAPIGetList(urlAppel, context, new Outils.APIResponseCallbackArray() {
+        Outils.appelAPIGetList(urlAppel, utilisateur, context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {

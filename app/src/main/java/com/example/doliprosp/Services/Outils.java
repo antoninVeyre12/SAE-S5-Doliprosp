@@ -2,6 +2,8 @@ package com.example.doliprosp.Services;
 
 import android.content.Context;
 
+import androidx.lifecycle.ViewModelProvider;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -10,7 +12,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.Model.Salon;
-import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,13 +23,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.lifecycle.ViewModelProvider;
-
 public class Outils {
 
     private static RequestQueue fileRequete;
 
     private static String apiKey;
+
+    private UtilisateurViewModel utilisateurViewModel;
 
 
     public static void appelAPIConnexion(String url, Context context, APIResponseCallback callback) {
@@ -59,9 +62,10 @@ public class Outils {
     }
 
 
-    public static void appelAPIGet(String url, Context context, APIResponseCallback callback) {
-        apiKey = UserFragment.utilisateurActuel.getApiKey();
+    public static void appelAPIGet(String url, Utilisateur utilisateur, Context context, APIResponseCallback callback) {
+        apiKey = utilisateur.getApiKey();
         //apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -97,8 +101,8 @@ public class Outils {
 
 
 
-    public static void appelAPIGetList(String url, Context context, APIResponseCallbackArray callback) {
-        apiKey = UserFragment.utilisateurActuel.getApiKey();
+    public static void appelAPIGetList(String url, Utilisateur utilisateur, Context context, APIResponseCallbackArray callback) {
+        apiKey = utilisateur.getApiKey();
         //apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

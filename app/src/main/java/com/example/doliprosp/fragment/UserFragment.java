@@ -12,11 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONObject;
 
@@ -25,7 +27,7 @@ import java.net.URLEncoder;
 
 public class UserFragment extends Fragment {
     private String mail;
-    public static Utilisateur utilisateurActuel;
+    private Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +41,10 @@ public class UserFragment extends Fragment {
     {
         super.onViewCreated(view, savedInstanceState);
 
-        //utilisateurManager = new UtilisateurService();
-        String userName = utilisateurActuel.getUserName();
+        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        utilisateurActuel = utilisateurViewModel.getUtilisateur(getContext());
+
+        String userName = utilisateurViewModel.getUtilisateur(getContext()).getUserName();
         Activity activity = getActivity();
 
         LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
@@ -53,7 +57,8 @@ public class UserFragment extends Fragment {
         TextView textViewVille = view.findViewById(R.id.id_ville);
         TextView textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
 
-        String urlUtilisateur = utilisateurActuel.getUrl();
+        String urlUtilisateur = utilisateurViewModel.getUtilisateur(getContext()).getUrl();
+
         try {
             String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
             urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
@@ -61,7 +66,7 @@ public class UserFragment extends Fragment {
             Log.d("erreur url getCommercial", e.getMessage());
         }
         Log.d("urlllll", urlUtilisateur);
-        Outils.appelAPIGet(urlUtilisateur, getContext(), new Outils.APIResponseCallback() {
+        Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext()), getContext(), new Outils.APIResponseCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 // Cela s'exécutera lorsque l'API renvoie une réponse valide
@@ -100,18 +105,11 @@ public class UserFragment extends Fragment {
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
-            utilisateurActuel = null;
+            utilisateurViewModel.setUtilisateur(null, getContext());
             System.gc(); //Supprime l'intsance de Utilisateur
             ConnexionFragment connexionFragment = new ConnexionFragment();
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
             bottomNav.setVisibility(View.GONE);
         });
-    }
-
-    public static void nouvelUtilisateur(Utilisateur utilisateur)
-    {
-        utilisateurActuel = utilisateur;
-        Log.d("username", utilisateurActuel.getUserName());
-        Log.d("utilisateur nouveau", "utilisateur chargé");
     }
 }

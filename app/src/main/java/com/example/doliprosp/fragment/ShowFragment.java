@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ShowAdapter;
 import com.example.doliprosp.viewModel.SalonViewModel;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +35,8 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     private ArrayList<Salon> showSavedList;
     private ShowAdapter adapterShow;
     private MyShowAdapter adapterMyShow;
-    private static SalonViewModel salonViewModel;
+    private SalonViewModel salonViewModel;
+    private UtilisateurViewModel utilisateurViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +51,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
         salonService = new SalonService();
         salonViewModel = new ViewModelProvider(requireActivity()).get(SalonViewModel.class);
+        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         showSavedList = new ArrayList<Salon>();
 
         Button buttonCreateShow = view.findViewById(R.id.buttonCreateShow);
@@ -59,7 +63,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
 
 
-        salonService.getSalonsEnregistres(getContext(), new Outils.APIResponseCallbackArrayTest() {
+        salonService.getSalonsEnregistres(getContext(), utilisateurViewModel.getUtilisateur(getContext()), new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
 
@@ -94,11 +98,6 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         });
 
 
-    }
-
-    public static void ajouterSalonLocal(Salon salonLocal)
-    {
-        salonViewModel.addSalon(salonLocal);
     }
 
     @Override

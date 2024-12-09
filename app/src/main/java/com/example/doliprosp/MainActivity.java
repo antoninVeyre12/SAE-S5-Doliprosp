@@ -2,6 +2,7 @@ package com.example.doliprosp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -20,6 +22,7 @@ import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
 import com.example.doliprosp.fragment.UserFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private RequestQueue fileRequete;
@@ -53,8 +56,15 @@ public class MainActivity extends AppCompatActivity {
         // Chargement du fragment par défaut (Connexion)
         if (savedInstanceState == null) {
             bottomNav.setVisibility(View.GONE);
-            ConnexionFragment connexionFragment = new ConnexionFragment();
-            loadFragment(connexionFragment);
+            UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
+            if(utilisateurViewModel.getUtilisateur(this) == null) {
+                ConnexionFragment connexionFragment = new ConnexionFragment();
+                loadFragment(connexionFragment);
+            } else {
+                ShowFragment showFragment = new ShowFragment();
+                loadFragment(showFragment);
+            }
+
         }
 
         for (int i = 0; i < bottomNav.getChildCount(); i++) {

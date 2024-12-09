@@ -10,13 +10,16 @@ import android.widget.EditText;
 
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.R;
+import com.example.doliprosp.viewModel.SalonViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class CreateShowDialogFragment extends DialogFragment {
 
+    private SalonViewModel salonViewModel;
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class CreateShowDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_create_show, container, false);
 
+        salonViewModel = new ViewModelProvider(requireActivity()).get(SalonViewModel.class);
         EditText editTextTitle = view.findViewById(R.id.editTextTitle);
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
         Button buttonCancel = view.findViewById(R.id.buttonCancel);
@@ -40,7 +44,7 @@ public class CreateShowDialogFragment extends DialogFragment {
             String title = editTextTitle.getText().toString();
             if (title.length() >= 2 && title.length() <= 50) {
                 Salon newShow = new Salon(title);
-                ShowFragment.ajouterSalonLocal(newShow);
+                salonViewModel.addSalon(newShow);
 
                 dismiss();
             } else {

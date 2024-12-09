@@ -24,8 +24,11 @@ public class ConnexionService implements IConnexionService {
         try {
             String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
             String passwordEncoder = URLEncoder.encode(motDePasse, "UTF-8");
+            url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
             url = String.format("%s/api/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
             Log.d("URLL", url);
+            Log.d("USERNAME", userName);
+            Log.d("PASSWORD" , motDePasse);
 
             Outils.appelAPIConnexion(url, context, new Outils.APIResponseCallback() {
                 @Override
