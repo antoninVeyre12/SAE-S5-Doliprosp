@@ -61,9 +61,20 @@
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_marginTop="@dimen/subtitle_marginTop"
                     android:layout_marginBottom="@dimen/subtitle_marginBottom"
-
                     android:layout_marginLeft="@dimen/subtitle_marginLeft"
                     android:text="@string/salons_suggere" />
+
+                <TextView
+                    android:id="@+id/erreur_pas_de_salons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/erreur_pas_de_salons"
+                    android:textSize="@dimen/erreur_texte"
+                    android:layout_marginLeft="@dimen/subtitle_marginLeft"
+                    android:layout_marginRight="@dimen/subtitle_marginRight"
+                    android:layout_marginTop="@dimen/subtitle_marginTop"
+                    android:textColor="@color/red"
+                    android:visibility="gone"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/showRecyclerView"
