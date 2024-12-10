@@ -61,6 +61,12 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
             }
         });
+        holder.salon_nom.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onSelectClick(position, salonList);
+
+            }
+        });
     }
 
     @Override
