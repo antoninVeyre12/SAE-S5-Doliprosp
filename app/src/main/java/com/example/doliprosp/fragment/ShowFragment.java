@@ -84,6 +84,14 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
             String rechercheEspace = recherche.replace(" ", "%20");
             rechercheSalons(rechercheEspace);
         });
+        // Ajout de salon
+        boutonCreerSalon.setOnClickListener(v -> {
+            CreateShowDialogFragment dialog = new CreateShowDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("adapterMyShow", (Serializable) adapterMyShow);  // Assurez-vous que l'adaptateur est serializable
+            dialog.setArguments(bundle);
+            dialog.show(getChildFragmentManager(), "CreateShowDialog");
+        });
     }
 
     private void rechercheSalons(String recherche){
@@ -107,12 +115,6 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 // Set l'adapter des shows de l'utilisateur
                 adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
                 recyclerViewMyShow.setAdapter(adapterMyShow);
-
-                boutonCreerSalon.setOnClickListener(v -> {
-                    CreateShowDialogFragment dialog = new CreateShowDialogFragment();
-                    dialog.show(getChildFragmentManager(), "CreateShowDialog");
-                });
-                Log.d("azzzzzzzzzzzzz",showSavedList.toString());
             }
 
             @Override

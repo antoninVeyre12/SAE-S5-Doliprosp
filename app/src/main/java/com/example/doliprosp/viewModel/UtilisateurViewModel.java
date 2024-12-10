@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.lifecycle.ViewModel;
+
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
 
@@ -47,6 +49,7 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
 
                 LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
                 bottomNav.setVisibility(View.VISIBLE);
+                ((MainActivity)activity).setColors(1);
 
             }
         }

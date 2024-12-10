@@ -37,6 +37,7 @@ public class CreateShowDialogFragment extends DialogFragment {
     private EditText editTextTitle;
     private UtilisateurViewModel utilisateurViewModel;
     private ArrayList<Salon> showSavedList;
+    private MyShowAdapter adapterMesSalons;
 
     private TextView erreurNom;
     private Button buttonSubmit;
@@ -66,7 +67,9 @@ public class CreateShowDialogFragment extends DialogFragment {
         buttonCancel = view.findViewById(R.id.buttonCancel);
         erreurNom = view.findViewById(R.id.erreur_nom);
 
-        //TODO refaire l'appel API pour récupérer la liste des salons
+        // recupere l'adapteur des salons
+        adapterMesSalons = (MyShowAdapter) getArguments().getSerializable("adapterMyShow");
+
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
         showSavedList = new ArrayList<Salon>();
 
@@ -94,6 +97,7 @@ public class CreateShowDialogFragment extends DialogFragment {
             } else {
                 Salon newShow = new Salon(title);
                 salonViewModel.addSalon(newShow);
+                adapterMesSalons.notifyDataSetChanged();
                 dismiss();
             }
 

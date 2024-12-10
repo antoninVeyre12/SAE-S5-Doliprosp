@@ -13,9 +13,11 @@ import com.example.doliprosp.R;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHolder> {
+public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHolder> implements Serializable {
 
     private List<Salon> salonList;
     private OnItemClickListener onItemClickListener;
