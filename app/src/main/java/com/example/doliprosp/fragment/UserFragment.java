@@ -28,9 +28,27 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class UserFragment extends Fragment {
-    private String mail;
     private Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
+
+    private String nom;
+    private String prenom;
+    private String userName;
+    private String mail;
+    private String adresse;
+    private String codePostal;
+    private String numTelephone;
+    private String ville;
+
+    TextView textViewNom;
+    TextView textViewPrenom;
+    TextView textViewUserName;
+    TextView textViewMail;
+    TextView textViewAdresse;
+    TextView textViewCodePostale;
+    TextView textViewVille;
+    TextView textViewNumTelephone;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -46,64 +64,76 @@ public class UserFragment extends Fragment {
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurActuel = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
 
-        String userName = utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getUserName();
+        userName = utilisateurActuel.getUserName();
         Activity activity = getActivity();
 
         LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
-        TextView textViewNom = view.findViewById(R.id.id_nom);
-        TextView textViewPrenom = view.findViewById(R.id.id_prenom);
-        TextView textViewUserName = view.findViewById(R.id.id_userName);
-        TextView textViewMail = view.findViewById(R.id.id_mail);
-        TextView textViewAdresse = view.findViewById(R.id.id_adresse);
-        TextView textViewCodePostale = view.findViewById(R.id.id_codePostal);
-        TextView textViewVille = view.findViewById(R.id.id_ville);
-        TextView textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
+        textViewNom = view.findViewById(R.id.id_nom);
+        textViewPrenom = view.findViewById(R.id.id_prenom);
+        textViewUserName = view.findViewById(R.id.id_userName);
+        textViewMail = view.findViewById(R.id.id_mail);
+        textViewAdresse = view.findViewById(R.id.id_adresse);
+        textViewCodePostale = view.findViewById(R.id.id_codePostal);
+        textViewVille = view.findViewById(R.id.id_ville);
+        textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
 
-        String urlUtilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getUrl();
 
-        try {
-            String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
-            urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
-        } catch (UnsupportedEncodingException e) {
-            Log.d("erreur url getCommercial", e.getMessage());
-        }
-        Log.d("urlllll", urlUtilisateur);
-        Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getApiKey(), getContext(), new Outils.APIResponseCallback() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                // Cela s'exécutera lorsque l'API renvoie une réponse valide
-                Log.d("feoejf,oeakf", response.toString());
-                objectJSON = response;
-                Log.d("objectJSON", String.valueOf(objectJSON.length()));
-                try {
-                    String nom = objectJSON.getString("lastname");
-                    textViewNom.setText(nom);
-                    String prenom = objectJSON.getString("firstname");
-                    textViewPrenom.setText(prenom);
-                    String userName = objectJSON.getString("login");
-                    textViewUserName.setText(userName);
-                    String mail = objectJSON.getString("email");
-                    textViewMail.setText(mail);
-                    String adresse = objectJSON.getString("address");
-                    textViewAdresse.setText(adresse);
-                    String codePostale = objectJSON.getString("zip");
-                    textViewCodePostale.setText(codePostale);
-                    String ville = objectJSON.getString("town");
-                    textViewVille.setText(ville);
-                    String numTelephone = objectJSON.getString("office_phone");
-                    textViewNumTelephone.setText(numTelephone);
-                } catch(Exception e) {
-                    Log.d("ERROR JSON EXCEPTION", e.getMessage());
+        if(utilisateurActuel.informationutilisateurDejaRecupere())
+        {
+            nom = utilisateurActuel.getNom();
+            prenom = utilisateurActuel.getPrenom();
+            mail = utilisateurActuel.getMail();
+            adresse = utilisateurActuel.getAdresse();
+            codePostal = String.valueOf(utilisateurActuel.getCodePostal());
+            ville = utilisateurActuel.getVille();
+            numTelephone = utilisateurActuel.getNumTelephone();
+            afficherInformations();
+        } else {
+            String urlUtilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getUrl();
+
+            try {
+                String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
+                urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
+            } catch (UnsupportedEncodingException e) {
+                Log.d("erreur url getCommercial", e.getMessage());
+            }
+            
+            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getApiKey(), getContext(), new Outils.APIResponseCallback() {
+                @Override
+                public void onSuccess(JSONObject response) {
+                    // Cela s'exécutera lorsque l'API renvoie une réponse valide
+                    Log.d("feoejf,oeakf", response.toString());
+                    objectJSON = response;
+                    Log.d("objectJSON", String.valueOf(objectJSON.length()));
+                    try {
+                        nom = objectJSON.getString("lastname");
+                        utilisateurActuel.setNom(nom);
+                        prenom = objectJSON.getString("firstname");
+                        utilisateurActuel.setPrenom(prenom);
+                        mail = objectJSON.getString("email");
+                        utilisateurActuel.setMail(mail);
+                        adresse = objectJSON.getString("address");
+                        utilisateurActuel.setAdresse(adresse);
+                        codePostal = objectJSON.getString("zip");
+                        utilisateurActuel.setCodePostal(Integer.parseInt(codePostal));
+                        ville = objectJSON.getString("town");
+                        utilisateurActuel.setVille(ville);
+                        numTelephone = objectJSON.getString("office_phone");
+                        utilisateurActuel.setNumTelephone(numTelephone);
+                        afficherInformations();
+                    } catch(Exception e) {
+                        Log.d("ERROR JSON EXCEPTION", e.getMessage());
+                    }
+
                 }
 
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                // Cela s'exécutera en cas d'erreur dans l'appel API
-                Log.d("BAD APPEL API", errorMessage);
-            }
-        });
+                @Override
+                public void onError(String errorMessage) {
+                    // Cela s'exécutera en cas d'erreur dans l'appel API
+                    Log.d("BAD APPEL API", errorMessage);
+                }
+            });
+        }
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
@@ -122,5 +152,17 @@ public class UserFragment extends Fragment {
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
             bottomNav.setVisibility(View.GONE);
         });
+    }
+
+    private void afficherInformations()
+    {
+        textViewNom.setText(nom);
+        textViewPrenom.setText(prenom);
+        textViewUserName.setText(userName);
+        textViewMail.setText(mail);
+        textViewAdresse.setText(adresse);
+        textViewCodePostale.setText(codePostal);
+        textViewVille.setText(ville);
+        textViewNumTelephone.setText(numTelephone);
     }
 }
