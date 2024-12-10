@@ -22,7 +22,6 @@ import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ConnexionService;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
-import com.example.doliprosp.viewModel.SalonViewModel;
 
 
 public class ConnexionFragment extends Fragment {
@@ -64,7 +63,7 @@ public class ConnexionFragment extends Fragment {
             if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
                 // Affiche un toast au lieu d'un log
                 Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
-            } else if (!url.startsWith("http://")) {
+            } else if (!url.startsWith("http")) {
                 Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
             } else {
                 connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
