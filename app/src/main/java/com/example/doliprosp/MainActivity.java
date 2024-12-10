@@ -122,4 +122,10 @@ public class MainActivity extends AppCompatActivity {
         return fileRequete;
     }
 
+
+    //Empeche le retour
+    @Override
+    public void onBackPressed() {
+
+    }
 }
