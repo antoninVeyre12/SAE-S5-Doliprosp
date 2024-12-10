@@ -60,16 +60,13 @@ public class ConnexionFragment extends Fragment {
             String url = editTextUrl.getText().toString();
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
-            //url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
-            //userName= "G42";
-            //password = "3iFJWj26z";
 
             if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
                 // Affiche un toast au lieu d'un log
                 Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
-            } /*else if (!url.startsWith("http://")) {
+            } else if (!url.startsWith("http://")) {
                 Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
-            } */else {
+            } else {
                 connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
                     public void onSuccess(Utilisateur utilisateur) {
                         // Traitez l'utilisateur récupéré ici
@@ -77,7 +74,6 @@ public class ConnexionFragment extends Fragment {
                         utilisateur.setApiKey(apiKeyChiffre);
                         UtilisateurViewModel utilisateurViewModele = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
                         utilisateurViewModele.setUtilisateur(utilisateur, getContext());
-                        //.createUtilisateur(utilisateur);
                         // Navigation vers ShowFragment
                         ShowFragment showFragment = new ShowFragment();
                         ((MainActivity) getActivity()).loadFragment(showFragment);
@@ -86,11 +82,11 @@ public class ConnexionFragment extends Fragment {
                     }
 
                     public void onError(String errorMessage) {
-                        /*if (url.endsWith("/")) {
+                        if (url.endsWith("/")) {
                             Toast.makeText(getContext(),R.string.url_invalide_2, Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getContext(),R.string.informations_saisies_incorrecte, Toast.LENGTH_LONG).show();
-                        }*/
+                        }
                     }
                 });
             }

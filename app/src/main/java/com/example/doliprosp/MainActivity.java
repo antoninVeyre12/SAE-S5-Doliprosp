@@ -53,14 +53,17 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.findViewById(R.id.image_user)
         };
 
+        Log.d("MAIN ACTIVITY", "retour dans le main");
         // Chargement du fragment par défaut (Connexion)
         if (savedInstanceState == null) {
             bottomNav.setVisibility(View.GONE);
             UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
+
             if(utilisateurViewModel.getUtilisateur(this, this) == null) {
                 ConnexionFragment connexionFragment = new ConnexionFragment();
                 loadFragment(connexionFragment);
             } else {
+                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
                 ShowFragment showFragment = new ShowFragment();
                 loadFragment(showFragment);
             }

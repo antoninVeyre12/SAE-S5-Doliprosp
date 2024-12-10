@@ -1,6 +1,7 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -41,7 +42,7 @@ public class Outils {
                         try {
                             // Crée un JSONObject à partir de la réponse
                             JSONObject objectJSON = new JSONObject(reponse);
-
+                            Log.d("CONNEXION", "connexion réussi");
                             callback.onSuccess(objectJSON); // Notifie la méthode appelante avec la réponse
                         } catch (JSONException e) {
                             callback.onError("Erreur de parsing JSON : " + e.getMessage()); // Notifie l'erreur
@@ -52,6 +53,7 @@ public class Outils {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
                         // Log l'erreur pour diagnostic
+                        Log.d("CONNEXION ECHOUE", "connexion echoue");
                         callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
                     }
                 }) {

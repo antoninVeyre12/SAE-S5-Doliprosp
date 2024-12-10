@@ -1,5 +1,7 @@
 package com.example.doliprosp.fragment;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -106,7 +108,16 @@ public class UserFragment extends Fragment {
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
             utilisateurViewModel.setUtilisateur(null, getContext());
-            System.gc(); //Supprime l'intsance de Utilisateur
+            Log.d("SET UTILISATEUR", "utilisateur set a null");
+            //System.gc(); //Supprime l'intsance de Utilisateur
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("username", null);
+            editor.putString("url", null);
+            editor.putString("motDePasse", null);
+            editor.putString("apiKey", null);
+
+            editor.apply();
             ConnexionFragment connexionFragment = new ConnexionFragment();
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
             bottomNav.setVisibility(View.GONE);
