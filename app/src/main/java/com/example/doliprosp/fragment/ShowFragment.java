@@ -71,9 +71,19 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         texteRecherche = view.findViewById(R.id.texte_recherche);
         erreur = view.findViewById(R.id.erreur_pas_de_salons);
 
+
+
         // Salon existant
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
+
+
+        // Set l'adapter des shows de l'utilisateur
+        GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
+        recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
+        adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
+        recyclerViewMyShow.setAdapter(adapterMyShow);
+
         String rechercheVide = "";
         rechercheSalons(rechercheVide);
 
@@ -88,7 +98,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         boutonCreerSalon.setOnClickListener(v -> {
             CreateShowDialogFragment dialog = new CreateShowDialogFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("adapterMyShow", (Serializable) adapterMyShow);  // Assurez-vous que l'adaptateur est serializable
+            bundle.putSerializable("adapterMyShow", (Serializable) adapterMyShow);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
@@ -107,14 +117,6 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 adapterShow = new ShowAdapter(showSavedList, ShowFragment.this);
                 recyclerView.setAdapter(adapterShow);
 
-                // Salon créer
-                GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
-                recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
-
-
-                // Set l'adapter des shows de l'utilisateur
-                adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
-                recyclerViewMyShow.setAdapter(adapterMyShow);
             }
 
             @Override

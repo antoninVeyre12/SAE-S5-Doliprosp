@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.doliprosp.Interface.ISalonService;
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.Model.Utilisateur;
 import com.example.doliprosp.R;
@@ -29,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateShowDialogFragment extends DialogFragment {
 
@@ -59,16 +61,19 @@ public class CreateShowDialogFragment extends DialogFragment {
         salonViewModel = new ViewModelProvider(requireActivity()).get(SalonViewModel.class);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         editTextTitle = view.findViewById(R.id.editTextTitle);
-        Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
-        Button buttonCancel = view.findViewById(R.id.buttonCancel);
+        buttonSubmit = view.findViewById(R.id.buttonSubmit);
+        buttonCancel = view.findViewById(R.id.buttonCancel);
+
 
         editTextTitle = view.findViewById(R.id.editTextTitle);
         buttonSubmit = view.findViewById(R.id.buttonSubmit);
         buttonCancel = view.findViewById(R.id.buttonCancel);
         erreurNom = view.findViewById(R.id.erreur_nom);
 
-        // recupere l'adapteur des salons
-        adapterMesSalons = (MyShowAdapter) getArguments().getSerializable("adapterMyShow");
+        // Récupere les données de l'adapteur
+        if (getArguments().containsKey("adapterMyShow")) {
+            adapterMesSalons = (MyShowAdapter) getArguments().getSerializable("adapterMyShow");
+        }
 
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
         showSavedList = new ArrayList<Salon>();
@@ -80,10 +85,9 @@ public class CreateShowDialogFragment extends DialogFragment {
             }
             @Override
             public void onError(String error) {
-                showSavedList.clear();
-
             }
         });
+
 
         buttonSubmit.setOnClickListener(v -> {
             String title = editTextTitle.getText().toString();
@@ -95,9 +99,12 @@ public class CreateShowDialogFragment extends DialogFragment {
                 erreurNom.setVisibility(View.VISIBLE);
 
             } else {
+                Log.d("one","onestla");
                 Salon newShow = new Salon(title);
                 salonViewModel.addSalon(newShow);
-                adapterMesSalons.notifyDataSetChanged();
+                if (adapterMesSalons != null) {
+                    adapterMesSalons.notifyDataSetChanged();
+                }
                 dismiss();
             }
 
