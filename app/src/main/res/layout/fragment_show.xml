@@ -62,7 +62,7 @@
                     android:layout_marginTop="@dimen/subtitle_marginTop"
                     android:layout_marginBottom="@dimen/subtitle_marginBottom"
                     android:layout_marginLeft="@dimen/subtitle_marginLeft"
-                    android:text="@string/salons_suggere" />
+                    android:text="@string/salons_suggeres" />
 
                 <TextView
                     android:id="@+id/erreur_pas_de_salons"
@@ -75,6 +75,14 @@
                     android:layout_marginTop="@dimen/subtitle_marginTop"
                     android:textColor="@color/red"
                     android:visibility="gone"/>
+
+                <ProgressBar
+                    android:id="@+id/chargement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:indeterminate="true"
+                    android:layout_gravity="center" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/showRecyclerView"

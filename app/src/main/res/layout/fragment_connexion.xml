@@ -6,6 +6,15 @@
     android:background="@color/color_secondary"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/chargement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_progressBar"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:layout_gravity="center" />
+
     <TextView
         android:layout_marginTop="@dimen/espaceHaut"
         android:layout_marginBottom="@dimen/espaceBas"

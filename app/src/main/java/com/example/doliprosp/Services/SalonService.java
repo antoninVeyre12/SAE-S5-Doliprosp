@@ -26,7 +26,7 @@ public class SalonService implements ISalonService {
     {
         ArrayList<Salon> listSavedShow = new ArrayList<Salon>();
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?sortfield=t.rowid&sortorder=ASC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
+        urlAppel = url + "/api/index.php/categories?sortfield=t.rowid&sortorder=DESC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
         Outils.appelAPIGetList(urlAppel, utilisateur.getApiKey(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -52,12 +52,12 @@ public class SalonService implements ISalonService {
     public boolean salonExiste(String nomRecherche, ArrayList<Salon> showSavedList, SalonViewModel salonViewModel) {
         for (Salon salon : showSavedList) {
             // Vérification si le nom du salon correspond à nomRecherche
-            if (salon.getNom().equals(nomRecherche)) {
+            if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
                 return true;
             }
         }
         for (Salon salon : salonViewModel.getSalonList()){
-            if (salon.getNom().equals(nomRecherche)) {
+            if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
                 return true;
             }
         }
