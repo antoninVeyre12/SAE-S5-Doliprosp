@@ -61,9 +61,9 @@ public class ConnexionFragment extends Fragment {
             String url = editTextUrl.getText().toString();
             String userName = editTextUserName.getText().toString();
             String password = editTextPassword.getText().toString();
-            //url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
-            //userName = "G42";
-            //password = "3iFJWj26z";
+            url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
+            userName = "G42";
+            password = "3iFJWj26z";
             if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
                 // Affiche un toast au lieu d'un log
                 Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
