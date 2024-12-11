@@ -56,4 +56,8 @@
 
     <!-- dialog salon -->
     <dimen name="dialog_choix_hauteur">50dp</dimen>
+
+    <!-- progressBAR -->
+    <dimen name="margin_top_progressBar">30dp</dimen>
+
 </resources>

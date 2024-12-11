@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,14 +30,14 @@ public class ConnexionFragment extends Fragment {
     private EditText editTextUserName;
     private EditText editTextPassword;
     private IConnexionService connexionService;
-
     private String urlConnexion;
+    private ProgressBar chargement;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.connexion, container, false);
+        return inflater.inflate(R.layout.fragment_connexion, container, false);
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
@@ -49,6 +50,7 @@ public class ConnexionFragment extends Fragment {
         editTextUrl = view.findViewById(R.id.url);
         editTextUserName = view.findViewById(R.id.username);
         editTextPassword = view.findViewById(R.id.password);
+        chargement = view.findViewById(R.id.chargement);
 
         // Recupere la bottom nav bar de l'activité
         Activity activity = getActivity();
@@ -69,6 +71,7 @@ public class ConnexionFragment extends Fragment {
                 Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
             } else {
                 String finalUrl = url;
+                chargement.setVisibility(View.VISIBLE);
                 connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
                     public void onSuccess(Utilisateur utilisateur) {
                         // Traitez l'utilisateur récupéré ici
@@ -81,6 +84,7 @@ public class ConnexionFragment extends Fragment {
                         ((MainActivity) getActivity()).loadFragment(showFragment);
                         ((MainActivity) getActivity()).setColors(1);
                         bottomNav.setVisibility(View.VISIBLE);
+                        chargement.setVisibility(View.GONE);
                     }
 
                     public void onError(String errorMessage) {
@@ -89,6 +93,8 @@ public class ConnexionFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(),R.string.informations_saisies_incorrecte, Toast.LENGTH_LONG).show();
                         }
+                        chargement.setVisibility(View.GONE);
+
                     }
                 });
             }

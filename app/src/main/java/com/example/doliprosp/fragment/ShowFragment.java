@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     private RecyclerView recyclerViewMyShow;
     private Button boutonCreerSalon;
     private EditText texteRecherche;
+    private ProgressBar chargement;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +72,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         boutonRecherche = view.findViewById(R.id.bouton_recherche);
         texteRecherche = view.findViewById(R.id.texte_recherche);
         erreur = view.findViewById(R.id.erreur_pas_de_salons);
-
+        chargement = view.findViewById(R.id.chargement);
 
 
         // Salon existant
@@ -106,6 +108,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
     private void rechercheSalons(String recherche){
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
+        chargement.setVisibility(View.VISIBLE);
         salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
@@ -116,6 +119,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 // Set l'adapter des shows récupéré
                 adapterShow = new ShowAdapter(showSavedList, ShowFragment.this);
                 recyclerView.setAdapter(adapterShow);
+                chargement.setVisibility(View.GONE);
 
             }
 
@@ -123,7 +127,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
             public void onError(String error) {
                 erreur.setVisibility(View.VISIBLE);
                 showSavedList.clear();
-
+                chargement.setVisibility(View.GONE);
             }
         });
     }
