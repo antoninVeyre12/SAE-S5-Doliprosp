@@ -17,16 +17,18 @@
 
     <TextView
         android:id="@+id/salon_nom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/item_show_text_margin"
-        android:layout_marginBottom="@dimen/item_show_text_margin"
-        android:layout_marginLeft="@dimen/item_show_text_margin"
-        android:layout_marginRight="@dimen/item_show_text_margin"
-        android:textSize="30dp"
-        android:layout_gravity="center"
-        android:inputType="text"
-        android:textColor="@color/black" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="30sp"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:scrollHorizontally="false"
+        android:breakStrategy="simple"
+        android:singleLine="false" />
 
 
 </FrameLayout>
