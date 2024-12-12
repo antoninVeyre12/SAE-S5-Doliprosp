@@ -2,8 +2,8 @@ package com.example.doliprosp.Model;
 
 import java.util.UUID;
 
-public class Prospet {
-    private UUID idProspet;
+public class Prospect {
+    private UUID idProspect;
     private UUID idSalon;
     private String prenom;
     private String nom;
@@ -15,10 +15,10 @@ public class Prospet {
     private Boolean estClient;
 
 
-    public Prospet(UUID idShow, String firstName, String lastName, int postCode,
-                   String city, String postalAddress, String email, String phoneNumber,
-                   Boolean isClient) {
-        this.idProspet = UUID.randomUUID();
+    public Prospect(UUID idShow, String firstName, String lastName, int postCode,
+                    String city, String postalAddress, String email, String phoneNumber,
+                    Boolean isClient) {
+        this.idProspect = UUID.randomUUID();
         this.idSalon = idShow;
         this.prenom = firstName;
         this.nom = lastName;
@@ -30,12 +30,12 @@ public class Prospet {
         this.estClient = isClient;
     }
 
-    public UUID getIdProspet() {
-        return idProspet;
+    public UUID getIdProspect() {
+        return idProspect;
     }
 
-    public void setIdProspet(UUID idProspet) {
-        this.idProspet = idProspet;
+    public void setIdProspect(UUID idProspect) {
+        this.idProspect = idProspect;
     }
 
     public UUID getIdSalon() {
