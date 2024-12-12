@@ -1,9 +1,6 @@
 package com.example.doliprosp;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;

@@ -1,96 +1,25 @@
 package com.example.doliprosp.Services;
 
-import com.example.doliprosp.Interface.IProjet;
+import com.example.doliprosp.Interface.IProjetService;
+import com.example.doliprosp.Model.Projet;
 
-import java.util.UUID;
+public class ProjetService implements IProjetService {
 
-public class ProjetService implements IProjet {
+    public ProjetService(){ }
 
-    private UUID idProject;
-    private UUID idProspect;
-    private String title;
-    private String description;
 
-    public ProjetService(UUID idProspect, String title, String description)
+    public void ajouterProjet(Projet projet)
     {
-        this.idProject = UUID.randomUUID();
-        this.idProspect = idProspect;
-        this.title = title;
-        this.description = description;
+        //Ajoute un projet à la liste sauvegardée en local
     }
-    public ProjetService()
+
+    public void supprimerProjet(Projet projet)
     {
-
+        //Supprime un projet à la liste sauvegardée en local
     }
 
-    public void updateProject(String newTitle, String newDescription)
+    public void updateProjet(Projet projet)
     {
-        this.setTitle(newTitle);
-        this.setDescription(newDescription);
-    }
-
-    public UUID getIdProject()
-    {
-        return this.idProject;
-    }
-
-    @Override
-    public void ajouterProjet(ProjetService projet) {
-
-    }
-
-    @Override
-    public void supprimerProjet(ProjetService projet) {
-
-    }
-
-    @Override
-    public void envoyerProjet(ProjetService projet) {
-
-    }
-
-    @Override
-    public void updateProjet(String titre, String description) {
-
-    }
-
-    @Override
-    public UUID getIdProjet() {
-        return null;
-    }
-
-    public UUID getIdProspect()
-    {
-        return this.idProspect;
-    }
-
-    @Override
-    public String getTitre() {
-        return "";
-    }
-
-    public String getTitle()
-    {
-        return this.title;
-    }
-
-    public String getDescription()
-    {
-        return this.description;
-    }
-
-    @Override
-    public void setTitre(String titre) {
-
-    }
-
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
+        //Modifie un projet sélectionnée à la liste sauvegardée en local
     }
 }
