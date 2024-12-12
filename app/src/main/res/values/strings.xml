@@ -16,6 +16,13 @@
     <string name="annuler">Annuler</string>
     <string name="creer">Créer</string>
     <string name="hint_show">Entrez le nom du salon</string>
+    <string name="hint_nomProspect">Entrez le nom du prospect</string>
+    <string name="hint_prenomProspect">Entrez le prénom du prospect</string>
+    <string name="hint_mailProspect">Entrez le mail du prospect</string>
+    <string name="hint_phoneProspect">Entrez le numéro de téléphone du prospect</string>
+    <string name="hint_adresseProspect">Entrez l\'adresse du prospect</string>
+    <string name="hint_villeProspect">Entrez la ville du prospect</string>
+    <string name="hint_cpProspect">Entrez le code postale du prospect</string>
 
     <!-- Page Salon -->
     <string name="mes_salons">Mes salons</string>
