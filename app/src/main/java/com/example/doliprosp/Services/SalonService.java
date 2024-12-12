@@ -1,14 +1,12 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.Model.Utilisateur;
-import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.viewModel.MesSalonViewModel;
 import com.example.doliprosp.viewModel.SalonViewModel;
-import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,14 +47,14 @@ public class SalonService implements ISalonService {
         });
     }
 
-    public boolean salonExiste(String nomRecherche, ArrayList<Salon> showSavedList, SalonViewModel salonViewModel) {
-        for (Salon salon : showSavedList) {
+    public boolean salonExiste(String nomRecherche, SalonViewModel salonViewModel, MesSalonViewModel mesSalonViewModel) {
+        for (Salon salon : salonViewModel.getSalonList()) {
             // Vérification si le nom du salon correspond à nomRecherche
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
                 return true;
             }
         }
-        for (Salon salon : salonViewModel.getSalonList()){
+        for (Salon salon : mesSalonViewModel.getSalonList()){
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
                 return true;
             }
