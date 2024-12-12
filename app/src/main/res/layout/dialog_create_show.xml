@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="0,1"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="50"
+        android:hint="@string/hint_show"
+        android:singleLine="true"/>
+
+
+    <TableRow>
+        <Button
+            android:id="@+id/buttonSubmit"
+            style="@style/button_validate"
+            android:layout_span="1" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_span="1"
+            style="@style/button_cancel" />
+    </TableRow>
+
+    <TextView
+        android:id="@+id/erreur_nom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="@dimen/erreur_texte"
+        android:visibility="gone"/>
+
+</TableLayout>

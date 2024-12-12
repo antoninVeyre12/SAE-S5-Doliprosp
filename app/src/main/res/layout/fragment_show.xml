@@ -4,23 +4,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_secondary">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/title"
+            android:text="@string/salons" />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/search_bar_marginTop"
+            android:layout_marginLeft="@dimen/search_bar_marginLeft"
+            android:layout_marginRight="@dimen/search_bar_marginRight"
+            android:orientation="horizontal"
+            android:padding="@dimen/search_bar_padding"
+            android:background="@drawable/search_bar_background"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/bouton_recherche"
+                android:background="@drawable/ic_search"
+                android:layout_width="@dimen/search_img_width"
+                android:layout_height="@dimen/search_img_height"
+                android:padding="@dimen/search_bar_padding"/>
+
+            <EditText
+                android:id="@+id/texte_recherche"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_search"
+                android:padding="@dimen/search_bar_padding"
+                android:textColor="@color/black"
+                android:background="@android:color/transparent"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="text"/>
+            <!--android:imeOptions="actionSearch"-->
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subtitle_text_size"
+                    android:layout_marginTop="@dimen/subtitle_marginTop"
+                    android:layout_marginBottom="@dimen/subtitle_marginBottom"
+                    android:layout_marginLeft="@dimen/subtitle_marginLeft"
+                    android:text="@string/salons_suggeres" />
+
+                <TextView
+                    android:id="@+id/erreur_pas_de_salons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/erreur_pas_de_salons"
+                    android:textSize="@dimen/erreur_texte"
+                    android:layout_marginLeft="@dimen/subtitle_marginLeft"
+                    android:layout_marginRight="@dimen/subtitle_marginRight"
+                    android:layout_marginTop="@dimen/subtitle_marginTop"
+                    android:textColor="@color/red"
+                    android:visibility="gone"/>
+
+                <ProgressBar
+                    android:id="@+id/chargement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:indeterminate="true"
+                    android:layout_gravity="center" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/showRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subtitle_text_size"
+                    android:layout_marginTop="@dimen/subtitle_marginTop"
+                    android:layout_marginBottom="@dimen/subtitle_marginBottom"
+                    android:layout_marginLeft="@dimen/subtitle_marginLeft"
+                    android:text="@string/mes_salons" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myShowRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/myButton"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="@dimen/btn_new_marginBottom"
-        android:layout_marginEnd="@dimen/btn_new_marginEnd"
-        android:background="@drawable/round_button"
-        android:text="@string/plus"
-        android:textSize="@dimen/btn_new_size"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:id="@+id/buttonCreateShow"
+        style="@style/button_create" />
 
 
     <View

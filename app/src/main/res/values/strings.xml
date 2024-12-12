@@ -3,9 +3,49 @@
     <!-- Bottom nav bar -->
     <string name="app_name">DoliProsp</string>
     <string name="attente">Attente</string>
-    <string name="prospect">Prospect</string>
-    <string name="salon">Salon</string>
+    <string name="prospects">Prospects</string>
+    <string name="salons">Salons</string>
     <string name="compte">Compte</string>
     <string name="projet">Projet</string>
+
+    <!-- Barre de recherche -->
+    <string name="hint_search">Entrez votre recherche</string>
+
+    <!-- Ajout -->
     <string name="plus">+</string>
+    <string name="annuler">Annuler</string>
+    <string name="creer">Créer</string>
+    <string name="hint_show">Entrez le nom du salon</string>
+
+    <!-- Page Salon -->
+    <string name="mes_salons">Mes salons</string>
+    <string name="salons_suggeres">Salons suggérés</string>
+    <string name="erreur_pas_de_salons">Aucun salons existe ou aucun salons correspond a votre recherche</string>
+    <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit etre compris entre 2 et 50 caractéres</string>
+    <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
+
+
+    <!-- Page connexion -->
+    <string name="btn_connexion">Se connecter</string>
+    <string name="login">Login</string>
+    <string name="url">URL</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de Passe</string>
+    <string name="url_invalide">Renseigner un URL valide débutant par http://</string>
+    <string name="url_invalide_2">Renseigner un URL sans / à la fin de votre url</string>
+    <string name="informations_invalide">Renseigner un URL, un identifiant et/ou un mot de passe avant de vous connecter</string>
+    <string name="informations_saisies_incorrecte">Identifiant, mots de passe ou url invalide, Veuillez réessayer</string>
+    <string name="url_exemple">http://dolibarr.xxxx.fr/xxxx/htdocs</string>
+
+    <!-- Page user -->
+    <string name = "monCompte"> Mon compte</string>
+    <string name = "nom"> Nom : </string>
+    <string name = "prenom"> Prénom : </string>
+    <string name = "adresse"> Adresse : </string>
+    <string name = "codePostal"> Code postal : </string>
+    <string name = "ville"> Ville : </string>
+    <string name = "numéroTéléphone"> Numéro de téléphone : </string>
+    <string name = "adresseMail"> Adresse mail : </string>
+
+
 </resources>
