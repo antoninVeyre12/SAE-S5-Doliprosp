@@ -1,60 +1,65 @@
 package com.example.doliprosp.Services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import android.content.Context;
 
 import com.example.doliprosp.Interface.ConnexionCallBack;
+import com.example.doliprosp.Model.Utilisateur;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.net.URLEncoder;
+import org.mockito.Mockito;
 
 public class ConnexionServiceTest {
-    private ConnexionService connexionService;
+    private Utilisateur nouvelUtilisateur;
+    private String urlUtilisateur;
+    private String userName;
+    private String motDePasse;
+    private Context context;
+    private ConnexionCallBack connexionCallBack;
 
-    @Mock
-    private Context mockContext;
+    @Test
+    public void testOnSuccess() {
+        // Créer une simulation pour le callback
+        Outils.APIResponseCallback callback = Mockito.mock(Outils.APIResponseCallback.class);
+        // JSON de test à simuler comme réponse
+        String jsonResponse = "{\"success\": {\"token\": \"abcd1234\"}}";
 
-    @Mock
-    private ConnexionCallBack mockCallback;
+        try {
+            // Convertir la chaîne en JSONObject
+            JSONObject mockResponse = new JSONObject(jsonResponse);
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        connexionService = new ConnexionService();
+            // Appeler la méthode onSuccess avec le mock
+            callback.onSuccess(mockResponse);
+
+            // Vérifier que le callback a bien reçu le JSONObject attendu
+            Mockito.verify(callback, Mockito.times(1)).onSuccess(mockResponse);
+
+            // Vérifier la logique interne si nécessaire
+            JSONObject successJSON = mockResponse.getJSONObject("success");
+            String apiKey = successJSON.getString("token");
+
+            // Assertions pour s'assurer que les données extraites sont correctes
+            assertNotNull(apiKey);
+            assertEquals("abcd1234", apiKey);
+        } catch (Exception e) {
+            fail("Le test a échoué avec une exception : " + e.getMessage());
+        }
     }
 
     @Test
-    public void testConnexion_successful() throws JSONException {
-        // Préparer les données d'entrée
-        String url = "http://example.com";
-        String userName = "testUser";
-        String password = "testPass";
-        String encodedUserName = "testUserEncoded";
-        String encodedPassword = "testPassEncoded";
-        String apiKey = "fakeApiKey";
+    public void testGetNouvelUtilisateur() {
+        // Configurer un utilisateur fictif
+        nouvelUtilisateur = new Utilisateur("http://example.com", "user", "password", "abcd1234");
 
-        // Simuler le comportement de URLEncoder
-        mockStatic(URLEncoder.class);
-        when(URLEncoder.encode(userName, "UTF-8")).thenReturn(encodedUserName);
-        when(URLEncoder.encode(password, "UTF-8")).thenReturn(encodedPassword);
-
-        // Simuler la réponse de l'API
-        JSONObject fakeResponse = new JSONObject();
+        assertNotNull(nouvelUtilisateur);
+        assertEquals("http://example.com", nouvelUtilisateur.getUrl());
+        assertEquals("user", nouvelUtilisateur.getUserName());
+        assertEquals("password", nouvelUtilisateur.getMotDePasse());
+        assertEquals("abcd1234", nouvelUtilisateur.getApiKey());
     }
-
-    @Test
-    public void connexion() {
-
-    }
-
-    @Test
-    public void chiffrementApiKey() {
-    }
-
-    @Test
-    public void getNouvelUtilisateur() {
-    }
+  
 }

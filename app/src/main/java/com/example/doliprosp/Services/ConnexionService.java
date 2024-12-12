@@ -25,9 +25,6 @@ public class ConnexionService implements IConnexionService {
             String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
             String passwordEncoder = URLEncoder.encode(motDePasse, "UTF-8");
             url = String.format("%s/api/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
-            Log.d("URLL", url);
-            Log.d("USERNAME", userName);
-            Log.d("PASSWORD" , motDePasse);
 
             Outils.appelAPIConnexion(url, context, new Outils.APIResponseCallback() {
                 @Override
@@ -35,7 +32,6 @@ public class ConnexionService implements IConnexionService {
                     JSONObject successJSON = reponse.getJSONObject("success");
                     String apiKey = successJSON.getString("token");
                     nouvelUtilisateur = new Utilisateur(urlUtilisateur, userName, motDePasse, apiKey);
-                    Log.d("APIKEY", nouvelUtilisateur.getApiKey());
                     callback.onSuccess(nouvelUtilisateur); // Notifie le contrôleur
                 }
 

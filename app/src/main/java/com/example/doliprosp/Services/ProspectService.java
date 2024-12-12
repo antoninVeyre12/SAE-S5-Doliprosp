@@ -35,7 +35,6 @@ public class ProspectService implements IProspect {
 
     @Override
     public void ajouterProspect(ProspectService prospect) {
-
     }
 
     @Override
