@@ -83,27 +83,19 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         // Set l'adapter des shows de l'utilisateur
         GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
         recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
-        adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
-        recyclerViewMyShow.setAdapter(adapterMyShow);
+
 
         String rechercheVide = "";
         rechercheSalons(rechercheVide);
+        setupListeners();
 
-        //Lance la recherche mais ce coup ci avec le texte saisie
-        boutonRecherche.setOnClickListener(v -> {
-            String recherche = texteRecherche.getText().toString();
-            // Les appels API ne supporte pas les espaces ont les remplace donc par des %20
-            String rechercheEspace = recherche.replace(" ", "%20");
-            rechercheSalons(rechercheEspace);
-        });
-        // Ajout de salon
-        boutonCreerSalon.setOnClickListener(v -> {
-            CreateShowDialogFragment dialog = new CreateShowDialogFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("adapterMyShow", (Serializable) adapterMyShow);
-            dialog.setArguments(bundle);
-            dialog.show(getChildFragmentManager(), "CreateShowDialog");
-        });
+    }
+    public void onResume() {
+        super.onResume();
+        adapterMyShow = new MyShowAdapter(salonViewModel.getSalonList(), ShowFragment.this);
+        recyclerViewMyShow.setAdapter(adapterMyShow);
+        Log.d("laaaa", adapterMyShow.toString());
+        adapterMyShow.notifyDataSetChanged();
     }
 
     private void rechercheSalons(String recherche){
@@ -132,11 +124,32 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         });
     }
 
+    private void setupListeners() {
+        // Lancer la recherche avec le texte saisi
+        boutonRecherche.setOnClickListener(v -> {
+            String recherche = texteRecherche.getText().toString();
+            // Remplacer les espaces par %20 pour les requêtes API
+            String rechercheEspace = recherche.replace(" ", "%20");
+            rechercheSalons(rechercheEspace);
+        });
+
+        // Ajouter un salon
+        boutonCreerSalon.setOnClickListener(v -> {
+            CreateShowDialogFragment dialog = new CreateShowDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("adapterMyShow", (Serializable) adapterMyShow);
+            dialog.setArguments(bundle);
+            dialog.show(getChildFragmentManager(), "CreateShowDialog");
+        });
+    }
+
+
     @Override
     public void onDeleteClick(int position) {
 
         // mets a jour la liste des salons
-        salonViewModel.getSalonList().remove(position);
+        Salon salonASupprimer = salonViewModel.getSalonList().get(position);
+        salonViewModel.removeSalon(salonASupprimer);
         adapterMyShow.notifyItemRemoved(position);
     }
 
