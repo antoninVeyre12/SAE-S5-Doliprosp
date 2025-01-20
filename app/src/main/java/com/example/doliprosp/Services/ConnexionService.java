@@ -17,18 +17,20 @@ public class ConnexionService implements IConnexionService {
     private Utilisateur nouvelUtilisateur;
     private String urlUtilisateur;
 
+
+
     public ConnexionService(){}
 
     public void connexion(String url, String userName, String motDePasse, Context context, ConnexionCallBack callback) {
         urlUtilisateur = url;
+
         try {
-            String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
-            String passwordEncoder = URLEncoder.encode(motDePasse, "UTF-8");
-            url = String.format("%s/api/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
+            String userNameEncoder = URLEncoder.encode("G42", "UTF-8");
+            String passwordEncoder = URLEncoder.encode("3iFJWj26z", "UTF-8");
+            url = String.format("%s/api/index.php/login?login=%s&password=%s", "http://dolibarr.iut-rodez.fr/G2023-42/htdocs", userNameEncoder, passwordEncoder);
             Log.d("URLL", url);
             Log.d("USERNAME", userName);
             Log.d("PASSWORD" , motDePasse);
-
             Outils.appelAPIConnexion(url, context, new Outils.APIResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject reponse) throws JSONException {
