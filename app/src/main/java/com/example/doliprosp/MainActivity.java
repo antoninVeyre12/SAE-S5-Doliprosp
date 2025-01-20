@@ -23,16 +23,16 @@ import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
 import com.example.doliprosp.fragment.UserFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
-import com.example.doliprosp.viewModel.MesSalonViewModel;
-import com.example.doliprosp.viewModel.SalonViewModel;
+import com.example.doliprosp.viewModel.MesSalonsViewModel;
+import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private RequestQueue fileRequete;
     private TextView[] textViews;
     private ImageView[] imageViews;
-    private SalonViewModel salonViewModel;
-    private MesSalonViewModel mesSalonViewModel;
+    private SalonsViewModel salonsViewModel;
+    private MesSalonsViewModel mesSalonsViewModel;
 
 
     @Override
@@ -138,16 +138,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        salonViewModel = new ViewModelProvider(this).get(SalonViewModel.class);
+        salonsViewModel = new ViewModelProvider(this).get(SalonsViewModel.class);
         SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        salonViewModel.initSharedPreferences(sharedPreferencesSalon);
+        salonsViewModel.initSharedPreferences(sharedPreferencesSalon);
 
-        mesSalonViewModel = new ViewModelProvider(this).get(MesSalonViewModel.class);
+        mesSalonsViewModel = new ViewModelProvider(this).get(MesSalonsViewModel.class);
         SharedPreferences sharedPreferencesMesSalons = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        mesSalonViewModel.initSharedPreferences(sharedPreferencesMesSalons);
+        mesSalonsViewModel.initSharedPreferences(sharedPreferencesMesSalons);
 
         // recuperer les salons
-        salonViewModel.chargementSalons();
-        mesSalonViewModel.chargementSalons();
+        salonsViewModel.chargementSalons();
+        mesSalonsViewModel.chargementSalons();
     }
 }

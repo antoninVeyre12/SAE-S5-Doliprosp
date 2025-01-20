@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
-public class SalonViewModel extends ViewModel {
+public class MesSalonsViewModel extends ViewModel {
     private ArrayList<Salon> salonList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
@@ -33,22 +33,17 @@ public class SalonViewModel extends ViewModel {
         enregistrerSalons();
     }
 
-    public void clear( ) {
-        salonList.clear();
-        enregistrerSalons();
-    }
-
     private void enregistrerSalons() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(salonList);
-        editor.putString("salon_list", json);
+        editor.putString("mes_salon_list", json);
         editor.apply();
     }
 
     public void chargementSalons() {
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("salon_list", null);
+        String json = sharedPreferences.getString("mes_salon_list", null);
         Type type = new TypeToken<ArrayList<Salon>>() {}.getType();
         if (json != null) {
             salonList = gson.fromJson(json, type);

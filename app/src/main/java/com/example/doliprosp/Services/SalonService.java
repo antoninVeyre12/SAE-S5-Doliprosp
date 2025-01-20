@@ -5,8 +5,8 @@ import android.content.Context;
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.Model.Salon;
 import com.example.doliprosp.Model.Utilisateur;
-import com.example.doliprosp.viewModel.MesSalonViewModel;
-import com.example.doliprosp.viewModel.SalonViewModel;
+import com.example.doliprosp.viewModel.MesSalonsViewModel;
+import com.example.doliprosp.viewModel.SalonsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +24,7 @@ public class SalonService implements ISalonService {
     {
         ArrayList<Salon> listSavedShow = new ArrayList<Salon>();
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?sortfield=t.rowid&sortorder=DESC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
+        urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
         Outils.appelAPIGetList(urlAppel, utilisateur.getApiKey(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -47,14 +47,14 @@ public class SalonService implements ISalonService {
         });
     }
 
-    public boolean salonExiste(String nomRecherche, SalonViewModel salonViewModel, MesSalonViewModel mesSalonViewModel) {
-        for (Salon salon : salonViewModel.getSalonList()) {
+    public boolean salonExiste(String nomRecherche, SalonsViewModel salonsViewModel, MesSalonsViewModel mesSalonsViewModel) {
+        for (Salon salon : salonsViewModel.getSalonList()) {
             // Vérification si le nom du salon correspond à nomRecherche
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
                 return true;
             }
         }
-        for (Salon salon : mesSalonViewModel.getSalonList()){
+        for (Salon salon : mesSalonsViewModel.getSalonList()){
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
                 return true;
             }
