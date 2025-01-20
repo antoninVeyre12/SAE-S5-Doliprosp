@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import android.content.Context;
-
-import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Model.Utilisateur;
 
 import org.json.JSONObject;
@@ -15,11 +12,6 @@ import org.mockito.Mockito;
 
 public class ConnexionServiceTest {
     private Utilisateur nouvelUtilisateur;
-    private String urlUtilisateur;
-    private String userName;
-    private String motDePasse;
-    private Context context;
-    private ConnexionCallBack connexionCallBack;
 
     @Test
     public void testOnSuccess() {
@@ -51,6 +43,11 @@ public class ConnexionServiceTest {
     }
 
     @Test
+    public void testChiffrementApiKey() {
+        //TODO
+    }
+
+    @Test
     public void testGetNouvelUtilisateur() {
         // Configurer un utilisateur fictif
         nouvelUtilisateur = new Utilisateur("http://example.com", "user", "password", "abcd1234");
@@ -61,5 +58,5 @@ public class ConnexionServiceTest {
         assertEquals("password", nouvelUtilisateur.getMotDePasse());
         assertEquals("abcd1234", nouvelUtilisateur.getApiKey());
     }
-  
+
 }
