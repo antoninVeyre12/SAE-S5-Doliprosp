@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class UserFragment extends Fragment {
+public class UtilisateurFragment extends Fragment {
     private Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
 

@@ -27,19 +27,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 
-public class CreateShowDialogFragment extends DialogFragment {
+public class CreationSalonsDialogFragment extends DialogFragment {
 
     private MesSalonsViewModel mesSalonsViewModel;
     private SalonsViewModel salonsViewModel;
     private ISalonService salonService;
-    private EditText editTextTitle;
+    private EditText titreEditText;
     private UtilisateurViewModel utilisateurViewModel;
-    private ArrayList<Salon> showSavedList;
+    private ArrayList<Salon> listeSalonsSauvegarder;
     private MyShowAdapter adapterMesSalons;
 
     private TextView erreurNom;
-    private Button buttonSubmit;
-    private Button buttonCancel;
+    private Button boutonEnvoyer;
+    private Button boutonAnnuler;
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -57,14 +57,14 @@ public class CreateShowDialogFragment extends DialogFragment {
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        editTextTitle = view.findViewById(R.id.editTextTitle);
-        buttonSubmit = view.findViewById(R.id.buttonSubmit);
-        buttonCancel = view.findViewById(R.id.buttonCancel);
+        titreEditText = view.findViewById(R.id.editTextTitle);
+        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
+        boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
 
-        editTextTitle = view.findViewById(R.id.editTextTitle);
-        buttonSubmit = view.findViewById(R.id.buttonSubmit);
-        buttonCancel = view.findViewById(R.id.buttonCancel);
+        titreEditText = view.findViewById(R.id.editTextTitle);
+        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
+        boutonAnnuler = view.findViewById(R.id.buttonCancel);
         erreurNom = view.findViewById(R.id.erreur_nom);
 
         // Récupere les données de l'adapteur
@@ -73,20 +73,20 @@ public class CreateShowDialogFragment extends DialogFragment {
         }
 
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
-        showSavedList = new ArrayList<Salon>();
+        listeSalonsSauvegarder = new ArrayList<Salon>();
         //salonViewModel
         /*salonService.getSalonsEnregistres(getContext(),"", utilisateur, new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
-                showSavedList = shows;
+                listeSalonsSauvegarder = shows;
             }
             @Override
             public void onError(String error) {
             }
         });*/
 
-        buttonSubmit.setOnClickListener(v -> {
-            String title = editTextTitle.getText().toString();
+        boutonEnvoyer.setOnClickListener(v -> {
+            String title = titreEditText.getText().toString();
             if (title.length() <= 2 || title.length() >= 50 ) {
                 erreurNom.setText(R.string.erreur_nom_salon_longeur);
                 erreurNom.setVisibility(View.VISIBLE);
@@ -106,7 +106,7 @@ public class CreateShowDialogFragment extends DialogFragment {
 
         });
 
-        buttonCancel.setOnClickListener(v -> {
+        boutonAnnuler.setOnClickListener(v -> {
             dismiss();
         });
 
