@@ -1,11 +1,11 @@
 package com.example.doliprosp.Services;
 
-import com.example.doliprosp.Interface.IProspetService;
+import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
 
 import java.util.UUID;
 
-public class ProspectService implements IProspetService {
+public class ProspectService implements IProspectService {
     private UUID idProspect;
     private UUID idSalon;
     private String prenom;

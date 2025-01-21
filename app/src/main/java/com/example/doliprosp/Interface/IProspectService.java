@@ -4,7 +4,7 @@ import com.example.doliprosp.Modele.Prospect;
 
 import java.util.UUID;
 
-public interface IProspetService {
+public interface IProspectService {
     public void ajouterProspect(Prospect prospect);
     public void supprimerProspect(Prospect prospect);
 
