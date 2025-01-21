@@ -28,6 +28,7 @@ public class Utilisateur implements Serializable {
 
     public boolean informationutilisateurDejaRecupere()
     {
+
         return mail != null;
     }
 

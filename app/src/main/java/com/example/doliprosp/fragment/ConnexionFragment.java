@@ -2,6 +2,7 @@ package com.example.doliprosp.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,12 +46,24 @@ public class ConnexionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         connexionService = new ConnexionService();
+        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
 
         //String urlConnexion;
         editTextUrl = view.findViewById(R.id.url);
         editTextUserName = view.findViewById(R.id.username);
         editTextPassword = view.findViewById(R.id.password);
         chargement = view.findViewById(R.id.chargement);
+
+        if(utilisateur!= null && utilisateur.informationutilisateurDejaRecupere()) {
+            Log.d("USERRRRSSS", utilisateur.getPrenom());
+            Log.d("infos reup", "oui");
+        }
+        if(utilisateur != null && utilisateur.informationutilisateurDejaRecupere()) {
+            utilisateurViewModel.chargementUtilisateur();
+            editTextUrl.setText(utilisateurViewModel.getUtilisateur().getUrl());
+            editTextUserName.setText(utilisateurViewModel.getUtilisateur().getUserName());
+        }
 
         // Recupere la bottom nav bar de l'activité
         Activity activity = getActivity();
@@ -78,7 +91,7 @@ public class ConnexionFragment extends Fragment {
                         String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
                         utilisateur.setApiKey(apiKeyChiffre);
                         UtilisateurViewModel utilisateurViewModele = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-                        utilisateurViewModele.setUtilisateur(utilisateur, getContext());
+                        utilisateurViewModele.setUtilisateur(utilisateur);
                         // Navigation vers ShowFragment
                         ShowFragment showFragment = new ShowFragment();
                         ((MainActivity) getActivity()).loadFragment(showFragment);

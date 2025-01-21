@@ -1,6 +1,7 @@
 package com.example.doliprosp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -60,17 +61,8 @@ public class MainActivity extends AppCompatActivity {
         // Chargement du fragment par défaut (Connexion)
         if (savedInstanceState == null) {
             bottomNav.setVisibility(View.GONE);
-            UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
-
-            if(utilisateurViewModel.getUtilisateur(this, this) == null) {
-                ConnexionFragment connexionFragment = new ConnexionFragment();
-                loadFragment(connexionFragment);
-            } else {
-                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
-                ShowFragment showFragment = new ShowFragment();
-                loadFragment(showFragment);
-            }
-
+            ConnexionFragment connexionFragment = new ConnexionFragment();
+            loadFragment(connexionFragment);
         }
 
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
@@ -129,6 +121,18 @@ public class MainActivity extends AppCompatActivity {
     //Empeche le retour
     @Override
     public void onBackPressed() {
+
+    }
+
+    // Recharge les données enregistrer quand on relance l'application
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
+        SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        utilisateurViewModel.initSharedPreferences(sharedPreferencesSalon);
+
+        utilisateurViewModel.chargementUtilisateur();
 
     }
 
