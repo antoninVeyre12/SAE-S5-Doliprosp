@@ -21,7 +21,7 @@ public class ConnexionService implements IConnexionService {
 
     public ConnexionService(){}
 
-    public void connexion(String url, String userName, String motDePasse, Context context, ConnexionCallBack callback) {
+    public void connexion(String url, String nomUtilisateur, String motDePasse, Context context, ConnexionCallBack callback) {
         urlUtilisateur = url;
 
         try {
@@ -29,14 +29,14 @@ public class ConnexionService implements IConnexionService {
             String passwordEncoder = URLEncoder.encode("3iFJWj26z", "UTF-8");
             url = String.format("%s/api/index.php/login?login=%s&password=%s", "http://dolibarr.iut-rodez.fr/G2023-42/htdocs", userNameEncoder, passwordEncoder);
             Log.d("URLL", url);
-            Log.d("USERNAME", userName);
+            Log.d("USERNAME", nomUtilisateur);
             Log.d("PASSWORD" , motDePasse);
             Outils.appelAPIConnexion(url, context, new Outils.APIResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject reponse) throws JSONException {
                     JSONObject successJSON = reponse.getJSONObject("success");
                     String apiKey = successJSON.getString("token");
-                    nouvelUtilisateur = new Utilisateur(urlUtilisateur, userName, motDePasse, apiKey);
+                    nouvelUtilisateur = new Utilisateur(urlUtilisateur, nomUtilisateur, motDePasse, apiKey);
                     Log.d("APIKEY", nouvelUtilisateur.getCleApi());
                     callback.onSuccess(nouvelUtilisateur); // Notifie le contrôleur
                 }
@@ -51,9 +51,9 @@ public class ConnexionService implements IConnexionService {
             callback.onError(e.getMessage());
         }
     }
-    public String chiffrementApiKey(String apiKey)
+    public String chiffrementApiKey(String cleApi)
     {
-        return apiKey;
+        return cleApi;
         //TODO chiffrer avec la méthode Vigenère
     }
 

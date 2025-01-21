@@ -5,7 +5,7 @@ import com.example.doliprosp.Modele.Prospect;
 
 import java.util.UUID;
 
-public class ProspetService implements IProspetService {
+public class ProspectService implements IProspetService {
     private UUID idProspect;
     private UUID idSalon;
     private String prenom;
@@ -18,7 +18,7 @@ public class ProspetService implements IProspetService {
     private Boolean estClient;
 
 
-    public ProspetService(){}
+    public ProspectService(){}
 
     public void ajouterProspect(Prospect prospect) {
 
