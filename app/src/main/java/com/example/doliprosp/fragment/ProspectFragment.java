@@ -17,6 +17,7 @@ public class ProspectFragment extends Fragment {
 
     private TextView salonActuelEditText;
     private Salon salonActuel;
+    private static Salon dernierSalonSelectione;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,8 +26,12 @@ public class ProspectFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             salonActuel = (Salon) bundle.getSerializable("salon");
+            dernierSalonSelectione = salonActuel;
         } else {
-            salonActuel = new Salon("stub");
+            if (dernierSalonSelectione != null) {
+                salonActuel = dernierSalonSelectione;
+            } else {
+            }
         }
         return inflater.inflate(R.layout.fragment_prospect, container, false);
     }
