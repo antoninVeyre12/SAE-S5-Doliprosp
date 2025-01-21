@@ -90,10 +90,10 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
     public void onResume() {
         super.onResume();
-        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonList(), SalonFragment.this);
+        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this);
         recyclerViewMesSalons.setAdapter(adapterMesSalons);
         adapterMesSalons.notifyDataSetChanged();
-        adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+        adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
         recyclerView.setAdapter(adapterSalons);
         adapterSalons.notifyDataSetChanged();
     }
@@ -116,7 +116,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
                 }
                 // Set l'adapter des shows récupéré
-                adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+                adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
                 recyclerView.setAdapter(adapterSalons);
                 chargement.setVisibility(View.GONE);
 
@@ -124,7 +124,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
             @Override
             public void onError(String error) {
-                adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+                adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
                 chargement.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapterSalons);
                 //erreur.setVisibility(View.VISIBLE);
