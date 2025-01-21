@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 ConnexionFragment connexionFragment = new ConnexionFragment();
                 loadFragment(connexionFragment);
             } else {
-                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
+                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getNomUtilisateur());
                 SalonFragment salonFragment = new SalonFragment();
                 loadFragment(salonFragment);
             }

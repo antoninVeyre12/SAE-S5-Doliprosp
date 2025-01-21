@@ -10,7 +10,7 @@
         android:text="@string/prospects" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonCreateShow"
+        android:id="@+id/buttonCreateProspect"
         style="@style/button_create" />
 
     <ScrollView

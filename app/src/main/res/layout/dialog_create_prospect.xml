@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="0,1"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editTextNom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLength="50"
+        android:hint="@string/hint_nomProspect"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/editTextPrenom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLength="50"
+        android:hint="@string/hint_prenomProspect"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/editTextMail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLength="50"
+        android:hint="@string/hint_mailProspect"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLength="10"
+        android:inputType="number"
+        android:hint="@string/hint_phoneProspect"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/editTextAdresse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLength="100"
+        android:hint="@string/hint_adresseProspect"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/editTextVille"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLength="70"
+        android:hint="@string/hint_villeProspect"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/editTextCodePostal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:maxLength="5"
+        android:hint="@string/hint_cpProspect"
+        android:singleLine="true"/>
+
+    <TableRow>
+        <Button
+            android:id="@+id/buttonSubmit"
+            style="@style/button_validate"
+            android:layout_span="1" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_span="1"
+            style="@style/button_cancel" />
+    </TableRow>
+
+    <TextView
+        android:id="@+id/erreur_nom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="@dimen/erreur_texte"
+        android:visibility="gone"/>
+
+</TableLayout>
