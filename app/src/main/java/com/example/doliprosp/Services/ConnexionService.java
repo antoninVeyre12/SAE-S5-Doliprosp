@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 
 import org.json.JSONException;
 import org.json.JSONObject;

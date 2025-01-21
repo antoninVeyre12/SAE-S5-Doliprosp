@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.MainActivity;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class UserFragment extends Fragment {
+public class UtilisateurFragment extends Fragment {
     private Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
 

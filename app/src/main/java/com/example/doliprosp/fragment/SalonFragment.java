@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
-import com.example.doliprosp.Model.Salon;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Salon;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.SalonService;
@@ -34,18 +34,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickListener, ShowAdapter.OnItemClickListener {
+public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClickListener, ShowAdapter.OnItemClickListener {
 
     private ISalonService salonService;
-    private ShowAdapter adapterShow;
-    private MyShowAdapter adapterMyShow;
+    private ShowAdapter adapterSalons;
+    private MyShowAdapter adapterMesSalons;
     private MesSalonsViewModel mesSalonsViewModel;
     private SalonsViewModel salonsViewModel;
     private UtilisateurViewModel utilisateurViewModel;
     private ImageButton boutonRecherche;
     private TextView erreur;
     private RecyclerView recyclerView;
-    private RecyclerView recyclerViewMyShow;
+    private RecyclerView recyclerViewMesSalons;
     private Button boutonCreerSalon;
     private EditText texteRecherche;
     private ProgressBar chargement;
@@ -67,7 +67,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
         recyclerView = view.findViewById(R.id.showRecyclerView);
-        recyclerViewMyShow = view.findViewById(R.id.myShowRecyclerView);
+        recyclerViewMesSalons = view.findViewById(R.id.myShowRecyclerView);
         boutonRecherche = view.findViewById(R.id.bouton_recherche);
         texteRecherche = view.findViewById(R.id.texte_recherche);
         erreur = view.findViewById(R.id.erreur_pas_de_salons);
@@ -80,7 +80,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
         // Set l'adapter des salons de l'utilisateur
         GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
-        recyclerViewMyShow.setLayoutManager(layoutManagerMyShow);
+        recyclerViewMesSalons.setLayoutManager(layoutManagerMyShow);
 
 
         String rechercheVide = "";
@@ -90,12 +90,12 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     }
     public void onResume() {
         super.onResume();
-        adapterMyShow = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), ShowFragment.this);
-        recyclerViewMyShow.setAdapter(adapterMyShow);
-        adapterMyShow.notifyDataSetChanged();
-        adapterShow = new ShowAdapter(salonsViewModel.getSalonListe(), ShowFragment.this);
-        recyclerView.setAdapter(adapterShow);
-        adapterShow.notifyDataSetChanged();
+        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonList(), SalonFragment.this);
+        recyclerViewMesSalons.setAdapter(adapterMesSalons);
+        adapterMesSalons.notifyDataSetChanged();
+        adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+        recyclerView.setAdapter(adapterSalons);
+        adapterSalons.notifyDataSetChanged();
     }
 
     private void rechercheSalons(String recherche){
@@ -116,17 +116,17 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
                 }
                 // Set l'adapter des shows récupéré
-                adapterShow = new ShowAdapter(salonsViewModel.getSalonListe(), ShowFragment.this);
-                recyclerView.setAdapter(adapterShow);
+                adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+                recyclerView.setAdapter(adapterSalons);
                 chargement.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onError(String error) {
-                adapterShow = new ShowAdapter(salonsViewModel.getSalonListe(), ShowFragment.this);
+                adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
                 chargement.setVisibility(View.GONE);
-                recyclerView.setAdapter(adapterShow);
+                recyclerView.setAdapter(adapterSalons);
                 //erreur.setVisibility(View.VISIBLE);
             }
         });
@@ -144,9 +144,9 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
         // Ajouter un salon
         boutonCreerSalon.setOnClickListener(v -> {
-            CreateShowDialogFragment dialog = new CreateShowDialogFragment();
+            CreationSalonsDialogFragment dialog = new CreationSalonsDialogFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("adapterMyShow", (Serializable) adapterMyShow);
+            bundle.putSerializable("adapterMesSalons", (Serializable) adapterMesSalons);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
@@ -159,7 +159,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
         // mets a jour la liste des salons
         Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
         mesSalonsViewModel.removeSalon(salonASupprimer);
-        adapterMyShow.notifyItemRemoved(position);
+        adapterMesSalons.notifyItemRemoved(position);
     }
 
     @Override

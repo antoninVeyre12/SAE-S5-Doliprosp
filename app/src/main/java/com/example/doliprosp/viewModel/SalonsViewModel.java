@@ -2,7 +2,7 @@ package com.example.doliprosp.viewModel;
 
 import android.content.SharedPreferences;
 
-import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.Modele.Salon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

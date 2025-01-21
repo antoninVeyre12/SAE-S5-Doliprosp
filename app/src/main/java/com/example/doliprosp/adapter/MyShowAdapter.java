@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 
 import androidx.annotation.NonNull;

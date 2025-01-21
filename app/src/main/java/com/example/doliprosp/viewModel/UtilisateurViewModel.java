@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import androidx.lifecycle.ViewModel;
 
 import com.example.doliprosp.MainActivity;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 
 import java.io.Serializable;

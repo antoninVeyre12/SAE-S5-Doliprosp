@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.doliprosp.R;
 
-public class ProjectFragment extends Fragment {
+public class ProjetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
