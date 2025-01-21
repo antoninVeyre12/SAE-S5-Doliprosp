@@ -35,6 +35,7 @@
     <string name="url_invalide_2">Renseigner un URL sans / à la fin de votre url</string>
     <string name="informations_invalide">Renseigner un URL, un identifiant et/ou un mot de passe avant de vous connecter</string>
     <string name="informations_saisies_incorrecte">Identifiant, mots de passe ou url invalide, Veuillez réessayer</string>
+    <string name="mot_depasse_incorrect"> Mot de passe invalide</string>
     <string name="url_exemple">http://dolibarr.xxxx.fr/xxxx/htdocs</string>
 
     <!-- Page user -->

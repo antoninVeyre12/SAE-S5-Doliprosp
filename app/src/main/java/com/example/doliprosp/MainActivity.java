@@ -129,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
-        SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        utilisateurViewModel.initSharedPreferences(sharedPreferencesSalon);
+        utilisateurViewModel.initSharedPreferences(this);
 
         utilisateurViewModel.chargementUtilisateur();
 

@@ -32,11 +32,12 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
         enregistrerUtilisateur();
     }
 
-    public void initSharedPreferences(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
+    public void initSharedPreferences(Context context) {
+        this.sharedPreferences = context.getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
+
     }
 
-    private void enregistrerUtilisateur() {
+    public void enregistrerUtilisateur() {
         if (utilisateurActuel != null) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("username", utilisateurActuel.getUserName());
@@ -46,7 +47,7 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
             editor.putString("prenom", utilisateurActuel.getPrenom());
             editor.putString("nom", utilisateurActuel.getNom());
             editor.putString("ville", utilisateurActuel.getVille());
-            editor.putString("codePostal", String.valueOf(utilisateurActuel.getCodePostal()));
+            editor.putInt("codePostal", utilisateurActuel.getCodePostal());
             editor.putString("adresse", utilisateurActuel.getAdresse());
             editor.putString("mail", utilisateurActuel.getMail());
             editor.putString("numTelephone", utilisateurActuel.getNumTelephone());
@@ -54,7 +55,7 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
         }
     }
 
-    public void chargementUtilisateur() {
+    public Utilisateur chargementUtilisateur() {
         String username = sharedPreferences.getString("username", null);
         String url = sharedPreferences.getString("url", null);
         String motDePasse = sharedPreferences.getString("motDePasse", null);
@@ -62,22 +63,25 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
         String prenom = sharedPreferences.getString("prenom", null);
         String nom = sharedPreferences.getString("nom", null);
         String ville = sharedPreferences.getString("ville", null);
-        String codePostal = sharedPreferences.getString("codePostal", null);
+        int codePostal = sharedPreferences.getInt("codePostal", 0);
         String adresse = sharedPreferences.getString("adresse", null);
         String mail = sharedPreferences.getString("mail", null);
         String numTelephone = sharedPreferences.getString("numTelephone", null);
 
 
-        if (username != null && url != null && motDePasse != null && apiKey != null) {
-            utilisateurActuel = new Utilisateur(url, username, motDePasse, apiKey);
-            utilisateurActuel.setPrenom(prenom);
-            utilisateurActuel.setNom(nom);
-            utilisateurActuel.setVille(ville);
-            utilisateurActuel.setCodePostal(Integer.valueOf(codePostal));
-            utilisateurActuel.setAdresse(adresse);
-            utilisateurActuel.setMail(mail);
-            utilisateurActuel.setNumTelephone(numTelephone);
+        utilisateurActuel = new Utilisateur(url, username, motDePasse, apiKey);
+        utilisateurActuel.setPrenom(prenom);
+        utilisateurActuel.setNom(nom);
+        utilisateurActuel.setVille(ville);
+        utilisateurActuel.setCodePostal(codePostal);
+        utilisateurActuel.setAdresse(adresse);
+        utilisateurActuel.setMail(mail);
+        utilisateurActuel.setNumTelephone(numTelephone);
+
+        if(utilisateurActuel.getMail() != null) {
+            Log.d("UTSER", "mail");
         }
+        return utilisateurActuel;
     }
 
     public void supprimerDonnerUtilisateur() {

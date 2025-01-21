@@ -104,14 +104,20 @@ public class UserFragment extends Fragment {
                     // Cela s'exécutera lorsque l'API renvoie une réponse valide
                     objectJSON = response;
                     try {
-                        utilisateurViewModel.chargementUtilisateur();
-                        nom = utilisateurActuel.getNom();
-                        prenom = utilisateurActuel.getPrenom();
-                        mail = utilisateurActuel.getMail();
-                        adresse = utilisateurActuel.getAdresse();
-                        codePostal = String.valueOf(utilisateurActuel.getCodePostal());
-                        ville = utilisateurActuel.getVille();
-                        numTelephone = utilisateurActuel.getNumTelephone();
+                        nom = objectJSON.getString("lastname");
+                        utilisateurActuel.setNom(nom);
+                        prenom = objectJSON.getString("firstname");
+                        utilisateurActuel.setPrenom(prenom);
+                        mail = objectJSON.getString("email");
+                        utilisateurActuel.setMail(mail);
+                        adresse = objectJSON.getString("address");
+                        utilisateurActuel.setAdresse(adresse);
+                        codePostal = objectJSON.getString("zip");
+                        utilisateurActuel.setCodePostal(Integer.parseInt(codePostal));
+                        ville = objectJSON.getString("town");
+                        utilisateurActuel.setVille(ville);
+                        numTelephone = objectJSON.getString("office_phone");
+                        utilisateurActuel.setNumTelephone(numTelephone);
                         afficherInformations();
                     } catch(Exception e) {
                         Log.d("ERROR JSON EXCEPTION", e.getMessage());
