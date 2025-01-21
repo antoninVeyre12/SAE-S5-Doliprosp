@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ConnexionService;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;

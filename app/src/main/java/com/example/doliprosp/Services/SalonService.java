@@ -3,8 +3,8 @@ package com.example.doliprosp.Services;
 import android.content.Context;
 
 import com.example.doliprosp.Interface.ISalonService;
-import com.example.doliprosp.Model.Salon;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Salon;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 
@@ -22,7 +22,7 @@ public class SalonService implements ISalonService {
 
     public void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback)
     {
-        ArrayList<Salon> listSavedShow = new ArrayList<Salon>();
+        ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
         Outils.appelAPIGetList(urlAppel, utilisateur.getApiKey(), context, new Outils.APIResponseCallbackArray() {
@@ -32,12 +32,12 @@ public class SalonService implements ISalonService {
                     try {
                         JSONObject object = response.getJSONObject(i);
                         String nom = object.getString("label");
-                        listSavedShow.add(new Salon(nom));
+                        listeSalonsEnregistres.add(new Salon(nom));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                callback.onSuccess(listSavedShow);
+                callback.onSuccess(listeSalonsEnregistres);
             }
 
             @Override

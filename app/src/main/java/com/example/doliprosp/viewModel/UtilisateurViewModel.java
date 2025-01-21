@@ -3,14 +3,13 @@ package com.example.doliprosp.viewModel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.lifecycle.ViewModel;
 
 import com.example.doliprosp.MainActivity;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 
 import java.io.Serializable;
@@ -25,7 +24,7 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
         if(utilisateurActuel != null) {
             SharedPreferences sharedPreferences = context.getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("username", nouvelUtilisateur.getUserName());
+            editor.putString("username", nouvelUtilisateur.getNomUtilisateur());
             editor.putString("url", nouvelUtilisateur.getUrl());
             editor.putString("motDePasse", nouvelUtilisateur.getMotDePasse());
             editor.putString("apiKey", nouvelUtilisateur.getApiKey());

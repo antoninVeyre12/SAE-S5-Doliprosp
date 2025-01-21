@@ -1,11 +1,7 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -14,8 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.doliprosp.Model.Salon;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONArray;

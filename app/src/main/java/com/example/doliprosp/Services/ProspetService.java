@@ -1,7 +1,7 @@
 package com.example.doliprosp.Services;
 
 import com.example.doliprosp.Interface.IProspetService;
-import com.example.doliprosp.Model.Prospet;
+import com.example.doliprosp.Modele.Prospect;
 
 import java.util.UUID;
 
@@ -20,16 +20,16 @@ public class ProspetService implements IProspetService {
 
     public ProspetService(){}
 
-    public void ajouterProspect(Prospet prospet) {
+    public void ajouterProspect(Prospect prospect) {
 
     }
 
-    public void supprimerProspect(Prospet prospet) {
+    public void supprimerProspect(Prospect prospect) {
 
     }
 
 
-    public Prospet getProspectEnregistre(String recherche) {
+    public Prospect getProspectEnregistre(String recherche) {
         return null; //Bouchon
     }
 

@@ -1,6 +1,6 @@
 package com.example.doliprosp.Interface;
 
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 
 public interface ConnexionCallBack {
 

@@ -1,4 +1,4 @@
-package com.example.doliprosp.Model;
+package com.example.doliprosp.Modele;
 
 import java.io.Serializable;
 
@@ -6,9 +6,9 @@ public class Utilisateur implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String url;
-    private String userName;
+    private String nomUtilisateur;
     private String motDePasse;
-    private String apiKey;
+    private String cleAPI;
     private String nom;
     private String prenom;
     private String mail;
@@ -17,12 +17,12 @@ public class Utilisateur implements Serializable {
     private String ville;
     private String numTelephone;
 
-    public Utilisateur(String url, String userName, String motDePasse, String apiKey)
+    public Utilisateur(String url, String nomUtilisateur, String motDePasse, String apiKey)
     {
         this.url = url;
-        this.userName = userName;
+        this.nomUtilisateur = nomUtilisateur;
         this.motDePasse = motDePasse;
-        this.apiKey = apiKey;
+        this.cleAPI = apiKey;
 
     }
 
@@ -77,9 +77,9 @@ public class Utilisateur implements Serializable {
         return this.url;
     }
 
-    public String getUserName()
+    public String getNomUtilisateur()
     {
-        return this.userName;
+        return this.nomUtilisateur;
     }
 
     public String getMotDePasse()
@@ -89,26 +89,26 @@ public class Utilisateur implements Serializable {
 
     public String getApiKey()
     {
-        return this.apiKey;
+        return this.cleAPI;
     }
 
-    public void setUrl(String newUrl)
+    public void setUrl(String url)
     {
-        this.url = newUrl;
+        this.url = url;
     }
 
-    public void setUserName(String newUserName)
+    public void setNomUtilisateur(String newUserName)
     {
-        this.userName = newUserName;
+        this.nomUtilisateur = newUserName;
     }
 
     public void setMotDePasse(String nouveauMotDePasse) {
         this.motDePasse = nouveauMotDePasse;
     }
 
-    public void setApiKey(String newApiKey)
+    public void setApiKey(String cleAPI)
     {
-        this.apiKey = newApiKey;
+        this.cleAPI = cleAPI;
     }
 
     public String getPrenom() {

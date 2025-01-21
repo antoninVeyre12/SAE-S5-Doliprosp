@@ -1,7 +1,7 @@
 package com.example.doliprosp.Services;
 
 import com.example.doliprosp.Interface.IProjetService;
-import com.example.doliprosp.Model.Projet;
+import com.example.doliprosp.Modele.Projet;
 
 public class ProjetService implements IProjetService {
 

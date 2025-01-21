@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.doliprosp.Interface.ISalonService;
-import com.example.doliprosp.Model.Salon;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Salon;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.MyShowAdapter;
