@@ -18,10 +18,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.fragment.ConnexionFragment;
-import com.example.doliprosp.fragment.ProjectFragment;
+import com.example.doliprosp.fragment.ProjetFragment;
 import com.example.doliprosp.fragment.ProspectFragment;
-import com.example.doliprosp.fragment.ShowFragment;
-import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.fragment.SalonFragment;
+import com.example.doliprosp.fragment.UtilisateurFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 ConnexionFragment connexionFragment = new ConnexionFragment();
                 loadFragment(connexionFragment);
             } else {
-                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getNomUtilisateur());
-                ShowFragment showFragment = new ShowFragment();
-                loadFragment(showFragment);
+                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
+                SalonFragment salonFragment = new SalonFragment();
+                loadFragment(salonFragment);
             }
 
         }
@@ -91,10 +91,10 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getFragmentByIndex(int index) {
         switch (index) {
             case 0: return new WaitingFragment();
-            case 1: return new ShowFragment();
+            case 1: return new SalonFragment();
             case 2: return new ProspectFragment();
-            case 3: return new ProjectFragment();
-            case 4: return new UserFragment();
+            case 3: return new ProjetFragment();
+            case 4: return new UtilisateurFragment();
             default: return null;
         }
     }
