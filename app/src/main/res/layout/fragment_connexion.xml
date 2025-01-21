@@ -36,7 +36,7 @@
         android:id="@+id/url"
         android:layout_width="300dp"
         android:layout_gravity="center"
-        android:hint="@string/url_exemple"
+        android:hint="@string/url_example"
         android:layout_height="wrap_content">
     </EditText>
 
@@ -58,7 +58,7 @@
         android:layout_width="300dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:text="@string/password">
+        android:text="@string/motDePasse">
     </TextView>
 
     <EditText

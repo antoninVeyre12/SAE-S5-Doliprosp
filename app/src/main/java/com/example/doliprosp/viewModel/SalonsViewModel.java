@@ -2,7 +2,7 @@ package com.example.doliprosp.viewModel;
 
 import android.content.SharedPreferences;
 
-import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.Modele.Salon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -12,15 +12,15 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 public class SalonsViewModel extends ViewModel {
-    private ArrayList<Salon> salonList = new ArrayList<>();
+    private ArrayList<Salon> salonListe = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
-    public ArrayList<Salon> getSalonList() {
-        return salonList;
+    public ArrayList<Salon> getSalonListe() {
+        return salonListe;
     }
 
     public void addSalon(Salon salon) {
-        salonList.add(salon);
+        salonListe.add(salon);
         enregistrerSalons();
     }
 
@@ -29,20 +29,20 @@ public class SalonsViewModel extends ViewModel {
     }
 
     public void removeSalon(Salon salon) {
-        salonList.remove(salon);
+        salonListe.remove(salon);
         enregistrerSalons();
     }
 
     public void clear( ) {
-        salonList.clear();
+        salonListe.clear();
         enregistrerSalons();
     }
 
     private void enregistrerSalons() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(salonList);
-        editor.putString("salon_list", json);
+        String json = gson.toJson(salonListe);
+        editor.putString("salon_liste", json);
         editor.apply();
     }
 
@@ -51,7 +51,7 @@ public class SalonsViewModel extends ViewModel {
         String json = sharedPreferences.getString("salon_list", null);
         Type type = new TypeToken<ArrayList<Salon>>() {}.getType();
         if (json != null) {
-            salonList = gson.fromJson(json, type);
+            salonListe = gson.fromJson(json, type);
         }
     }
 }

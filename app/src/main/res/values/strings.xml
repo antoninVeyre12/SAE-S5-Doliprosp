@@ -37,12 +37,12 @@
     <string name="login">Login</string>
     <string name="url">URL</string>
     <string name="username">Nom d\'utilisateur</string>
-    <string name="password">Mot de Passe</string>
+    <string name="motDePasse">Mot de Passe</string>
     <string name="url_invalide">Renseigner un URL valide débutant par http://</string>
     <string name="url_invalide_2">Renseigner un URL sans / à la fin de votre url</string>
     <string name="informations_invalide">Renseigner un URL, un identifiant et/ou un mot de passe avant de vous connecter</string>
     <string name="informations_saisies_incorrecte">Identifiant, mots de passe ou url invalide, Veuillez réessayer</string>
-    <string name="url_exemple">http://dolibarr.xxxx.fr/xxxx/htdocs</string>
+    <string name="url_example">http://dolibarr.xxxx.fr/xxxx/htdocs</string>
 
     <!-- Page user -->
     <string name = "monCompte"> Mon compte</string>

@@ -1,20 +1,18 @@
-package com.example.doliprosp.Model;
-
-import com.example.doliprosp.Services.ProjetService;
+package com.example.doliprosp.Modele;
 
 import java.util.UUID;
 
 public class Projet {
 
     private UUID idProjet;
-    private UUID idProspet;
+    private UUID idProspect;
     private String titre;
     private String description;
 
     public Projet(UUID idProspect, String titre, String description)
     {
         this.idProjet = UUID.randomUUID();
-        this.idProspet = idProspect;
+        this.idProspect = idProspect;
         this.titre = titre;
         this.description = description;
     }
@@ -27,12 +25,12 @@ public class Projet {
         this.idProjet = idProjet;
     }
 
-    public UUID getIdProspet() {
-        return idProspet;
+    public UUID getIdProspect() {
+        return idProspect;
     }
 
-    public void setIdProspet(UUID idProspet) {
-        this.idProspet = idProspet;
+    public void setIdProspect(UUID idProspect) {
+        this.idProspect = idProspect;
     }
 
     public String getTitre() {

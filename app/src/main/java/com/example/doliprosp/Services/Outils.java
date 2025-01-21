@@ -1,11 +1,7 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -14,8 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.doliprosp.Model.Salon;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONArray;
@@ -32,9 +27,9 @@ public class Outils {
 
     private static RequestQueue fileRequete;
 
-    private static String apiKey;
+    private static String CleApi;
 
-    private UtilisateurViewModel utilisateurViewModel;
+    private UtilisateurViewModel utilisateurVueModele;
 
 
     public static void appelAPIConnexion(String url, Context context, APIResponseCallback callback) {
@@ -46,7 +41,6 @@ public class Outils {
                         try {
                             // Crée un JSONObject à partir de la réponse
                             JSONObject objectJSON = new JSONObject(reponse);
-                            Log.d("CONNEXION", "connexion réussi");
                             callback.onSuccess(objectJSON); // Notifie la méthode appelante avec la réponse
                         } catch (JSONException e) {
                             callback.onError("Erreur de parsing JSON : " + e.getMessage()); // Notifie l'erreur
@@ -68,7 +62,7 @@ public class Outils {
     }
 
 
-    public static void appelAPIGet(String url, String apiKey, Context context, APIResponseCallback callback) {
+    public static void appelAPIGet(String url, String cleApi, Context context, APIResponseCallback callback) {
 
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -94,7 +88,7 @@ public class Outils {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("DOLAPIKEY", apiKey);
+                headers.put("DOLAPIKEY", cleApi);
                 return headers;
             }
         };
@@ -105,7 +99,7 @@ public class Outils {
 
 
 
-    public static void appelAPIGetList(String url, String apiKey, Context context, APIResponseCallbackArray callback) {
+    public static void appelAPIGetList(String url, String cleApi, Context context, APIResponseCallbackArray callback) {
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -130,7 +124,7 @@ public class Outils {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("DOLAPIKEY", apiKey);
+                headers.put("DOLAPIKEY", cleApi);
                 return headers;
             }
         };

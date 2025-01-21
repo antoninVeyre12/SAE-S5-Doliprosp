@@ -1,9 +1,9 @@
-package com.example.doliprosp.Model;
+package com.example.doliprosp.Modele;
 
 import java.util.UUID;
 
-public class Prospet {
-    private UUID idProspet;
+public class Prospect {
+    private UUID idProspect;
     private UUID idSalon;
     private String prenom;
     private String nom;
@@ -15,27 +15,27 @@ public class Prospet {
     private Boolean estClient;
 
 
-    public Prospet(UUID idShow, String firstName, String lastName, int postCode,
-                   String city, String postalAddress, String email, String phoneNumber,
-                   Boolean isClient) {
-        this.idProspet = UUID.randomUUID();
-        this.idSalon = idShow;
-        this.prenom = firstName;
-        this.nom = lastName;
-        this.codePostal = postCode;
-        this.ville = city;
-        this.adresse = postalAddress;
-        this.mail = email;
-        this.numeroTelephone = phoneNumber;
-        this.estClient = isClient;
+    public Prospect(UUID idSalon, String prenom, String nom, int codePostal,
+                    String ville, String adressePostale, String mail, String numeroTelephone,
+                    Boolean estClient) {
+        this.idProspect = UUID.randomUUID();
+        this.idSalon = idSalon;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.codePostal = codePostal;
+        this.ville = ville;
+        this.adresse = adressePostale;
+        this.mail = mail;
+        this.numeroTelephone = numeroTelephone;
+        this.estClient = estClient;
     }
 
-    public UUID getIdProspet() {
-        return idProspet;
+    public UUID getIdProspect() {
+        return idProspect;
     }
 
-    public void setIdProspet(UUID idProspet) {
-        this.idProspet = idProspet;
+    public void setIdProspect(UUID idProspect) {
+        this.idProspect = idProspect;
     }
 
     public UUID getIdSalon() {
