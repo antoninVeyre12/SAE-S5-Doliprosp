@@ -1,9 +1,7 @@
 package com.example.doliprosp;
 
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,12 +23,16 @@ import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.ShowFragment;
 import com.example.doliprosp.fragment.UserFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
+import com.example.doliprosp.viewModel.MesSalonsViewModel;
+import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private RequestQueue fileRequete;
     private TextView[] textViews;
     private ImageView[] imageViews;
+    private SalonsViewModel salonsViewModel;
+    private MesSalonsViewModel mesSalonsViewModel;
 
 
     @Override
@@ -126,10 +128,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Empeche le retour
+    // Empeche le retour
     @Override
     public void onBackPressed() {
 
     }
 
+    // Recharge les données enregistrer quand on relance l'application
+    @Override
+    protected void onResume() {
+        super.onResume();
+        salonsViewModel = new ViewModelProvider(this).get(SalonsViewModel.class);
+        SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        salonsViewModel.initSharedPreferences(sharedPreferencesSalon);
+
+        mesSalonsViewModel = new ViewModelProvider(this).get(MesSalonsViewModel.class);
+        SharedPreferences sharedPreferencesMesSalons = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesSalonsViewModel.initSharedPreferences(sharedPreferencesMesSalons);
+
+        // recuperer les salons
+        salonsViewModel.chargementSalons();
+        mesSalonsViewModel.chargementSalons();
+    }
 }

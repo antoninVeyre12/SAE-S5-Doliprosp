@@ -1,6 +1,8 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +21,8 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -156,4 +160,6 @@ public class Outils {
         void onSuccess(ArrayList<Salon> response);
         void onError(String errorMessage);
     }
+
+
 }
