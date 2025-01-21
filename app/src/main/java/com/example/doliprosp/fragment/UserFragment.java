@@ -64,7 +64,7 @@ public class UserFragment extends Fragment {
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurActuel = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
 
-        userName = utilisateurActuel.getUserName();
+        userName = utilisateurActuel.getNomUtilisateur();
         Activity activity = getActivity();
 
         LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
@@ -98,7 +98,7 @@ public class UserFragment extends Fragment {
                 Log.d("erreur url getCommercial", e.getMessage());
             }
             
-            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getApiKey(), getContext(), new Outils.APIResponseCallback() {
+            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getCleApi(), getContext(), new Outils.APIResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     // Cela s'exécutera lorsque l'API renvoie une réponse valide

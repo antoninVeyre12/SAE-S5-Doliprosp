@@ -19,12 +19,12 @@ import java.util.List;
 
 public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHolder> implements Serializable {
 
-    private List<Salon> salonList;
+    private List<Salon> salonListe;
     private OnItemClickListener onItemClickListener;
 
     // Constructeur pour initialiser la liste des shows et le listener
     public MyShowAdapter(List<Salon> salonList, OnItemClickListener onItemClickListener) {
-        this.salonList = salonList;
+        this.salonListe = salonList;
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -37,7 +37,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Salon salon = salonList.get(position);
+        Salon salon = salonListe.get(position);
         holder.salon_nom.setText(salon.getNom());
 
         // Définir l'événement de clic pour le bouton de suppression
@@ -59,13 +59,13 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
         });
         holder.salon_case.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onSelectClick(position, salonList);
+                onItemClickListener.onSelectClick(position, salonListe);
 
             }
         });
         holder.salon_nom.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onSelectClick(position, salonList);
+                onItemClickListener.onSelectClick(position, salonListe);
 
             }
         });
@@ -73,7 +73,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return salonList.size();
+        return salonListe.size();
     }
 
     // Interface pour le gestionnaire de clics

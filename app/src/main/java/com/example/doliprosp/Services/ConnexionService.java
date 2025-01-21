@@ -37,7 +37,7 @@ public class ConnexionService implements IConnexionService {
                     JSONObject successJSON = reponse.getJSONObject("success");
                     String apiKey = successJSON.getString("token");
                     nouvelUtilisateur = new Utilisateur(urlUtilisateur, userName, motDePasse, apiKey);
-                    Log.d("APIKEY", nouvelUtilisateur.getApiKey());
+                    Log.d("APIKEY", nouvelUtilisateur.getCleApi());
                     callback.onSuccess(nouvelUtilisateur); // Notifie le contrôleur
                 }
 

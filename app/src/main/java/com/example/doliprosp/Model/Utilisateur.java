@@ -77,7 +77,7 @@ public class Utilisateur implements Serializable {
         return this.url;
     }
 
-    public String getUserName()
+    public String getNomUtilisateur()
     {
         return this.userName;
     }
@@ -87,7 +87,7 @@ public class Utilisateur implements Serializable {
         return this.motDePasse;
     }
 
-    public String getApiKey()
+    public String getCleApi()
     {
         return this.apiKey;
     }

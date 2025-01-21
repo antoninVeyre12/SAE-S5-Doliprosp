@@ -12,15 +12,15 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 public class MesSalonsViewModel extends ViewModel {
-    private ArrayList<Salon> salonList = new ArrayList<>();
+    private ArrayList<Salon> salonListe = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
-    public ArrayList<Salon> getSalonList() {
-        return salonList;
+    public ArrayList<Salon> getSalonListe() {
+        return salonListe;
     }
 
     public void addSalon(Salon salon) {
-        salonList.add(salon);
+        salonListe.add(salon);
         enregistrerSalons();
     }
 
@@ -29,14 +29,14 @@ public class MesSalonsViewModel extends ViewModel {
     }
 
     public void removeSalon(Salon salon) {
-        salonList.remove(salon);
+        salonListe.remove(salon);
         enregistrerSalons();
     }
 
     private void enregistrerSalons() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(salonList);
+        String json = gson.toJson(salonListe);
         editor.putString("mes_salon_list", json);
         editor.apply();
     }
@@ -46,7 +46,7 @@ public class MesSalonsViewModel extends ViewModel {
         String json = sharedPreferences.getString("mes_salon_list", null);
         Type type = new TypeToken<ArrayList<Salon>>() {}.getType();
         if (json != null) {
-            salonList = gson.fromJson(json, type);
+            salonListe = gson.fromJson(json, type);
         }
     }
 }

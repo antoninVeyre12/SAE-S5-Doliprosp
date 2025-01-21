@@ -43,19 +43,19 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
         textViews = new TextView[]{
-                bottomNav.findViewById(R.id.text_waiting),
-                bottomNav.findViewById(R.id.text_show),
-                bottomNav.findViewById(R.id.text_prospect),
-                bottomNav.findViewById(R.id.text_project),
-                bottomNav.findViewById(R.id.text_user)
+                bottomNav.findViewById(R.id.texte_attente),
+                bottomNav.findViewById(R.id.texte_salon),
+                bottomNav.findViewById(R.id.texte_prospect),
+                bottomNav.findViewById(R.id.texte_projet),
+                bottomNav.findViewById(R.id.texte_utilisateur)
         };
 
         imageViews = new ImageView[]{
-                bottomNav.findViewById(R.id.image_waiting),
-                bottomNav.findViewById(R.id.image_show),
+                bottomNav.findViewById(R.id.image_attente),
+                bottomNav.findViewById(R.id.image_salon),
                 bottomNav.findViewById(R.id.image_prospect),
                 bottomNav.findViewById(R.id.image_project),
-                bottomNav.findViewById(R.id.image_user)
+                bottomNav.findViewById(R.id.image_utilisateur)
         };
 
         Log.d("MAIN ACTIVITY", "retour dans le main");
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 ConnexionFragment connexionFragment = new ConnexionFragment();
                 loadFragment(connexionFragment);
             } else {
-                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
+                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getNomUtilisateur());
                 ShowFragment showFragment = new ShowFragment();
                 loadFragment(showFragment);
             }

@@ -90,10 +90,10 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     }
     public void onResume() {
         super.onResume();
-        adapterMyShow = new MyShowAdapter(mesSalonsViewModel.getSalonList(), ShowFragment.this);
+        adapterMyShow = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), ShowFragment.this);
         recyclerViewMyShow.setAdapter(adapterMyShow);
         adapterMyShow.notifyDataSetChanged();
-        adapterShow = new ShowAdapter(salonsViewModel.getSalonList(), ShowFragment.this);
+        adapterShow = new ShowAdapter(salonsViewModel.getSalonListe(), ShowFragment.this);
         recyclerView.setAdapter(adapterShow);
         adapterShow.notifyDataSetChanged();
     }
@@ -112,11 +112,11 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
                 // rajoute un a un les salons a afficher
                 for (Salon salon : shows){
                     salonsViewModel.addSalon(salon);
-                    Log.d("aaa", salonsViewModel.getSalonList().toString());
+                    Log.d("aaa", salonsViewModel.getSalonListe().toString());
 
                 }
                 // Set l'adapter des shows récupéré
-                adapterShow = new ShowAdapter(salonsViewModel.getSalonList(), ShowFragment.this);
+                adapterShow = new ShowAdapter(salonsViewModel.getSalonListe(), ShowFragment.this);
                 recyclerView.setAdapter(adapterShow);
                 chargement.setVisibility(View.GONE);
 
@@ -124,7 +124,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
 
             @Override
             public void onError(String error) {
-                adapterShow = new ShowAdapter(salonsViewModel.getSalonList(), ShowFragment.this);
+                adapterShow = new ShowAdapter(salonsViewModel.getSalonListe(), ShowFragment.this);
                 chargement.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapterShow);
                 //erreur.setVisibility(View.VISIBLE);
@@ -157,7 +157,7 @@ public class ShowFragment extends Fragment implements MyShowAdapter.OnItemClickL
     public void onDeleteClick(int position) {
 
         // mets a jour la liste des salons
-        Salon salonASupprimer = mesSalonsViewModel.getSalonList().get(position);
+        Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
         mesSalonsViewModel.removeSalon(salonASupprimer);
         adapterMyShow.notifyItemRemoved(position);
     }

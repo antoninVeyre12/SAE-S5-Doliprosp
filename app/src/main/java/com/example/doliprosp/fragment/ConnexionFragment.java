@@ -75,7 +75,7 @@ public class ConnexionFragment extends Fragment {
                 connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
                     public void onSuccess(Utilisateur utilisateur) {
                         // Traitez l'utilisateur récupéré ici
-                        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
+                        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
                         utilisateur.setApiKey(apiKeyChiffre);
                         UtilisateurViewModel utilisateurViewModele = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
                         utilisateurViewModele.setUtilisateur(utilisateur, getContext());
