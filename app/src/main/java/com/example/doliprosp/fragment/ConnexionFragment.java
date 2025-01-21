@@ -19,16 +19,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ConnexionService;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 
 public class ConnexionFragment extends Fragment {
-    private EditText editTextUrl;
-    private EditText editTextUserName;
-    private EditText editTextPassword;
+    private EditText urlEditText;
+    private EditText nomUtilisateurEditText;
+    private EditText motDePasseEditText;
     private IConnexionService connexionService;
     private String urlConnexion;
     private ProgressBar chargement;
@@ -47,9 +47,9 @@ public class ConnexionFragment extends Fragment {
         connexionService = new ConnexionService();
 
         //String urlConnexion;
-        editTextUrl = view.findViewById(R.id.url);
-        editTextUserName = view.findViewById(R.id.username);
-        editTextPassword = view.findViewById(R.id.password);
+        urlEditText = view.findViewById(R.id.url);
+        nomUtilisateurEditText = view.findViewById(R.id.username);
+        motDePasseEditText = view.findViewById(R.id.password);
         chargement = view.findViewById(R.id.chargement);
 
         // Recupere la bottom nav bar de l'activité
@@ -58,9 +58,9 @@ public class ConnexionFragment extends Fragment {
 
         Button buttonSubmit  = view.findViewById(R.id.connexion);
         buttonSubmit.setOnClickListener(v -> {
-            String url = editTextUrl.getText().toString();
-            String userName = editTextUserName.getText().toString();
-            String password = editTextPassword.getText().toString();
+            String url = urlEditText.getText().toString();
+            String userName = nomUtilisateurEditText.getText().toString();
+            String password = motDePasseEditText.getText().toString();
             url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
             userName = "G42";
             password = "3iFJWj26z";
@@ -70,25 +70,25 @@ public class ConnexionFragment extends Fragment {
             } else if (!url.startsWith("http")) {
                 Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
             } else {
-                String finalUrl = url;
+                String urlFinal = url;
                 chargement.setVisibility(View.VISIBLE);
                 connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
                     public void onSuccess(Utilisateur utilisateur) {
                         // Traitez l'utilisateur récupéré ici
-                        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
+                        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
                         utilisateur.setApiKey(apiKeyChiffre);
                         UtilisateurViewModel utilisateurViewModele = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
                         utilisateurViewModele.setUtilisateur(utilisateur, getContext());
                         // Navigation vers ShowFragment
-                        ShowFragment showFragment = new ShowFragment();
-                        ((MainActivity) getActivity()).loadFragment(showFragment);
+                        SalonFragment salonFragment = new SalonFragment();
+                        ((MainActivity) getActivity()).loadFragment(salonFragment);
                         ((MainActivity) getActivity()).setColors(1);
                         bottomNav.setVisibility(View.VISIBLE);
                         chargement.setVisibility(View.GONE);
                     }
 
                     public void onError(String errorMessage) {
-                        if (finalUrl.endsWith("/")) {
+                        if (urlFinal.endsWith("/")) {
                             Toast.makeText(getContext(),R.string.url_invalide_2, Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getContext(),R.string.informations_saisies_incorrecte, Toast.LENGTH_LONG).show();

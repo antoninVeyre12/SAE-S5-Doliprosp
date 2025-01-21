@@ -1,4 +1,4 @@
-package com.example.doliprosp.Model;
+package com.example.doliprosp.Modele;
 
 import java.io.Serializable;
 import java.util.UUID;

@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.doliprosp.R;
-import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.Modele.Salon;
 
 public class ProspectFragment extends Fragment {
 

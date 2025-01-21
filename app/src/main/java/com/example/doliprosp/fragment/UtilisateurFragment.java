@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.MainActivity;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class UserFragment extends Fragment {
+public class UtilisateurFragment extends Fragment {
     private Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
 
@@ -64,7 +64,7 @@ public class UserFragment extends Fragment {
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurActuel = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
 
-        userName = utilisateurActuel.getUserName();
+        userName = utilisateurActuel.getNomUtilisateur();
         Activity activity = getActivity();
 
         LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
@@ -98,7 +98,7 @@ public class UserFragment extends Fragment {
                 Log.d("erreur url getCommercial", e.getMessage());
             }
             
-            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getApiKey(), getContext(), new Outils.APIResponseCallback() {
+            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getCleApi(), getContext(), new Outils.APIResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     // Cela s'exécutera lorsque l'API renvoie une réponse valide

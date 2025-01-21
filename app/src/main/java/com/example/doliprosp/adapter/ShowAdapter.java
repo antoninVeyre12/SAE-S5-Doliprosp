@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.doliprosp.Model.Salon;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 
 import androidx.annotation.NonNull;
@@ -15,13 +15,13 @@ import java.util.List;
 
 public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> {
 
-    private List<Salon> salonList;
+    private List<Salon> salonListe;
 
     private ShowAdapter.OnItemClickListener onItemClickListener;
 
 
     public ShowAdapter(List<Salon> salonList, ShowAdapter.OnItemClickListener onItemClickListener) {
-        this.salonList = salonList;
+        this.salonListe = salonList;
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -29,7 +29,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_show, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_salon, parent, false);
         return new MyViewHolder(view);
 
     }
@@ -37,17 +37,17 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (position < 6) {
-            Salon salon = salonList.get(position);
+            Salon salon = salonListe.get(position);
             holder.salon_nom.setText(salon.getNom());
             holder.salon_case.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onSelectClick(position,salonList);
+                    onItemClickListener.onSelectClick(position, salonListe);
 
                 }
             });
             holder.salon_nom.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onSelectClick(position, salonList);
+                    onItemClickListener.onSelectClick(position, salonListe);
 
                 }
             });
@@ -57,7 +57,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     @Override
     public int getItemCount() {
         // Limite le nombre d'éléments affichés à 6 (2 lignes)
-        return Math.min(salonList.size(), 6);
+        return Math.min(salonListe.size(), 6);
     }
 
     // Interface pour le gestionnaire de clics

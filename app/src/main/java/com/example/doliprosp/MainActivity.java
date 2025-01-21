@@ -1,9 +1,7 @@
 package com.example.doliprosp;
 
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,17 +18,21 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.fragment.ConnexionFragment;
-import com.example.doliprosp.fragment.ProjectFragment;
+import com.example.doliprosp.fragment.ProjetFragment;
 import com.example.doliprosp.fragment.ProspectFragment;
-import com.example.doliprosp.fragment.ShowFragment;
-import com.example.doliprosp.fragment.UserFragment;
+import com.example.doliprosp.fragment.SalonFragment;
+import com.example.doliprosp.fragment.UtilisateurFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
+import com.example.doliprosp.viewModel.MesSalonsViewModel;
+import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private RequestQueue fileRequete;
     private TextView[] textViews;
     private ImageView[] imageViews;
+    private SalonsViewModel salonsViewModel;
+    private MesSalonsViewModel mesSalonsViewModel;
 
 
     @Override
@@ -41,19 +43,19 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
         textViews = new TextView[]{
-                bottomNav.findViewById(R.id.text_waiting),
-                bottomNav.findViewById(R.id.text_show),
-                bottomNav.findViewById(R.id.text_prospect),
-                bottomNav.findViewById(R.id.text_project),
-                bottomNav.findViewById(R.id.text_user)
+                bottomNav.findViewById(R.id.texte_attente),
+                bottomNav.findViewById(R.id.texte_salon),
+                bottomNav.findViewById(R.id.texte_prospect),
+                bottomNav.findViewById(R.id.texte_projet),
+                bottomNav.findViewById(R.id.texte_utilisateur)
         };
 
         imageViews = new ImageView[]{
-                bottomNav.findViewById(R.id.image_waiting),
-                bottomNav.findViewById(R.id.image_show),
+                bottomNav.findViewById(R.id.image_attente),
+                bottomNav.findViewById(R.id.image_salon),
                 bottomNav.findViewById(R.id.image_prospect),
                 bottomNav.findViewById(R.id.image_project),
-                bottomNav.findViewById(R.id.image_user)
+                bottomNav.findViewById(R.id.image_utilisateur)
         };
 
         Log.d("MAIN ACTIVITY", "retour dans le main");
@@ -67,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(connexionFragment);
             } else {
                 Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
-                ShowFragment showFragment = new ShowFragment();
-                loadFragment(showFragment);
+                SalonFragment salonFragment = new SalonFragment();
+                loadFragment(salonFragment);
             }
 
         }
@@ -89,10 +91,10 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getFragmentByIndex(int index) {
         switch (index) {
             case 0: return new WaitingFragment();
-            case 1: return new ShowFragment();
+            case 1: return new SalonFragment();
             case 2: return new ProspectFragment();
-            case 3: return new ProjectFragment();
-            case 4: return new UserFragment();
+            case 3: return new ProjetFragment();
+            case 4: return new UtilisateurFragment();
             default: return null;
         }
     }
@@ -126,10 +128,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Empeche le retour
+    // Empeche le retour
     @Override
     public void onBackPressed() {
 
     }
 
+    // Recharge les données enregistrer quand on relance l'application
+    @Override
+    protected void onResume() {
+        super.onResume();
+        salonsViewModel = new ViewModelProvider(this).get(SalonsViewModel.class);
+        SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        salonsViewModel.initSharedPreferences(sharedPreferencesSalon);
+
+        mesSalonsViewModel = new ViewModelProvider(this).get(MesSalonsViewModel.class);
+        SharedPreferences sharedPreferencesMesSalons = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesSalonsViewModel.initSharedPreferences(sharedPreferencesMesSalons);
+
+        // recuperer les salons
+        salonsViewModel.chargementSalons();
+        mesSalonsViewModel.chargementSalons();
+    }
 }

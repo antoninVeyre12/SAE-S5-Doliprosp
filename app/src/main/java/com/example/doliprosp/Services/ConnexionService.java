@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,21 +17,27 @@ public class ConnexionService implements IConnexionService {
     private Utilisateur nouvelUtilisateur;
     private String urlUtilisateur;
 
+
+
     public ConnexionService(){}
 
-    public void connexion(String url, String userName, String motDePasse, Context context, ConnexionCallBack callback) {
+    public void connexion(String url, String nomUtilisateur, String motDePasse, Context context, ConnexionCallBack callback) {
         urlUtilisateur = url;
-        try {
-            String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
-            String passwordEncoder = URLEncoder.encode(motDePasse, "UTF-8");
-            url = String.format("%s/api/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
 
+        try {
+            String userNameEncoder = URLEncoder.encode("G42", "UTF-8");
+            String passwordEncoder = URLEncoder.encode("3iFJWj26z", "UTF-8");
+            url = String.format("%s/api/index.php/login?login=%s&password=%s", "http://dolibarr.iut-rodez.fr/G2023-42/htdocs", userNameEncoder, passwordEncoder);
+            Log.d("URLL", url);
+            Log.d("USERNAME", nomUtilisateur);
+            Log.d("PASSWORD" , motDePasse);
             Outils.appelAPIConnexion(url, context, new Outils.APIResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject reponse) throws JSONException {
                     JSONObject successJSON = reponse.getJSONObject("success");
                     String apiKey = successJSON.getString("token");
-                    nouvelUtilisateur = new Utilisateur(urlUtilisateur, userName, motDePasse, apiKey);
+                    nouvelUtilisateur = new Utilisateur(urlUtilisateur, nomUtilisateur, motDePasse, apiKey);
+                    Log.d("APIKEY", nouvelUtilisateur.getCleApi());
                     callback.onSuccess(nouvelUtilisateur); // Notifie le contrôleur
                 }
 
@@ -45,9 +51,9 @@ public class ConnexionService implements IConnexionService {
             callback.onError(e.getMessage());
         }
     }
-    public String chiffrementApiKey(String apiKey)
+    public String chiffrementApiKey(String cleApi)
     {
-        return apiKey;
+        return cleApi;
         //TODO chiffrer avec la méthode Vigenère
     }
 
