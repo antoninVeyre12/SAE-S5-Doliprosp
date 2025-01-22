@@ -83,7 +83,7 @@ public class CreationSalonsDialogFragment extends DialogFragment {
         boutonEnvoyer.setOnClickListener(v -> {
             String title = titreEditText.getText().toString();
             if (title.length() <= 2 || title.length() >= 50 ) {
-                erreurNom.setText(R.string.erreur_nom_salon_longeur);
+                erreurNom.setText(R.string.erreur_nom_salon_longueur);
                 erreurNom.setVisibility(View.VISIBLE);
             } else if(salonService.salonExiste(title, salonsViewModel, mesSalonsViewModel)){
                 erreurNom.setText(R.string.erreur_nom_salon_existe);

@@ -28,9 +28,11 @@
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggeres">Salons suggérés</string>
     <string name="erreur_pas_de_salons">Aucun salons existe ou aucun salons correspond a votre recherche</string>
-    <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit etre compris entre 2 et 50 caractéres</string>
+    <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être compris entre 2 et 50 caractères</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
+    <!-- Page Prospect -->
+    <string name="erreur_nom_prospect_longueur">Le nom d\'un prospect doit être compris entre 2 et 50 caractères</string>
 
     <!-- Page connexion -->
     <string name="btn_connexion">Se connecter</string>
