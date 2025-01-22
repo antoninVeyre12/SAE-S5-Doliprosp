@@ -56,7 +56,6 @@ public class ConnexionFragment extends Fragment {
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
         Utilisateur utilisateur = utilisateurViewModel.chargementUtilisateur();
-        Log.d("mot de passe", utilisateur.getMotDePasse());
 
         //String urlConnexion;
         editTextUrl = view.findViewById(R.id.url);
@@ -107,17 +106,19 @@ public class ConnexionFragment extends Fragment {
                             String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
                             String urlUtilisateur = utilisateur.getUrl();
                             utilisateur.setApiKey(apiKeyChiffre);
+                            Log.d("APIKEY", apiKeyChiffre);
                             UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
                             utilisateurViewModel.initSharedPreferences(getContext());
                             if(!utilisateur.informationutilisateurDejaRecupere()) {
                                 try {
                                     String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
                                     urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
+                                    Log.d("url utilisateur", urlUtilisateur);
                                 } catch (UnsupportedEncodingException e) {
                                     Log.d("erreur url getCommercial", e.getMessage());
                                 }
 
-                                Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur().getApiKey(), getContext(), new Outils.APIResponseCallback() {
+                                Outils.appelAPIGet(urlUtilisateur, apiKeyChiffre, getContext(), new Outils.APIResponseCallback() {
                                     @Override
                                     public void onSuccess(JSONObject response) {
                                         Log.d("APIIII", "passage API compte");
