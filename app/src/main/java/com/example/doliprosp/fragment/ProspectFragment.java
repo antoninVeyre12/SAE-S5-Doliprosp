@@ -1,5 +1,5 @@
-
 package com.example.doliprosp.fragment;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.Interface.IProspectService;
-import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
-import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.ProspectAdapter;
-import com.example.doliprosp.adapter.ShowAdapter;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
@@ -45,8 +42,7 @@ public class ProspectFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if (bundle != null) {
             salonActuel = (Salon) bundle.getSerializable("salon");
@@ -67,10 +63,10 @@ public class ProspectFragment extends Fragment {
         boutonCreerProspect = view.findViewById(R.id.buttonCreateProspect);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         chargement = view.findViewById(R.id.chargement);
-        recherche = view.findViewById(R.id.recherche).toString();
-        champ = view.findViewById(R.id.champ).toString();
-        tri = view.findViewById(R.id.tri).toString();
-        prospectClientExiste(recherche,champ,tri);
+        // recherche = view.findViewById(R.id.recherche).toString();
+        // champ = view.findViewById(R.id.champ).toString();
+        // tri = view.findViewById(R.id.tri).toString();
+        prospectClientExiste(recherche, champ, tri);
 
         setupListeners();
     }
@@ -81,6 +77,9 @@ public class ProspectFragment extends Fragment {
         // Ajouter un salon
         boutonCreerProspect.setOnClickListener(v -> {
             CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("nomDuSalon", (Serializable) salonActuel.getNom());
+            dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
     }
@@ -90,7 +89,7 @@ public class ProspectFragment extends Fragment {
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
         chargement.setVisibility(View.VISIBLE);
 
-        prospectService.prospectClientExiste(getContext(),recherche,champ,tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
+        prospectService.prospectClientExiste(getContext(), recherche, champ, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
 
             @Override
             public void onSuccess(ArrayList<Prospect> response) {

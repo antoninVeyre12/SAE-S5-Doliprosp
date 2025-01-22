@@ -12,7 +12,7 @@
         android:layout_marginTop="10dp"
         android:maxLength="50"
         android:hint="@string/hint_nomProspect"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/editTextPrenom"
@@ -21,7 +21,7 @@
         android:layout_marginTop="10dp"
         android:maxLength="50"
         android:hint="@string/hint_prenomProspect"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/editTextMail"
@@ -30,7 +30,7 @@
         android:layout_marginTop="10dp"
         android:maxLength="50"
         android:hint="@string/hint_mailProspect"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/editTextPhone"
@@ -40,7 +40,7 @@
         android:maxLength="10"
         android:inputType="number"
         android:hint="@string/hint_phoneProspect"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/editTextAdresse"
@@ -49,7 +49,7 @@
         android:layout_marginTop="10dp"
         android:maxLength="100"
         android:hint="@string/hint_adresseProspect"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/editTextVille"
@@ -58,7 +58,7 @@
         android:layout_marginTop="10dp"
         android:maxLength="70"
         android:hint="@string/hint_villeProspect"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/editTextCodePostal"
@@ -68,9 +68,10 @@
         android:inputType="number"
         android:maxLength="5"
         android:hint="@string/hint_cpProspect"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <TableRow>
+
         <Button
             android:id="@+id/buttonSubmit"
             style="@style/button_validate"
@@ -83,11 +84,11 @@
     </TableRow>
 
     <TextView
-        android:id="@+id/erreur_nom"
+        android:id="@+id/erreur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/red"
         android:textSize="@dimen/erreur_texte"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </TableLayout>

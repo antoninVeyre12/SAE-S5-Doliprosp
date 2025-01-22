@@ -1,20 +1,25 @@
 package com.example.doliprosp.viewModel;
 
+import android.app.Application;
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.AndroidViewModel;
+
 import com.example.doliprosp.Modele.Prospect;
-import com.example.doliprosp.Modele.Salon;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class ProspectViewModel {
+public class ProspectViewModel extends AndroidViewModel {  // Changer de ViewModel à AndroidViewModel ou simplement ViewModel
 
     private ArrayList<Prospect> prospectListe = new ArrayList<>();
     private SharedPreferences sharedPreferences;
+
+    public ProspectViewModel(Application application) {
+        super(application);
+    }
 
     public ArrayList<Prospect> getProspectListe() {
         return prospectListe;
@@ -34,7 +39,7 @@ public class ProspectViewModel {
         enregistrerProspect();
     }
 
-    public void clear( ) {
+    public void clear() {
         prospectListe.clear();
         enregistrerProspect();
     }
@@ -50,10 +55,10 @@ public class ProspectViewModel {
     public void chargementProspect() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("prospect_list", null);
-        Type type = new TypeToken<ArrayList<Prospect>>() {}.getType();
+        Type type = new TypeToken<ArrayList<Prospect>>() {
+        }.getType();
         if (json != null) {
             prospectListe = gson.fromJson(json, type);
         }
     }
-
 }
