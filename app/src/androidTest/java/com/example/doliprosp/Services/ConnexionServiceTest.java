@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import com.example.doliprosp.Model.Utilisateur;
+import com.example.doliprosp.Modele.Utilisateur;
 
 import org.json.JSONObject;
 import org.junit.Test;
@@ -54,9 +54,9 @@ public class ConnexionServiceTest {
 
         assertNotNull(nouvelUtilisateur);
         assertEquals("http://example.com", nouvelUtilisateur.getUrl());
-        assertEquals("user", nouvelUtilisateur.getUserName());
+        assertEquals("user", nouvelUtilisateur.getNomUtilisateur());
         assertEquals("password", nouvelUtilisateur.getMotDePasse());
-        assertEquals("abcd1234", nouvelUtilisateur.getApiKey());
+        assertEquals("abcd1234", nouvelUtilisateur.getCleApi());
     }
 
 }
