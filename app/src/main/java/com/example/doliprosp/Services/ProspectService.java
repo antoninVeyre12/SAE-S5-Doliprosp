@@ -35,7 +35,26 @@ public class ProspectService implements IProspectService {
 
             @Override
             public void onSuccess(JSONArray response) {
-
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String nomSalon = "";
+                        String nom = object.getString("name");
+                        int codePostal = object.getInt("zip");
+                        String ville = object.getString("town");
+                        String adressePostale = object.getString("adress");
+                        String mail = object.getString("label");
+                        String numeroTelephone = object.getString("label");
+                        String estClient = object.getString("label");
+                        String image = object.getString("label");
+                        listeProspectCorrespondant.add(new Prospect(nomSalon, nom, codePostal,
+                         ville,  adressePostale,  mail,  numeroTelephone,
+                                 estClient,  image));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.onSuccess(listeProspectCorrespondant);
             }
 
             @Override

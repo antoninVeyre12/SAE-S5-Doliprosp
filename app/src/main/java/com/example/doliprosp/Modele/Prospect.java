@@ -5,23 +5,21 @@ import java.util.UUID;
 public class Prospect {
     private UUID idProspect;
     private String nomSalon;
-    private String prenom;
     private String nom;
     private int codePostal;
     private String ville;
     private String adresse;
     private String mail;
     private String numeroTelephone;
-    private Boolean estClient;
+    private String estClient;
     private String image;
 
 
-    public Prospect(String nomSalon, String prenom, String nom, int codePostal,
+    public Prospect(String nomSalon, String nom, int codePostal,
                     String ville, String adressePostale, String mail, String numeroTelephone,
-                    Boolean estClient, String image) {
+                    String estClient, String image) {
         this.idProspect = UUID.randomUUID();
         this.nomSalon = nomSalon;
-        this.prenom = prenom;
         this.nom = nom;
         this.codePostal = codePostal;
         this.ville = ville;
@@ -46,14 +44,6 @@ public class Prospect {
 
     public void setNomSalon(String nomSalon) {
         this.nomSalon = nomSalon;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
     }
 
     public String getNom() {
@@ -104,11 +94,11 @@ public class Prospect {
         this.numeroTelephone = numeroTelephone;
     }
 
-    public Boolean getEstClient() {
+    public String getEstClient() {
         return estClient;
     }
 
-    public void setEstClient(Boolean estClient) {
+    public void setEstClient(String estClient) {
         this.estClient = estClient;
     }
 

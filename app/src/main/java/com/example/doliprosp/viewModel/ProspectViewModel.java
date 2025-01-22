@@ -49,7 +49,7 @@ public class ProspectViewModel {
 
     public void chargementProspect() {
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("prospect_list", null);
+        String json = sharedPreferences.getString("prospect_liste", null);
         Type type = new TypeToken<ArrayList<Prospect>>() {}.getType();
         if (json != null) {
             prospectListe = gson.fromJson(json, type);
