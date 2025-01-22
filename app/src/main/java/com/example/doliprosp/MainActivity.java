@@ -1,5 +1,6 @@
 package com.example.doliprosp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -62,17 +63,8 @@ public class MainActivity extends AppCompatActivity {
         // Chargement du fragment par défaut (Connexion)
         if (savedInstanceState == null) {
             bottomNav.setVisibility(View.GONE);
-            UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
-
-            if(utilisateurViewModel.getUtilisateur(this, this) == null) {
-                ConnexionFragment connexionFragment = new ConnexionFragment();
-                loadFragment(connexionFragment);
-            } else {
-                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
-                SalonFragment salonFragment = new SalonFragment();
-                loadFragment(salonFragment);
-            }
-
+            ConnexionFragment connexionFragment = new ConnexionFragment();
+            loadFragment(connexionFragment);
         }
 
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
@@ -149,5 +141,12 @@ public class MainActivity extends AppCompatActivity {
         // recuperer les salons
         salonsViewModel.chargementSalons();
         mesSalonsViewModel.chargementSalons();
+        
+        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
+        utilisateurViewModel.initSharedPreferences(this);
+
+        utilisateurViewModel.chargementUtilisateur();
+
     }
+
 }

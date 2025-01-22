@@ -28,7 +28,8 @@ public class Utilisateur implements Serializable {
 
     public boolean informationutilisateurDejaRecupere()
     {
-        return mail != null;
+        return mail != null && adresse != null && codePostal != 0 && ville != null && numTelephone != null
+                && nom != null && prenom != null;
     }
 
 

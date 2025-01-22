@@ -62,7 +62,7 @@ public class UtilisateurFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        utilisateurActuel = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
+        utilisateurActuel = utilisateurViewModel.getUtilisateur();
 
         userName = utilisateurActuel.getNomUtilisateur();
         Activity activity = getActivity();
@@ -89,7 +89,7 @@ public class UtilisateurFragment extends Fragment {
             numTelephone = utilisateurActuel.getNumTelephone();
             afficherInformations();
         } else {
-            String urlUtilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getUrl();
+            String urlUtilisateur = utilisateurViewModel.getUtilisateur().getUrl();
 
             try {
                 String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
@@ -98,13 +98,11 @@ public class UtilisateurFragment extends Fragment {
                 Log.d("erreur url getCommercial", e.getMessage());
             }
             
-            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur(getContext(), requireActivity()).getCleApi(), getContext(), new Outils.APIResponseCallback() {
+            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur().getApiKey(), getContext(), new Outils.APIResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     // Cela s'exécutera lorsque l'API renvoie une réponse valide
-                    Log.d("feoejf,oeakf", response.toString());
                     objectJSON = response;
-                    Log.d("objectJSON", String.valueOf(objectJSON.length()));
                     try {
                         nom = objectJSON.getString("lastname");
                         utilisateurActuel.setNom(nom);
@@ -137,17 +135,6 @@ public class UtilisateurFragment extends Fragment {
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
-            utilisateurViewModel.setUtilisateur(null, getContext());
-            Log.d("SET UTILISATEUR", "utilisateur set a null");
-            //System.gc(); //Supprime l'intsance de Utilisateur
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("username", null);
-            editor.putString("url", null);
-            editor.putString("motDePasse", null);
-            editor.putString("apiKey", null);
-
-            editor.apply();
             ConnexionFragment connexionFragment = new ConnexionFragment();
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
             bottomNav.setVisibility(View.GONE);

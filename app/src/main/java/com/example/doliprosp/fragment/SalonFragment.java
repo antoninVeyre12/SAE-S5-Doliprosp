@@ -99,7 +99,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     private void rechercheSalons(String recherche){
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         chargement.setVisibility(View.VISIBLE);
 
         salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {

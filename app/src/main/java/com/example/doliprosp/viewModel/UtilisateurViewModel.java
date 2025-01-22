@@ -13,44 +13,89 @@ import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 public class UtilisateurViewModel extends ViewModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Utilisateur utilisateurActuel;
 
-    public void setUtilisateur(Utilisateur nouvelUtilisateur, Context context) {
-        utilisateurActuel = nouvelUtilisateur;
-        if(utilisateurActuel != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("nomUtilisateur", nouvelUtilisateur.getNomUtilisateur());
-            editor.putString("url", nouvelUtilisateur.getUrl());
-            editor.putString("motDePasse", nouvelUtilisateur.getMotDePasse());
-            editor.putString("cleApi", nouvelUtilisateur.getCleApi());
-            editor.apply();
-        }
+    private SharedPreferences sharedPreferences;
+
+    public Utilisateur getUtilisateur() {
+        return utilisateurActuel;
+    }
+
+    public void setUtilisateur(Utilisateur nouvelUtilisateur) {
+        this.utilisateurActuel = nouvelUtilisateur;
+        enregistrerUtilisateur();
+    }
+
+    public void initSharedPreferences(Context context) {
+        this.sharedPreferences = context.getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
 
     }
 
-    public Utilisateur getUtilisateur(Context context, Activity activity) {
-        if (utilisateurActuel == null) {
-            // Chargement depuis SharedPreferences
-            SharedPreferences sharedPreferences = context.getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
-            String username = sharedPreferences.getString("username", null);
-            String url = sharedPreferences.getString("url", null);
-            String motDePasse = sharedPreferences.getString("motDePasse", null);
-            String apiKey = sharedPreferences.getString("apiKey", null);
+    public void enregistrerUtilisateur() {
+        if (utilisateurActuel != null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("username", utilisateurActuel.getUserName());
+            editor.putString("url", utilisateurActuel.getUrl());
+            editor.putString("motDePasse", utilisateurActuel.getMotDePasse());
+            editor.putString("apiKey", utilisateurActuel.getApiKey());
+            editor.putString("prenom", utilisateurActuel.getPrenom());
+            editor.putString("nom", utilisateurActuel.getNom());
+            editor.putString("ville", utilisateurActuel.getVille());
+            editor.putInt("codePostal", utilisateurActuel.getCodePostal());
+            editor.putString("adresse", utilisateurActuel.getAdresse());
+            editor.putString("mail", utilisateurActuel.getMail());
+            editor.putString("numTelephone", utilisateurActuel.getNumTelephone());
+            editor.apply();
+        }
+    }
 
-            if (username != null) {
-                utilisateurActuel = new Utilisateur(url, username, motDePasse, apiKey);
+    public Utilisateur chargementUtilisateur() {
+        String username = sharedPreferences.getString("username", null);
+        String url = sharedPreferences.getString("url", null);
+        String motDePasse = sharedPreferences.getString("motDePasse", null);
+        String apiKey = sharedPreferences.getString("apiKey", null);
+        String prenom = sharedPreferences.getString("prenom", null);
+        String nom = sharedPreferences.getString("nom", null);
+        String ville = sharedPreferences.getString("ville", null);
+        int codePostal = sharedPreferences.getInt("codePostal", 0);
+        String adresse = sharedPreferences.getString("adresse", null);
+        String mail = sharedPreferences.getString("mail", null);
+        String numTelephone = sharedPreferences.getString("numTelephone", null);
 
-                LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
-                bottomNav.setVisibility(View.VISIBLE);
-                ((MainActivity)activity).setColors(1);
 
-            }
+        utilisateurActuel = new Utilisateur(url, username, motDePasse, apiKey);
+        utilisateurActuel.setPrenom(prenom);
+        utilisateurActuel.setNom(nom);
+        utilisateurActuel.setVille(ville);
+        utilisateurActuel.setCodePostal(codePostal);
+        utilisateurActuel.setAdresse(adresse);
+        utilisateurActuel.setMail(mail);
+        utilisateurActuel.setNumTelephone(numTelephone);
+
+        if(utilisateurActuel.getMail() != null) {
+            Log.d("UTSER", "mail");
         }
         return utilisateurActuel;
+    }
+
+    public void supprimerDonnerUtilisateur() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("username", null);
+        editor.putString("url", null);
+        editor.putString("motDePasse", null);
+        editor.putString("apiKey", null);
+        editor.putString("prenom", null);
+        editor.putString("nom", null);
+        editor.putString("ville", null);
+        editor.putString("codePostal", null);
+        editor.putString("adresse", null);
+        editor.putString("mail", null);
+        editor.putString("numTelephone", null);
+        editor.apply();
     }
 }

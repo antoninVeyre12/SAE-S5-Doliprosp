@@ -72,9 +72,9 @@ public class CreationSalonsDialogFragment extends DialogFragment {
             adapterMesSalons = (MyShowAdapter) getArguments().getSerializable("adapterMyShow");
         }
 
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
-        listeSalonsSauvegarder = new ArrayList<Salon>();
-        //salonViewModel
+        // Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+        // showSavedList = new ArrayList<Salon>();
+
         /*salonService.getSalonsEnregistres(getContext(),"", utilisateur, new Outils.APIResponseCallbackArrayTest() {
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
