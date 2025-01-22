@@ -24,6 +24,12 @@
     <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit etre compris entre 2 et 50 caractéres</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
+    <!-- Page Salon attente -->
+
+    <string name="salon_attente"> Salon attente</string>
+    <string name="erreur_aucun_salon"> "Erreur vous n'avez aucun salon à envoyer"</string>
+    <string name="btn_envoyer_salon_attente"> Envoyer </string>
+
 
     <!-- Page connexion -->
     <string name="btn_connexion">Se connecter</string>
