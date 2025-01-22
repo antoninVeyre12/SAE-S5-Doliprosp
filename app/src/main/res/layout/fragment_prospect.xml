@@ -31,17 +31,28 @@
 
             <TextView
                 android:id="@+id/salonActuel"
-                style="@style/subTitle"
-                android:text="@string/mes_salons" />
+                style="@style/subTitle" />
+
+            <ProgressBar
+                android:id="@+id/chargement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:indeterminate="true"
+                android:layout_gravity="center" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/prospectRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
     </ScrollView>
 
 
-
-    <View
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_bar_height"/>
+   <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_bar_height"/>
 
 </RelativeLayout>

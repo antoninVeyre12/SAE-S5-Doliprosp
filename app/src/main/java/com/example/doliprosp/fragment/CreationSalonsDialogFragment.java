@@ -34,7 +34,7 @@ public class CreationSalonsDialogFragment extends DialogFragment {
     private ISalonService salonService;
     private EditText titreEditText;
     private UtilisateurViewModel utilisateurViewModel;
-    private ArrayList<Salon> listeSalonsSauvegarder;
+    // private ArrayList<Salon> listeSalonsSauvegarder;
     private MyShowAdapter adapterMesSalons;
 
     private TextView erreurNom;
@@ -60,11 +60,6 @@ public class CreationSalonsDialogFragment extends DialogFragment {
         titreEditText = view.findViewById(R.id.editTextTitle);
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
-
-
-        titreEditText = view.findViewById(R.id.editTextTitle);
-        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
-        boutonAnnuler = view.findViewById(R.id.buttonCancel);
         erreurNom = view.findViewById(R.id.erreur_nom);
 
         // Récupere les données de l'adapteur
@@ -73,7 +68,7 @@ public class CreationSalonsDialogFragment extends DialogFragment {
         }
 
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
-        listeSalonsSauvegarder = new ArrayList<Salon>();
+        //listeSalonsSauvegarder = new ArrayList<Salon>();
         //salonViewModel
         /*salonService.getSalonsEnregistres(getContext(),"", utilisateur, new Outils.APIResponseCallbackArrayTest() {
             @Override
@@ -95,7 +90,6 @@ public class CreationSalonsDialogFragment extends DialogFragment {
                 erreurNom.setVisibility(View.VISIBLE);
 
             } else {
-                Log.d("one","onestla");
                 Salon newShow = new Salon(title);
                 mesSalonsViewModel.addSalon(newShow);
                 if (adapterMesSalons != null) {

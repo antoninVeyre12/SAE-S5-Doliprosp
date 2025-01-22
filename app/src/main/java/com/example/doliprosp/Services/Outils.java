@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
@@ -155,5 +156,8 @@ public class Outils {
         void onError(String errorMessage);
     }
 
-
+    public interface APIResponseCallbackArrayProspect {
+        void onSuccess(ArrayList<Prospect> response);
+        void onError(String errorMessage);
+    }
 }
