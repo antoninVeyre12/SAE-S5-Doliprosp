@@ -172,8 +172,4 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         ((MainActivity) getActivity()).loadFragment(prospectFragment);
         ((MainActivity) getActivity()).setColors(2);
     }
-
-
-
-
 }
