@@ -56,7 +56,6 @@ public class ConnexionFragment extends Fragment {
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
         Utilisateur utilisateur = utilisateurViewModel.chargementUtilisateur();
-        Log.d("mot de passe", utilisateur.getMotDePasse());
 
         //String urlConnexion;
         urlEditText = view.findViewById(R.id.url);
@@ -70,15 +69,13 @@ public class ConnexionFragment extends Fragment {
 
         if(utilisateur != null && utilisateur.informationutilisateurDejaRecupere()) {
             utilisateurViewModel.chargementUtilisateur();
-            editTextUrl.setText(utilisateur.getUrl());
-            editTextUserName.setText(utilisateur.getUserName());
-            Log.d("mot depasse", String.valueOf(utilisateur.getMotDePasse().length()));
+            urlEditText.setText(utilisateur.getUrl());
+            nomUtilisateurEditText.setText(utilisateur.getNomUtilisateur());
             Button buttonSubmit  = view.findViewById(R.id.connexion);
             buttonSubmit.setOnClickListener(v -> {
-                String password = editTextPassword.getText().toString();
-                Log.d("password", String.valueOf(password.length()));
+                String password = motDePasseEditText.getText().toString();
                 if(password.trim().equalsIgnoreCase(utilisateur.getMotDePasse())) {
-                    ShowFragment showFragment = new ShowFragment();
+                    SalonFragment showFragment = new SalonFragment();
                     ((MainActivity) getActivity()).loadFragment(showFragment);
                     ((MainActivity) getActivity()).setColors(1);
                     bottomNav.setVisibility(View.VISIBLE);
@@ -90,9 +87,9 @@ public class ConnexionFragment extends Fragment {
         } else {
             Button buttonSubmit  = view.findViewById(R.id.connexion);
             buttonSubmit.setOnClickListener(v -> {
-                String url = editTextUrl.getText().toString();
-                String userName = editTextUserName.getText().toString();
-                String password = editTextPassword.getText().toString();
+                String url = urlEditText.getText().toString();
+                String userName = nomUtilisateurEditText.getText().toString();
+                String password = motDePasseEditText.getText().toString();
                 if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
                     // Affiche un toast au lieu d'un log
                     Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
@@ -103,8 +100,8 @@ public class ConnexionFragment extends Fragment {
                     chargement.setVisibility(View.VISIBLE);
                     connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
                         public void onSuccess(Utilisateur utilisateur) {
-                            String userName = editTextUserName.getText().toString();
-                            String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getApiKey());
+                            String userName = nomUtilisateurEditText.getText().toString();
+                            String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
                             String urlUtilisateur = utilisateur.getUrl();
                             utilisateur.setApiKey(apiKeyChiffre);
                             UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
@@ -117,10 +114,11 @@ public class ConnexionFragment extends Fragment {
                                     Log.d("erreur url getCommercial", e.getMessage());
                                 }
 
-                                Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur().getApiKey(), getContext(), new Outils.APIResponseCallback() {
+                                Log.d("url", urlUtilisateur);
+                                Log.d("apikey", apiKeyChiffre);
+                                Outils.appelAPIGet(urlUtilisateur, apiKeyChiffre, getContext(), new Outils.APIResponseCallback() {
                                     @Override
                                     public void onSuccess(JSONObject response) {
-                                        Log.d("APIIII", "passage API compte");
                                         // Cela s'exécutera lorsque l'API renvoie une réponse valide
                                         JSONObject objectJSON = response;
                                         try {
@@ -153,8 +151,8 @@ public class ConnexionFragment extends Fragment {
                             }
 
                             // Navigation vers ShowFragment
-                            ShowFragment showFragment = new ShowFragment();
-                            ((MainActivity) getActivity()).loadFragment(showFragment);
+                            SalonFragment salonFragment = new SalonFragment();
+                            ((MainActivity) getActivity()).loadFragment(salonFragment);
                             ((MainActivity) getActivity()).setColors(1);
                             bottomNav.setVisibility(View.VISIBLE);
                             chargement.setVisibility(View.GONE);

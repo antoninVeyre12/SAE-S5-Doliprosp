@@ -65,6 +65,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        utilisateurViewModel.initSharedPreferences(getContext());
         boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
         recyclerView = view.findViewById(R.id.showRecyclerView);
         recyclerViewMesSalons = view.findViewById(R.id.myShowRecyclerView);
@@ -90,16 +91,17 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
     public void onResume() {
         super.onResume();
-        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonList(), SalonFragment.this);
+        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this);
         recyclerViewMesSalons.setAdapter(adapterMesSalons);
         adapterMesSalons.notifyDataSetChanged();
-        adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+        adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
         recyclerView.setAdapter(adapterSalons);
         adapterSalons.notifyDataSetChanged();
     }
 
     private void rechercheSalons(String recherche){
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+        Utilisateur utilisateur = utilisateurViewModel.chargementUtilisateur();
+        Log.d("apokeyy", utilisateur.getCleApi());
         chargement.setVisibility(View.VISIBLE);
 
         salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
@@ -116,7 +118,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
                 }
                 // Set l'adapter des shows récupéré
-                adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+                adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
                 recyclerView.setAdapter(adapterSalons);
                 chargement.setVisibility(View.GONE);
 
@@ -124,7 +126,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
             @Override
             public void onError(String error) {
-                adapterSalons = new ShowAdapter(salonsViewModel.getSalonList(), SalonFragment.this);
+                adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
                 chargement.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapterSalons);
                 //erreur.setVisibility(View.VISIBLE);
@@ -172,8 +174,4 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         ((MainActivity) getActivity()).loadFragment(prospectFragment);
         ((MainActivity) getActivity()).setColors(2);
     }
-
-
-
-
 }

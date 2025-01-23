@@ -3,6 +3,7 @@ package com.example.doliprosp.viewModel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -37,21 +38,21 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
     }
 
     public void enregistrerUtilisateur() {
-        if (utilisateurActuel != null) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("username", utilisateurActuel.getUserName());
-            editor.putString("url", utilisateurActuel.getUrl());
-            editor.putString("motDePasse", utilisateurActuel.getMotDePasse());
-            editor.putString("apiKey", utilisateurActuel.getApiKey());
-            editor.putString("prenom", utilisateurActuel.getPrenom());
-            editor.putString("nom", utilisateurActuel.getNom());
-            editor.putString("ville", utilisateurActuel.getVille());
-            editor.putInt("codePostal", utilisateurActuel.getCodePostal());
-            editor.putString("adresse", utilisateurActuel.getAdresse());
-            editor.putString("mail", utilisateurActuel.getMail());
-            editor.putString("numTelephone", utilisateurActuel.getNumTelephone());
-            editor.apply();
-        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("username", utilisateurActuel.getNomUtilisateur());
+        editor.putString("url", utilisateurActuel.getUrl());
+        editor.putString("motDePasse", utilisateurActuel.getMotDePasse());
+        editor.putString("apiKey", utilisateurActuel.getCleApi());
+        Log.d("cle api enregistré",utilisateurActuel.getCleApi());
+        editor.putString("prenom", utilisateurActuel.getPrenom());
+        editor.putString("nom", utilisateurActuel.getNom());
+        editor.putString("ville", utilisateurActuel.getVille());
+        editor.putInt("codePostal", utilisateurActuel.getCodePostal());
+        editor.putString("adresse", utilisateurActuel.getAdresse());
+        editor.putString("mail", utilisateurActuel.getMail());
+        editor.putString("numTelephone", utilisateurActuel.getNumTelephone());
+        editor.apply();
+
     }
 
     public Utilisateur chargementUtilisateur() {
@@ -76,10 +77,6 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
         utilisateurActuel.setAdresse(adresse);
         utilisateurActuel.setMail(mail);
         utilisateurActuel.setNumTelephone(numTelephone);
-
-        if(utilisateurActuel.getMail() != null) {
-            Log.d("UTSER", "mail");
-        }
         return utilisateurActuel;
     }
 

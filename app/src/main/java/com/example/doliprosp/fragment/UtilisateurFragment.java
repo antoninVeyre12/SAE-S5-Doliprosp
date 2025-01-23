@@ -88,49 +88,6 @@ public class UtilisateurFragment extends Fragment {
             ville = utilisateurActuel.getVille();
             numTelephone = utilisateurActuel.getNumTelephone();
             afficherInformations();
-        } else {
-            String urlUtilisateur = utilisateurViewModel.getUtilisateur().getUrl();
-
-            try {
-                String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
-                urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
-            } catch (UnsupportedEncodingException e) {
-                Log.d("erreur url getCommercial", e.getMessage());
-            }
-            
-            Outils.appelAPIGet(urlUtilisateur, utilisateurViewModel.getUtilisateur().getApiKey(), getContext(), new Outils.APIResponseCallback() {
-                @Override
-                public void onSuccess(JSONObject response) {
-                    // Cela s'exécutera lorsque l'API renvoie une réponse valide
-                    objectJSON = response;
-                    try {
-                        nom = objectJSON.getString("lastname");
-                        utilisateurActuel.setNom(nom);
-                        prenom = objectJSON.getString("firstname");
-                        utilisateurActuel.setPrenom(prenom);
-                        mail = objectJSON.getString("email");
-                        utilisateurActuel.setMail(mail);
-                        adresse = objectJSON.getString("address");
-                        utilisateurActuel.setAdresse(adresse);
-                        codePostal = objectJSON.getString("zip");
-                        utilisateurActuel.setCodePostal(Integer.parseInt(codePostal));
-                        ville = objectJSON.getString("town");
-                        utilisateurActuel.setVille(ville);
-                        numTelephone = objectJSON.getString("office_phone");
-                        utilisateurActuel.setNumTelephone(numTelephone);
-                        afficherInformations();
-                    } catch(Exception e) {
-                        Log.d("ERROR JSON EXCEPTION", e.getMessage());
-                    }
-
-                }
-
-                @Override
-                public void onError(String errorMessage) {
-                    // Cela s'exécutera en cas d'erreur dans l'appel API
-                    Log.d("BAD APPEL API", errorMessage);
-                }
-            });
         }
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);

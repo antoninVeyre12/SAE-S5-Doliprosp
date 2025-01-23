@@ -25,19 +25,15 @@ public class ConnexionService implements IConnexionService {
         urlUtilisateur = url;
 
         try {
-            String userNameEncoder = URLEncoder.encode("G42", "UTF-8");
-            String passwordEncoder = URLEncoder.encode("3iFJWj26z", "UTF-8");
-            url = String.format("%s/api/index.php/login?login=%s&password=%s", "http://dolibarr.iut-rodez.fr/G2023-42/htdocs", userNameEncoder, passwordEncoder);
-            Log.d("URLL", url);
-            Log.d("USERNAME", nomUtilisateur);
-            Log.d("PASSWORD" , motDePasse);
+            String userNameEncoder = URLEncoder.encode(nomUtilisateur, "UTF-8");
+            String passwordEncoder = URLEncoder.encode(motDePasse, "UTF-8");
+            url = String.format("%s/api/index.php/login?login=%s&password=%s", url, userNameEncoder, passwordEncoder);
             Outils.appelAPIConnexion(url, context, new Outils.APIResponseCallback() {
                 @Override
                 public void onSuccess(JSONObject reponse) throws JSONException {
                     JSONObject successJSON = reponse.getJSONObject("success");
                     String apiKey = successJSON.getString("token");
                     nouvelUtilisateur = new Utilisateur(urlUtilisateur, nomUtilisateur, motDePasse, apiKey);
-                    Log.d("APIKEY", nouvelUtilisateur.getCleApi());
                     callback.onSuccess(nouvelUtilisateur); // Notifie le contrôleur
                 }
 

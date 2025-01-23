@@ -36,7 +36,7 @@
         android:id="@+id/url"
         android:layout_width="300dp"
         android:layout_gravity="center"
-        android:hint="@string/url_example"
+        android:hint="@string/url_exemple"
         android:layout_height="wrap_content">
     </EditText>
 
