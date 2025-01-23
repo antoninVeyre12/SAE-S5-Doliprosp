@@ -1,6 +1,7 @@
 package com.example.doliprosp.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
@@ -20,13 +23,16 @@ import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
+import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ProspectAdapter;
+import com.example.doliprosp.adapter.ShowAdapter;
+import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ProspectFragment extends Fragment {
+public class  ProspectFragment extends Fragment {
 
     private IProspectService prospectService;
     private TextView salonActuelEditText;
@@ -34,9 +40,11 @@ public class ProspectFragment extends Fragment {
     private static Salon dernierSalonSelectione;
     private Button boutonCreerProspect;
     private UtilisateurViewModel utilisateurViewModel;
+    private MesProspectViewModel mesProspectViewModel;
     private ProspectAdapter adapterProspect;
     private ProgressBar chargement;
     private String recherche;
+    private RecyclerView prospectRecyclerView;
     private String champ;
     private String tri;
 
@@ -61,34 +69,47 @@ public class ProspectFragment extends Fragment {
 
         prospectService = new ProspectService();
         boutonCreerProspect = view.findViewById(R.id.buttonCreateProspect);
+        salonActuelEditText = view.findViewById(R.id.salonActuel);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
         chargement = view.findViewById(R.id.chargement);
         // recherche = view.findViewById(R.id.recherche).toString();
         // champ = view.findViewById(R.id.champ).toString();
+        // Set l'adapter des salons de l'utilisateur
         // tri = view.findViewById(R.id.tri).toString();
-        prospectClientExiste(recherche, champ, tri);
-
+        //prospectClientExiste(recherche, champ, tri);
+        salonActuelEditText.setText(salonActuel.getNom());
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        prospectRecyclerView.setLayoutManager(layoutManager);
         setupListeners();
     }
 
     private void setupListeners() {
-        // TODO Lancer la recherche avec le texte saisi
-
         // Ajouter un salon
         boutonCreerProspect.setOnClickListener(v -> {
             CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("nomDuSalon", (Serializable) salonActuel.getNom());
+            bundle.putSerializable("adapterProspect", (Serializable) adapterProspect);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
+    }
+
+    public void onResume() {
+        super.onResume();
+        Log.d("ffffff", String.valueOf(mesProspectViewModel.getProspectListe()));
+        Log.d("ggggg", String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom())));
+        adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()));
+        prospectRecyclerView.setAdapter(adapterProspect);
+        adapterProspect.notifyDataSetChanged();
     }
 
 
     private void prospectClientExiste(String recherche, String champ, String tri) {
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
         chargement.setVisibility(View.VISIBLE);
-
         prospectService.prospectClientExiste(getContext(), recherche, champ, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
 
             @Override

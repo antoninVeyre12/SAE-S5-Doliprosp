@@ -112,7 +112,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
                 // rajoute un a un les salons a afficher
                 for (Salon salon : shows){
                     salonsViewModel.addSalon(salon);
-                    Log.d("aaa", salonsViewModel.getSalonListe().toString());
 
                 }
                 // Set l'adapter des shows récupéré

@@ -26,6 +26,18 @@ public class ProspectService implements IProspectService {
 
     }
 
+    public ArrayList<Prospect> getProspectDUnSalon(ArrayList<Prospect> prospectListe, String nomSalon) {
+
+        ArrayList<Prospect> prospectsduSalon = new ArrayList<>();
+
+        for (Prospect prospect : prospectListe) {
+            if (prospect.getNomSalon().equals(nomSalon)) {
+                prospectsduSalon.add(prospect);
+            }
+        }
+
+        return prospectsduSalon;
+    }
 
     public void prospectClientExiste(Context context, String recherche, String champ, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback) {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();

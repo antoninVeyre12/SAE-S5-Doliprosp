@@ -56,7 +56,6 @@ public class CreationSalonsDialogFragment extends DialogFragment {
         salonService = new SalonService();
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         titreEditText = view.findViewById(R.id.editTextTitle);
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
@@ -66,19 +65,6 @@ public class CreationSalonsDialogFragment extends DialogFragment {
         if (getArguments().containsKey("adapterMyShow")) {
             adapterMesSalons = (MyShowAdapter) getArguments().getSerializable("adapterMyShow");
         }
-
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
-        //listeSalonsSauvegarder = new ArrayList<Salon>();
-        //salonViewModel
-        /*salonService.getSalonsEnregistres(getContext(),"", utilisateur, new Outils.APIResponseCallbackArrayTest() {
-            @Override
-            public void onSuccess(ArrayList<Salon> shows) {
-                listeSalonsSauvegarder = shows;
-            }
-            @Override
-            public void onError(String error) {
-            }
-        });*/
 
         boutonEnvoyer.setOnClickListener(v -> {
             String title = titreEditText.getText().toString();

@@ -6,11 +6,13 @@ import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.Services.Outils;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public interface IProspectService {
     public void ajouterProspect(Prospect prospect);
     public void supprimerProspect(Prospect prospect);
+    public ArrayList<Prospect> getProspectDUnSalon(ArrayList<Prospect> prospectListe, String nomSalon);
 
     public void prospectClientExiste(Context context, String recherche, String champ, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback);
 

@@ -3,14 +3,15 @@ package com.example.doliprosp.viewModel;
 import android.content.SharedPreferences;
 
 import com.example.doliprosp.Modele.Prospect;
-import com.example.doliprosp.Modele.Salon;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MesProspectViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class MesProspectViewModel extends ViewModel {
     private ArrayList<Prospect> prospectListe = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
@@ -18,7 +19,8 @@ public class MesProspectViewModel {
         return prospectListe;
     }
 
-    public void addSalon(Prospect prospect) {
+
+    public void addProspect(Prospect prospect) {
         prospectListe.add(prospect);
         enregistrerProspect();
     }
@@ -27,7 +29,7 @@ public class MesProspectViewModel {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void removeSalon(Prospect prospect) {
+    public void removeProspect(Prospect prospect) {
         prospectListe.remove(prospect);
         enregistrerProspect();
     }
@@ -40,7 +42,7 @@ public class MesProspectViewModel {
         editor.apply();
     }
 
-    public void chargementSalons() {
+    public void chargementProspect() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("mes_prospect_list", null);
         Type type = new TypeToken<ArrayList<Prospect>>() {}.getType();

@@ -20,6 +20,9 @@ import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProspectService;
+import com.example.doliprosp.adapter.MyShowAdapter;
+import com.example.doliprosp.adapter.ProspectAdapter;
+import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.ProspectViewModel;
 
 public class CreationProspectDialogFragment extends DialogFragment {
@@ -35,8 +38,11 @@ public class CreationProspectDialogFragment extends DialogFragment {
     private Button boutonEnvoyer;
     private Button boutonAnnuler;
     private String nomSalon;
+    private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private final String REGEX_TEL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private ProspectAdapter adapterProspect;
 
-    private ProspectViewModel mesProspectViewModel;
+    private MesProspectViewModel mesProspectViewModel;
 
     @Nullable
     @Override
@@ -52,8 +58,8 @@ public class CreationProspectDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_create_prospect, container, false);
 
         prospectService = new ProspectService();
-        erreur = view.findViewById(R.id.erreur);
 
+        erreur = view.findViewById(R.id.erreur);
         nomProspect = view.findViewById(R.id.editTextNom);
         prenomProspect = view.findViewById(R.id.editTextPrenom);
         mailProspect = view.findViewById(R.id.editTextMail);
@@ -61,24 +67,24 @@ public class CreationProspectDialogFragment extends DialogFragment {
         adresseProspect = view.findViewById(R.id.editTextAdresse);
         villeProspect = view.findViewById(R.id.editTextVille);
         codePostalProspect = view.findViewById(R.id.editTextCodePostal);
-
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
-        String regexMail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        String regexTel = "^\\+?\\d{1,4}?[\\s.-]?\\(?\\d{1,4}\\)?[\\s.-]?\\d{1,4}[\\s.-]?\\d{1,4}[\\s.-]?\\d{1,4}$";
-
         if (getArguments().containsKey("nomDuSalon")) {
             nomSalon = (String) getArguments().getSerializable("nomDuSalon");
+            adapterProspect = (ProspectAdapter) getArguments().getSerializable("adapterProspect");
+
         }
 
+
         // Initialiser le ViewModel
-        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(ProspectViewModel.class);
+        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        initialisationBouton();
 
-        // Initialiser SharedPreferences et le passer au ViewModel
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("com.example.doliprosp", getContext().MODE_PRIVATE);
-        mesProspectViewModel.initSharedPreferences(sharedPreferences);
+        return view;
+    }
 
+    private void initialisationBouton() {
         boutonEnvoyer.setOnClickListener(v -> {
             String nom = nomProspect.getText().toString().trim();
             String prenom = prenomProspect.getText().toString().trim();
@@ -86,7 +92,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             String tel = telProspect.getText().toString().trim();
             String adresse = adresseProspect.getText().toString().trim();
             String ville = villeProspect.getText().toString().trim();
-            boolean estClient = false;
+            String estClient = "Prospect";
 
             erreur.setVisibility(View.GONE); // Cacher l'erreur au début
 
@@ -105,14 +111,14 @@ public class CreationProspectDialogFragment extends DialogFragment {
             }
 
             // Vérification de l'email
-            if (!mail.matches(regexMail)) {
+            if (!mail.matches(REGEX_MAIl)) {
                 erreur.setText(R.string.erreur_mail_prospect);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
 
             // Vérification du téléphone
-            if (tel.length() < 10 || tel.length() > 15 || !tel.matches(regexTel)) {
+            if (tel.matches(REGEX_TEL)) {
                 erreur.setText(R.string.erreur_tel_prospect);
                 erreur.setVisibility(View.VISIBLE);
                 return;
@@ -150,25 +156,25 @@ public class CreationProspectDialogFragment extends DialogFragment {
             }
 
             // Vérification si estClient est activé
-            if (estClient) {
+            /*if (estClient) {
                 erreur.setText(R.string.erreur_estClient_prospect);
                 erreur.setVisibility(View.VISIBLE);
                 return;
-            }
+            }*/
 
             // Tout est valide, créer le prospect
-            Log.d("info :", "✅ Le prospect a bien été implémenté localement !");
-            Prospect newProspect = new Prospect(nomSalon, prenom, nom, codePostal, ville, adresse, mail, tel, estClient, "image");
-            mesProspectViewModel.addProspect(newProspect);
+            Prospect prospect = new Prospect(nomSalon,  nom, codePostal, ville, adresse, mail, tel, estClient, "image");
+            mesProspectViewModel.addProspect(prospect);
+
+            if (adapterProspect != null) {
+            }
             dismiss();
         });
-
 
         boutonAnnuler.setOnClickListener(v -> {
             dismiss();
         });
-
-        return view;
+        adapterProspect.notifyDataSetChanged();
     }
 }
 

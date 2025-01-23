@@ -6,8 +6,9 @@ import android.content.SharedPreferences;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.doliprosp.Modele.Prospect;
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
+
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
