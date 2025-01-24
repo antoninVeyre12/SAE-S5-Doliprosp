@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_primary">
+    android:background="@color/color_secondary">
 
     <TextView
         style="@style/title"
         android:text="@string/prospects" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonCreateShow"
+        android:id="@+id/buttonCreateProspect"
         style="@style/button_create" />
 
     <ScrollView
@@ -29,19 +29,65 @@
                 android:layout_marginTop="@dimen/subtitle_marginTop"
                 android:layout_marginBottom="@dimen/subtitle_marginBottom"/>
 
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/search_bar_marginTop"
+                android:layout_marginLeft="@dimen/search_bar_marginLeft"
+                android:layout_marginRight="@dimen/search_bar_marginRight"
+                android:orientation="horizontal"
+                android:padding="@dimen/search_bar_padding"
+                android:background="@drawable/search_bar_background"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/bouton_recherche_prospect"
+                    android:background="@drawable/ic_search"
+                    android:layout_width="@dimen/search_img_width"
+                    android:layout_height="@dimen/search_img_height"
+                    android:padding="@dimen/search_bar_padding"/>
+
+                <EditText
+                    android:id="@+id/texte_recherche"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_search"
+                    android:padding="@dimen/search_bar_padding"
+                    android:textColor="@color/black"
+                    android:background="@android:color/transparent"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="text"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/salonActuel"
-                style="@style/subTitle"
-                android:text="@string/mes_salons" />
+                style="@style/subTitle" />
+
+            <ProgressBar
+                android:id="@+id/chargement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:indeterminate="true"
+                android:layout_gravity="center" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/prospectRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
 
         </LinearLayout>
 
     </ScrollView>
 
 
-
-    <View
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_bar_height"/>
+   <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_bar_height"/>
 
 </RelativeLayout>

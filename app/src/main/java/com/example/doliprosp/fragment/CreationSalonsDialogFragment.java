@@ -34,7 +34,7 @@ public class CreationSalonsDialogFragment extends DialogFragment {
     private ISalonService salonService;
     private EditText titreEditText;
     private UtilisateurViewModel utilisateurViewModel;
-    private ArrayList<Salon> listeSalonsSauvegarder;
+    // private ArrayList<Salon> listeSalonsSauvegarder;
     private MyShowAdapter adapterMesSalons;
 
     private TextView erreurNom;
@@ -56,12 +56,6 @@ public class CreationSalonsDialogFragment extends DialogFragment {
         salonService = new SalonService();
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        titreEditText = view.findViewById(R.id.editTextTitle);
-        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
-        boutonAnnuler = view.findViewById(R.id.buttonCancel);
-
-
         titreEditText = view.findViewById(R.id.editTextTitle);
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
@@ -72,30 +66,16 @@ public class CreationSalonsDialogFragment extends DialogFragment {
             adapterMesSalons = (MyShowAdapter) getArguments().getSerializable("adapterMyShow");
         }
 
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
-        listeSalonsSauvegarder = new ArrayList<Salon>();
-        //salonViewModel
-        /*salonService.getSalonsEnregistres(getContext(),"", utilisateur, new Outils.APIResponseCallbackArrayTest() {
-            @Override
-            public void onSuccess(ArrayList<Salon> shows) {
-                listeSalonsSauvegarder = shows;
-            }
-            @Override
-            public void onError(String error) {
-            }
-        });*/
-
         boutonEnvoyer.setOnClickListener(v -> {
             String title = titreEditText.getText().toString();
             if (title.length() <= 2 || title.length() >= 50 ) {
-                erreurNom.setText(R.string.erreur_nom_salon_longeur);
+                erreurNom.setText(R.string.erreur_nom_salon_longueur);
                 erreurNom.setVisibility(View.VISIBLE);
             } else if(salonService.salonExiste(title, salonsViewModel, mesSalonsViewModel)){
                 erreurNom.setText(R.string.erreur_nom_salon_existe);
                 erreurNom.setVisibility(View.VISIBLE);
 
             } else {
-                Log.d("one","onestla");
                 Salon newShow = new Salon(title);
                 mesSalonsViewModel.addSalon(newShow);
                 if (adapterMesSalons != null) {

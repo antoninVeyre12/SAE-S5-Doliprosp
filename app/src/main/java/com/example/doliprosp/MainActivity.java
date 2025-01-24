@@ -23,7 +23,9 @@ import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.SalonFragment;
 import com.example.doliprosp.fragment.UtilisateurFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
+import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
+import com.example.doliprosp.viewModel.ProspectViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView[] imageViews;
     private SalonsViewModel salonsViewModel;
     private MesSalonsViewModel mesSalonsViewModel;
-
+    private MesProspectViewModel mesProspectViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 ConnexionFragment connexionFragment = new ConnexionFragment();
                 loadFragment(connexionFragment);
             } else {
-                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getUserName());
+                Log.d("UTILISATEUR DECO", utilisateurViewModel.getUtilisateur(this, this).getNomUtilisateur());
                 SalonFragment salonFragment = new SalonFragment();
                 loadFragment(salonFragment);
             }
@@ -146,8 +148,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferencesMesSalons = getSharedPreferences("user_prefs", MODE_PRIVATE);
         mesSalonsViewModel.initSharedPreferences(sharedPreferencesMesSalons);
 
+        mesProspectViewModel = new ViewModelProvider(this).get(MesProspectViewModel.class);
+        SharedPreferences sharedPreferencesMesProspect= getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesProspectViewModel.initSharedPreferences(sharedPreferencesMesProspect);
         // recuperer les salons
         salonsViewModel.chargementSalons();
         mesSalonsViewModel.chargementSalons();
+        mesProspectViewModel.chargementProspect();
+        Log.d("laaaaa", mesProspectViewModel.getProspectListe().toString());
     }
 }
