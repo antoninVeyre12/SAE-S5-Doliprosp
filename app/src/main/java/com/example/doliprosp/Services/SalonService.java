@@ -25,7 +25,6 @@ public class SalonService implements ISalonService {
     {
         ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
         url = utilisateur.getUrl();
-        Log.d("url utilisateur", url);
         urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
         Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
             @Override

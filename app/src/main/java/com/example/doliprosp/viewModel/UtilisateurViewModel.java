@@ -43,7 +43,6 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
         editor.putString("url", utilisateurActuel.getUrl());
         editor.putString("motDePasse", utilisateurActuel.getMotDePasse());
         editor.putString("apiKey", utilisateurActuel.getCleApi());
-        Log.d("cle api enregistré",utilisateurActuel.getCleApi());
         editor.putString("prenom", utilisateurActuel.getPrenom());
         editor.putString("nom", utilisateurActuel.getNom());
         editor.putString("ville", utilisateurActuel.getVille());

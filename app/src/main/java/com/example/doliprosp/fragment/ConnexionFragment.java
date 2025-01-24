@@ -38,7 +38,6 @@ public class ConnexionFragment extends Fragment {
     private EditText nomUtilisateurEditText;
     private EditText motDePasseEditText;
     private IConnexionService connexionService;
-    private String urlConnexion;
     private ProgressBar chargement;
 
 
@@ -74,7 +73,9 @@ public class ConnexionFragment extends Fragment {
             Button buttonSubmit  = view.findViewById(R.id.connexion);
             buttonSubmit.setOnClickListener(v -> {
                 String password = motDePasseEditText.getText().toString();
-                if(password.trim().equalsIgnoreCase(utilisateur.getMotDePasse())) {
+                String nomUtilisateur = nomUtilisateurEditText.getText().toString();
+                String url = urlEditText.getText().toString();
+                if(password.trim().equalsIgnoreCase(utilisateur.getMotDePasse()) && nomUtilisateur.equalsIgnoreCase(utilisateur.getNomUtilisateur()) && url.equalsIgnoreCase(utilisateur.getUrl())) {
                     SalonFragment showFragment = new SalonFragment();
                     ((MainActivity) getActivity()).loadFragment(showFragment);
                     ((MainActivity) getActivity()).setColors(1);
@@ -120,6 +121,7 @@ public class ConnexionFragment extends Fragment {
                                     @Override
                                     public void onSuccess(JSONObject response) {
                                         // Cela s'exécutera lorsque l'API renvoie une réponse valide
+                                       Log.d("Compte", "récupération des infos du compte");
                                         JSONObject objectJSON = response;
                                         try {
                                             String nom = objectJSON.getString("lastname");
@@ -138,6 +140,13 @@ public class ConnexionFragment extends Fragment {
                                             String numTelephone = objectJSON.getString("office_phone");
                                             utilisateur.setNumTelephone(numTelephone);
                                             utilisateurViewModel.setUtilisateur(utilisateur);
+
+                                            // Navigation vers ShowFragment
+                                            SalonFragment salonFragment = new SalonFragment();
+                                            ((MainActivity) getActivity()).loadFragment(salonFragment);
+                                            ((MainActivity) getActivity()).setColors(1);
+                                            bottomNav.setVisibility(View.VISIBLE);
+                                            chargement.setVisibility(View.GONE);
                                         } catch (Exception e) {
                                             Log.d("ERROR JSON EXCEPTION", e.getMessage());
                                         }
@@ -148,14 +157,14 @@ public class ConnexionFragment extends Fragment {
                                         Log.d("BAD APPEL API", errorMessage);
                                     }
                                 });
+                            } else {
+                                // Navigation vers ShowFragment
+                                SalonFragment salonFragment = new SalonFragment();
+                                ((MainActivity) getActivity()).loadFragment(salonFragment);
+                                ((MainActivity) getActivity()).setColors(1);
+                                bottomNav.setVisibility(View.VISIBLE);
+                                chargement.setVisibility(View.GONE);
                             }
-
-                            // Navigation vers ShowFragment
-                            SalonFragment salonFragment = new SalonFragment();
-                            ((MainActivity) getActivity()).loadFragment(salonFragment);
-                            ((MainActivity) getActivity()).setColors(1);
-                            bottomNav.setVisibility(View.VISIBLE);
-                            chargement.setVisibility(View.GONE);
                         }
 
                         public void onError(String errorMessage) {

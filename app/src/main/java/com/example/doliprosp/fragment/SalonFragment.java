@@ -100,8 +100,8 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     private void rechercheSalons(String recherche){
-        Utilisateur utilisateur = utilisateurViewModel.chargementUtilisateur();
-        Log.d("apokeyy", utilisateur.getCleApi());
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+        Log.d("urlll", utilisateur.getUrl());
         chargement.setVisibility(View.VISIBLE);
 
         salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {

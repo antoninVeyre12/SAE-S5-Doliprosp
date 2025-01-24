@@ -92,6 +92,7 @@ public class UtilisateurFragment extends Fragment {
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
+            utilisateurViewModel.supprimerDonnerUtilisateur();
             ConnexionFragment connexionFragment = new ConnexionFragment();
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
             bottomNav.setVisibility(View.GONE);
