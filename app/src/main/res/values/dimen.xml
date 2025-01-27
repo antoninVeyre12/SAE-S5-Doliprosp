@@ -33,7 +33,6 @@
     <dimen name="deconnexion_height">75dp</dimen>
 
 
-
     <!-- Item salon -->
     <dimen name="item_show_width">200dp</dimen>
     <dimen name="item_show_height">150dp</dimen>
@@ -43,16 +42,18 @@
     <dimen name="subtitle_marginLeft">25dp</dimen>
     <dimen name="subtitle_marginTop">25dp</dimen>
     <dimen name="subtitle_marginBottom">25dp</dimen>
+    <dimen name="subtitle_pageProjet_marginTop">10dp</dimen>
+    <dimen name="subtitle_pageProjet_marginBottom">10dp</dimen>
     <dimen name="item_show_elevation">200dp</dimen>
     <dimen name="espaceHaut">150dp</dimen>
     <dimen name="espaceBas">30dp</dimen>
 
     <!-- page User -->
-    <dimen name="user_margin_top"> 30dp</dimen>
-    <dimen name="user_margin_left"> 10dp </dimen>
-    <dimen name="text_formulaire_compte"> 30sp </dimen>
-    <dimen name="margin_top_btn_deconnexion"> 10dp </dimen>
-    <dimen name="margin_bottom_btn_deconnexion"> 10dp </dimen>
+    <dimen name="user_margin_top">30dp</dimen>
+    <dimen name="user_margin_left">10dp</dimen>
+    <dimen name="text_formulaire_compte">30sp</dimen>
+    <dimen name="margin_top_btn_deconnexion">10dp</dimen>
+    <dimen name="margin_bottom_btn_deconnexion">10dp</dimen>
 
     <!-- dialog salon -->
     <dimen name="dialog_choix_hauteur">50dp</dimen>

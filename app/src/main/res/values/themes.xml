@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.DoliProsp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -22,6 +22,24 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/subtitle_text_size</item>
         <item name="android:layout_marginTop">@dimen/subtitle_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/subtitle_marginBottom</item>
+        <item name="android:layout_marginLeft">@dimen/subtitle_marginLeft</item>
+    </style>
+
+    <style name="subTitle_pageProjet_haut">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:layout_marginTop">@dimen/subtitle_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/subtitle_pageProjet_marginBottom</item>
+        <item name="android:layout_marginLeft">@dimen/subtitle_marginLeft</item>
+    </style>
+
+    <style name="subTitle_pageProjet_bas">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:layout_marginTop">@dimen/subtitle_pageProjet_marginTop</item>
         <item name="android:layout_marginBottom">@dimen/subtitle_marginBottom</item>
         <item name="android:layout_marginLeft">@dimen/subtitle_marginLeft</item>
     </style>
