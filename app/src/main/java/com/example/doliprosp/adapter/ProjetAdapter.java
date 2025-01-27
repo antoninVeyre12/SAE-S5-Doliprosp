@@ -16,7 +16,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ProjetAdapter extends RecyclerView.Adapter<ProspectAdapter.MyViewHolder> implements Serializable {
+public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHolder> implements Serializable {
 
     private List<Projet> projetListe;
 
@@ -29,15 +29,15 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProspectAdapter.MyViewHo
     @NonNull
     @Override
     public ProjetAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_projet, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project, parent, false);
         return new ProjetAdapter.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProspectAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Projet projet = projetListe.get(position);
 
-        holder.nom.setText(projet.getTitre());
+        holder.titre.setText(projet.getTitre());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProspectAdapter.MyViewHo
         public ImageView icone;
         public MyViewHolder(View itemView) {
             super(itemView);
-            titre = itemView.findViewById(R.id.titre);
+            titre = itemView.findViewById(R.id.project_name);
         }
     }
 }
