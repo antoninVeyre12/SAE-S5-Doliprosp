@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doliprosp.Interface.IProspectService;
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProspectService;
@@ -24,6 +25,8 @@ import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.ProspectViewModel;
+
+import java.io.Serializable;
 
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
@@ -169,6 +172,9 @@ public class CreationProspectDialogFragment extends DialogFragment {
             if (adapterProspect != null) {
             }
             dismiss();
+            ProjetFragment projetFragment = new ProjetFragment();
+            ((MainActivity) getActivity()).loadFragment(projetFragment);
+            ((MainActivity) getActivity()).setColors(3);
         });
 
         boutonAnnuler.setOnClickListener(v -> {

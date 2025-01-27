@@ -86,7 +86,7 @@ public class  ProspectFragment extends Fragment {
     }
 
     private void setupListeners() {
-        // Ajouter un salon
+        // Ajouter un prospect
         boutonCreerProspect.setOnClickListener(v -> {
             CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
             Bundle bundle = new Bundle();
