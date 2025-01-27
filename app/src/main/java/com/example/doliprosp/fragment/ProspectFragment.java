@@ -108,7 +108,7 @@ public class  ProspectFragment extends Fragment {
 
 
     private void prospectClientExiste(String recherche, String champ, String tri) {
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur(getContext(), requireActivity());
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         chargement.setVisibility(View.VISIBLE);
         prospectService.prospectClientExiste(getContext(), recherche, champ, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
 
