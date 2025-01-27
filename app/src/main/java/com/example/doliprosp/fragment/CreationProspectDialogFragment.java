@@ -111,10 +111,13 @@ public class CreationProspectDialogFragment extends DialogFragment {
             }
 
             // Vérification de l'adresse
-            if (adresse.isEmpty() || adresse.length() >= 60) {
+            if (adresse.length() >= 60) {
                 erreur.setText(R.string.erreur_adresse_prospect_maxLongueur);
                 erreur.setVisibility(View.VISIBLE);
                 return;
+            } else if (adresse.isEmpty()) {
+                erreur.setText(R.string.erreur_adresse_prospect_vide);
+                erreur.setVisibility(View.VISIBLE);
             }
 
             // Vérification de la ville
@@ -135,7 +138,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             }
 
             // Vérification du code postal
-            if (codePostal < 10000 || codePostal > 99999) {
+            if (codePostal < 01000 || codePostal > 99999) {
                 erreur.setText(R.string.erreur_codePostal_prospect);
                 erreur.setVisibility(View.VISIBLE);
                 return;

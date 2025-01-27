@@ -42,7 +42,8 @@
     <string name="erreur_mail_prospect">Le champ mail n\'a pas été rempli avec un email valide</string>
     <string name="erreur_tel_prospect">Le numéro de téléphone d\'un prospect doit être composé de 10 à 15 chiffres</string>
     <string name="erreur_adresse_prospect_maxLongueur">L\'adresse d\'un prospect ne doit pas dépasser 255 caractères</string>
-    <string name="erreur_codePostal_prospect">Le code postal d\'un prospect doit être un nombre entre 10000 et 99999</string>
+    <string name="erreur_adresse_prospect_vide">L\'adresse d\'un prospect ne peut pas être vide</string>
+    <string name="erreur_codePostal_prospect">Le code postal d\'un prospect doit être un nombre entre 01000 et 99999</string>
     <string name="erreur_estClient_prospect">Le statut de client d\'un prospect doit être spécifié (oui ou non)</string>
     <string name="erreur_codePostal_prospect_invalid">le code postal est invalide !</string>
     <string name="erreur_codePostal_prospect_vide">le code postal ne doit pas être vide !</string>
