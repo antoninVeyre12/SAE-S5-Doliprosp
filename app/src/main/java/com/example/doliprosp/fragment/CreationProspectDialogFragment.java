@@ -38,18 +38,11 @@ public class CreationProspectDialogFragment extends DialogFragment{
         View view = inflater.inflate(R.layout.dialog_create_prospect, container, false);
 
         prospectService = new ProspectService();
-
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
-
-
-
         boutonAnnuler.setOnClickListener(v -> {
             dismiss();
         });
-
-
-
         return view;
     }
 }

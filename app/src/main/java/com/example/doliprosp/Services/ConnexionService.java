@@ -25,9 +25,9 @@ public class ConnexionService implements IConnexionService {
         urlUtilisateur = url;
 
         try {
-            String userNameEncoder = URLEncoder.encode("G42", "UTF-8");
-            String passwordEncoder = URLEncoder.encode("3iFJWj26z", "UTF-8");
-            url = String.format("%s/api/index.php/login?login=%s&password=%s", "http://dolibarr.iut-rodez.fr/G2023-42/htdocs", userNameEncoder, passwordEncoder);
+            String userNameEncoder = URLEncoder.encode(nomUtilisateur, "UTF-8");
+            String passwordEncoder = URLEncoder.encode(motDePasse, "UTF-8");
+            url = String.format("%s/api/index.php/login?login=%s&password=%s", urlUtilisateur, userNameEncoder, passwordEncoder);
             Log.d("URLL", url);
             Log.d("USERNAME", nomUtilisateur);
             Log.d("PASSWORD" , motDePasse);
