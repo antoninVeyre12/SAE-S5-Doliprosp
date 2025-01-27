@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
-import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 
 import org.json.JSONArray;
