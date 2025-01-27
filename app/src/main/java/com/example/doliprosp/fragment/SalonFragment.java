@@ -38,6 +38,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe comprenant l'ensemble des méthodes de gestion et d'utilisation du fragment salon
+ * @author Parcours D IUT de Rodez
+ * @version 1.0
+ */
 public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClickListener, ShowAdapter.OnItemClickListener {
 
     private ISalonService salonService;
@@ -64,6 +69,12 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
     }
 
+    /**
+     * Méthode appellée au démarrage de l'application pour créer la page Salon
+     * @param view La vue retournée par {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState Si non-null, le fragement est re-construit
+     * depuis une sauvegarde précédente
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -98,6 +109,11 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         setupListeners();
 
     }
+
+    /**
+     * Méthode appellée lors du retour sur l'applicationa fin de restaurer l'état
+     * précédemment enregistré
+     */
     public void onResume() {
         super.onResume();
         adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this);
@@ -108,12 +124,23 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         adapterSalons.notifyDataSetChanged();
     }
 
+    /**
+     * Méthode appellée lors de la recherche de salons par critères de l'utilisateur puis affiche
+     * les salons correspondants aux critères
+     * @param recherche la recherche sur critères de l'utilisateur
+     */
     private void rechercheSalons(String recherche){
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         Log.d("urlll", utilisateur.getUrl());
         chargement.setVisibility(View.VISIBLE);
 
         salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
+
+            /**
+             * Méthode appellée en cas de succès de recherche des salons avec le critère de
+             * recherche de l'utilisateur pour afficher les salons trouvés suite à la recherche
+             * @param shows
+             */
             @Override
             public void onSuccess(ArrayList<Salon> shows) {
 
@@ -125,13 +152,18 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
                     salonsViewModel.addSalon(salon);
 
                 }
-                // Set l'adapter des shows récupéré
+                // Set l'adapter des salons récupéré
                 adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
                 recyclerView.setAdapter(adapterSalons);
                 chargement.setVisibility(View.GONE);
 
             }
 
+            /**
+             * Méthode appellée dans le cas où la recherche ou l'affichage des salons ne se
+             * dérouleraient pas comme prévu
+             * @param error le message d'erreur affiché à l'utilisateur
+             */
             @Override
             public void onError(String error) {
                 adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
@@ -142,6 +174,9 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         });
     }
 
+    /**
+     *
+     */
     private void setupListeners() {
         // Lancer la recherche avec le texte saisi
         boutonRecherche.setOnClickListener(v -> {
@@ -162,7 +197,10 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         });
     }
 
-
+    /**
+     * Méthode appellée lors du click sur le bouton de suppression du salon pour le supprimer
+     * @param position la position du salon dans la liste
+     */
     @Override
     public void onDeleteClick(int position) {
 
@@ -176,6 +214,11 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         adapterMesSalons.notifyItemRemoved(position);
     }
 
+    /**
+     * Méthode appellée lors du click sur le l'icone de salonpour accéder à la page des prospects
+     * @param position la position du salon dans la liste
+     * @param salonList La liste des salons
+     */
     @Override
     public void onSelectClick(int position, List<Salon> salonList) {
         Salon salon = salonList.get(position);

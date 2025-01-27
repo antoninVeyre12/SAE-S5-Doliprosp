@@ -69,7 +69,7 @@ public class ConnexionFragment extends Fragment {
         /*String password = motDePasseEditText.getText().toString();
         String nomUtilisateur = nomUtilisateurEditText.getText().toString();
         String url = urlEditText.getText().toString();*/
-
+       
         String url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
         String nomUtilisateur = "antonin";
         String password = "antoninantonin";

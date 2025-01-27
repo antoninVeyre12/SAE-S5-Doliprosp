@@ -30,10 +30,12 @@ public class SalonService implements ISalonService {
             @Override
             public void onSuccess(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
+
                     try {
                         JSONObject object = response.getJSONObject(i);
                         String nom = object.getString("label");
                         listeSalonsEnregistres.add(new Salon(nom));
+                        Log.d("TEST_SALON",nom);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -49,18 +51,24 @@ public class SalonService implements ISalonService {
     }
 
     public boolean salonExiste(String nomRecherche, SalonsViewModel salonsViewModel, MesSalonsViewModel mesSalonsViewModel) {
+        boolean existe = false;
         for (Salon salon : salonsViewModel.getSalonListe()) {
             // Vérification si le nom du salon correspond à nomRecherche
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
-                return true;
+                existe = true;
             }
         }
         for (Salon salon : mesSalonsViewModel.getSalonListe()){
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
-                return true;
+                existe = true;
             }
         }
-        return false;
+        for (Salon salon : mesSalonsViewModel.getSalonListe()){
+            if (nomRecherche == null || nomRecherche == "") {
+                existe = false;
+            }
+        }
+        return existe;
     }
 
 

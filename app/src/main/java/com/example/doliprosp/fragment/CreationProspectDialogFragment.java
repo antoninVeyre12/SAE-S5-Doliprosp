@@ -61,7 +61,6 @@ public class CreationProspectDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_create_prospect, container, false);
 
         prospectService = new ProspectService();
-
         erreur = view.findViewById(R.id.erreur);
         nomProspect = view.findViewById(R.id.editTextNom);
         prenomProspect = view.findViewById(R.id.editTextPrenom);
