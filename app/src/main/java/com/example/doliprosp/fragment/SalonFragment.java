@@ -17,15 +17,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
+import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
+import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ShowAdapter;
+import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
@@ -37,6 +41,8 @@ import java.util.List;
 public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClickListener, ShowAdapter.OnItemClickListener {
 
     private ISalonService salonService;
+    private IProspectService prospectService;
+
     private ShowAdapter adapterSalons;
     private MyShowAdapter adapterMesSalons;
     private MesSalonsViewModel mesSalonsViewModel;
@@ -49,6 +55,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     private Button boutonCreerSalon;
     private EditText texteRecherche;
     private ProgressBar chargement;
+    private MesProspectViewModel mesProspectViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,9 +69,11 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         super.onViewCreated(view, savedInstanceState);
 
         salonService = new SalonService();
+        prospectService = new ProspectService();
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
         boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
         recyclerView = view.findViewById(R.id.showRecyclerView);
@@ -160,6 +169,10 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         // mets a jour la liste des salons
         Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
         mesSalonsViewModel.removeSalon(salonASupprimer);
+        ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonASupprimer.getNom());
+        for (Prospect prospect : prospects) {
+            mesProspectViewModel.removeProspect(prospect);
+        }
         adapterMesSalons.notifyItemRemoved(position);
     }
 
