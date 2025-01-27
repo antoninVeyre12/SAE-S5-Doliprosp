@@ -33,7 +33,7 @@
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggeres">Salons suggérés</string>
     <string name="erreur_pas_de_salons">Aucun salon n\'existe ou aucun salon ne correspond à votre recherche</string>
-    <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit être comprit entre 2 et 50 caractères</string>
+    <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être comprit entre 2 et 50 caractères</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
     <!-- Page Prospect -->
@@ -56,9 +56,10 @@
     <string name="motDePasse">Mot de Passe</string>
     <string name="url_invalide">Renseignez un URL valide débutant par http://</string>
     <string name="url_invalide_2">Renseignez l\'URL sans / à la fin</string>
-    <string name="informations_invalide">Veuillez renseigner un URL, un identifiant et/ou un mot de passe avant de vous connecter</string>
+    <string name="informations_invalide">Veuillez renseigner un URL, un identifiant et un mot de passe avant de vous connecter</string>
     <string name="informations_saisies_incorrecte">L\'identifiant, mot de passe ou l\'URL sont invalides, Veuillez réessayer</string>
     <string name="url_example">http://dolibarr.xxxx.fr/xxxx/htdocs</string>
+    <string name="mot_depasse_incorrect"> Mot de passe invalide</string>
 
     <!-- Page user -->
     <string name="monCompte"> Mon compte</string>

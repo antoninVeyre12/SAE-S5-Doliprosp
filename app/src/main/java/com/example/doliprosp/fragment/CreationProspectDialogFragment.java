@@ -1,9 +1,7 @@
 package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +19,13 @@ import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProspectService;
-import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.ProspectViewModel;
-
-import java.io.Serializable;
 
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
     private TextView erreur;
-    private EditText nomProspect;
-    private EditText prenomProspect;
+    private EditText nomPrenomProspect;
     private EditText mailProspect;
     private EditText telProspect;
     private EditText adresseProspect;
@@ -62,8 +55,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
 
         prospectService = new ProspectService();
         erreur = view.findViewById(R.id.erreur);
-        nomProspect = view.findViewById(R.id.editTextNom);
-        prenomProspect = view.findViewById(R.id.editTextPrenom);
+        nomPrenomProspect = view.findViewById(R.id.editTextNomPrenom);
         mailProspect = view.findViewById(R.id.editTextMail);
         telProspect = view.findViewById(R.id.editTextPhone);
         adresseProspect = view.findViewById(R.id.editTextAdresse);
@@ -88,8 +80,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
 
     private void initialisationBouton() {
         boutonEnvoyer.setOnClickListener(v -> {
-            String nom = nomProspect.getText().toString().trim();
-            String prenom = prenomProspect.getText().toString().trim();
+            String nom = nomPrenomProspect.getText().toString().trim();
             String mail = mailProspect.getText().toString().trim();
             String tel = telProspect.getText().toString().trim();
             String adresse = adresseProspect.getText().toString().trim();
@@ -101,13 +92,6 @@ public class CreationProspectDialogFragment extends DialogFragment {
             // Vérification du nom
             if (nom.length() <= 2 || nom.length() >= 50) {
                 erreur.setText(R.string.erreur_nom_prospect_longueur);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            // Vérification du prénom
-            if (prenom.length() <= 2 || prenom.length() >= 50) {
-                erreur.setText(R.string.erreur_prenom_prospect_longueur);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
