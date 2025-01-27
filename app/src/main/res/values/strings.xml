@@ -12,23 +12,28 @@
     <string name="hint_search">Entrez votre recherche</string>
 
     <!-- Ajout -->
+    <string name="labelNomPrenom">Nom et Prenom du Client/Prospect</string>
+    <string name="labelMail">Email du Client/Prospect</string>
+    <string name="labelTel">Téléphone du Client/Prospect</string>
+    <string name="labelAdresse">Adresse du Client/Prospect</string>
+    <string name="labelVille">Ville du Client/Prospect</string>
+    <string name="labelCP">Code Postal du Client/Prospect</string>
     <string name="plus">+</string>
     <string name="annuler">Annuler</string>
     <string name="creer">Créer</string>
     <string name="hint_show">Entrez le nom du salon</string>
-    <string name="hint_nomProspect">Entrez le nom du prospect</string>
-    <string name="hint_prenomProspect">Entrez le prénom du prospect</string>
+    <string name="hint_nomPrenomProspect">Entrez le prénom du prospect</string>
     <string name="hint_mailProspect">Entrez le mail du prospect</string>
     <string name="hint_phoneProspect">Entrez le numéro de téléphone du prospect</string>
     <string name="hint_adresseProspect">Entrez l\'adresse du prospect</string>
     <string name="hint_villeProspect">Entrez la ville du prospect</string>
-    <string name="hint_cpProspect">Entrez le code postale du prospect</string>
+    <string name="hint_cpProspect">Entrez le code postal du prospect</string>
 
     <!-- Page Salon -->
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggeres">Salons suggérés</string>
-    <string name="erreur_pas_de_salons">Aucun salons existe ou aucun salons correspond a votre recherche</string>
-    <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit etre compris entre 2 et 50 caractéres</string>
+    <string name="erreur_pas_de_salons">Aucun salon n\'existe ou aucun salon ne correspond à votre recherche</string>
+    <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit être comprit entre 2 et 50 caractères</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
 
@@ -38,10 +43,10 @@
     <string name="url">URL</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="motDePasse">Mot de Passe</string>
-    <string name="url_invalide">Renseigner un URL valide débutant par http://</string>
-    <string name="url_invalide_2">Renseigner un URL sans / à la fin de votre url</string>
-    <string name="informations_invalide">Renseigner un URL, un identifiant et/ou un mot de passe avant de vous connecter</string>
-    <string name="informations_saisies_incorrecte">Identifiant, mots de passe ou url invalide, Veuillez réessayer</string>
+    <string name="url_invalide">Renseignez un URL valide débutant par http://</string>
+    <string name="url_invalide_2">Renseignez l\'URL sans / à la fin</string>
+    <string name="informations_invalide">Veuillez renseigner un URL, un identifiant et/ou un mot de passe avant de vous connecter</string>
+    <string name="informations_saisies_incorrecte">L\'identifiant, mot de passe ou l\'URL sont invalides, Veuillez réessayer</string>
     <string name="url_example">http://dolibarr.xxxx.fr/xxxx/htdocs</string>
 
     <!-- Page user -->

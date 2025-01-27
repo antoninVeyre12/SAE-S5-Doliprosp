@@ -61,7 +61,6 @@ public class CreationSalonsDialogFragment extends DialogFragment {
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
-
         titreEditText = view.findViewById(R.id.editTextTitle);
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
