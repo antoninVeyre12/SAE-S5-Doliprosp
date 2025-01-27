@@ -69,6 +69,13 @@
     <string name="ville"> Ville : </string>
     <string name="numéroTéléphone"> Numéro de téléphone : </string>
     <string name="adresseMail"> Adresse mail : </string>
+    <string name="labelTitreProjet">"Titre "</string>
+    <string name="labelDescriptionProjet">Description</string>
+    <string name="labelDateDebutProjet">Date début</string>
+    <string name="labelDateFinProjet">Date fin</string>
+    <string name="hintDate">jj/mm/aaaa</string>
+    <string name="hint_descriptionProspect">Description du projet</string>
+    <string name="hint_titreProjet">Entrez le titre du projet</string>
 
 
 </resources>

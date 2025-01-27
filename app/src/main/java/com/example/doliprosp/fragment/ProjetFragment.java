@@ -1,6 +1,6 @@
 package com.example.doliprosp.fragment;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
-import com.example.doliprosp.viewModel.MesProspectViewModel;
+import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
@@ -36,17 +36,17 @@ public class ProjetFragment extends Fragment {
     private static Prospect dernierProspectSelectionne;
     private Button boutonCreerProjet;
     private UtilisateurViewModel utilisateurViewModel;
-    private MesProspectViewModel mesProspectViewModel;
+    private MesProjetsViewModel mesProjetsViewModel;
     private ProjetAdapter adapterProjet;
     private ProgressBar chargement;
     private String recherche;
     private RecyclerView projetRecyclerView;
     private String champ;
     private String tri;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if (bundle != null) {
             salonActuel = (Salon) bundle.getSerializable("salon");
@@ -61,7 +61,8 @@ public class ProjetFragment extends Fragment {
             }
 
         }
-        return inflater.inflate(R.layout.fragment_projet, container, false);    }
+        return inflater.inflate(R.layout.fragment_project, container, false);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class ProjetFragment extends Fragment {
         //prospectClientExiste(recherche, champ, tri);
         salonActuelEditText.setText(salonActuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
-        prospectRecyclerView.setLayoutManager(layoutManager);
+        projetRecyclerView.setLayoutManager(layoutManager);
         setupListeners();
     }
 
@@ -90,7 +91,8 @@ public class ProjetFragment extends Fragment {
             CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("nomDuSalon", (Serializable) salonActuel.getNom());
-            bundle.putSerializable("adapterProspect", (Serializable) adapterProspect);
+            bundle.putSerializable("nomDuProspect", (Serializable) prospectActuel.getNom());
+            bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
@@ -98,8 +100,8 @@ public class ProjetFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        adapterProspect = new ProspectAdapter(projetService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()));
-        prospectRecyclerView.setAdapter(adapterProspect);
-        adapterProspect.notifyDataSetChanged();
+        adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), salonActuel.getNom(), prospectActuel.getNom()));
+        projetRecyclerView.setAdapter(adapterProjet);
+        adapterProjet.notifyDataSetChanged();
     }
 }
