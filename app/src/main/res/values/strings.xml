@@ -16,14 +16,32 @@
     <string name="annuler">Annuler</string>
     <string name="creer">Créer</string>
     <string name="hint_show">Entrez le nom du salon</string>
+    <string name="hint_nomProspect">Entrez le nom du prospect</string>
+    <string name="hint_prenomProspect">Entrez le prénom du prospect</string>
+    <string name="hint_mailProspect">Entrez le mail du prospect</string>
+    <string name="hint_phoneProspect">Entrez le numéro de téléphone du prospect</string>
+    <string name="hint_adresseProspect">Entrez l\'adresse du prospect</string>
+    <string name="hint_villeProspect">Entrez la ville du prospect</string>
+    <string name="hint_cpProspect">Entrez le code postale du prospect</string>
 
     <!-- Page Salon -->
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggeres">Salons suggérés</string>
     <string name="erreur_pas_de_salons">Aucun salons existe ou aucun salons correspond a votre recherche</string>
-    <string name="erreur_nom_salon_longeur">Le nom d\'un salon doit etre compris entre 2 et 50 caractéres</string>
+    <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être compris entre 2 et 50 caractères</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
+    <!-- Page Prospect -->
+    <string name="erreur_nom_prospect_longueur">Le nom d\'un prospect doit être compris entre 2 et 50 caractères</string>
+    <string name="erreur_prenom_prospect_longueur">Le prénom d\'un prospect doit être compris entre 2 et 50 caractères</string>
+    <string name="erreur_mail_prospect">Le champ mail n\'a pas été rempli avec un email valide</string>
+    <string name="erreur_tel_prospect">Le numéro de téléphone d\'un prospect doit être composé de 10 à 15 chiffres</string>
+    <string name="erreur_adresse_prospect_maxLongueur">L\'adresse d\'un prospect ne doit pas dépasser 255 caractères</string>
+    <string name="erreur_codePostal_prospect">Le code postal d\'un prospect doit être un nombre entre 10000 et 99999</string>
+    <string name="erreur_estClient_prospect">Le statut de client d\'un prospect doit être spécifié (oui ou non)</string>
+    <string name="erreur_codePostal_prospect_invalid">le code postal est invalide !</string>
+    <string name="erreur_codePostal_prospect_vide">le code postal ne doit pas être vide !</string>
+    <string name="erreur_ville_prospect_vide">La ville ne doit pas être vide !</string>
 
     <!-- Page connexion -->
     <string name="btn_connexion">Se connecter</string>
@@ -39,14 +57,14 @@
     <string name="url_exemple">http://dolibarr.xxxx.fr/xxxx/htdocs</string>
 
     <!-- Page user -->
-    <string name = "monCompte"> Mon compte</string>
-    <string name = "nom"> Nom : </string>
-    <string name = "prenom"> Prénom : </string>
-    <string name = "adresse"> Adresse : </string>
-    <string name = "codePostal"> Code postal : </string>
-    <string name = "ville"> Ville : </string>
-    <string name = "numéroTéléphone"> Numéro de téléphone : </string>
-    <string name = "adresseMail"> Adresse mail : </string>
+    <string name="monCompte"> Mon compte</string>
+    <string name="nom"> Nom : </string>
+    <string name="prenom"> Prénom : </string>
+    <string name="adresse"> Adresse : </string>
+    <string name="codePostal"> Code postal : </string>
+    <string name="ville"> Ville : </string>
+    <string name="numéroTéléphone"> Numéro de téléphone : </string>
+    <string name="adresseMail"> Adresse mail : </string>
 
 
 </resources>

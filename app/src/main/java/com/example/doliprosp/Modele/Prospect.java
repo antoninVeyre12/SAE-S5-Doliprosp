@@ -4,23 +4,22 @@ import java.util.UUID;
 
 public class Prospect {
     private UUID idProspect;
-    private UUID idSalon;
-    private String prenom;
+    private String nomSalon;
     private String nom;
     private int codePostal;
     private String ville;
     private String adresse;
     private String mail;
     private String numeroTelephone;
-    private Boolean estClient;
+    private String estClient;
+    private String image;
 
 
-    public Prospect(UUID idSalon, String prenom, String nom, int codePostal,
+    public Prospect(String nomSalon, String nom, int codePostal,
                     String ville, String adressePostale, String mail, String numeroTelephone,
-                    Boolean estClient) {
+                    String estClient, String image) {
         this.idProspect = UUID.randomUUID();
-        this.idSalon = idSalon;
-        this.prenom = prenom;
+        this.nomSalon = nomSalon;
         this.nom = nom;
         this.codePostal = codePostal;
         this.ville = ville;
@@ -28,6 +27,7 @@ public class Prospect {
         this.mail = mail;
         this.numeroTelephone = numeroTelephone;
         this.estClient = estClient;
+        this.image = image;
     }
 
     public UUID getIdProspect() {
@@ -38,20 +38,12 @@ public class Prospect {
         this.idProspect = idProspect;
     }
 
-    public UUID getIdSalon() {
-        return idSalon;
+    public String getNomSalon() {
+        return nomSalon;
     }
 
-    public void setIdSalon(UUID idSalon) {
-        this.idSalon = idSalon;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setNomSalon(String nomSalon) {
+        this.nomSalon = nomSalon;
     }
 
     public String getNom() {
@@ -102,12 +94,16 @@ public class Prospect {
         this.numeroTelephone = numeroTelephone;
     }
 
-    public Boolean getEstClient() {
+    public String getEstClient() {
         return estClient;
     }
 
-    public void setEstClient(Boolean estClient) {
+    public void setEstClient(String estClient) {
         this.estClient = estClient;
     }
+
+    public String getImage(){return image;}
+
+    public void setImage(String image){this.image = image;}
 }
 
