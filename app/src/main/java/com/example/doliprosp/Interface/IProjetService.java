@@ -12,5 +12,5 @@ public interface IProjetService {
 
     public void updateProjet(Projet projet);
 
-    List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nom, String nom1);
+    List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect);
 }

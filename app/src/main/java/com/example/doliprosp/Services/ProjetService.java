@@ -28,7 +28,15 @@ public class ProjetService implements IProjetService {
     }
 
     @Override
-    public List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nom, String nom1) {
-        return Collections.emptyList();
+    public List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect) {
+
+        ArrayList<Projet> projetDuProspect = new ArrayList<Projet>();
+
+        for(Projet projet : projetListe) {
+            if(projet.getNomProspect().equals(nomProspect)) {
+                projetDuProspect.add(projet);
+            }
+        }
+        return projetDuProspect;
     }
 }

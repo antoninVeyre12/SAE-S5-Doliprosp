@@ -13,6 +13,8 @@ public class Projet {
     private String dateFin;
 
 
+
+
     public Projet(String nomProspect, String titre, String description, String dateDebut, String dateFin) {
         this.idProjet = UUID.randomUUID();
         this.nomProspect = nomProspect;
@@ -61,4 +63,8 @@ public class Projet {
     public void setDateDebut(String dateDebut) {
         this.dateDebut = dateDebut;
     }
+
+    public String getNomProspect() {return nomProspect;}
+
+    public void setNomProspect(String nomProspect) {this.nomProspect = nomProspect;}
 }

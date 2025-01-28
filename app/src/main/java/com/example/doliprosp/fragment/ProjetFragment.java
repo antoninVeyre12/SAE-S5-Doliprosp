@@ -74,11 +74,8 @@ public class ProjetFragment extends Fragment {
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         projetRecyclerView = view.findViewById(R.id.projetRecyclerView);
         chargement = view.findViewById(R.id.chargement);
-        // recherche = view.findViewById(R.id.recherche).toString();
-        // champ = view.findViewById(R.id.champ).toString();
-        // Set l'adapter des salons de l'utilisateur
-        // tri = view.findViewById(R.id.tri).toString();
-        //prospectClientExiste(recherche, champ, tri);
+
+
         salonActuelEditText.setText(salonActuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         projetRecyclerView.setLayoutManager(layoutManager);
@@ -100,7 +97,7 @@ public class ProjetFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), salonActuel.getNom(), prospectActuel.getNom()));
+        adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()));
         projetRecyclerView.setAdapter(adapterProjet);
         adapterProjet.notifyDataSetChanged();
     }
