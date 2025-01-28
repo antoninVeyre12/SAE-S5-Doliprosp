@@ -19,10 +19,7 @@ import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
-import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
-
-import java.util.Date;
 
 public class CreationProjetDialogFragment extends DialogFragment {
     private IProjetService projetService;
@@ -55,16 +52,16 @@ public class CreationProjetDialogFragment extends DialogFragment {
         projetService = new ProjetService();
 
         erreur = view.findViewById(R.id.erreur);
-        editTextTitreProjet = view.findViewById(R.id.editTextTitreProjet);
-        editTextDescriptionProjet = view.findViewById(R.id.editTextDescriptionProjet);
-        editTextDateDebutProjet = view.findViewById(R.id.editTextDateDebutProjet);
-        editTextDateFinProjet = view.findViewById(R.id.editTextDateFinProjet);
+        editTextTitreProjet = view.findViewById(R.id.editTextTitre);
+        editTextDescriptionProjet = view.findViewById(R.id.editTextDescription);
+        editTextDateDebutProjet = view.findViewById(R.id.editTextDateDebut);
+        editTextDateFinProjet = view.findViewById(R.id.editTextDateFin);
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
         if (getArguments().containsKey("nomDuSalon")) {
             nomSalon = (String) getArguments().getSerializable("nomDuSalon");
-            adapterProspect = (ProspectAdapter) getArguments().getSerializable("adapterProspect");
+            adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
         }
 
 
@@ -80,7 +77,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
             String titreProjet = editTextTitreProjet.getText().toString().trim();
             String descriptionProjet = editTextDescriptionProjet.getText().toString().trim();
             String dateDebutProjet = editTextDateDebutProjet.getText().toString().trim();
-            Date dateFinProjet = new Date(editTextDateFinProjet.getText().toString().trim());
+            String dateFinProjet = editTextDateFinProjet.getText().toString().trim();
 
             erreur.setVisibility(View.GONE); // Cacher l'erreur au début
 
@@ -99,40 +96,16 @@ public class CreationProjetDialogFragment extends DialogFragment {
 
 
             if (dateDebutProjet.isEmpty() || dateDebutProjet.length() != 10) {
-                erreur.setText(R.string.erreur_adresse_prospect_maxLongueur);
+                erreur.setText(R.string.erreur_date_projet);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
 
-            if (ville.isEmpty()) {
-                erreur.setText(R.string.erreur_ville_prospect_vide);
+            if (dateFinProjet.isEmpty() || dateFinProjet.length() != 10) {
+                erreur.setText(R.string.erreur_date_projet);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
-
-            int codePostal; // Déclarer le code postal comme un entier
-            try {
-                codePostal = Integer.parseInt(codePostalProspect.getText().toString().trim());
-            } catch (NumberFormatException e) {
-                // Gérer le cas où le champ est vide ou contient une valeur non valide
-                erreur.setText(R.string.erreur_codePostal_prospect_invalid);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            // Vérification du code postal
-            if (codePostal < 10000 || codePostal > 99999) {
-                erreur.setText(R.string.erreur_codePostal_prospect);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            // Vérification si estClient est activé
-            /*if (estClient) {
-                erreur.setText(R.string.erreur_estClient_prospect);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }*/
 
             // Tout est valide, créer le prospect
             Projet projet = new Projet(titreProjet,  descriptionProjet, dateDebutProjet, dateFinProjet);
