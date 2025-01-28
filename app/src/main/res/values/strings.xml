@@ -86,5 +86,5 @@
     <string name="hint_descriptionProspect">Description du projet</string>
     <string name="erreur_date_projet">La date du projet doit être de 6 chiffres sous la forme (jj/mm/yyyy)</string>
 
-
+    <string name="selection_salon">Veuillez selectioner un salon avant de vous rendre sur cette page</string>
 </resources>

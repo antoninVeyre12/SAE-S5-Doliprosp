@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,6 +63,12 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
             if (dernierSalonSelectione != null) {
                 salonActuel = dernierSalonSelectione;
             } else {
+                Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
+
+                return null;
             }
         }
         return inflater.inflate(R.layout.fragment_prospect, container, false);
@@ -81,10 +89,13 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
         // Set l'adapter des salons de l'utilisateur
         // tri = view.findViewById(R.id.tri).toString();
         //prospectClientExiste(recherche, champ, tri);
+
         salonActuelEditText.setText(salonActuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         prospectRecyclerView.setLayoutManager(layoutManager);
         setupListeners();
+
+
     }
 
     private void setupListeners() {
@@ -101,11 +112,18 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
 
     public void onResume() {
         super.onResume();
-        Log.d("ffffff", String.valueOf(mesProspectViewModel.getProspectListe()));
-        Log.d("ggggg", String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom())));
-        adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()),ProspectFragment.this);
-        prospectRecyclerView.setAdapter(adapterProspect);
-        adapterProspect.notifyDataSetChanged();
+        if (dernierSalonSelectione != null) {
+            salonActuel = dernierSalonSelectione;
+            adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()),ProspectFragment.this);
+            prospectRecyclerView.setAdapter(adapterProspect);
+            adapterProspect.notifyDataSetChanged();
+        } else {
+            Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack();
+
+        }
+
     }
 
 

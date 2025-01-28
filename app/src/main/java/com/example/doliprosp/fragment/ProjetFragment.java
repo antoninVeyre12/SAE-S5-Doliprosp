@@ -29,8 +29,7 @@ import java.io.Serializable;
 public class ProjetFragment extends Fragment {
 
     private IProjetService projetService;
-    private TextView salonActuelEditText;
-    private Salon Actuel;
+    private TextView prospectActuelEditText;
     private Prospect prospectActuel;
     private static Salon dernierSalonSelectione;
     private static Prospect dernierProspectSelectionne;
@@ -63,14 +62,14 @@ public class ProjetFragment extends Fragment {
 
         projetService = new ProjetService();
         boutonCreerProjet = view.findViewById(R.id.buttonCreateProject);
-        salonActuelEditText = view.findViewById(R.id.salonActuel);
+        prospectActuelEditText = view.findViewById(R.id.prospectActuel);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         projetRecyclerView = view.findViewById(R.id.projetRecyclerView);
         chargement = view.findViewById(R.id.chargement);
 
 
-        //salonActuelEditText.setText(Actuel.getNom());
+        prospectActuelEditText.setText(prospectActuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         projetRecyclerView.setLayoutManager(layoutManager);
         setupListeners();

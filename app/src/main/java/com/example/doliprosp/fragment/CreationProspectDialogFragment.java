@@ -22,6 +22,8 @@ import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 
+import java.io.Serializable;
+
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
     private TextView erreur;
@@ -158,7 +160,10 @@ public class CreationProspectDialogFragment extends DialogFragment {
             if (adapterProspect != null) {
             }
             dismiss();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("prospect", (Serializable) prospect);
             ProjetFragment projetFragment = new ProjetFragment();
+            projetFragment.setArguments(bundle);
             ((MainActivity) getActivity()).loadFragment(projetFragment);
             ((MainActivity) getActivity()).setColors(3);
         });
