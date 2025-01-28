@@ -67,7 +67,6 @@ public class CreationProspectDialogFragment extends DialogFragment {
         if (getArguments().containsKey("nomDuSalon")) {
             nomSalon = (String) getArguments().getSerializable("nomDuSalon");
             adapterProspect = (ProspectAdapter) getArguments().getSerializable("adapterProspect");
-
         }
 
 

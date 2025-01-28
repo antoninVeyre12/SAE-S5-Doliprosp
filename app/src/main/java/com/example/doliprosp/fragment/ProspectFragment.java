@@ -129,10 +129,10 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
     @Override
     public void onSelectClick(int position, List<Prospect> prospectListe) {
         Prospect prospect = prospectListe.get(position);
-        //Bundle bundle = new Bundle();
-        //bundle.putSerializable("prospect", (Serializable) prospect);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("prospect", (Serializable) prospect);
         ProjetFragment projetFragment = new ProjetFragment();
-        //projetFragment.setArguments(bundle);
+        projetFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(projetFragment);
         ((MainActivity) getActivity()).setColors(3);
     }

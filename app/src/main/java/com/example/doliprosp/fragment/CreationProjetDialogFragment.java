@@ -59,10 +59,10 @@ public class CreationProjetDialogFragment extends DialogFragment {
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
-        if (getArguments().containsKey("nomDuSalon")) {
-            nomProspect = (String) getArguments().getSerializable("nomDuProspect");
-            adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
-        }
+        //if (getArguments().containsKey("nomDuProspect")) {
+        //    nomProspect = (String) getArguments().getSerializable("nomDuProspect");
+        //    adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
+        //}
 
 
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
@@ -110,15 +110,13 @@ public class CreationProjetDialogFragment extends DialogFragment {
             Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, dateFinProjet);
             mesProjetsViewModel.addProjet(projet);
 
-            if (adapterProjet != null) {
-            }
             dismiss();
         });
 
         boutonAnnuler.setOnClickListener(v -> {
             dismiss();
         });
-        adapterProjet.notifyDataSetChanged();
+        //adapterProjet.notifyDataSetChanged();
     }
 }
 

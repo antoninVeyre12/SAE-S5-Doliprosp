@@ -30,7 +30,7 @@ public class ProjetFragment extends Fragment {
 
     private IProjetService projetService;
     private TextView salonActuelEditText;
-    private Salon salonActuel;
+    private Salon Actuel;
     private Prospect prospectActuel;
     private static Salon dernierSalonSelectione;
     private static Prospect dernierProspectSelectionne;
@@ -49,17 +49,11 @@ public class ProjetFragment extends Fragment {
                              Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            salonActuel = (Salon) bundle.getSerializable("salon");
             prospectActuel = (Prospect) bundle.getSerializable("prospect");
-            dernierSalonSelectione = salonActuel;
         } else {
-            if (dernierSalonSelectione != null) {
-                salonActuel = dernierSalonSelectione;
-            }
             if (dernierProspectSelectionne != null) {
                 prospectActuel = dernierProspectSelectionne;
             }
-
         }
         return inflater.inflate(R.layout.fragment_project, container, false);
     }
@@ -76,20 +70,20 @@ public class ProjetFragment extends Fragment {
         chargement = view.findViewById(R.id.chargement);
 
 
-        salonActuelEditText.setText(salonActuel.getNom());
+        //salonActuelEditText.setText(Actuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         projetRecyclerView.setLayoutManager(layoutManager);
         setupListeners();
     }
 
     private void setupListeners() {
-        // Ajouter un salon
+        // Ajouter un projet
         boutonCreerProjet.setOnClickListener(v -> {
-            CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
+            CreationProjetDialogFragment dialog = new CreationProjetDialogFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("nomDuSalon", (Serializable) salonActuel.getNom());
-            bundle.putSerializable("nomDuProspect", (Serializable) prospectActuel.getNom());
-            bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
+            //bundle.putSerializable("nomDuSalon", (Serializable) Actuel.getNom());
+            //bundle.putSerializable("nomDuProspect", (Serializable) prospectActuel.getNom());
+            //bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });

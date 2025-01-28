@@ -1,8 +1,9 @@
 package com.example.doliprosp.Modele;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Prospect {
+public class Prospect implements Serializable {
     private UUID idProspect;
     private String nomSalon;
     private String nom;
