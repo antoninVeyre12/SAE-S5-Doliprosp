@@ -8,22 +8,27 @@
     android:layout_marginTop="@dimen/item_show_margin"
     android:layout_marginBottom="@dimen/item_show_margin">
 
-    <!-- Fond -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/item_show_background" />
 
-    <!-- Image en haut à droite -->
     <ImageButton
         android:id="@+id/salon_supprimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/ic_height"
+        android:layout_height="@dimen/ic_width"
         android:background="@drawable/ic_trash"
-        android:layout_gravity="end|center_vertical"
+        android:layout_gravity="end|top"
         android:layout_margin="@dimen/item_show_text_margin" />
 
-    <!-- Texte centré et évitant l'image -->
+    <ImageButton
+        android:id="@+id/salon_modifier"
+        android:layout_width="@dimen/ic_height"
+        android:layout_height="@dimen/ic_width"
+        android:background="@drawable/ic_stylo"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/item_show_text_margin" />
+
     <TextView
         android:id="@+id/salon_nom"
         android:layout_width="match_parent"
