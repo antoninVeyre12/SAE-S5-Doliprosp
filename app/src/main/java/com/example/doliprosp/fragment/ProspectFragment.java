@@ -99,8 +99,6 @@ public class  ProspectFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        Log.d("ffffff", String.valueOf(mesProspectViewModel.getProspectListe()));
-        Log.d("ggggg", String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom())));
         adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()));
         prospectRecyclerView.setAdapter(adapterProspect);
         adapterProspect.notifyDataSetChanged();

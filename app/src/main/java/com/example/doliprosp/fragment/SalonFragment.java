@@ -100,7 +100,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
     public void onResume() {
         super.onResume();
-        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this);
+        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this,mesSalonsViewModel,salonsViewModel);
         recyclerViewMesSalons.setAdapter(adapterMesSalons);
         adapterMesSalons.notifyDataSetChanged();
         adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
@@ -174,6 +174,22 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
             mesProspectViewModel.removeProspect(prospect);
         }
         adapterMesSalons.notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onModifyClick(int position, String nouveauNom) {
+
+        Salon salonAModifier = mesSalonsViewModel.getSalonListe().get(position);
+
+        ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonAModifier.getNom());
+        // Pour chacun des prospects change le salon associé
+        for (Prospect prospect : prospects) {
+            Log.d("prospect",prospect.getNomSalon());
+            prospect.setNomSalon(nouveauNom);
+            Log.d("prospect2",prospect.getNomSalon());
+        }
+        salonAModifier.setNom(nouveauNom);
+        adapterMesSalons.notifyItemChanged(position);
     }
 
     @Override
