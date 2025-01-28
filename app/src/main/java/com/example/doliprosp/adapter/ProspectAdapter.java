@@ -20,10 +20,10 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
 
     private List<Prospect> prospectListe;
 
-    public ProspectAdapter(List<Prospect> prospectListe) {
-        Log.d("aaaa", String.valueOf(prospectListe.size()));
+    private ProspectAdapter.OnItemClickListener onItemClickListener;
+    public ProspectAdapter(List<Prospect> prospectListe, ProspectAdapter.OnItemClickListener onItemClickListener) {
         this.prospectListe = prospectListe;
-
+        this.onItemClickListener = onItemClickListener;
     }
 
 
@@ -36,16 +36,24 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProspectAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Prospect prospect = prospectListe.get(position);
-
         holder.nom.setText(prospect.getNom());
+        holder.icone.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onSelectClick(position, prospectListe);
+            }
+        });
+        holder.nom.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onSelectClick(position, prospectListe);
+
+            }
+        });
         Log.d("zzz","eeeffffffffffee");
         //String imageName = prospect.getImage();
         //int imageResId = holder.itemView.getContext().getResources().getIdentifier(imageName, "drawable", holder.itemView.getContext().getPackageName());
-
         // On affiche l'image
-
     }
 
     @Override
@@ -54,15 +62,20 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
         return Math.min(prospectListe.size(), 15);
     }
 
+    // Interface pour le gestionnaire de clics
+    public interface OnItemClickListener {
+        void onSelectClick(int position, List<Prospect> prospectListe);
+    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nom;
         public ImageView icone;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             nom = itemView.findViewById(R.id.nom);
-            //icone = itemView.findViewById(R.id.icone);
+            icone = itemView.findViewById(R.id.icone);
         }
     }
 }
