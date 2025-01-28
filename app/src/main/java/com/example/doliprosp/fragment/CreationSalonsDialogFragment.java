@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.doliprosp.Interface.ISalonService;
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
@@ -25,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CreationSalonsDialogFragment extends DialogFragment {
@@ -76,12 +78,18 @@ public class CreationSalonsDialogFragment extends DialogFragment {
                 erreurNom.setVisibility(View.VISIBLE);
 
             } else {
-                Salon newShow = new Salon(title);
-                mesSalonsViewModel.addSalon(newShow);
+                Salon nouveauSalon = new Salon(title);
+                mesSalonsViewModel.addSalon(nouveauSalon);
                 if (adapterMesSalons != null) {
                     adapterMesSalons.notifyDataSetChanged();
                 }
                 dismiss();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("salon", (Serializable) nouveauSalon);
+                ProspectFragment prospectFragment = new ProspectFragment();
+                prospectFragment.setArguments(bundle);
+                ((MainActivity) getActivity()).loadFragment(prospectFragment);
+                ((MainActivity) getActivity()).setColors(2);
             }
 
         });

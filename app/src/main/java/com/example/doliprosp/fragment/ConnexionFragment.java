@@ -66,15 +66,21 @@ public class ConnexionFragment extends Fragment {
         Activity activity = getActivity();
         LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
 
+        /*String password = motDePasseEditText.getText().toString();
+        String nomUtilisateur = nomUtilisateurEditText.getText().toString();
+        String url = urlEditText.getText().toString();*/
+       
+        String url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        String nomUtilisateur = "antonin";
+        String password = "antoninantonin";
+
         if(utilisateur != null && utilisateur.informationutilisateurDejaRecupere()) {
             utilisateurViewModel.chargementUtilisateur();
             urlEditText.setText(utilisateur.getUrl());
             nomUtilisateurEditText.setText(utilisateur.getNomUtilisateur());
             Button buttonSubmit  = view.findViewById(R.id.connexion);
             buttonSubmit.setOnClickListener(v -> {
-                String password = motDePasseEditText.getText().toString();
-                String nomUtilisateur = nomUtilisateurEditText.getText().toString();
-                String url = urlEditText.getText().toString();
+
                 if(password.trim().equalsIgnoreCase(utilisateur.getMotDePasse()) && nomUtilisateur.equalsIgnoreCase(utilisateur.getNomUtilisateur()) && url.equalsIgnoreCase(utilisateur.getUrl())) {
                     SalonFragment showFragment = new SalonFragment();
                     ((MainActivity) getActivity()).loadFragment(showFragment);
@@ -88,20 +94,17 @@ public class ConnexionFragment extends Fragment {
         } else {
             Button buttonSubmit  = view.findViewById(R.id.connexion);
             buttonSubmit.setOnClickListener(v -> {
-                String url = urlEditText.getText().toString();
-                String userName = nomUtilisateurEditText.getText().toString();
-                String password = motDePasseEditText.getText().toString();
-                if (url.trim().isEmpty() || userName.trim().isEmpty() || password.trim().isEmpty()) {
+
+                /*if (url.trim().isEmpty() || nomUtilisateur.trim().isEmpty() || password.trim().isEmpty()) {
                     // Affiche un toast au lieu d'un log
                     Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
                 } else if (!url.startsWith("http")) {
                     Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
-                } else {
+                } else {*/
                     String finalUrl = url;
                     chargement.setVisibility(View.VISIBLE);
-                    connexionService.connexion(url, userName, password, getContext(), new ConnexionCallBack() {
+                    connexionService.connexion(url, nomUtilisateur, password, getContext(), new ConnexionCallBack() {
                         public void onSuccess(Utilisateur utilisateur) {
-                            String userName = nomUtilisateurEditText.getText().toString();
                             String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
                             String urlUtilisateur = utilisateur.getUrl();
                             utilisateur.setApiKey(apiKeyChiffre);
@@ -109,7 +112,7 @@ public class ConnexionFragment extends Fragment {
                             utilisateurViewModel.initSharedPreferences(getContext());
                             if(!utilisateur.informationutilisateurDejaRecupere()) {
                                 try {
-                                    String userNameEncoder = URLEncoder.encode(userName, "UTF-8");
+                                    String userNameEncoder = URLEncoder.encode(nomUtilisateur, "UTF-8");
                                     urlUtilisateur = String.format("%s/api/index.php/users/login/%s", urlUtilisateur, userNameEncoder);
                                 } catch (UnsupportedEncodingException e) {
                                     Log.d("erreur url getCommercial", e.getMessage());
@@ -177,7 +180,7 @@ public class ConnexionFragment extends Fragment {
 
                         }
                     });
-                }
+                //}
             });
         }
     }
