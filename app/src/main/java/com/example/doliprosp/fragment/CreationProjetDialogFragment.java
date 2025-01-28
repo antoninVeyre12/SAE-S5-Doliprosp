@@ -60,12 +60,11 @@ public class CreationProjetDialogFragment extends DialogFragment {
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
         if (getArguments().containsKey("nomDuSalon")) {
-            nomSalon = (String) getArguments().getSerializable("nomDuSalon");
+            nomProspect = (String) getArguments().getSerializable("nomDuProspect");
             adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
         }
 
 
-        // Initialiser le ViewModel
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         initialisationBouton();
 
@@ -108,7 +107,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
             }
 
             // Tout est valide, créer le prospect
-            Projet projet = new Projet(titreProjet,  descriptionProjet, dateDebutProjet, dateFinProjet);
+            Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, dateFinProjet);
             mesProjetsViewModel.addProjet(projet);
 
             if (adapterProjet != null) {

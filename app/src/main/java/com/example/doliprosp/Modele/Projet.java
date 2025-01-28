@@ -6,14 +6,16 @@ import java.util.UUID;
 public class Projet {
 
     private UUID idProjet;
+    private String nomProspect;
     private String titre;
     private String description;
     private String dateDebut;
     private String dateFin;
 
 
-    public Projet(String titre, String description, String dateDebut, String dateFin) {
+    public Projet(String nomProspect, String titre, String description, String dateDebut, String dateFin) {
         this.idProjet = UUID.randomUUID();
+        this.nomProspect = nomProspect;
         this.titre = titre;
         this.description = description;
         this.dateDebut = dateDebut;
