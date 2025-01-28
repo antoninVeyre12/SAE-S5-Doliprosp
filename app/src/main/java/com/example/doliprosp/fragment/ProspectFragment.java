@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProspectService;
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
@@ -31,8 +32,9 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class  ProspectFragment extends Fragment {
+public class  ProspectFragment extends Fragment implements ProspectAdapter.OnItemClickListener{
 
     private IProspectService prospectService;
     private TextView salonActuelEditText;
@@ -101,7 +103,7 @@ public class  ProspectFragment extends Fragment {
         super.onResume();
         Log.d("ffffff", String.valueOf(mesProspectViewModel.getProspectListe()));
         Log.d("ggggg", String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom())));
-        adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()));
+        adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()),ProspectFragment.this);
         prospectRecyclerView.setAdapter(adapterProspect);
         adapterProspect.notifyDataSetChanged();
     }
@@ -122,5 +124,16 @@ public class  ProspectFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onSelectClick(int position, List<Prospect> prospectListe) {
+        Prospect prospect = prospectListe.get(position);
+        //Bundle bundle = new Bundle();
+        //bundle.putSerializable("prospect", (Serializable) prospect);
+        ProjetFragment projetFragment = new ProjetFragment();
+        //projetFragment.setArguments(bundle);
+        ((MainActivity) getActivity()).loadFragment(projetFragment);
+        ((MainActivity) getActivity()).setColors(3);
     }
 }

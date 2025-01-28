@@ -35,7 +35,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
     private Button boutonAnnuler;
     private String nomSalon;
     private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private final String REGEX_TEL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
     private ProspectAdapter adapterProspect;
 
     private MesProspectViewModel mesProspectViewModel;
@@ -104,7 +104,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             }
 
             // Vérification du téléphone
-            if (tel.matches(REGEX_TEL)) {
+            if (!tel.matches(REGEX_TEL)) {
                 erreur.setText(R.string.erreur_tel_prospect);
                 erreur.setVisibility(View.VISIBLE);
                 return;
@@ -118,6 +118,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             } else if (adresse.isEmpty()) {
                 erreur.setText(R.string.erreur_adresse_prospect_vide);
                 erreur.setVisibility(View.VISIBLE);
+                return;
             }
 
             // Vérification de la ville
