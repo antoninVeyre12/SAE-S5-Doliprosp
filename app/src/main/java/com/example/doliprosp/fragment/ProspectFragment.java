@@ -29,9 +29,7 @@ import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
-import com.example.doliprosp.adapter.MyShowAdapter;
 import com.example.doliprosp.adapter.ProspectAdapter;
-import com.example.doliprosp.adapter.ShowAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.ProjetViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
@@ -40,7 +38,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class  ProspectFragment extends Fragment implements ProspectAdapter.OnItemClickListener{
+/**
+ * Fragment représentant la gestion des prospects dans un salon.
+ * Permet de lister, d'ajouter des prospects et de naviguer vers un projet associé à un prospect sélectionné.
+ */
+public class ProspectFragment extends Fragment implements ProspectAdapter.OnItemClickListener {
 
     private IProspectService prospectService;
     private IProjetService projetService;
@@ -59,9 +61,16 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
     private String champ;
     private String tri;
 
+    /**
+     * Crée et retourne la vue du fragment, en initialisant les données du salon si disponibles.
+     *
+     * @param inflater Le LayoutInflater pour inflater la vue du fragment.
+     * @param container Le conteneur dans lequel la vue sera ajoutée.
+     * @param savedInstanceState L'état précédent sauvegardé du fragment.
+     * @return La vue du fragment.
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if (bundle != null) {
             salonActuel = (Salon) bundle.getSerializable("salon");
@@ -79,9 +88,14 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
         return inflater.inflate(R.layout.fragment_prospect, container, false);
     }
 
+    /**
+     * Méthode appelée après la création de la vue pour initialiser les éléments de l'interface et configurer les listeners.
+     *
+     * @param view La vue du fragment.
+     * @param savedInstanceState L'état sauvegardé de la vue.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         prospectService = new ProspectService();
         projetService = new ProjetService();
         boutonCreerProspect = view.findViewById(R.id.buttonCreateProspect);
@@ -91,22 +105,18 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
         projetViewModel = new ViewModelProvider(requireActivity()).get(ProjetViewModel.class);
         prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
         chargement = view.findViewById(R.id.chargement);
-        // recherche = view.findViewById(R.id.recherche).toString();
-        // champ = view.findViewById(R.id.champ).toString();
-        // Set l'adapter des salons de l'utilisateur
-        // tri = view.findViewById(R.id.tri).toString();
-        //prospectClientExiste(recherche, champ, tri);
 
         salonActuelEditText.setText(salonActuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         prospectRecyclerView.setLayoutManager(layoutManager);
         setupListeners();
-
-
     }
 
+    /**
+     * Initialise les listeners pour les boutons et interactions de l'interface.
+     */
     private void setupListeners() {
-        // Ajouter un prospect
+        // Ajoute un prospect via un dialog de création
         boutonCreerProspect.setOnClickListener(v -> {
             CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
             Bundle bundle = new Bundle();
@@ -117,9 +127,12 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
         });
     }
 
+    /**
+     * Méthode appelée lors de la reprise du fragment pour recharger la liste des prospects et mettre à jour les éléments visuels.
+     */
+    @Override
     public void onResume() {
         super.onResume();
-        // Met en primaryColor l'icone et le texte du fragment
         ((MainActivity) getActivity()).setColors(2);
         if (dernierSalonSelectione != null) {
             salonActuel = dernierSalonSelectione;
@@ -129,30 +142,38 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
         } else {
             Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).setColors(1);
-            //FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            //fragmentManager.popBackStack();
         }
-
     }
 
-
+    /**
+     * Méthode pour vérifier si un prospect existe pour un client, basée sur les critères de recherche.
+     *
+     * @param recherche Le texte de recherche pour le prospect.
+     * @param champ Le champ sur lequel effectuer la recherche.
+     * @param tri La méthode de tri des prospects.
+     */
     private void prospectClientExiste(String recherche, String champ, String tri) {
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         chargement.setVisibility(View.VISIBLE);
         prospectService.prospectClientExiste(getContext(), recherche, champ, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
-
             @Override
             public void onSuccess(ArrayList<Prospect> response) {
-
+                // TODO: Implémenter la gestion des succès
             }
 
             @Override
             public void onError(String errorMessage) {
-
+                // TODO: Implémenter la gestion des erreurs
             }
         });
     }
 
+    /**
+     * Méthode appelée lorsqu'un élément de la liste des prospects est sélectionné.
+     *
+     * @param position La position de l'élément sélectionné.
+     * @param prospectListe La liste des prospects.
+     */
     @Override
     public void onSelectClick(int position, List<Prospect> prospectListe) {
         Prospect prospect = prospectListe.get(position);

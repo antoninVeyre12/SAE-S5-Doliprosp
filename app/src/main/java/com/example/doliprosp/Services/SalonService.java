@@ -15,12 +15,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Service gérant les salons de l'application.
+ */
 public class SalonService implements ISalonService {
 
     private String url;
     private String urlAppel;
 
-
+    /**
+     * Méthode pour récupérer les salons enregistrées dans Dolibarr
+     * @param context Le contexte de l'application.
+     * @param recherche Le terme de recherche à utiliser pour filtrer les salons.
+     * @param utilisateur L'utilisateur effectuant la requête.
+     * @param callback Le callback pour récupérer la liste des salons trouvés.
+     */
     public void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback)
     {
         ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
@@ -50,33 +59,36 @@ public class SalonService implements ISalonService {
         });
     }
 
+    /**
+     * Méthode pour retrouver un salon dans Dolibarr.
+     * @param nomRecherche nom saisi par l'utilisateur.
+     * @param salonsViewModel Contient la liste des salons disponibles dans Dolibarr
+     * @param mesSalonsViewModel contient la liste des salons saisis par l'utilisateur qui ne sont pas encore disponible dans Dolibarr
+     * @return true si le salon existe sinon false
+     */
     public boolean salonExiste(String nomRecherche, SalonsViewModel salonsViewModel, MesSalonsViewModel mesSalonsViewModel) {
-        boolean existe = false;
+        if (nomRecherche == null || nomRecherche.isEmpty()) {
+            return false; // Si le nom de recherche est nul ou vide, on retourne directement false
+        }
         for (Salon salon : salonsViewModel.getSalonListe()) {
-            // Vérification si le nom du salon correspond à nomRecherche
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
-                existe = true;
+                return true; // Si le salon est trouvé dans salonsViewModel, on retourne true
             }
         }
-        for (Salon salon : mesSalonsViewModel.getSalonListe()){
+        for (Salon salon : mesSalonsViewModel.getSalonListe()) {
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
-                existe = true;
+                return true; // Si le salon est trouvé dans mesSalonsViewModel, on retourne true
             }
         }
-        for (Salon salon : mesSalonsViewModel.getSalonListe()){
-            if (nomRecherche == null || nomRecherche == "") {
-                existe = false;
-            }
-        }
-        return existe;
+        return false; // Si le salon n'est pas trouvé dans les deux listes, on retourne false
     }
 
 
     public void envoyerSalon(SalonService salon) {
-
+        //TODO
     }
 
     public void updateSalon(String nouveauNom) {
-
+        //TODO
     }
 }

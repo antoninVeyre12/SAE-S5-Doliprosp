@@ -33,6 +33,10 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Fragment représentant la gestion des projets pour un prospect donné.
+ * Permet de lister les projets associés à un prospect et d'ajouter de nouveaux projets.
+ */
 public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemClickListener {
 
     private IProjetService projetService;
@@ -47,6 +51,14 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
     private RecyclerView projetRecyclerView;
 
 
+    /**
+     * Crée et retourne la vue du fragment, en initialisant les informations relatives au prospect sélectionné.
+     *
+     * @param inflater Le LayoutInflater pour inflater la vue du fragment.
+     * @param container Le conteneur dans lequel la vue sera ajoutée.
+     * @param savedInstanceState L'état précédent sauvegardé du fragment.
+     * @return La vue du fragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +80,12 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
         return inflater.inflate(R.layout.fragment_project, container, false);
     }
 
+    /**
+     * Méthode appelée après la création de la vue pour initialiser les éléments de l'interface et configurer les listeners.
+     *
+     * @param view La vue du fragment.
+     * @param savedInstanceState L'état sauvegardé de la vue.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -79,15 +97,22 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
         projetRecyclerView = view.findViewById(R.id.projetRecyclerView);
         chargement = view.findViewById(R.id.chargement);
 
-
+        // Affiche le nom du prospect actuellement sélectionné
         prospectActuelEditText.setText(prospectActuel.getNom());
+
+        // Configure le RecyclerView avec un layout en grille
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         projetRecyclerView.setLayoutManager(layoutManager);
+
+        // Configure les listeners pour les interactions utilisateur
         setupListeners();
     }
 
+    /**
+     * Initialise les listeners pour les boutons et interactions de l'interface.
+     */
     private void setupListeners() {
-        // Ajouter un projet
+        // Ajoute un projet
         boutonCreerProjet.setOnClickListener(v -> {
             CreationProjetDialogFragment dialog = new CreationProjetDialogFragment();
             Bundle bundle = new Bundle();
@@ -98,12 +123,17 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
         });
     }
 
+    /**
+     * Méthode appelée lors de la reprise du fragment pour recharger la liste des projets et mettre à jour l'interface.
+     */
+    @Override
     public void onResume() {
         super.onResume();
 
-        // Met en primaryColor l'icone et le texte du fragment
+        // Met à jour l'interface avec le style du fragment actif
         ((MainActivity) getActivity()).setColors(3);
 
+        // Si un prospect est sélectionné, affiche la liste des projets associés
         if (prospectActuel != null) {
             adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()), (ProjetAdapter.OnItemClickListener) ProjetFragment.this);
             ArrayList<Projet> listProjet = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom());
