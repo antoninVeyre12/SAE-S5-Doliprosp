@@ -86,6 +86,11 @@
     <string name="hint_descriptionProspect">Description du projet</string>
     <string name="erreur_date_projet">La date du projet doit être de 6 chiffres sous la forme (jj/mm/yyyy)</string>
 
+
+    <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé"</string>
+    <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect posséde des projets ils seront aussi supprimé"</string>
+    <string name="confirmation_suppresion_projet">"Êtes-vous sûr de vouloir supprimer ce projet ?"</string>
+
     <!-- Toast selection-->
     <string name="selection_salon">Veuillez selectioner un salon avant de vous rendre sur cette page</string>
     <string name="selection_prospect">Veuillez selectioner un prospect avant de vous rendre sur cette page</string>

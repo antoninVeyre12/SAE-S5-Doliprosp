@@ -28,7 +28,7 @@ public class ProjetService implements IProjetService {
     }
 
     @Override
-    public List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect) {
+    public ArrayList<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect) {
 
         ArrayList<Projet> projetDuProspect = new ArrayList<Projet>();
 

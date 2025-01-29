@@ -43,6 +43,16 @@
             android:textSize="@dimen/information_size"
             android:textColor="#000000"
             android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/prospect_supprimer"
+            android:layout_width="@dimen/ic_height"
+            android:layout_height="@dimen/ic_width"
+            android:background="@drawable/ic_trash"
+            android:layout_gravity="end|top"
+            android:layout_margin="@dimen/item_show_text_margin" />
+
+
     </LinearLayout>
 
 </LinearLayout>

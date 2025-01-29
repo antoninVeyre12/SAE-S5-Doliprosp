@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.MainActivity;
+import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
@@ -28,6 +29,7 @@ import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ProjetFragment extends Fragment {
 
@@ -113,4 +115,11 @@ public class ProjetFragment extends Fragment {
             ((MainActivity) getActivity()).setColors(1);
         }
     }
+    /*
+    @Override
+    public void onDeleteClick(int position) {
+        Projet projetASupprimer = mesProjetsViewModel.getProjetListe().get(position);
+        mesProjetsViewModel.removeProjet(projetASupprimer);
+        adapterProjet.notifyItemRemoved(position);
+    }*/
 }

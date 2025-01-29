@@ -230,9 +230,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonAModifier.getNom());
         // Pour chacun des prospects change le salon associé
         for (Prospect prospect : prospects) {
-            Log.d("prospect",prospect.getNomSalon());
             prospect.setNomSalon(nouveauNom);
-            Log.d("prospect2",prospect.getNomSalon());
         }
         salonAModifier.setNom(nouveauNom);
         adapterMesSalons.notifyItemChanged(position);

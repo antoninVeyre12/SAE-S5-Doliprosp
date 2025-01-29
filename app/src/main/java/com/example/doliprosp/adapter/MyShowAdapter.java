@@ -61,7 +61,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
         holder.salon_supprimer.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 new AlertDialog.Builder(v.getContext())
-                        .setMessage("Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé")
+                        .setMessage(R.string.confirmation_suppresion_salon)
                         .setPositiveButton("Oui", (dialog, which) -> {
                             // Si l'utilisateur confirme, appeler la méthode de suppression
                             onItemClickListener.onDeleteClick(position);
@@ -126,7 +126,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                     if (nouveauNom.length() <= 2 || nouveauNom.length() >= 50) {
                         erreurNom.setText(R.string.erreur_nom_salon_longueur);
                         erreurNom.setVisibility(View.VISIBLE);
-                    } else if (salonService.salonExiste(nouveauNom, salonsViewModel, mesSalonsViewModel)) {
+                    } else if (salonService.salonExiste(nouveauNom, salonsViewModel, mesSalonsViewModel) && !nouveauNom.equals(salon.getNom())) {
                         erreurNom.setText(R.string.erreur_nom_salon_existe);
                         erreurNom.setVisibility(View.VISIBLE);
                     } else {

@@ -1,5 +1,6 @@
 package com.example.doliprosp.adapter;
 
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,22 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         Projet projet = projetListe.get(position);
 
         holder.titre.setText(projet.getTitre());
+
+        /*holder.projet_supprimer.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                new AlertDialog.Builder(v.getContext())
+                        .setMessage(R.string.confirmation_suppresion_projet)
+                        .setPositiveButton("Oui", (dialog, which) -> {
+                            // Si l'utilisateur confirme, appeler la méthode de suppression
+                            onItemClickListener.onDeleteClick(position);
+                        })
+                        .setNegativeButton("Non", (dialog, which) -> {
+                            // L'utilisateur annule la suppression
+                            dialog.dismiss();
+                        })
+                        .show();
+            }
+        });*/
     }
 
     @Override
