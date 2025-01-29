@@ -7,44 +7,92 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-
-import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
+import androidx.lifecycle.ViewModel;
+
+/**
+ * ViewModel pour gérer la liste des salons dans l'application.
+ * Cette classe permet d'ajouter, supprimer et charger des salons à partir des SharedPreferences.
+ * Elle assure la gestion des données liées aux salons, leur persistance et leur récupération.
+ */
 public class MesSalonsViewModel extends ViewModel {
+    // Liste des salons gérée dans le ViewModel
     private ArrayList<Salon> salonListe = new ArrayList<>();
+
+    // Référence à l'objet SharedPreferences pour la persistance des données
     private SharedPreferences sharedPreferences;
 
+    /**
+     * Retourne la liste des salons.
+     *
+     * @return La liste des salons.
+     */
     public ArrayList<Salon> getSalonListe() {
         return salonListe;
     }
 
+    /**
+     * Ajoute un salon à la liste et enregistre la liste mise à jour dans SharedPreferences.
+     *
+     * @param salon Le salon à ajouter.
+     */
     public void addSalon(Salon salon) {
         salonListe.add(salon);
-        enregistrerSalons();
+        enregistrerSalons(); // Sauvegarde la liste mise à jour des salons.
     }
 
+    /**
+     * Initialise les SharedPreferences à utiliser pour la persistance des données.
+     *
+     * @param sharedPreferences L'objet SharedPreferences.
+     */
     public void initSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
+    /**
+     * Supprime un salon de la liste et enregistre la liste mise à jour dans SharedPreferences.
+     *
+     * @param salon Le salon à supprimer.
+     */
     public void removeSalon(Salon salon) {
         salonListe.remove(salon);
-        enregistrerSalons();
+        enregistrerSalons(); // Sauvegarde la liste mise à jour après suppression du salon.
     }
 
+    /**
+     * Enregistre la liste des salons dans les SharedPreferences sous forme de chaîne JSON.
+     */
     private void enregistrerSalons() {
+        // Création d'un éditeur pour modifier les SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Sérialisation de la liste des salons en JSON
         Gson gson = new Gson();
         String json = gson.toJson(salonListe);
+
+        // Sauvegarde du JSON dans SharedPreferences avec la clé "mes_salon_list"
         editor.putString("mes_salon_list", json);
-        editor.apply();
+        editor.apply(); // Applique les changements de manière asynchrone
     }
 
+    /**
+     * Charge la liste des salons depuis SharedPreferences et la désérialise.
+     * Les salons sont récupérés sous forme de JSON puis convertis en objets de type ArrayList<Salon>.
+     */
     public void chargementSalons() {
+        // Création d'une instance de Gson pour la désérialisation
         Gson gson = new Gson();
+
+        // Récupération de la chaîne JSON des SharedPreferences
         String json = sharedPreferences.getString("mes_salon_list", null);
-        Type type = new TypeToken<ArrayList<Salon>>() {}.getType();
+
+        // Définition du type générique pour la désérialisation
+        Type type = new TypeToken<ArrayList<Salon>>() {
+        }.getType();
+
+        // Si le JSON existe, on désérialise la chaîne en une liste de salons
         if (json != null) {
             salonListe = gson.fromJson(json, type);
         }
