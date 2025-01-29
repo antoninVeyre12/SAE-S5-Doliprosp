@@ -110,6 +110,8 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
 
     public void onResume() {
         super.onResume();
+        // Met en primaryColor l'icone et le texte du fragment
+        ((MainActivity) getActivity()).setColors(2);
         if (dernierSalonSelectione != null) {
             salonActuel = dernierSalonSelectione;
             adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()),ProspectFragment.this);

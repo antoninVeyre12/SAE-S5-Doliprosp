@@ -116,6 +116,9 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
      */
     public void onResume() {
         super.onResume();
+        // Met en primaryColor l'icone et le texte du fragment
+        ((MainActivity) getActivity()).setColors(1);
+
         adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this,mesSalonsViewModel,salonsViewModel);
         recyclerViewMesSalons.setAdapter(adapterMesSalons);
         adapterMesSalons.notifyDataSetChanged();

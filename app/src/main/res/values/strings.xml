@@ -87,4 +87,5 @@
     <string name="erreur_date_projet">La date du projet doit être de 6 chiffres sous la forme (jj/mm/yyyy)</string>
 
     <string name="selection_salon">Veuillez selectioner un salon avant de vous rendre sur cette page</string>
+    <string name="selection_prospect">Veuillez selectioner un prospect avant de vous rendre sur cette page</string>
 </resources>

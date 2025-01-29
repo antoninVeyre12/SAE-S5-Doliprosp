@@ -56,7 +56,7 @@ public class ProjetFragment extends Fragment {
             if (dernierProspectSelectionne != null) {
                 prospectActuel = dernierProspectSelectionne;
             } else {
-                Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.selection_prospect, Toast.LENGTH_SHORT).show();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
                 return null;
@@ -98,12 +98,16 @@ public class ProjetFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+
+        // Met en primaryColor l'icone et le texte du fragment
+        ((MainActivity) getActivity()).setColors(3);
+
         if (prospectActuel != null) {
             adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()));
             projetRecyclerView.setAdapter(adapterProjet);
             adapterProjet.notifyDataSetChanged();
         } else {
-            Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.selection_prospect, Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).setColors(1);
         }
     }

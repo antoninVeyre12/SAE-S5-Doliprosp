@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,12 @@ public class WaitingFragment extends Fragment {
                              Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.fragment_user, container, false);
+    }
+
+    public void onResume() {
+        super.onResume();
+        // Met en primaryColor l'icone et le texte du fragment
+        ((MainActivity) getActivity()).setColors(0);
     }
 
 }

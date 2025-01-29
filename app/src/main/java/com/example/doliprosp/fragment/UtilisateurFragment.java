@@ -110,4 +110,10 @@ public class UtilisateurFragment extends Fragment {
         textViewVille.setText(ville);
         textViewNumTelephone.setText(numTelephone);
     }
+
+    public void onResume() {
+        super.onResume();
+        // Met en primaryColor l'icone et le texte du fragment
+        ((MainActivity) getActivity()).setColors(4);
+    }
 }
