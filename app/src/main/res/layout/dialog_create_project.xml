@@ -98,14 +98,15 @@
     <TableRow>
 
         <Button
-            android:id="@+id/buttonSubmit"
-            style="@style/button_validate"
-            android:layout_span="1" />
-
-        <Button
             android:id="@+id/buttonCancel"
             android:layout_span="1"
             style="@style/button_cancel" />
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_span="1"
+            style="@style/button_validate" />
+        
     </TableRow>
 
     <TextView

@@ -2,6 +2,9 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,12 @@ import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class CreationProjetDialogFragment extends DialogFragment {
     private IProjetService projetService;
@@ -60,6 +69,9 @@ public class CreationProjetDialogFragment extends DialogFragment {
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
+        setupDateInputMask(editTextDateDebutProjet);
+        setupDateInputMask(editTextDateFinProjet);
+
         if (getArguments().containsKey("nomDuProspect")) {
             nomProspect = (String) getArguments().getSerializable("nomDuProspect");
             Log.d("vhbzhbvzfbkhv", nomProspect);
@@ -73,6 +85,57 @@ public class CreationProjetDialogFragment extends DialogFragment {
         return view;
     }
 
+    // Fonction pour ajouter un TextWatcher à un EditText
+    private void setupDateInputMask(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            private boolean isFormatting;
+            private int deletingHyphenIndex;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (count > 0 && after == 0) {
+                    char deletedChar = s.charAt(start);
+                    if (deletedChar == '/') {
+                        deletingHyphenIndex = start;
+                    }
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isFormatting) return;
+
+                isFormatting = true;
+                String clean = s.toString().replaceAll("[^0-9]", "");
+
+                StringBuilder formatted = new StringBuilder();
+                for (int i = 0; i < clean.length(); i++) {
+                    if (i == 2 || i == 4) {
+                        formatted.append('/');
+                    }
+                    formatted.append(clean.charAt(i));
+                }
+
+                editText.setText(formatted.toString());
+                editText.setSelection(formatted.length() > 10 ? 10 : formatted.length());
+                isFormatting = false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        // Empêcher l'entrée de tout autre caractère que les chiffres
+        InputFilter onlyDigitsFilter = (source, start, end, dest, dstart, dend) -> {
+            if (source.toString().matches("[0-9/]*")) {
+                return null;
+            }
+            return "";
+        };
+        editText.setFilters(new InputFilter[]{onlyDigitsFilter, new InputFilter.LengthFilter(10)});
+    }
+
     private void initialisationBouton() {
         boutonEnvoyer.setOnClickListener(v -> {
             String titreProjet = editTextTitreProjet.getText().toString().trim();
@@ -80,35 +143,87 @@ public class CreationProjetDialogFragment extends DialogFragment {
             String dateDebutProjet = editTextDateDebutProjet.getText().toString().trim();
             String dateFinProjet = editTextDateFinProjet.getText().toString().trim();
 
-            erreur.setVisibility(View.GONE); // Cacher l'erreur au début
+            erreur.setVisibility(View.GONE); // Cacher le message d'erreur par défaut
 
-            if (titreProjet.length() <= 2 || titreProjet.length() >= 50) {
-                erreur.setText(R.string.erreur_titre_projet_longueur);
+            // 1️⃣ Vérification du titre vide
+            if (titreProjet.isEmpty()) {
+                erreur.setText(R.string.erreur_titre_projet_vide);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
 
-            if (descriptionProjet.length() <= 2 ) {
+            // 2️⃣ Vérification du titre non conforme (lettres, chiffres, espaces et tirets seulement)
+            if (!Pattern.matches("^[a-zA-Z0-9\\s\\-]+$", titreProjet)) {
+                erreur.setText(R.string.erreur_titre_projet_caracteres);
+                erreur.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            // 3️⃣ Vérification de la description trop longue (max 1500 caractères)
+            if (descriptionProjet.length() > 1500) {
                 erreur.setText(R.string.erreur_description_projet_longueur);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
 
-
-
-            if (dateDebutProjet.isEmpty() || dateDebutProjet.length() != 10) {
-                erreur.setText(R.string.erreur_date_projet);
+            // 4️⃣ Vérification que la date de début n’est pas vide
+            if (dateDebutProjet.isEmpty()) {
+                erreur.setText(R.string.erreur_date_debut_vide);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
 
-            if (dateFinProjet.isEmpty() || dateFinProjet.length() != 10) {
-                erreur.setText(R.string.erreur_date_projet);
+            // 5️⃣ Vérification que la date de fin n’est pas vide
+            if (dateFinProjet.isEmpty()) {
+                erreur.setText(R.string.erreur_date_fin_vide);
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
 
-            // Tout est valide, créer le prospect
+            // 6️⃣ Vérification du format de la date de début (JJ/MM/AAAA)
+            if (!dateDebutProjet.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+                erreur.setText(R.string.erreur_date_debut_format);
+                erreur.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            // 7️⃣ Vérification du format de la date de fin (JJ/MM/AAAA)
+            if (!dateFinProjet.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+                erreur.setText(R.string.erreur_date_fin_format);
+                erreur.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            // 8️⃣ Vérification des dates : existence réelle + logique
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            sdf.setLenient(false); // Empêche les dates invalides comme 32/01/2024
+            try {
+                Date dateDebut = sdf.parse(dateDebutProjet);
+                Date dateFin = sdf.parse(dateFinProjet);
+                Date today = new Date();
+
+                if (dateDebut != null && dateFin != null) {
+                    // Vérification que la date de début n’est pas dans le passé
+                    if (dateDebut.before(today)) {
+                        erreur.setText(R.string.erreur_date_debut_passee);
+                        erreur.setVisibility(View.VISIBLE);
+                        return;
+                    }
+
+                    // Vérification que la date de début est avant la date de fin
+                    if (dateDebut.after(dateFin)) {
+                        erreur.setText(R.string.erreur_date_debut_apres_fin);
+                        erreur.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                }
+            } catch (ParseException e) {
+                erreur.setText(R.string.erreur_date_invalide);
+                erreur.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            // Tout est valide, création du projet
             Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, dateFinProjet);
             mesProjetsViewModel.addProjet(projet);
 
@@ -118,7 +233,6 @@ public class CreationProjetDialogFragment extends DialogFragment {
         boutonAnnuler.setOnClickListener(v -> {
             dismiss();
         });
-        //adapterProjet.notifyDataSetChanged();
     }
 }
 

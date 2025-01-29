@@ -53,8 +53,16 @@
     <string name="mes_projets">Mes projets</string>
     <string name="projets_suggeres">¨Projets suggérés</string>
     <string name="hint_titreProjet">Entrez le titre du projet</string>
-    <string name="erreur_titre_projet_longueur">\"Le titre du projet est doit être inférieur à 50 caractères\"</string>
-    <string name="erreur_description_projet_longueur">\"La description du projet doit être supérieur à 2 caractères"</string>
+    <string name="erreur_titre_projet_vide">Le titre du projet est obligatoire.</string>
+    <string name="erreur_titre_projet_caracteres">Le titre ne doit contenir que des lettres, chiffres, espaces et tirets.</string>
+    <string name="erreur_description_projet_longueur">La description ne peut pas dépasser 1500 caractères.</string>
+    <string name="erreur_date_debut_vide">La date de début est obligatoire.</string>
+    <string name="erreur_date_fin_vide">La date de fin est obligatoire.</string>
+    <string name="erreur_date_debut_format">Le format de la date de début doit être JJ/MM/AAAA.</string>
+    <string name="erreur_date_fin_format">Le format de la date de fin doit être JJ/MM/AAAA.</string>
+    <string name="erreur_date_debut_passee">La date de début ne peut pas être dans le passé.</string>
+    <string name="erreur_date_debut_apres_fin">La date de début ne peut pas être après la date de fin.</string>
+    <string name="erreur_date_invalide">La date saisie est invalide.</string>
 
     <!-- Page connexion -->
     <string name="btn_connexion">Se connecter</string>
@@ -84,7 +92,6 @@
     <string name="labelDateFinProjet">Date fin</string>
     <string name="hintDate">jj/mm/aaaa</string>
     <string name="hint_descriptionProspect">Description du projet</string>
-    <string name="erreur_date_projet">La date du projet doit être de 6 chiffres sous la forme (jj/mm/yyyy)</string>
 
 
     <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé"</string>
