@@ -2,6 +2,7 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -76,6 +77,11 @@ public class CreationProjetDialogFragment extends DialogFragment {
         //    nomProspect = (String) getArguments().getSerializable("nomDuProspect");
         //    adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
         //}
+        if (getArguments().containsKey("nomDuProspect")) {
+            nomProspect = (String) getArguments().getSerializable("nomDuProspect");
+            Log.d("vhbzhbvzfbkhv", nomProspect);
+            adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
+        }
 
 
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);

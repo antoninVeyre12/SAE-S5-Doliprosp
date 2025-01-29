@@ -24,6 +24,7 @@ import com.example.doliprosp.fragment.ProspectFragment;
 import com.example.doliprosp.fragment.SalonFragment;
 import com.example.doliprosp.fragment.UtilisateurFragment;
 import com.example.doliprosp.fragment.WaitingFragment;
+import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.ProspectViewModel;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private SalonsViewModel salonsViewModel;
     private MesSalonsViewModel mesSalonsViewModel;
     private MesProspectViewModel mesProspectViewModel;
+    private MesProjetsViewModel mesProjetsViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +146,11 @@ public class MainActivity extends AppCompatActivity {
         mesProspectViewModel = new ViewModelProvider(this).get(MesProspectViewModel.class);
         SharedPreferences sharedPreferencesMesProspect= getSharedPreferences("user_prefs", MODE_PRIVATE);
         mesProspectViewModel.initSharedPreferences(sharedPreferencesMesProspect);
+        mesProjetsViewModel = new ViewModelProvider(this).get(MesProjetsViewModel.class);
+        SharedPreferences sharedPreferencesMesProjets = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesProjetsViewModel.initSharedPreferences(sharedPreferencesMesProjets);
+
+
         // recuperer les salons
         salonsViewModel.chargementSalons();
         mesSalonsViewModel.chargementSalons();
@@ -153,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
         utilisateurViewModel.chargementUtilisateur();
 
         mesProspectViewModel.chargementProspect();
+
+        mesProjetsViewModel.chargementProjet();
         Log.d("laaaaa", mesProspectViewModel.getProspectListe().toString());
     }
-
 }

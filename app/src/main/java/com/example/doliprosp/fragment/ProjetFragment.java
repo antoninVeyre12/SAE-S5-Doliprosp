@@ -1,6 +1,7 @@
 package com.example.doliprosp.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.MainActivity;
+import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
@@ -28,6 +30,7 @@ import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ProjetFragment extends Fragment {
 
@@ -88,8 +91,7 @@ public class ProjetFragment extends Fragment {
         boutonCreerProjet.setOnClickListener(v -> {
             CreationProjetDialogFragment dialog = new CreationProjetDialogFragment();
             Bundle bundle = new Bundle();
-            //bundle.putSerializable("nomDuSalon", (Serializable) Actuel.getNom());
-            //bundle.putSerializable("nomDuProspect", (Serializable) prospectActuel.getNom());
+            bundle.putSerializable("nomDuProspect", (Serializable) prospectActuel.getNom());
             //bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
@@ -104,6 +106,8 @@ public class ProjetFragment extends Fragment {
 
         if (prospectActuel != null) {
             adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()));
+            List<Projet> listProjet = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom());
+            Log.d("projet prospect", String.valueOf(listProjet.size()));
             projetRecyclerView.setAdapter(adapterProjet);
             adapterProjet.notifyDataSetChanged();
         } else {
