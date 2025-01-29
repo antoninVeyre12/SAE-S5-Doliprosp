@@ -97,6 +97,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                 // Créer l'EditText
                 EditText editText = new EditText(v.getContext());
                 editText.setHint("Entrez le nouveau nom du salon");
+                editText.setText(salon.getNom());
                 layout.addView(editText);
 
                 TextView erreurNom = new TextView(v.getContext());

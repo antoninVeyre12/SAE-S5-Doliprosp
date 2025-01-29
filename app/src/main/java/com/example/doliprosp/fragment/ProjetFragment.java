@@ -52,6 +52,8 @@ public class ProjetFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             prospectActuel = (Prospect) bundle.getSerializable("prospect");
+            dernierProspectSelectionne = prospectActuel;
+
         } else {
             if (dernierProspectSelectionne != null) {
                 prospectActuel = dernierProspectSelectionne;
