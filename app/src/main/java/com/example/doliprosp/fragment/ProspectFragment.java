@@ -64,10 +64,8 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
                 salonActuel = dernierSalonSelectione;
             } else {
                 Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
-
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
-
                 return null;
             }
         }
@@ -119,9 +117,9 @@ public class  ProspectFragment extends Fragment implements ProspectAdapter.OnIte
             adapterProspect.notifyDataSetChanged();
         } else {
             Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.popBackStack();
-
+            ((MainActivity) getActivity()).setColors(1);
+            //FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            //fragmentManager.popBackStack();
         }
 
     }

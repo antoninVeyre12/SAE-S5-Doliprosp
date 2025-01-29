@@ -7,15 +7,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProjetService;
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
@@ -52,6 +55,11 @@ public class ProjetFragment extends Fragment {
         } else {
             if (dernierProspectSelectionne != null) {
                 prospectActuel = dernierProspectSelectionne;
+            } else {
+                Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
+                return null;
             }
         }
         return inflater.inflate(R.layout.fragment_project, container, false);
@@ -90,8 +98,13 @@ public class ProjetFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()));
-        projetRecyclerView.setAdapter(adapterProjet);
-        adapterProjet.notifyDataSetChanged();
+        if (prospectActuel != null) {
+            adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()));
+            projetRecyclerView.setAdapter(adapterProjet);
+            adapterProjet.notifyDataSetChanged();
+        } else {
+            Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
+            ((MainActivity) getActivity()).setColors(1);
+        }
     }
 }

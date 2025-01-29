@@ -217,7 +217,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     /**
      * Méthode appellée lors du click sur le l'icone de salonpour accéder à la page des prospects
      * @param position la position du salon dans la liste
-     * @param salonList La liste des salons
+     * @param nouveauNom La liste des salons
      */
     @Override
     public void onModifyClick(int position, String nouveauNom) {
