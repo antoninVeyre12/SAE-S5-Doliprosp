@@ -5,12 +5,34 @@ import com.example.doliprosp.Modele.Projet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface définissant les opérations de gestion des projets.
+ */
 public interface IProjetService {
 
-    public void ajouterProjet(Projet projet);
-    public void supprimerProjet(Projet projet);
+    /**
+     * Ajoute un nouveau projet.
+     * @param projet Le projet à ajouter.
+     */
+    void ajouterProjet(Projet projet);
 
-    public void updateProjet(Projet projet);
+    /**
+     * Supprime un projet existant.
+     * @param projet Le projet à supprimer.
+     */
+    void supprimerProjet(Projet projet);
 
+    /**
+     * Met à jour les informations d'un projet existant.
+     * @param projet Le projet à mettre à jour.
+     */
+    void updateProjet(Projet projet);
+
+    /**
+     * Récupère la liste des projets associés à un prospect donné.
+     * @param projetListe La liste des projets disponibles.
+     * @param nomProspect Le nom du prospect dont on souhaite récupérer les projets.
+     * @return Une liste des projets appartenant au prospect spécifié.
+     */
     List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect);
 }
