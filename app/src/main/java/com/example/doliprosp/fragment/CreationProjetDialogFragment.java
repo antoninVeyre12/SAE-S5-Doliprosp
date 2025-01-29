@@ -2,10 +2,10 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,11 +72,6 @@ public class CreationProjetDialogFragment extends DialogFragment {
         setupDateInputMask(editTextDateDebutProjet);
         setupDateInputMask(editTextDateFinProjet);
 
-
-        //if (getArguments().containsKey("nomDuProspect")) {
-        //    nomProspect = (String) getArguments().getSerializable("nomDuProspect");
-        //    adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
-        //}
         if (getArguments().containsKey("nomDuProspect")) {
             nomProspect = (String) getArguments().getSerializable("nomDuProspect");
             Log.d("vhbzhbvzfbkhv", nomProspect);
