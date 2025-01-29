@@ -18,6 +18,10 @@ public class WaitingFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_user, container, false);
     }
 
+    /**
+     * Méthode appellée lors du retour sur l'applicationa fin de restaurer l'état
+     * précédemment enregistré
+     */
     public void onResume() {
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragment

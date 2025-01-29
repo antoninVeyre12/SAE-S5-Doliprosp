@@ -111,7 +111,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     /**
-     * Méthode appellée lors du retour sur l'applicationa fin de restaurer l'état
+     * Méthode appellée lors du retour sur l'applicationa afin de restaurer l'état
      * précédemment enregistré
      */
     public void onResume() {
@@ -178,7 +178,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     /**
-     *
+     * Méthode permettant d'initialiser les boutons lors de la création de la vue
      */
     private void setupListeners() {
         // Lancer la recherche avec le texte saisi
@@ -238,6 +238,11 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         adapterMesSalons.notifyItemChanged(position);
     }
 
+    /**
+     * Méthode appellée lors d'un clic sur un salon
+     * @param position
+     * @param salonList
+     */
     @Override
     public void onSelectClick(int position, List<Salon> salonList) {
         Salon salon = salonList.get(position);

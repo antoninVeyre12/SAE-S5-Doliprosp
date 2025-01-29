@@ -56,6 +56,12 @@ public class UtilisateurFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_user, container, false);
     }
 
+    /**
+     * Méthode pour gérer l'affichage des éléments de la vue et le clic sur le bouton deconnecter
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
@@ -99,6 +105,9 @@ public class UtilisateurFragment extends Fragment {
         });
     }
 
+    /**
+     * Méthode permettant d'afficher les informations de l'utilisateur
+     */
     private void afficherInformations()
     {
         textViewNom.setText(nom);
@@ -111,6 +120,9 @@ public class UtilisateurFragment extends Fragment {
         textViewNumTelephone.setText(numTelephone);
     }
 
+    /**
+     * Méthode appellée lors d'une seconde utilisation du fragment
+     */
     public void onResume() {
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragment
