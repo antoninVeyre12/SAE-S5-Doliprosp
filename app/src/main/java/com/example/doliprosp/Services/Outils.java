@@ -19,11 +19,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe utilitaire pour effectuer des appels API avec la bibliothèque Volley.
+ */
 public class Outils {
 
     private static RequestQueue fileRequete;
@@ -32,17 +34,21 @@ public class Outils {
 
     private UtilisateurViewModel utilisateurVueModele;
 
-
+    /**
+     * Effectue un appel API de connexion.
+     *
+     * @param url L'URL de l'API.
+     * @param context Le contexte pour obtenir la file de requêtes.
+     * @param callback Le callback à invoquer après la réponse.
+     */
     public static void appelAPIConnexion(String url, Context context, APIResponseCallback callback) {
-
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String reponse) {
                         try {
-                            // Crée un JSONObject à partir de la réponse
                             JSONObject objectJSON = new JSONObject(reponse);
-                            callback.onSuccess(objectJSON); // Notifie la méthode appelante avec la réponse
+                            callback.onSuccess(objectJSON); // Notifie en cas de succès
                         } catch (JSONException e) {
                             callback.onError("Erreur de parsing JSON : " + e.getMessage()); // Notifie l'erreur
                         }
@@ -51,29 +57,30 @@ public class Outils {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
-                        // Log l'erreur pour diagnostic
-                        Log.d("CONNEXION ECHOUE", "connexion echoue");
+                        Log.d("CONNEXION ECHOUE", "connexion échouée");
                         callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
                     }
-                }) {
-        };
-        // Ajouter la requête à la file d'attente
+                });
         fileRequete = getRequestQueue(context);
         fileRequete.add(requeteVolley);
     }
 
-
+    /**
+     * Effectue un appel API GET avec un en-tête d'authentification.
+     *
+     * @param url L'URL de l'API.
+     * @param cleApi La clé API utilisée pour l'authentification.
+     * @param context Le contexte pour obtenir la file de requêtes.
+     * @param callback Le callback à invoquer après la réponse.
+     */
     public static void appelAPIGet(String url, String cleApi, Context context, APIResponseCallback callback) {
-
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String reponse) {
                         try {
-                            // Crée un JSONObject à partir de la réponse
                             JSONObject objectJSON = new JSONObject(reponse);
-
-                            callback.onSuccess(objectJSON); // Notifie la méthode appelante avec la réponse
+                            callback.onSuccess(objectJSON); // Notifie en cas de succès
                         } catch (JSONException e) {
                             callback.onError("Erreur de parsing JSON : " + e.getMessage()); // Notifie l'erreur
                         }
@@ -82,7 +89,6 @@ public class Outils {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
-                        // Log l'erreur pour diagnostic
                         callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
                     }
                 }) {
@@ -93,23 +99,26 @@ public class Outils {
                 return headers;
             }
         };
-        // Ajouter la requête à la file d'attente
         fileRequete = getRequestQueue(context);
         fileRequete.add(requeteVolley);
     }
 
-
-
+    /**
+     * Effectue un appel API GET pour récupérer une liste de données.
+     *
+     * @param url L'URL de l'API.
+     * @param cleApi La clé API pour l'authentification.
+     * @param context Le contexte pour obtenir la file de requêtes.
+     * @param callback Le callback à invoquer après la réponse.
+     */
     public static void appelAPIGetList(String url, String cleApi, Context context, APIResponseCallbackArray callback) {
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String reponse) {
                         try {
-                            // Crée un JSONObject à partir de la réponse
                             JSONArray arrayJSON = new JSONArray(reponse);
-
-                            callback.onSuccess(arrayJSON); // Notifie la méthode appelante avec la réponse
+                            callback.onSuccess(arrayJSON); // Notifie en cas de succès
                         } catch (JSONException e) {
                             callback.onError("Erreur de parsing JSON : " + e.getMessage()); // Notifie l'erreur
                         }
@@ -118,7 +127,6 @@ public class Outils {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
-                        // Log l'erreur pour diagnostic
                         callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
                     }
                 }) {
@@ -129,12 +137,16 @@ public class Outils {
                 return headers;
             }
         };
-        // Ajouter la requête à la file d'attente
         fileRequete = getRequestQueue(context);
         fileRequete.add(requeteVolley);
     }
 
-
+    /**
+     * Retourne une instance de la file de requêtes Volley.
+     *
+     * @param context Le contexte pour obtenir la file de requêtes.
+     * @return La file de requêtes.
+     */
     public static RequestQueue getRequestQueue(Context context) {
         if (fileRequete == null) {
             fileRequete = Volley.newRequestQueue(context);
@@ -142,20 +154,33 @@ public class Outils {
         return fileRequete;
     }
 
+    /**
+     * Interface de callback pour la gestion de la réponse d'un appel API renvoyant un objet JSON.
+     */
     public interface APIResponseCallback {
         void onSuccess(JSONObject response) throws JSONException;
         void onError(String errorMessage);
     }
 
+    /**
+     * Interface de callback pour la gestion de la réponse d'un appel API renvoyant un tableau JSON.
+     */
     public interface APIResponseCallbackArray {
         void onSuccess(JSONArray response);
         void onError(String errorMessage);
     }
+
+    /**
+     * Interface de callback pour la gestion de la réponse d'un appel API renvoyant une liste de salons.
+     */
     public interface APIResponseCallbackArrayTest {
         void onSuccess(ArrayList<Salon> response);
         void onError(String errorMessage);
     }
 
+    /**
+     * Interface de callback pour la gestion de la réponse d'un appel API renvoyant une liste de prospects.
+     */
     public interface APIResponseCallbackArrayProspect {
         void onSuccess(ArrayList<Prospect> response);
         void onError(String errorMessage);

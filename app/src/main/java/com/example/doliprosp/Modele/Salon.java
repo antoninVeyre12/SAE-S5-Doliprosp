@@ -1,22 +1,34 @@
 package com.example.doliprosp.Modele;
 
-import android.util.Log;
-
 import java.io.Serializable;
-import java.util.UUID;
 
+/**
+ * Représente un salon avec son nom.
+ */
 public class Salon implements Serializable {
     private String nom;
-    public Salon(String nom)
-    {
+
+    /**
+     * Constructeur de la classe Salon.
+     * @param nom Le nom du salon.
+     */
+    public Salon(String nom) {
         this.nom = nom;
     }
-    public String getNom()
-    {
+
+    /**
+     * Retourne le nom du salon.
+     * @return Le nom du salon.
+     */
+    public String getNom() {
         return this.nom;
     }
-    public void setNom(String nom)
-    {
+
+    /**
+     * Définit le nom du salon.
+     * @param nom Le nouveau nom du salon.
+     */
+    public void setNom(String nom) {
         this.nom = nom;
     }
 }
