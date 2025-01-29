@@ -2,6 +2,7 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,10 +60,11 @@ public class CreationProjetDialogFragment extends DialogFragment {
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
-        //if (getArguments().containsKey("nomDuProspect")) {
-        //    nomProspect = (String) getArguments().getSerializable("nomDuProspect");
-        //    adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
-        //}
+        if (getArguments().containsKey("nomDuProspect")) {
+            nomProspect = (String) getArguments().getSerializable("nomDuProspect");
+            Log.d("vhbzhbvzfbkhv", nomProspect);
+            adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
+        }
 
 
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
