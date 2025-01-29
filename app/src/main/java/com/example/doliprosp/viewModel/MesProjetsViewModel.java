@@ -1,11 +1,11 @@
 package com.example.doliprosp.viewModel;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
 import com.example.doliprosp.Modele.Projet;
-import com.example.doliprosp.Modele.Prospect;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -43,10 +43,10 @@ public class MesProjetsViewModel extends ViewModel {
         editor.apply();
     }
 
-    public void chargementProspect() {
+    public void chargementProjet() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("mes_projets_list", null);
-        Type type = new TypeToken<ArrayList<Prospect>>() {
+        Type type = new TypeToken<ArrayList<Projet>>() {
         }.getType();
         if (json != null) {
             projetListe = gson.fromJson(json, type);

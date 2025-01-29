@@ -1,5 +1,7 @@
 package com.example.doliprosp.Services;
 
+import android.util.Log;
+
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Modele.Projet;
 
@@ -30,9 +32,11 @@ public class ProjetService implements IProjetService {
     @Override
     public ArrayList<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect) {
 
-        ArrayList<Projet> projetDuProspect = new ArrayList<Projet>();
-
+        ArrayList<Projet> projetDuProspect = new ArrayList<>();
+        Log.d("nbProjetsss", String.valueOf(projetListe.size()));
         for(Projet projet : projetListe) {
+            Log.d("nomProspect", nomProspect);
+            Log.d("nomProspecttt", projet.getNomProspect());
             if(projet.getNomProspect().equals(nomProspect)) {
                 projetDuProspect.add(projet);
             }
