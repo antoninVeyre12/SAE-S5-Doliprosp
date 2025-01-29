@@ -26,28 +26,26 @@ import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
+import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ProjetFragment extends Fragment {
+public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemClickListener {
 
     private IProjetService projetService;
     private TextView prospectActuelEditText;
     private Prospect prospectActuel;
-    private static Salon dernierSalonSelectione;
     private static Prospect dernierProspectSelectionne;
     private Button boutonCreerProjet;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
     private ProjetAdapter adapterProjet;
     private ProgressBar chargement;
-    private String recherche;
     private RecyclerView projetRecyclerView;
-    private String champ;
-    private String tri;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,8 +105,8 @@ public class ProjetFragment extends Fragment {
         ((MainActivity) getActivity()).setColors(3);
 
         if (prospectActuel != null) {
-            adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()));
-            List<Projet> listProjet = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom());
+            adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()), (ProjetAdapter.OnItemClickListener) ProjetFragment.this);
+            ArrayList<Projet> listProjet = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom());
             Log.d("projet prospect", String.valueOf(listProjet.size()));
             projetRecyclerView.setAdapter(adapterProjet);
             adapterProjet.notifyDataSetChanged();
@@ -117,11 +115,12 @@ public class ProjetFragment extends Fragment {
             ((MainActivity) getActivity()).setColors(1);
         }
     }
-    /*
+
     @Override
     public void onDeleteClick(int position) {
         Projet projetASupprimer = mesProjetsViewModel.getProjetListe().get(position);
         mesProjetsViewModel.removeProjet(projetASupprimer);
         adapterProjet.notifyItemRemoved(position);
-    }*/
+
+    }
 }

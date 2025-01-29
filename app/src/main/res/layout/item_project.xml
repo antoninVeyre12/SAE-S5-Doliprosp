@@ -13,8 +13,16 @@
         android:layout_height="match_parent"
         android:background="@drawable/item_show_background" />
 
+    <ImageButton
+        android:id="@+id/projet_supprimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_trash"
+        android:layout_gravity="end|center_vertical"
+        android:layout_margin="@dimen/item_show_text_margin" />
+
     <TextView
-        android:id="@+id/project_name"
+        android:id="@+id/projet_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"

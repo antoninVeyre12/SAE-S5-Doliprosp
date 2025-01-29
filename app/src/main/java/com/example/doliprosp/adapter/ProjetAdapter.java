@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHolder> implements Serializable {
 
     private List<Projet> projetListe;
+    private ProjetAdapter.OnItemClickListener onItemClickListener;
 
-    public ProjetAdapter(List<Projet> projetListe) {
+
+    public ProjetAdapter(List<Projet> projetListe, ProjetAdapter.OnItemClickListener onItemClickListener) {
         this.projetListe = projetListe;
+        this.onItemClickListener = onItemClickListener;
 
     }
 
@@ -40,7 +44,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
 
         holder.titre.setText(projet.getTitre());
 
-        /*holder.projet_supprimer.setOnClickListener(v -> {
+        holder.projet_supprimer.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 new AlertDialog.Builder(v.getContext())
                         .setMessage(R.string.confirmation_suppresion_projet)
@@ -54,7 +58,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
                         })
                         .show();
             }
-        });*/
+        });
     }
 
     @Override
@@ -63,14 +67,20 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         return Math.min(projetListe.size(), 15);
     }
 
+    public interface OnItemClickListener {
+        void onDeleteClick(int position);
+
+    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titre;
         public ImageView icone;
+        public ImageButton projet_supprimer;
         public MyViewHolder(View itemView) {
             super(itemView);
-            titre = itemView.findViewById(R.id.project_name);
+            titre = itemView.findViewById(R.id.projet_name);
+            projet_supprimer = itemView.findViewById(R.id.projet_supprimer);
         }
     }
 }
