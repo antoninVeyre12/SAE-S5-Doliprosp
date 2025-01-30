@@ -53,25 +53,25 @@
         <item name="android:layout_marginLeft">@dimen/subtitle_marginLeft</item>
     </style>
 
-    <style name="button_validate">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:backgroundTint">@color/black</item>
-        <item name="android:text">@string/creer</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginTop">10dp</item>
-    </style>
-
     <style name="button_cancel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:backgroundTint">@color/black</item>
         <item name="android:text">@string/annuler</item>
         <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
 
+    <style name="button_validate">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:text">@string/creer</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
 
     <style name="button_create">
         <item name="android:layout_width">@dimen/btn_new_width</item>

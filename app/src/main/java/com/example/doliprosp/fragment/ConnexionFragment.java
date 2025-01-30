@@ -71,6 +71,7 @@ public class ConnexionFragment extends Fragment {
         String url = urlEditText.getText().toString();*/
        
         String url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        Log.d("url", url);
         String nomUtilisateur = "antonin";
         String password = "antoninantonin";
 
