@@ -96,11 +96,11 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
 
         // Set l'adapter des salons de l'utilisateur
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
         // Set l'adapter des salons de l'utilisateur
-        GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 2);
         recyclerViewMesSalons.setLayoutManager(layoutManagerMyShow);
 
 
@@ -218,9 +218,9 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     /**
-     * Méthode appellée lors du click sur le l'icone de salonpour accéder à la page des prospects
+     * Méthode appellée lors du click sur le bouton de modification du salon pour modifier son nom
      * @param position la position du salon dans la liste
-     * @param nouveauNom La liste des salons
+     * @param nouveauNom le nouveau nom du salon
      */
     @Override
     public void onModifyClick(int position, String nouveauNom) {
@@ -237,7 +237,11 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         salonAModifier.setNom(nouveauNom);
         adapterMesSalons.notifyItemChanged(position);
     }
-
+    /**
+     * Méthode appellée lors du click sur l'icone de salon pour accéder à la page des prospects
+     * @param position la position du salon dans la liste
+     * @param salonList La liste des salons
+     */
     @Override
     public void onSelectClick(int position, List<Salon> salonList) {
         Salon salon = salonList.get(position);

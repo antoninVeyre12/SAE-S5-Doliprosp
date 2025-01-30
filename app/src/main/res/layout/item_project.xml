@@ -8,10 +8,7 @@
     android:layout_marginTop="@dimen/item_show_margin"
     android:layout_marginBottom="@dimen/item_show_margin">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/item_show_background" />
+    <View style="@style/Divider.Horizontal"/>
 
     <TextView
         android:id="@+id/project_name"
