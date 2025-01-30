@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private SalonsViewModel salonsViewModel; // ViewModel pour gérer les salons
     private MesSalonsViewModel mesSalonsViewModel; // ViewModel pour gérer les salons personnels
     private MesProspectViewModel mesProspectViewModel; // ViewModel pour gérer les prospects
+    private MesProjetsViewModel mesProjetsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

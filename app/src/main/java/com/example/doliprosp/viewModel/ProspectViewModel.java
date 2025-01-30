@@ -22,9 +22,10 @@ public class ProspectViewModel extends AndroidViewModel {
 
     // Liste des prospects gérée dans le ViewModel
     private ArrayList<Prospect> prospectListe = new ArrayList<>();
-
+    private final Gson gson = new Gson();
     // Référence à l'objet SharedPreferences pour la persistance des données
     private SharedPreferences sharedPreferences;
+    private static final String PREF_KEY = "prospect_liste";
 
     /**
      * Constructeur de la classe, initialisant le ViewModel avec l'application.
@@ -89,12 +90,8 @@ public class ProspectViewModel extends AndroidViewModel {
         // Création d'un éditeur pour modifier les SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Sérialisation de la liste des prospects en JSON
-        Gson gson = new Gson();
-        String json = gson.toJson(prospectListe);
-
         // Sauvegarde du JSON dans SharedPreferences avec la clé "prospect_liste"
-        editor.putString("prospect_liste", json);
+        editor.putString(PREF_KEY, gson.toJson(prospectListe));
         editor.apply(); // Applique les changements de manière asynchrone
     }
 
@@ -103,11 +100,8 @@ public class ProspectViewModel extends AndroidViewModel {
      * Les prospects sont récupérés sous forme de JSON puis convertis en objets de type ArrayList<Prospect>.
      */
     public void chargementProspect() {
-        // Création d'une instance de Gson pour la désérialisation
-        Gson gson = new Gson();
-
         // Récupération de la chaîne JSON des SharedPreferences
-        String json = sharedPreferences.getString("prospect_liste", null);
+        String json = sharedPreferences.getString(PREF_KEY, null);
 
         // Définition du type générique pour la désérialisation
         Type type = new TypeToken<ArrayList<Prospect>>() {

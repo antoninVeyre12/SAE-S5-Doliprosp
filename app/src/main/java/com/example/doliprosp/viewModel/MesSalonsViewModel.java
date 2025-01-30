@@ -19,9 +19,10 @@ import androidx.lifecycle.ViewModel;
 public class MesSalonsViewModel extends ViewModel {
     // Liste des salons gérée dans le ViewModel
     private ArrayList<Salon> salonListe = new ArrayList<>();
-
     // Référence à l'objet SharedPreferences pour la persistance des données
     private SharedPreferences sharedPreferences;
+    private static final String PREF_KEY = "mes_salon_list";
+    private final Gson gson = new Gson();
 
     /**
      * Retourne la liste des salons.
@@ -68,12 +69,8 @@ public class MesSalonsViewModel extends ViewModel {
         // Création d'un éditeur pour modifier les SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Sérialisation de la liste des salons en JSON
-        Gson gson = new Gson();
-        String json = gson.toJson(salonListe);
-
         // Sauvegarde du JSON dans SharedPreferences avec la clé "mes_salon_list"
-        editor.putString("mes_salon_list", json);
+        editor.putString(PREF_KEY, gson.toJson(salonListe));
         editor.apply(); // Applique les changements de manière asynchrone
     }
 
@@ -82,11 +79,8 @@ public class MesSalonsViewModel extends ViewModel {
      * Les salons sont récupérés sous forme de JSON puis convertis en objets de type ArrayList<Salon>.
      */
     public void chargementSalons() {
-        // Création d'une instance de Gson pour la désérialisation
-        Gson gson = new Gson();
-
         // Récupération de la chaîne JSON des SharedPreferences
-        String json = sharedPreferences.getString("mes_salon_list", null);
+        String json = sharedPreferences.getString(PREF_KEY, null);
 
         // Définition du type générique pour la désérialisation
         Type type = new TypeToken<ArrayList<Salon>>() {
