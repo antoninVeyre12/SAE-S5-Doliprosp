@@ -1,5 +1,5 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/salon_case"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_show_height"
@@ -12,31 +12,77 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/item_show_background"
-        />
+        android:background="@drawable/item_show_background" />
 
-    <TextView
-        android:id="@+id/salon_attente_nom"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:textSize="30sp"
-        android:gravity="center_vertical|center_horizontal"
-        android:textColor="@color/black"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:scrollHorizontally="false"
-        android:breakStrategy="simple"
-        android:singleLine="false" />
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="@color/color_secondary"
-        android:layout_marginLeft="@dimen/margin_left_checkbox"
-        android:layout_marginTop="@dimen/margin_top_checkbox"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <TextView
+                android:id="@+id/salon_nom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="30sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:scrollHorizontally="false"
+                android:breakStrategy="simple"
+                android:singleLine="false" />
 
+            <CheckBox
+                android:id="@+id/salon_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="left"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/icon_prospect"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_prospect" />
+
+            <TextView
+                android:id="@+id/nb_prospect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/icon_projet"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_project"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:id="@+id/nb_projet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

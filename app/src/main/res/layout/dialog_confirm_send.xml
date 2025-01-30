@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Texte de confirmation -->
+    <TextView
+        android:id="@+id/text_confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Êtes-vous sûr de vouloir envoyer les informations ?"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Case à cocher pour la confirmation -->
+    <CheckBox
+        android:id="@+id/checkbox_confirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Je suis sûr(e) de vouloir envoyer"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Conteneur pour les boutons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp">
+
+        <!-- Bouton Annuler -->
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Annuler"
+            android:layout_marginEnd="16dp"
+            style="@style/button_cancel" />
+
+        <!-- Bouton Envoyer -->
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Envoyer"
+            style="@style/button_validate" />
+    </LinearLayout>
+
+    <!-- Texte d'erreur, masqué par défaut -->
+    <TextView
+        android:id="@+id/erreur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="@dimen/erreur_texte"
+        android:visibility="gone" />
+
+</LinearLayout>
