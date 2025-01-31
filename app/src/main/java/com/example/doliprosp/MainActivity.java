@@ -1,6 +1,5 @@
 package com.example.doliprosp;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,7 +26,6 @@ import com.example.doliprosp.fragment.WaitingFragment;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
-import com.example.doliprosp.viewModel.ProspectViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 

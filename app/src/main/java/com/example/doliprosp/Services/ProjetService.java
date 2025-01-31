@@ -13,18 +13,6 @@ public class ProjetService implements IProjetService {
 
     public ProjetService(){ }
 
-
-    public void ajouterProjet(Projet projet)
-    {
-        //Ajoute un projet à la liste sauvegardée en local
-    }
-
-    public void supprimerProjet(Projet projet)
-    {
-        //Supprime un projet à la liste sauvegardée en local
-    }
-
-
     public void updateProjet(Projet projet, String titre, String description, String dateDebut, String dateFin)
     {
         projet.setTitre(titre);
