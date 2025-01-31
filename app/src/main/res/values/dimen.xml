@@ -68,6 +68,11 @@
     <!-- progressBAR -->
     <dimen name="margin_top_progressBar">30dp</dimen>
 
+    <!-- item salon attente -->
+    <dimen name="margin_left_checkbox"> 320dp</dimen>
+    <dimen name="margin_top_checkbox"> 100dp </dimen>
+    <dimen name="margin_top_recycler_view">40dp</dimen>
+
     <!-- item prospect -->
     <dimen name="icone_img_width">60dp</dimen>
     <dimen name="icone_img_height">60dp</dimen>

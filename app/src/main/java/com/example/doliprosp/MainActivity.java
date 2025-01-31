@@ -88,12 +88,18 @@ public class MainActivity extends AppCompatActivity {
     // Méthode pour récupérer le fragment à afficher selon l'index
     private Fragment getFragmentByIndex(int index) {
         switch (index) {
-            case 0: return new WaitingFragment(); // Fragment d'attente
-            case 1: return new SalonFragment(); // Fragment des salons
-            case 2: return new ProspectFragment(); // Fragment des prospects
-            case 3: return new ProjetFragment(); // Fragment des projets
-            case 4: return new UtilisateurFragment(); // Fragment des informations utilisateur
-            default: return null; // Retourne null si index inconnu
+            case 0:
+                return new WaitingFragment(); // Fragment d'attente
+            case 1:
+                return new SalonFragment(); // Fragment des salons
+            case 2:
+                return new ProspectFragment(); // Fragment des prospects
+            case 3:
+                return new ProjetFragment(); // Fragment des projets
+            case 4:
+                return new UtilisateurFragment(); // Fragment des informations utilisateur
+            default:
+                return null; // Retourne null si index inconnu
         }
     }
 
