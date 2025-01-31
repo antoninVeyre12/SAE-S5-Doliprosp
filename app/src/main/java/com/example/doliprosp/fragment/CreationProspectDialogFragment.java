@@ -17,12 +17,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
@@ -41,6 +45,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
     private ProspectAdapter adapterProspect;
 
     private MesProspectViewModel mesProspectViewModel;
+    private UtilisateurViewModel utilisateurViewModel;
 
     @Nullable
     @Override
@@ -74,6 +79,8 @@ public class CreationProspectDialogFragment extends DialogFragment {
 
         // Initialiser le ViewModel
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+
         initialisationBouton();
 
         return view;
@@ -153,21 +160,31 @@ public class CreationProspectDialogFragment extends DialogFragment {
                 return;
             }*/
 
-            // Tout est valide, créer le prospect
-            Prospect prospect = new Prospect(nomSalon,  nom, codePostal, ville, adresse, mail, tel, estClient, "image");
-            mesProspectViewModel.addProspect(prospect);
 
-            if (adapterProspect != null) {
-            }
-            dismiss();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("prospect", (Serializable) prospect);
-            ProjetFragment projetFragment = new ProjetFragment();
-            projetFragment.setArguments(bundle);
-            ((MainActivity) getActivity()).loadFragment(projetFragment);
-            ((MainActivity) getActivity()).setColors(3);
+            prospectService.prospectDejaExistantDolibarr(getContext(),tel, utilisateurViewModel.getUtilisateur(), mesProspectViewModel, new Outils.CallbackProspectExiste() {
+
+                @Override
+                public void onResponse(boolean existeDeja) {
+
+                    // Prospect deja existant
+                    if(existeDeja) {
+                        erreur.setText(R.string.erreur_prospect_existant);
+                        erreur.setVisibility(View.VISIBLE);
+                    } else {
+                        Prospect prospect = new Prospect(nomSalon,  nom, codePostal, ville, adresse, mail, tel, estClient, "image");
+                        mesProspectViewModel.addProspect(prospect);
+                        dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("prospect", (Serializable) prospect);
+                        ProjetFragment projetFragment = new ProjetFragment();
+                        projetFragment.setArguments(bundle);
+                        ((MainActivity) getActivity()).loadFragment(projetFragment);
+                        ((MainActivity) getActivity()).setColors(3);
+                    }
+                }
+            });
+
         });
-
         boutonAnnuler.setOnClickListener(v -> {
             dismiss();
         });

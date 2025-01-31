@@ -1,5 +1,6 @@
 package com.example.doliprosp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -143,6 +144,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
             Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).setColors(1);
         }
+
     }
 
     /**

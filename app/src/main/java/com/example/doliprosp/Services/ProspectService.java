@@ -1,10 +1,13 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Utilisateur;
+import com.example.doliprosp.viewModel.MesProspectViewModel;
+import com.example.doliprosp.viewModel.ProspectViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,10 +57,10 @@ public class ProspectService implements IProspectService {
                         int codePostal = object.getInt("zip");
                         String ville = object.getString("town");
                         String adressePostale = object.getString("adress");
-                        String mail = object.getString("label");
-                        String numeroTelephone = object.getString("label");
-                        String estClient = object.getString("label");
-                        String image = object.getString("label");
+                        String mail = object.getString("email");
+                        String numeroTelephone = object.getString("phone");
+                        String estClient = object.getString("client");
+                        String image = object.getString("logo");
                         listeProspectCorrespondant.add(new Prospect(nomSalon, nom, codePostal,
                          ville,  adressePostale,  mail,  numeroTelephone,
                                  estClient,  image));
@@ -70,10 +73,50 @@ public class ProspectService implements IProspectService {
 
             @Override
             public void onError(String errorMessage) {
-
+                callback.onError("client deja existant");
             }
         }); 
     }
+
+
+
+    public void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur,
+                                                MesProspectViewModel mesProspectViewModel, Outils.CallbackProspectExiste callback) {
+        ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
+        url = utilisateur.getUrl();
+        urlAppel = url + "/api/index.php/thirdparties?sortfield=t.rowid&sortorder=DESC&limit=6&sqlfilters=(t.phone%3Alike%3A'" + recherche + "')";
+        Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                callback.onResponse(true);
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                boolean existe = existeDansViewModel(recherche, mesProspectViewModel);
+
+                callback.onResponse(existe);
+
+
+            }
+        });
+
+    }
+
+
+    private boolean existeDansViewModel(String recherche, MesProspectViewModel mesProspectViewModel) {
+        boolean existe = false;
+
+        for (Prospect prospect : mesProspectViewModel.getProspectListe()) {
+            // Vérification si le numéro de téléphone du prospect correspond à celui passé en paramètre
+            if (prospect.getNumeroTelephone().equals(recherche)) {
+                existe = true;
+            }
+        }
+        return existe;
+    }
+
 
     public void updateProspect(String prenom, String nom, int codePostal, String ville,
                                String adresse, String mail, String numeroTelephone,
