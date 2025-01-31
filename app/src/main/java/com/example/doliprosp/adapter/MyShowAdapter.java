@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Button;
 
 import com.example.doliprosp.Interface.ISalonService;
+import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.SalonService;
@@ -93,56 +94,60 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
         // Clic sur le bouton modifier
         holder.salon_modifier.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-
-                LayoutInflater inflater = LayoutInflater.from(v.getContext());
-                View layout = inflater.inflate(R.layout.dialog_create_show, null);
-
-                EditText editTextSalon = layout.findViewById(R.id.editTextTitle);
-                Button btnModifier = layout.findViewById(R.id.buttonSubmit);
-                Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
-                TextView erreurNom = layout.findViewById(R.id.erreur_nom);
-
-                // Remplir les EditText avec les valeurs actuelles
-                editTextSalon.setText(salon.getNom());
-
-                btnModifier.setText("Modifier");
-
-                // Créer une alerte pour confirmer la modification
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext())
-                        .setTitle("Modifier le salon")
-                        .setView(layout)
-                        .setCancelable(false);
-
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-                btnAnnuler.setOnClickListener(v1 -> {
-                    dialog.dismiss();
-                });
-                // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
-                btnModifier.setOnClickListener(v1 -> {
-                    String nouveauNom = editTextSalon.getText().toString();
-                    erreurNom.setTextColor(Color.RED);
-                    erreurNom.setVisibility(View.GONE);
-
-                    // Vérification de la longueur du nom et de son existence
-                    if (nouveauNom.length() <= 2 || nouveauNom.length() >= 50) {
-                        erreurNom.setText(R.string.erreur_nom_salon_longueur);
-                        erreurNom.setVisibility(View.VISIBLE);
-                    } else if (salonService.salonExiste(nouveauNom, salonsViewModel, mesSalonsViewModel) && !nouveauNom.equals(salon.getNom())) {
-                        erreurNom.setText(R.string.erreur_nom_salon_existe);
-                        erreurNom.setVisibility(View.VISIBLE);
-                    } else {
-                        // Si tout est valide, on modifie le nom du salon
-                        onItemClickListener.onModifyClick(position, nouveauNom);
-                        dialog.dismiss();
-                    }
-                });
-                
-            }
+            afficherDialogModification(v,salon,position);
         });
+    }
+
+    private void afficherDialogModification(View v, Salon salon, int position){
+        if (onItemClickListener != null) {
+
+            LayoutInflater inflater = LayoutInflater.from(v.getContext());
+            View layout = inflater.inflate(R.layout.dialog_create_show, null);
+
+            EditText editTextSalon = layout.findViewById(R.id.editTextTitle);
+            Button btnModifier = layout.findViewById(R.id.buttonSubmit);
+            Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
+            TextView erreurNom = layout.findViewById(R.id.erreur_nom);
+
+            // Remplir les EditText avec les valeurs actuelles
+            editTextSalon.setText(salon.getNom());
+
+            btnModifier.setText("Modifier");
+
+            // Créer une alerte pour confirmer la modification
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext())
+                    .setTitle("Modifier le salon")
+                    .setView(layout)
+                    .setCancelable(false);
+
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            btnAnnuler.setOnClickListener(v1 -> {
+                dialog.dismiss();
+            });
+            // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
+            btnModifier.setOnClickListener(v1 -> {
+                String nouveauNom = editTextSalon.getText().toString();
+                erreurNom.setTextColor(Color.RED);
+                erreurNom.setVisibility(View.GONE);
+
+                // Vérification de la longueur du nom et de son existence
+                if (nouveauNom.length() <= 2 || nouveauNom.length() >= 50) {
+                    erreurNom.setText(R.string.erreur_nom_salon_longueur);
+                    erreurNom.setVisibility(View.VISIBLE);
+                } else if (salonService.salonExiste(nouveauNom, salonsViewModel, mesSalonsViewModel) && !nouveauNom.equals(salon.getNom())) {
+                    erreurNom.setText(R.string.erreur_nom_salon_existe);
+                    erreurNom.setVisibility(View.VISIBLE);
+                } else {
+                    // Si tout est valide, on modifie le nom du salon
+                    onItemClickListener.onModifyClick(position, nouveauNom);
+                    dialog.dismiss();
+                }
+            });
+
+        }
     }
 
     // Retourne le nombre d'items dans la liste

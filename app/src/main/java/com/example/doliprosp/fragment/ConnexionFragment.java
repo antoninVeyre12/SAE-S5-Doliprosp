@@ -46,16 +46,6 @@ public class ConnexionFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_connexion, container, false);
     }
 
-    private void naviguerVersSalon() {
-        SalonFragment salonFragment = new SalonFragment();
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity != null) {
-            mainActivity.loadFragment(salonFragment);
-            mainActivity.setColors(1);
-        }
-        bottomNav.setVisibility(View.VISIBLE);
-        chargement.setVisibility(View.GONE);
-    }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
@@ -91,7 +81,14 @@ public class ConnexionFragment extends Fragment {
             nomUtilisateurEditText.setText(utilisateur.getNomUtilisateur());
             buttonSubmit.setOnClickListener(v -> {
                 if(password.trim().equalsIgnoreCase(utilisateur.getMotDePasse()) && nomUtilisateur.equalsIgnoreCase(utilisateur.getNomUtilisateur()) && url.equalsIgnoreCase(utilisateur.getUrl())) {
-                    naviguerVersSalon();
+                    SalonFragment salonFragment = new SalonFragment();
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    if (mainActivity != null) {
+                        mainActivity.loadFragment(salonFragment);
+                        mainActivity.setColors(1);
+                    }
+                    bottomNav.setVisibility(View.VISIBLE);
+                    chargement.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(getContext(),R.string.mot_depasse_incorrect, Toast.LENGTH_LONG).show();
                 }
@@ -154,7 +151,14 @@ public class ConnexionFragment extends Fragment {
                                 });
                             } else {
                                 // Navigation vers ShowFragment
-                                naviguerVersSalon();
+                                SalonFragment salonFragment = new SalonFragment();
+                                MainActivity mainActivity = (MainActivity) getActivity();
+                                if (mainActivity != null) {
+                                    mainActivity.loadFragment(salonFragment);
+                                    mainActivity.setColors(1);
+                                }
+                                bottomNav.setVisibility(View.VISIBLE);
+                                chargement.setVisibility(View.GONE);
                             }
                         }
 
@@ -171,4 +175,16 @@ public class ConnexionFragment extends Fragment {
             });
         }
     }
+
+    private void naviguerVersSalon() {
+        SalonFragment salonFragment = new SalonFragment();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            mainActivity.loadFragment(salonFragment);
+            mainActivity.setColors(1);
+        }
+        bottomNav.setVisibility(View.VISIBLE);
+        chargement.setVisibility(View.GONE);
+    }
+
 }
