@@ -101,4 +101,6 @@
     <!-- Toast selection-->
     <string name="selection_salon">Veuillez selectioner un salon avant de vous rendre sur cette page</string>
     <string name="selection_prospect">Veuillez selectioner un prospect avant de vous rendre sur cette page</string>
+    <string name="erreur_titre_projet_longueur">Le titre doit faire plus de 2 caractères et moins de 50</string>
+    <string name="erreur_date_fin_projet_longueur">La date doit faire 10 caractères au format jj/mm/aaaa</string>
 </resources>

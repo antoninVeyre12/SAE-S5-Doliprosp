@@ -151,6 +151,13 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
         Projet projetASupprimer = mesProjetsViewModel.getProjetListe().get(position);
         mesProjetsViewModel.removeProjet(projetASupprimer);
         adapterProjet.notifyItemRemoved(position);
+    }
 
+    @Override
+    public void onUpdateClick(int position, String titre, String description, String dateDebut, String dateFin) {
+        Projet projetAModifier = mesProjetsViewModel.getProjetListe().get(position);
+        //mesProjetsViewModel.removeProjet(projetAModifier);
+        projetService.updateProjet(projetAModifier, titre, description, dateDebut, dateFin);
+        adapterProjet.notifyItemChanged(position);
     }
 }

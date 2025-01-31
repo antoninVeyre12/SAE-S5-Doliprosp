@@ -65,6 +65,16 @@ public class MesProjetsViewModel extends ViewModel {
     }
 
     /**
+     * Modifie un projet de la liste et enregistre la liste mise à jour dans SharedPreferences.
+     *
+     * @param projet Le projet à modifier.
+     */
+    public void updateProjet(Projet projet) {
+        projetListe.remove(projet);
+        enregistrerProjet(); // Sauvegarde la liste mise à jour après suppression du projet.
+    }
+
+    /**
      * Enregistre la liste des projets dans les SharedPreferences sous forme de chaîne JSON.
      */
     private void enregistrerProjet() {
