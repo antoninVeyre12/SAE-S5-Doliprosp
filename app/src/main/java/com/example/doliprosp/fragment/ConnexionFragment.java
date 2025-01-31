@@ -39,12 +39,22 @@ public class ConnexionFragment extends Fragment {
     private EditText motDePasseEditText;
     private IConnexionService connexionService;
     private ProgressBar chargement;
+    private LinearLayout bottomNav;
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_connexion, container, false);
+    }
+
+    private void naviguerVersSalon() {
+        SalonFragment salonFragment = new SalonFragment();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            mainActivity.loadFragment(salonFragment);
+            mainActivity.setColors(1);
+        }
+        bottomNav.setVisibility(View.VISIBLE);
+        chargement.setVisibility(View.GONE);
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
@@ -61,6 +71,7 @@ public class ConnexionFragment extends Fragment {
         nomUtilisateurEditText = view.findViewById(R.id.username);
         motDePasseEditText = view.findViewById(R.id.password);
         chargement = view.findViewById(R.id.chargement);
+        Button buttonSubmit  = view.findViewById(R.id.connexion);
 
         // Recupere la bottom nav bar de l'activité
         Activity activity = getActivity();
@@ -69,39 +80,24 @@ public class ConnexionFragment extends Fragment {
         /*String password = motDePasseEditText.getText().toString();
         String nomUtilisateur = nomUtilisateurEditText.getText().toString();
         String url = urlEditText.getText().toString();*/
-       
+
         String url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-        Log.d("url", url);
         String nomUtilisateur = "antonin";
         String password = "antoninantonin";
-
+        //Lors d'une seconde connexion
         if(utilisateur != null && utilisateur.informationutilisateurDejaRecupere()) {
             utilisateurViewModel.chargementUtilisateur();
             urlEditText.setText(utilisateur.getUrl());
             nomUtilisateurEditText.setText(utilisateur.getNomUtilisateur());
-            Button buttonSubmit  = view.findViewById(R.id.connexion);
             buttonSubmit.setOnClickListener(v -> {
-
                 if(password.trim().equalsIgnoreCase(utilisateur.getMotDePasse()) && nomUtilisateur.equalsIgnoreCase(utilisateur.getNomUtilisateur()) && url.equalsIgnoreCase(utilisateur.getUrl())) {
-                    SalonFragment showFragment = new SalonFragment();
-                    ((MainActivity) getActivity()).loadFragment(showFragment);
-                    ((MainActivity) getActivity()).setColors(1);
-                    bottomNav.setVisibility(View.VISIBLE);
-                    chargement.setVisibility(View.GONE);
+                    naviguerVersSalon();
                 } else {
                     Toast.makeText(getContext(),R.string.mot_depasse_incorrect, Toast.LENGTH_LONG).show();
                 }
             });
         } else {
-            Button buttonSubmit  = view.findViewById(R.id.connexion);
             buttonSubmit.setOnClickListener(v -> {
-
-                /*if (url.trim().isEmpty() || nomUtilisateur.trim().isEmpty() || password.trim().isEmpty()) {
-                    // Affiche un toast au lieu d'un log
-                    Toast.makeText(getContext(), R.string.informations_invalide , Toast.LENGTH_LONG).show();
-                } else if (!url.startsWith("http")) {
-                    Toast.makeText(getContext(),R.string.url_invalide, Toast.LENGTH_LONG).show();
-                } else {*/
                     String finalUrl = url;
                     chargement.setVisibility(View.VISIBLE);
                     connexionService.connexion(url, nomUtilisateur, password, getContext(), new ConnexionCallBack() {
@@ -118,14 +114,9 @@ public class ConnexionFragment extends Fragment {
                                 } catch (UnsupportedEncodingException e) {
                                     Log.d("erreur url getCommercial", e.getMessage());
                                 }
-
-                                Log.d("url", urlUtilisateur);
-                                Log.d("apikey", apiKeyChiffre);
                                 Outils.appelAPIGet(urlUtilisateur, apiKeyChiffre, getContext(), new Outils.APIResponseCallback() {
                                     @Override
                                     public void onSuccess(JSONObject response) {
-                                        // Cela s'exécutera lorsque l'API renvoie une réponse valide
-                                       Log.d("Compte", "récupération des infos du compte");
                                         JSONObject objectJSON = response;
                                         try {
                                             String nom = objectJSON.getString("lastname");
@@ -163,11 +154,7 @@ public class ConnexionFragment extends Fragment {
                                 });
                             } else {
                                 // Navigation vers ShowFragment
-                                SalonFragment salonFragment = new SalonFragment();
-                                ((MainActivity) getActivity()).loadFragment(salonFragment);
-                                ((MainActivity) getActivity()).setColors(1);
-                                bottomNav.setVisibility(View.VISIBLE);
-                                chargement.setVisibility(View.GONE);
+                                naviguerVersSalon();
                             }
                         }
 
@@ -181,7 +168,6 @@ public class ConnexionFragment extends Fragment {
 
                         }
                     });
-                //}
             });
         }
     }

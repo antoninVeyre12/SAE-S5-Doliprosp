@@ -51,7 +51,6 @@ public class ConnexionService implements IConnexionService {
 
                 @Override
                 public void onError(String errorMessage) {
-                    Log.d("error apiConnexion", errorMessage);
                     callback.onError(errorMessage); // Notifie en cas d'erreur
                 }
             });

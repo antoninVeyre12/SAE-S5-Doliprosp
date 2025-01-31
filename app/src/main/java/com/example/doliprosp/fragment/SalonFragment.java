@@ -205,7 +205,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
      */
     @Override
     public void onDeleteClick(int position) {
-
         // mets a jour la liste des salons
         Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
         mesSalonsViewModel.removeSalon(salonASupprimer);

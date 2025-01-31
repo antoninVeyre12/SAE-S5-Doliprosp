@@ -1,7 +1,6 @@
 package com.example.doliprosp.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +29,8 @@ import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
+import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.ProjetViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
@@ -52,7 +51,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private Button boutonCreerProspect;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
-    private ProjetViewModel projetViewModel;
+    private MesProjetsViewModel mesProjetsViewModel;
 
     private ProspectAdapter adapterProspect;
     private ProgressBar chargement;
@@ -102,7 +101,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         salonActuelEditText = view.findViewById(R.id.salonActuel);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
-        projetViewModel = new ViewModelProvider(requireActivity()).get(ProjetViewModel.class);
+        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
         chargement = view.findViewById(R.id.chargement);
 
@@ -190,9 +189,9 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
 
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
         mesProspectViewModel.removeProspect(prospectASupprimer);
-        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(projetViewModel.getProjetListe(),prospectASupprimer.getNom());
+        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),prospectASupprimer.getNom());
         for (Projet projet : projets) {
-            projetViewModel.removeProjet(projet);
+            mesProjetsViewModel.removeProjet(projet);
         }
 
         adapterProspect.notifyItemRemoved(position);

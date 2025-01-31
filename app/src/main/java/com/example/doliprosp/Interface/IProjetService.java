@@ -11,18 +11,6 @@ import java.util.List;
 public interface IProjetService {
 
     /**
-     * Ajoute un nouveau projet.
-     * @param projet Le projet à ajouter.
-     */
-    void ajouterProjet(Projet projet);
-
-    /**
-     * Supprime un projet existant.
-     * @param projet Le projet à supprimer.
-     */
-    void supprimerProjet(Projet projet);
-
-    /**
      * Met à jour les informations d'un projet existant.
      * @param projet Le projet à mettre à jour.
      * @param titre Le nouveau titre à mettre à jour.
