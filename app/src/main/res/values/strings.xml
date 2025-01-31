@@ -99,7 +99,7 @@
     <string name="hintDate">jj/mm/aaaa</string>
     <string name="hint_descriptionProspect">Description du projet</string>
 
-
+    <!-- Confirmation -->
     <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé"</string>
     <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect posséde des projets ils seront aussi supprimé"</string>
     <string name="confirmation_suppresion_projet">"Êtes-vous sûr de vouloir supprimer ce projet ?"</string>
@@ -108,4 +108,10 @@
     <string name="selection_salon">Veuillez selectioner un salon avant de vous rendre sur cette page</string>
     <string name="selection_prospect">Veuillez selectioner un prospect avant de vous rendre sur cette page</string>
     <string name="btn_tout_selectionner">Tout Selectionner</string>
+
+    <!-- Envoie salon en attente -->
+    <string name="erreur_checkbox">"La checkbox doit etre coché avant d'envoyer"</string>
+    <string name="texte_checkbox">Je suis sûr(e) de vouloir envoyer</string>
+    <string name="confirmation_envoie">Êtes-vous sûr de vouloir envoyer les informations ?</string>
+
 </resources>

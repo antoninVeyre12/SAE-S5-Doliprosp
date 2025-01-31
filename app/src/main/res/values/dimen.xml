@@ -72,4 +72,10 @@
     <dimen name="icone_img_width">60dp</dimen>
     <dimen name="icone_img_height">60dp</dimen>
     <dimen name="information_size">16dp</dimen>
+
+    <!-- Dialog confirmation envoie -->
+    <dimen name="margin_dialog_envoie">16dp</dimen>
+    <dimen name="taille_texte">16sp</dimen>
+
+
 </resources>

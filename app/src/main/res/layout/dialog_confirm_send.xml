@@ -3,24 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/margin_dialog_envoie">
 
     <!-- Texte de confirmation -->
     <TextView
         android:id="@+id/text_confirmation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Êtes-vous sûr de vouloir envoyer les informations ?"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+        android:text="@string/confirmation_envoie"
+        android:textSize="@dimen/taille_texte"
+        android:layout_marginBottom="@dimen/margin_dialog_envoie" />
 
     <!-- Case à cocher pour la confirmation -->
     <CheckBox
         android:id="@+id/checkbox_confirmation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Je suis sûr(e) de vouloir envoyer"
-        android:layout_marginBottom="16dp" />
+        android:text="@string/texte_checkbox"
+        android:layout_marginBottom="@dimen/margin_dialog_envoie" />
 
     <!-- Conteneur pour les boutons -->
     <LinearLayout
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="@dimen/margin_dialog_envoie">
 
         <!-- Bouton Annuler -->
         <Button
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Annuler"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/margin_dialog_envoie"
             style="@style/button_cancel" />
 
         <!-- Bouton Envoyer -->
