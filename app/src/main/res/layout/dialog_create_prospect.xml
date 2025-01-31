@@ -99,22 +99,25 @@
     <TableRow>
 
         <Button
-            android:id="@+id/buttonSubmit"
-            style="@style/button_validate"
-            android:layout_marginBottom="20dp"
-            android:layout_span="1" />
-
-        <Button
             android:id="@+id/buttonCancel"
             android:layout_span="1"
+            android:layout_marginBottom="@dimen/margin_creation"
+
             style="@style/button_cancel" />
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            style="@style/button_validate"
+            android:layout_marginBottom="@dimen/margin_creation"
+            android:layout_span="1" />
+
     </TableRow>
 
     <TextView
         android:id="@+id/erreur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/margin_creation"
         android:textColor="@color/red"
         android:textSize="@dimen/erreur_texte"
         android:visibility="gone" />

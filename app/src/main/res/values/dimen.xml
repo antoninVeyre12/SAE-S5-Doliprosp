@@ -33,6 +33,10 @@
     <dimen name="deconnexion_height">75dp</dimen>
 
 
+    <!-- Création project -->
+    <dimen name="creation_projet_marginTop">10dp</dimen>
+    <dimen name="creation_projet_height">150dp</dimen>
+
     <!-- Item salon -->
     <dimen name="item_show_width">200dp</dimen>
     <dimen name="item_show_height">150dp</dimen>
@@ -49,6 +53,7 @@
     <dimen name="ic_width">50dp</dimen>
     <dimen name="espaceHaut">150dp</dimen>
     <dimen name="espaceBas">30dp</dimen>
+    <dimen name="margin_creation">10dp</dimen>
 
     <!-- page User -->
     <dimen name="user_margin_top">30dp</dimen>

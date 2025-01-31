@@ -169,7 +169,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
              */
             @Override
             public void onError(String error) {
-                adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
                 chargement.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapterSalons);
                 //erreur.setVisibility(View.VISIBLE);

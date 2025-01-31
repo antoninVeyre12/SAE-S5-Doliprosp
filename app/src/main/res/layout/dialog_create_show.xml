@@ -17,14 +17,18 @@
 
     <TableRow>
         <Button
-            android:id="@+id/buttonSubmit"
-            style="@style/button_validate"
-            android:layout_span="1" />
-
-        <Button
             android:id="@+id/buttonCancel"
             android:layout_span="1"
+            android:layout_marginBottom="@dimen/margin_creation"
+
             style="@style/button_cancel" />
+        <Button
+            android:id="@+id/buttonSubmit"
+            style="@style/button_validate"
+            android:layout_marginBottom="@dimen/margin_creation"
+
+            android:layout_span="1" />
+
     </TableRow>
 
     <TextView

@@ -94,38 +94,36 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
         // Clic sur le bouton modifier
         holder.salon_modifier.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                // Créer un conteneur pour les vues
-                LinearLayout layout = new LinearLayout(v.getContext());
-                layout.setOrientation(LinearLayout.VERTICAL);
-                layout.setPadding(50, 20, 50, 20);
 
-                // Créer un EditText pour modifier le nom du salon
-                EditText editText = new EditText(v.getContext());
-                editText.setHint("Entrez le nouveau nom du salon");
-                editText.setText(salon.getNom());
-                layout.addView(editText);
+                LayoutInflater inflater = LayoutInflater.from(v.getContext());
+                View layout = inflater.inflate(R.layout.dialog_create_show, null);
 
-                TextView erreurNom = new TextView(v.getContext());
-                erreurNom.setTextSize(14);
-                layout.addView(erreurNom);
+                EditText editTextSalon = layout.findViewById(R.id.editTextTitle);
+                Button btnModifier = layout.findViewById(R.id.buttonSubmit);
+                Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
+                TextView erreurNom = layout.findViewById(R.id.erreur_nom);
+
+                // Remplir les EditText avec les valeurs actuelles
+                editTextSalon.setText(salon.getNom());
+
+                btnModifier.setText("Modifier");
 
                 // Créer une alerte pour confirmer la modification
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext())
                         .setTitle("Modifier le salon")
                         .setView(layout)
-                        .setCancelable(false)
-                        .setPositiveButton("Confirmer", null)
-                        .setNegativeButton("Annuler", (dialog, which) -> {
-                            dialog.dismiss();
-                        });
+                        .setCancelable(false);
+
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
+                btnAnnuler.setOnClickListener(v1 -> {
+                    dialog.dismiss();
+                });
                 // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
-                Button confirmButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                confirmButton.setOnClickListener(v1 -> {
-                    String nouveauNom = editText.getText().toString();
+                btnModifier.setOnClickListener(v1 -> {
+                    String nouveauNom = editTextSalon.getText().toString();
                     erreurNom.setTextColor(Color.RED);
                     erreurNom.setVisibility(View.GONE);
 
@@ -142,6 +140,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                         dialog.dismiss();
                     }
                 });
+                
             }
         });
     }
