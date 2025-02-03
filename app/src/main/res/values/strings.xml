@@ -12,12 +12,12 @@
     <string name="hint_search">Entrez votre recherche</string>
 
     <!-- Ajout -->
-    <string name="labelNomPrenom">Nom et Prenom du Client/Prospect</string>
-    <string name="labelMail">Email du Client/Prospect</string>
-    <string name="labelTel">Téléphone du Client/Prospect</string>
-    <string name="labelAdresse">Adresse du Client/Prospect</string>
-    <string name="labelVille">Ville du Client/Prospect</string>
-    <string name="labelCP">Code Postal du Client/Prospect</string>
+    <string name="labelNomPrenom">Nom et Prenom</string>
+    <string name="labelMail">Email</string>
+    <string name="labelTel">Téléphone</string>
+    <string name="labelAdresse">Adresse</string>
+    <string name="labelVille">Ville</string>
+    <string name="labelCP">Code Postal</string>
     <string name="plus">+</string>
     <string name="annuler">Annuler</string>
     <string name="creer">Créer</string>
@@ -103,4 +103,5 @@
     <string name="selection_prospect">Veuillez selectioner un prospect avant de vous rendre sur cette page</string>
     <string name="erreur_titre_projet_longueur">Le titre doit faire plus de 2 caractères et moins de 50</string>
     <string name="erreur_date_fin_projet_longueur">La date doit faire 10 caractères au format jj/mm/aaaa</string>
+    <string name="labelNomSalon">Nom</string>
 </resources>

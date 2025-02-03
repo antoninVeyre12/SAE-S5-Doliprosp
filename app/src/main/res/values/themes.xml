@@ -7,6 +7,10 @@
 
     <style name="Theme.DoliProsp" parent="Base.Theme.DoliProsp" />
 
+    <style name="label_dialog">
+        <item name="android:textSize">@dimen/label_dialog</item>
+    </style>
+
     <style name="title">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

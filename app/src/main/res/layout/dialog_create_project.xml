@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/labelTitreProjet"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_marginHorizontal="10dp"
+        android:textSize="@dimen/label_dialog" />
 
     <EditText
         android:id="@+id/editTextTitre"
@@ -19,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:maxLength="50"
+        android:layout_marginHorizontal="10dp"
         android:hint="@string/hint_titreProjet"
         android:singleLine="true" />
 
@@ -26,14 +29,17 @@
         android:id="@+id/labelDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/labelDescriptionProjet" />
+        android:text="@string/labelDescriptionProjet"
+        android:textSize="@dimen/label_dialog" />
 
     <EditText
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
         android:maxLength="500"
         android:hint="@string/hint_descriptionProspect"
         android:gravity="top"
@@ -44,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp">
 
         <TextView
@@ -53,16 +60,18 @@
             android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:text="@string/labelDateDebutProjet"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="@dimen/label_dialog" />
 
         <TextView
             android:id="@+id/labelDateFin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:singleLine="true"
             android:text="@string/labelDateFinProjet"
-            android:singleLine="true" />
+            android:textSize="@dimen/label_dialog" />
 
     </LinearLayout>
 
@@ -70,6 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp">
 
         <EditText
@@ -106,7 +116,7 @@
             android:id="@+id/buttonSubmit"
             android:layout_span="1"
             style="@style/button_validate" />
-        
+
     </TableRow>
 
     <TextView
