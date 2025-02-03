@@ -94,6 +94,9 @@ public class SalonService implements ISalonService {
         urlAppel = url + "/api/index.php/categories";
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonSalon(salonListe);
+        Log.d("jsonBody",jsonBody.toString());
+        Log.d("apikey",apikey);
+
         appelAPIPostList(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -112,7 +115,7 @@ public class SalonService implements ISalonService {
         try {
             for (Salon salon : salonListe) {
                 jsonBody.put("label",salon.getNom());
-                jsonBody.put("type","2");
+                jsonBody.put("type",2);
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);
