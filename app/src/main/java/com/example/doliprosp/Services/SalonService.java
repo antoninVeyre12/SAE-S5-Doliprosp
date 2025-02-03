@@ -89,11 +89,11 @@ public class SalonService implements ISalonService {
     }
 
 
-    public void envoyerSalon(Utilisateur utilisateur, Context context, List<Salon> salonListe) {
+    public void envoyerSalon(Utilisateur utilisateur, Context context, Salon salonAEnvoyer) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories";
         String apikey = utilisateur.getCleApi();
-        JSONObject jsonBody = creationJsonSalon(salonListe);
+        JSONObject jsonBody = creationJsonSalon(salonAEnvoyer);
         Log.d("jsonBody",jsonBody.toString());
         Log.d("apikey",apikey);
 
@@ -110,13 +110,12 @@ public class SalonService implements ISalonService {
         });
     }
 
-    private JSONObject creationJsonSalon(List<Salon> salonListe){
+    private JSONObject creationJsonSalon(Salon salonAEnvoyer){
         JSONObject jsonBody = new JSONObject();
         try {
-            for (Salon salon : salonListe) {
-                jsonBody.put("label",salon.getNom());
+                jsonBody.put("label",salonAEnvoyer.getNom());
                 jsonBody.put("type",2);
-            }
+
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

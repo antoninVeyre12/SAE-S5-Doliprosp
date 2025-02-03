@@ -127,7 +127,12 @@ public class WaitingFragment extends Fragment {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
                     Log.d("aaaaaaaaa", salonsSelectionnes.toString());
-                    salonService.envoyerSalon(utilisateur,getContext(),salonsSelectionnes);
+                    for (Salon salonAEnvoyer : salonsSelectionnes) {
+                        salonService.envoyerSalon(utilisateur, getContext(), salonAEnvoyer);
+                        // TODO envoyer prospects et projets
+                        mesSalonsViewModel.removeSalon(salonAEnvoyer);
+                        adapterSalons.notifyDataSetChanged();
+                    }
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
 
