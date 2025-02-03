@@ -34,6 +34,7 @@
     <string name="salons_suggeres">Salons suggérés</string>
     <string name="erreur_pas_de_salons">Aucun salon n\'existe ou aucun salon ne correspond à votre recherche</string>
     <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être comprit entre 2 et 50 caractères</string>
+    <string name="erreur_nom_salon_vide">Le nom d\'un salon ne peut pas être vide</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
     <!-- Page Prospect -->

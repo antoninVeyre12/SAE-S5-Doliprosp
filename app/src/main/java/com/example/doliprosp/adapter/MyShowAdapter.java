@@ -128,6 +128,7 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                     String nouveauNom = editText.getText().toString();
                     erreurNom.setTextColor(Color.RED);
                     erreurNom.setVisibility(View.GONE);
+                    nouveauNom.trim();
 
                     // Vérification de la longueur du nom et de son existence
                     if (nouveauNom.length() <= 2 || nouveauNom.length() >= 50) {
