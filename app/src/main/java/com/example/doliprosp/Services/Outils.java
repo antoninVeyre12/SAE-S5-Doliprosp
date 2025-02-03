@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -142,32 +143,41 @@ public class Outils {
         fileRequete.add(requeteVolley);
     }
 
-    public static void appelAPIPostList(String url, String cleApi, JSONObject  jsonBody, Context context, APIResponseCallbackArray callback) {
+    public static void appelAPIPostList(String url, String cleApi, JSONObject jsonBody, Context context, APIResponseCallbackPost callback) {
 
-        // Créer une requête POST
-        JsonObjectRequest requeteVolley = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
-                new Response.Listener<JSONObject>() {
+        StringRequest requeteVolley = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
                         try {
-                            // Réponse attendue est un objet JSON
-                            callback.onSuccess(response.names());
-                        } catch (Exception e) {
-                            callback.onError("Erreur de traitement de la réponse JSON : " + e.getMessage()); // Notifie l'erreur
+                            int responseInt = Integer.parseInt(response.trim()); // Convertir la réponse en entier
+                            callback.onSuccess(responseInt); // Envoyer l'entier au callback
+                        } catch (NumberFormatException e) {
+                            callback.onError("Réponse inattendue (non-entier) : " + response);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        callback.onError("Erreur de requête : " + error.getMessage()); // Notifie l'erreur
+                        callback.onError("Erreur de requête : " + error.getMessage());
                     }
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("DOLAPIKEY", cleApi); // Ajouter le header avec la clé API
+                headers.put("DOLAPIKEY", cleApi);
                 return headers;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
             }
         };
 
@@ -201,6 +211,14 @@ public class Outils {
      */
     public interface APIResponseCallbackArray {
         void onSuccess(JSONArray response);
+        void onError(String errorMessage);
+    }
+
+    /**
+     * Interface de callback pour la gestion de la réponse d'un appel API renvoyant un tableau JSON.
+     */
+    public interface APIResponseCallbackPost {
+        void onSuccess(Integer response);
         void onError(String errorMessage);
     }
 

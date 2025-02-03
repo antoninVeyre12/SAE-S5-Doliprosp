@@ -97,10 +97,10 @@ public class SalonService implements ISalonService {
         Log.d("jsonBody",jsonBody.toString());
         Log.d("apikey",apikey);
 
-        appelAPIPostList(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackArray() {
+        appelAPIPostList(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
-            public void onSuccess(JSONArray response) {
-                Log.d("onsucess",response.toString());
+            public void onSuccess(Integer response) {
+                Log.d("onsucess",String.valueOf(response));
             }
 
             @Override
