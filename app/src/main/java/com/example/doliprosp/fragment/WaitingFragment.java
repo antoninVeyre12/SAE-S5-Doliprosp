@@ -20,11 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Salon;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.SalonAttenteAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +39,11 @@ public class WaitingFragment extends Fragment {
     private SalonAttenteAdapter adapterSalons;
     private MesSalonsViewModel mesSalonsViewModel;
     private MesProspectViewModel mesProspectViewModel;
+    private UtilisateurViewModel utilisateurViewModel;
     private ISalonService salonService;
 
     private List<Salon> salonsSelectionnes;
+    private Utilisateur utilisateur;
 
     private Button boutonEnvoyer;
     private Button boutonToutSelectionne;
@@ -64,6 +68,10 @@ public class WaitingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         salonService = new SalonService();
+
+        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        utilisateurViewModel.initSharedPreferences(getContext());
+        utilisateur = utilisateurViewModel.getUtilisateur();
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         salonAttenteRecyclerView = view.findViewById(R.id.salonAttenteRecyclerView);
@@ -119,6 +127,7 @@ public class WaitingFragment extends Fragment {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
                     Log.d("aaaaaaaaa", salonsSelectionnes.toString());
+                    salonService.envoyerSalon(utilisateur,getContext(),salonsSelectionnes);
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
 

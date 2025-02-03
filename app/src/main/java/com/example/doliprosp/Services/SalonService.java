@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.doliprosp.Interface.ISalonService;
+import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.doliprosp.Services.Outils.appelAPIPostList;
 
 /**
  * Service gérant les salons de l'application.
@@ -60,6 +63,7 @@ public class SalonService implements ISalonService {
         });
     }
 
+
     /**
      * Méthode pour retrouver un salon dans Dolibarr.
      * @param nomRecherche nom saisi par l'utilisateur.
@@ -85,12 +89,35 @@ public class SalonService implements ISalonService {
     }
 
 
-    public void envoyerSalon(SalonService salon) {
-        //TODO
+    public void envoyerSalon(Utilisateur utilisateur, Context context, List<Salon> salonListe) {
+        url = utilisateur.getUrl();
+        urlAppel = url + "/api/index.php/categories";
+        String apikey = utilisateur.getCleApi();
+        JSONObject jsonBody = creationJsonSalon(salonListe);
+        appelAPIPostList(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackArray() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                Log.d("onsucess",response.toString());
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("onerror",errorMessage.toString());
+            }
+        });
     }
 
-    public void updateSalon(String nouveauNom) {
-        //TODO
+    private JSONObject creationJsonSalon(List<Salon> salonListe){
+        JSONObject jsonBody = new JSONObject();
+        try {
+            for (Salon salon : salonListe) {
+                jsonBody.put("label",salon.getNom());
+                jsonBody.put("type","2");
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonBody;
     }
 
     public List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel) {

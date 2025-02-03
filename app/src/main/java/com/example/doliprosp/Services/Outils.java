@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.Modele.Prospect;
@@ -139,6 +140,39 @@ public class Outils {
         };
         fileRequete = getRequestQueue(context);
         fileRequete.add(requeteVolley);
+    }
+
+    public static void appelAPIPostList(String url, String cleApi, JSONObject  jsonBody, Context context, APIResponseCallbackArray callback) {
+
+        // Créer une requête POST
+        JsonObjectRequest requeteVolley = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Réponse attendue est un objet JSON
+                            callback.onSuccess(response.names());
+                        } catch (Exception e) {
+                            callback.onError("Erreur de traitement de la réponse JSON : " + e.getMessage()); // Notifie l'erreur
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError("Erreur de requête : " + error.getMessage()); // Notifie l'erreur
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("DOLAPIKEY", cleApi); // Ajouter le header avec la clé API
+                return headers;
+            }
+        };
+
+        RequestQueue requestQueue = getRequestQueue(context);
+        requestQueue.add(requeteVolley);
     }
 
     /**

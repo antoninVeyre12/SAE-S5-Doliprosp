@@ -53,6 +53,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     private MesSalonsViewModel mesSalonsViewModel;
     private SalonsViewModel salonsViewModel;
     private UtilisateurViewModel utilisateurViewModel;
+    private Utilisateur utilisateur;
     private ImageButton boutonRecherche;
     private TextView erreur;
     private RecyclerView recyclerView;
@@ -86,6 +87,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
+        utilisateur = utilisateurViewModel.getUtilisateur();
         boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
         recyclerView = view.findViewById(R.id.showRecyclerView);
         recyclerViewMesSalons = view.findViewById(R.id.myShowRecyclerView);
@@ -133,7 +135,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
      * @param recherche la recherche sur critères de l'utilisateur
      */
     private void rechercheSalons(String recherche){
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         Log.d("urlll", utilisateur.getUrl());
         chargement.setVisibility(View.VISIBLE);
 

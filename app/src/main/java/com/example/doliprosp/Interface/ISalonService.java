@@ -9,6 +9,7 @@ import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public interface ISalonService {
      * Envoie les informations d'un salon à Dolibarr.
      * @param salonService L'instance du service qui gère l'envoi du salon.
      */
-    void envoyerSalon(SalonService salonService);
+    void envoyerSalon(Utilisateur utilisateur, Context context, List<Salon> salonListe);
 
     /**
      * Vérifie si un salon existe déjà dans les listes de salons.
