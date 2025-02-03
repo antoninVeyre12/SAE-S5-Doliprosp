@@ -17,9 +17,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.SalonAttenteAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
@@ -35,10 +37,12 @@ public class WaitingFragment extends Fragment {
     private SalonAttenteAdapter adapterSalons;
     private MesSalonsViewModel mesSalonsViewModel;
     private MesProspectViewModel mesProspectViewModel;
+    private ISalonService salonService;
 
     private List<Salon> salonsSelectionnes;
 
     private Button boutonEnvoyer;
+    private Button boutonToutSelectionne;
 
     /**
      * Crée et retourne la vue associée à ce fragment.
@@ -58,9 +62,12 @@ public class WaitingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        salonService = new SalonService();
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         salonAttenteRecyclerView = view.findViewById(R.id.salonAttenteRecyclerView);
+        boutonToutSelectionne = view.findViewById(R.id.btn_tout_selectionner);
         salonAttenteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         boutonEnvoyer = view.findViewById(R.id.btn_envoyer_salon_attente);
         setupListeners();
@@ -110,8 +117,8 @@ public class WaitingFragment extends Fragment {
 
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
-                    salonsSelectionnes = adapterSalons.getSalonsSelectionnes();
-
+                    salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
+                    Log.d("aaaaaaaaa", salonsSelectionnes.toString());
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
 
@@ -121,6 +128,11 @@ public class WaitingFragment extends Fragment {
                 }
 
             });
+        });
+
+        boutonToutSelectionne.setOnClickListener(v -> {
+            // Appeler une méthode dans l'adaptateur pour sélectionner toutes les checkboxes
+            adapterSalons.selectAllSalons();
         });
     }
 }

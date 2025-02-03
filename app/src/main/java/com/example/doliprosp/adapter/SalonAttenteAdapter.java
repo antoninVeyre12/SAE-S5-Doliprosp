@@ -43,7 +43,7 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
         this.salonListe = salonList;
         this.mesSalonsViewModel = mesSalonsViewModel;
         this.mesProspectViewModel = mesProspectViewModel;
-        this.salonsSelectionnesIndices = new ArrayList<>();
+
 //        this.salonsViewModel = salonsViewModel;
     }
 
@@ -63,26 +63,16 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
 
         Salon salon = salonListe.get(position);
         holder.salon_nom.setText(salon.getNom());
-        holder.nb_projet.setText(String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salon.getNom()).size()));
+        holder.nb_prospect.setText(String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salon.getNom()).size()));
+        holder.salon_checkbox.setChecked(salon.estSelectionne());
 
 
         holder.salon_checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                if (!salonsSelectionnesIndices.contains(position)) {
-                    salonsSelectionnesIndices.add(position);
-                }
-            } else {
-                salonsSelectionnesIndices.remove(Integer.valueOf(position));
-            }
-        });
-    }
 
-    public List<Salon> getSalonsSelectionnes() {
-        List<Salon> salonsSelectionnes = new ArrayList<>();
-        for (int index : salonsSelectionnesIndices) {
-            salonsSelectionnes.add(salonListe.get(index)); // Ajouter les salons correspondant aux indices
-        }
-        return salonsSelectionnes;
+            salon.setEstSelectionne(isChecked);
+            holder.itemView.post(() -> notifyItemChanged(position));
+
+        });
     }
 
 
@@ -91,6 +81,14 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
     public int getItemCount() {
         return salonListe.size();
     }
+
+    public void selectAllSalons() {
+        for (Salon salon : salonListe) {
+            salon.setEstSelectionne(true);
+        }
+        notifyDataSetChanged();
+    }
+
 
     // Vue qui représente un item de la liste des salons
     public static class MyViewHolder extends RecyclerView.ViewHolder {
