@@ -83,8 +83,7 @@ public class MesProspectViewModel extends ViewModel {
         String json = sharedPreferences.getString(PREF_KEY, null);
 
         // Définition du type générique pour la désérialisation
-        Type type = new TypeToken<ArrayList<Prospect>>() {
-        }.getType();
+        Type type = new TypeToken<ArrayList<Prospect>>() {}.getType();
 
         // Si le JSON existe, on désérialise la chaîne en une liste de prospects
         if (json != null) {
