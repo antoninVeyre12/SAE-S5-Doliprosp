@@ -3,10 +3,12 @@ package com.example.doliprosp.Interface;
 import android.content.Context;
 
 import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.Services.Outils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -16,9 +18,9 @@ public interface IProspectService {
 
     /**
      * Ajoute un nouveau prospect.
-     * @param prospect Le prospect à ajouter.
+     * @param prospectListe Le prospect à ajouter.
      */
-    void ajouterProspect(Prospect prospect);
+    void envoyerProspect(Utilisateur utilisateur, Context context, List<Prospect> prospectListe);
 
     /**
      * Supprime un prospect existant.

@@ -17,11 +17,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
+import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.SalonAttenteAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
@@ -41,8 +44,10 @@ public class WaitingFragment extends Fragment {
     private MesProspectViewModel mesProspectViewModel;
     private UtilisateurViewModel utilisateurViewModel;
     private ISalonService salonService;
+    private IProspectService prospectService;
 
     private List<Salon> salonsSelectionnes;
+    private List<Prospect> prospectSelectionnes;
     private Utilisateur utilisateur;
 
     private Button boutonEnvoyer;
@@ -68,6 +73,7 @@ public class WaitingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         salonService = new SalonService();
+        prospectService = new ProspectService();
 
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
@@ -126,9 +132,12 @@ public class WaitingFragment extends Fragment {
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
+
                     Log.d("aaaaaaaaa", salonsSelectionnes.toString());
                     for (Salon salonAEnvoyer : salonsSelectionnes) {
-                        salonService.envoyerSalon(utilisateur, getContext(), salonAEnvoyer);
+                        prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
+                        //salonService.envoyerSalon(utilisateur, getContext(), salonAEnvoyer);
+                        prospectService.envoyerProspect(utilisateur,getContext(),prospectSelectionnes);
                         // TODO envoyer prospects et projets
                         mesSalonsViewModel.removeSalon(salonAEnvoyer);
                         adapterSalons.notifyDataSetChanged();
