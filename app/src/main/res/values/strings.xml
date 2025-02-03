@@ -99,7 +99,7 @@
     <string name="hintDate">jj/mm/aaaa</string>
     <string name="hint_descriptionProspect">Description du projet</string>
 
-
+    <!-- Confirmation -->
     <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé"</string>
     <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect posséde des projets ils seront aussi supprimé"</string>
     <string name="confirmation_suppresion_projet">"Êtes-vous sûr de vouloir supprimer ce projet ?"</string>
@@ -110,4 +110,10 @@
     <string name="erreur_titre_projet_longueur">Le titre doit faire plus de 2 caractères et moins de 50</string>
     <string name="erreur_date_fin_projet_longueur">La date doit faire 10 caractères au format jj/mm/aaaa</string>
     <string name="btn_tout_selectionner">Tout Selectionner</string>
+
+    <!-- Envoie salon en attente -->
+    <string name="erreur_checkbox">"La checkbox doit etre coché avant d'envoyer"</string>
+    <string name="texte_checkbox">Je suis sûr(e) de vouloir envoyer</string>
+    <string name="confirmation_envoie">Êtes-vous sûr de vouloir envoyer les informations ?</string>
+
 </resources>

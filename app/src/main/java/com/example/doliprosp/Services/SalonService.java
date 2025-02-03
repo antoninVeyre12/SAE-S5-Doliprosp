@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service gérant les salons de l'application.
@@ -91,4 +92,22 @@ public class SalonService implements ISalonService {
     public void updateSalon(String nouveauNom) {
         //TODO
     }
+
+    public List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel) {
+
+        List<Salon> salonsSelectionnes = new ArrayList<>();
+        for (Salon salon : mesSalonsViewModel.getSalonListe()) {
+            if (salon.estSelectionne()) {
+                salonsSelectionnes.add(salon);
+            }
+        }
+        return salonsSelectionnes;
+        /*
+        List<Salon> salonsSelectionnes = new ArrayList<>();
+        for (int index : salonsSelectionnesIndices) {
+            salonsSelectionnes.add(salonListe.get(index)); // Ajouter les salons correspondant aux indices
+        }
+        return salonsSelectionnes;*/
+    }
+
 }

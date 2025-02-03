@@ -2,10 +2,13 @@ package com.example.doliprosp.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +17,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.SalonAttenteAdapter;
+import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -29,8 +36,13 @@ public class WaitingFragment extends Fragment {
     private RecyclerView salonAttenteRecyclerView;
     private SalonAttenteAdapter adapterSalons;
     private MesSalonsViewModel mesSalonsViewModel;
+    private MesProspectViewModel mesProspectViewModel;
+    private ISalonService salonService;
+
+    private List<Salon> salonsSelectionnes;
 
     private Button boutonEnvoyer;
+    private Button boutonToutSelectionne;
 
     /**
      * Crée et retourne la vue associée à ce fragment.
@@ -50,8 +62,12 @@ public class WaitingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        salonService = new SalonService();
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
+        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         salonAttenteRecyclerView = view.findViewById(R.id.salonAttenteRecyclerView);
+        boutonToutSelectionne = view.findViewById(R.id.btn_tout_selectionner);
         salonAttenteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         boutonEnvoyer = view.findViewById(R.id.btn_envoyer_salon_attente);
         setupListeners();
@@ -74,7 +90,7 @@ public class WaitingFragment extends Fragment {
      */
     private void loadSalons() {
         ArrayList<Salon> salons = mesSalonsViewModel.getSalonListe();
-        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel);
+        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel,mesProspectViewModel);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
     }
 
@@ -85,6 +101,8 @@ public class WaitingFragment extends Fragment {
 
             Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
             Button btnEnvoyer = layout.findViewById(R.id.buttonSubmit);
+            CheckBox checkboxConfirmation = layout.findViewById(R.id.checkbox_confirmation);
+            TextView erreur = layout.findViewById(R.id.erreur);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext())
                     .setView(layout)
@@ -96,9 +114,25 @@ public class WaitingFragment extends Fragment {
             btnAnnuler.setOnClickListener(v1 -> {
                 dialog.dismiss();
             });
-// Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
+
             btnEnvoyer.setOnClickListener(v1 -> {
+                if (checkboxConfirmation.isChecked()) {
+                    salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
+                    Log.d("aaaaaaaaa", salonsSelectionnes.toString());
+                    erreur.setVisibility(View.GONE);
+                    dialog.dismiss();
+
+                } else {
+                    erreur.setText(R.string.erreur_checkbox);
+                    erreur.setVisibility(View.VISIBLE);
+                }
+
             });
+        });
+
+        boutonToutSelectionne.setOnClickListener(v -> {
+            // Appeler une méthode dans l'adaptateur pour sélectionner toutes les checkboxes
+            adapterSalons.selectAllSalons();
         });
     }
 }

@@ -6,7 +6,7 @@
     <color name="green">#43CD49</color>
     <color name="red">#FF0000</color>
     <!-- Couleur principale -->
-    <color name="color_primary">#6200EE</color> <!-- Exemple de bleu-violet -->
+    <color name="color_primary">#EE001C</color> <!-- Exemple de bleu-violet -->
 
     <!-- Couleur principale plus foncée pour l'état pressé -->
     <color name="color_primary_dark">#3700B3</color> <!-- Exemple de bleu-violet foncé -->

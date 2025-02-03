@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Salon implements Serializable {
     private String nom;
+    private boolean estSelectionne;
 
     /**
      * Constructeur de la classe Salon.
@@ -14,6 +15,14 @@ public class Salon implements Serializable {
      */
     public Salon(String nom) {
         this.nom = nom;
+    }
+
+    public boolean estSelectionne() {
+        return estSelectionne;
+    }
+
+    public void setEstSelectionne(boolean estSelectionne) {
+        this.estSelectionne = estSelectionne;
     }
 
     /**
