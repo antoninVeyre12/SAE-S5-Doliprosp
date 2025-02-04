@@ -1,9 +1,13 @@
 package com.example.doliprosp.Services;
 
+import static com.example.doliprosp.Services.Outils.appelAPIPostList;
+
 import android.content.Context;
+import android.util.Log;
 
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 
 import org.json.JSONArray;
@@ -11,14 +15,50 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ProspectService implements IProspectService {
     private String url;
     private String urlAppel;
 
-    public void ajouterProspect(Prospect prospect) {
+    public void envoyerProspect(Utilisateur utilisateur, Context context, List<Prospect> prospectListe) {
+        url = utilisateur.getUrl();
+        urlAppel = url + "/api/index.php/thirdparties";
+        String apikey = utilisateur.getCleApi();
+        JSONObject jsonBody = creationJsonProspect(prospectListe);
+        Log.d("jsonBody",jsonBody.toString());
+        Log.d("apikey",apikey);
 
+        Outils.appelAPIPostList(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackPost() {
+            @Override
+            public void onSuccess(Integer response) {
+                Log.d("onsucess",String.valueOf(response));
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("onerror",errorMessage.toString());
+            }
+        });
+    }
+
+    private JSONObject creationJsonProspect(List<Prospect> prospectListe){
+        JSONObject jsonBody = new JSONObject();
+        try {
+            for (Prospect prospect : prospectListe) {
+                jsonBody.put("name",prospect.getNom());
+                jsonBody.put("address", prospect.getAdresse());
+                jsonBody.put("zip",prospect.getCodePostal());
+                jsonBody.put("phone",prospect.getNumeroTelephone());
+                jsonBody.put("email",prospect.getMail());
+                jsonBody.put("code_client","CU2502-00001");
+                jsonBody.put("client",2);
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonBody;
     }
 
     public void supprimerProspect(Prospect prospect) {
