@@ -208,20 +208,7 @@ public class ConnexionFragment extends Fragment {
         chargement.setVisibility(View.GONE);
     }
 
-    /**
-     * Navigue vers le fragment des salons.
-     */
-    private void naviguerVersSalon() {
-        SalonFragment salonFragment = new SalonFragment();
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity != null) {
-            mainActivity.loadFragment(salonFragment);
-            mainActivity.setColors(1);
-        }
-        bottomNav.setVisibility(View.VISIBLE);
-        chargement.setVisibility(View.GONE);
 
-    }
     /**
      * Définit les informations de l'utilisateur à partir d'une réponse JSON.
      *
@@ -259,15 +246,18 @@ public class ConnexionFragment extends Fragment {
      *
      */
     private void recupereSaisieChamps() {
-//        String url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-//        String nomUtilisateur = "antonin";
-//        String motDePasse = "antoninantonin";
+
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-
+        url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        nomUtilisateur = "antonin";
+        motDePasse = "antoninantonin";
     }
 
+    /**
+     * Navigue vers le fragment des salons.
+     */
     private void naviguerVersSalon() {
         SalonFragment salonFragment = new SalonFragment();
         MainActivity mainActivity = (MainActivity) getActivity();
