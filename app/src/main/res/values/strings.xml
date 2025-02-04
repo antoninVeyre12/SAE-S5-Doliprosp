@@ -46,8 +46,8 @@
     <string name="erreur_adresse_prospect_vide">L\'adresse d\'un prospect ne peut pas être vide</string>
     <string name="erreur_codePostal_prospect">Le code postal d\'un prospect doit être un nombre entre 01000 et 99999</string>
     <string name="erreur_estClient_prospect">Le statut de client d\'un prospect doit être spécifié (oui ou non)</string>
-    <string name="erreur_codePostal_prospect_invalid">le code postal est invalide !</string>
-    <string name="erreur_codePostal_prospect_vide">le code postal ne doit pas être vide !</string>
+    <string name="erreur_codePostal_prospect_invalid">Le code postal est invalide !</string>
+    <string name="erreur_codePostal_prospect_vide">Le code postal ne doit pas être vide !</string>
     <string name="erreur_ville_prospect_vide">La ville ne doit pas être vide !</string>
 
     <!-- Page Projet -->
@@ -62,7 +62,7 @@
     <string name="erreur_date_debut_format">Le format de la date de début doit être JJ/MM/AAAA.</string>
     <string name="erreur_date_fin_format">Le format de la date de fin doit être JJ/MM/AAAA.</string>
     <string name="erreur_date_debut_passee">La date de début ne peut pas être dans le passé.</string>
-    <string name="erreur_date_debut_apres_fin">La date de début ne peut pas être après la date de fin.</string>
+    <string name="erreur_date_debut_apres_fin">La date de début ne peut pas être inférieur à la date de fin.</string>
     <string name="erreur_date_invalide">La date saisie est invalide.</string>
 
     <!-- Page connexion -->

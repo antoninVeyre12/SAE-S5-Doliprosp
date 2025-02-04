@@ -59,6 +59,7 @@ public class ConnexionFragment extends Fragment {
      * @param savedInstanceState L'état sauvegardé de la vue
      * @return La vue du fragment
      */
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_connexion, container, false);
     }
@@ -89,7 +90,7 @@ public class ConnexionFragment extends Fragment {
      * @param vue La vue du fragment
      * @param savedInstanceState L'état sauvegardé
      */
-
+    @Override
     public void onViewCreated(@NonNull View vue, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
