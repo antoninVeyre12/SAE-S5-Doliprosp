@@ -33,7 +33,7 @@
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggeres">Salons suggérés</string>
     <string name="erreur_pas_de_salons">Aucun salon n\'existe ou aucun salon ne correspond à votre recherche</string>
-    <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être comprit entre 2 et 50 caractères</string>
+    <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être compris entre 2 et 50 caractères</string>
     <string name="erreur_nom_salon_vide">Le nom d\'un salon ne peut pas être vide</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
@@ -95,13 +95,13 @@
     <string name="hint_descriptionProspect">Description du projet</string>
 
 
-    <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé"</string>
-    <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect posséde des projets ils seront aussi supprimé"</string>
+    <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon possède des prospects et des projets, ils seront aussi supprimés"</string>
+    <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect possède des projets ils seront aussi supprimés"</string>
     <string name="confirmation_suppresion_projet">"Êtes-vous sûr de vouloir supprimer ce projet ?"</string>
 
     <!-- Toast selection-->
-    <string name="selection_salon">Veuillez selectioner un salon avant de vous rendre sur cette page</string>
-    <string name="selection_prospect">Veuillez selectioner un prospect avant de vous rendre sur cette page</string>
+    <string name="selection_salon">Veuillez sélectionner un salon avant de vous rendre sur cette page</string>
+    <string name="selection_prospect">Veuillez sélectionner un prospect avant de vous rendre sur cette page</string>
     <string name="erreur_titre_projet_longueur">Le titre doit faire plus de 2 caractères et moins de 50</string>
     <string name="erreur_date_fin_projet_longueur">La date doit faire 10 caractères au format jj/mm/aaaa</string>
     <string name="labelNomSalon">Nom</string>
