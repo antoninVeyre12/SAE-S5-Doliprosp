@@ -133,6 +133,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
         recyclerView.setAdapter(adapterSalons);
         adapterSalons.notifyDataSetChanged();
+
     }
 
     /**

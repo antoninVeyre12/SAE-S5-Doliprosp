@@ -6,6 +6,8 @@ import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.Services.Outils;
+import com.example.doliprosp.viewModel.MesProspectViewModel;
+import com.example.doliprosp.viewModel.ProspectViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,9 @@ public interface IProspectService {
      */
     void prospectClientExiste(Context context, String recherche, String champ, String tri,
                                      Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback);
+
+    void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur, MesProspectViewModel mesProspectViewModel
+            , Outils.CallbackProspectExiste callback);
 
     /**
      * Met à jour les informations d'un prospect existant.

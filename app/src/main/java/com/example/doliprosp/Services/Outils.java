@@ -283,4 +283,8 @@ public class Outils {
         void onSuccess(ArrayList<Prospect> response);
         void onError(String errorMessage);
     }
+
+    public interface CallbackProspectExiste {
+        void onResponse(boolean b);
+    }
 }

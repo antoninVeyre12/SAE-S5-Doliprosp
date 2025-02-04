@@ -55,6 +55,8 @@
     <string name="erreur_codePostal_prospect_invalid">Le code postal est invalide !</string>
     <string name="erreur_codePostal_prospect_vide">Le code postal ne doit pas être vide !</string>
     <string name="erreur_ville_prospect_vide">La ville ne doit pas être vide !</string>
+    <string name="erreur_prospect_existant">Un prospect similaire existe déjà !</string>
+
 
     <!-- Page Projet -->
     <string name="mes_projets">Mes projets</string>

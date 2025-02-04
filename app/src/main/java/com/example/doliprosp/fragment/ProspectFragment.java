@@ -1,5 +1,6 @@
 package com.example.doliprosp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -151,6 +152,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         if (ProjetFragment.dernierProspectSelectionne == null) {
             ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
         }
+
     }
 
     /**

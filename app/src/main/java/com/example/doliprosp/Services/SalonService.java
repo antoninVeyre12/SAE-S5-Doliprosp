@@ -72,20 +72,21 @@ public class SalonService implements ISalonService {
      * @return true si le salon existe sinon false
      */
     public boolean salonExiste(String nomRecherche, SalonsViewModel salonsViewModel, MesSalonsViewModel mesSalonsViewModel) {
+        boolean existe = false;
         if (nomRecherche == null || nomRecherche.isEmpty()) {
-            return false; // Si le nom de recherche est nul ou vide, on retourne directement false
+            existe = false; // Si le nom de recherche est nul ou vide, on retourne directement false
         }
         for (Salon salon : salonsViewModel.getSalonListe()) {
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
-                return true; // Si le salon est trouvé dans salonsViewModel, on retourne true
+                existe = true; // Si le salon est trouvé dans salonsViewModel, on retourne true
             }
         }
         for (Salon salon : mesSalonsViewModel.getSalonListe()) {
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
-                return true; // Si le salon est trouvé dans mesSalonsViewModel, on retourne true
+                existe = true; // Si le salon est trouvé dans mesSalonsViewModel, on retourne true
             }
         }
-        return false; // Si le salon n'est pas trouvé dans les deux listes, on retourne false
+        return existe; // Si le salon n'est pas trouvé dans les deux listes, on retourne false
     }
 
 
