@@ -53,21 +53,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginTop="@dimen/creation_projet_marginTop"
+        android:layout_marginHorizontal="@dimen/creation_projet_marginTop"
         android:text="@string/labelDateDebutProjet"
+        android:textSize="@dimen/label_dialog"
         android:singleLine="true" />
 
 
-
-    <EditText
-        android:id="@+id/editTextDateDebut"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="@string/hintDate"
-        android:inputType="none"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:singleLine="true" />
+    <DatePicker
+        style="@style/StyleDatePicker"
+        android:id="@+id/datePickerDateDebut" />
 
 
     <TableRow>
