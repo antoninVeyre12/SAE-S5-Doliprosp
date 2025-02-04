@@ -20,7 +20,7 @@ public interface IProspectService {
      * Ajoute un nouveau prospect.
      * @param prospectListe Le prospect à ajouter.
      */
-    void envoyerProspect(Utilisateur utilisateur, Context context, List<Prospect> prospectListe);
+    void envoyerProspect(Utilisateur utilisateur, Context context, List<Prospect> prospectListe, int idSalon);
 
     /**
      * Supprime un prospect existant.

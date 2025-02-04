@@ -143,7 +143,7 @@ public class Outils {
         fileRequete.add(requeteVolley);
     }
 
-    public static void appelAPIPostList(String url, String cleApi, JSONObject jsonBody, Context context, APIResponseCallbackPost callback) {
+    public static void appelAPIPostInteger(String url, String cleApi, JSONObject jsonBody, Context context, APIResponseCallbackPost callback) {
 
         StringRequest requeteVolley = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -154,6 +154,8 @@ public class Outils {
                             callback.onSuccess(responseInt); // Envoyer l'entier au callback
                         } catch (NumberFormatException e) {
                             callback.onError("Réponse inattendue (non-entier) : " + response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 },
@@ -167,6 +169,7 @@ public class Outils {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("DOLAPIKEY", cleApi);
+                headers.put("Connection","close");
                 return headers;
             }
 
@@ -181,8 +184,46 @@ public class Outils {
             }
         };
 
-        RequestQueue requestQueue = getRequestQueue(context);
-        requestQueue.add(requeteVolley);
+        fileRequete = getRequestQueue(context);
+        fileRequete.add(requeteVolley);
+    }
+
+
+    public static void appelAPIPostJson(String url, String cleApi, Context context, APIResponseCallback callback) {
+
+        StringRequest requeteVolley = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String reponse) {
+                        JSONObject objectJSON = null;
+                        try {
+                            objectJSON = new JSONObject(reponse);
+                            callback.onSuccess(objectJSON);
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError("Erreur de requête : " + error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("DOLAPIKEY", cleApi);
+                headers.put("Connection","close");
+                return headers;
+            }
+
+        };
+
+        fileRequete = getRequestQueue(context);
+        fileRequete.add(requeteVolley);
     }
 
     /**
@@ -206,6 +247,11 @@ public class Outils {
         void onError(String errorMessage);
     }
 
+    public interface APIResponseCallbackString {
+        void onSuccess(String response) throws JSONException;
+        void onError(String errorMessage);
+    }
+
     /**
      * Interface de callback pour la gestion de la réponse d'un appel API renvoyant un tableau JSON.
      */
@@ -218,7 +264,7 @@ public class Outils {
      * Interface de callback pour la gestion de la réponse d'un appel API renvoyant un tableau JSON.
      */
     public interface APIResponseCallbackPost {
-        void onSuccess(Integer response);
+        void onSuccess(Integer response) throws JSONException;
         void onError(String errorMessage);
     }
 

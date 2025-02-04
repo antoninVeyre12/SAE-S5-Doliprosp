@@ -24,6 +24,7 @@ import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.SalonAttenteAdapter;
@@ -138,16 +139,8 @@ public class WaitingFragment extends Fragment {
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
+                    envoyerDonnees();
 
-                    Log.d("aaaaaaaaa", salonsSelectionnes.toString());
-                    for (Salon salonAEnvoyer : salonsSelectionnes) {
-                        prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                        //salonService.envoyerSalon(utilisateur, getContext(), salonAEnvoyer);
-                        prospectService.envoyerProspect(utilisateur,getContext(),prospectSelectionnes);
-                        // TODO envoyer prospects et projets
-                        mesSalonsViewModel.removeSalon(salonAEnvoyer);
-                        adapterSalons.notifyDataSetChanged();
-                    }
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
 
@@ -164,4 +157,27 @@ public class WaitingFragment extends Fragment {
             adapterSalons.selectAllSalons();
         });
     }
+
+    private void envoyerDonnees(){
+        Log.d("aaaaaaaaa", salonsSelectionnes.toString());
+        for (Salon salonAEnvoyer : salonsSelectionnes) {
+            salonService.envoyerSalon(utilisateur, getContext(), salonAEnvoyer, new Outils.APIResponseCallbackString() {
+                @Override
+                public void onSuccess(String response) {
+                    int idSalon = Integer.parseInt(response);
+                    prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
+                    prospectService.envoyerProspect(utilisateur,getContext(),prospectSelectionnes, idSalon);
+
+                }
+                @Override
+                public void onError(String errorMessage) {
+                }
+            });
+
+            // TODO envoyer prospects et projets
+            mesSalonsViewModel.removeSalon(salonAEnvoyer);
+            adapterSalons.notifyDataSetChanged();
+        }
+    }
 }
+

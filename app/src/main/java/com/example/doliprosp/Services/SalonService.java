@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.doliprosp.Interface.ISalonService;
-import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
@@ -17,7 +16,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.doliprosp.Services.Outils.appelAPIPostList;
+import static com.example.doliprosp.Services.Outils.appelAPIGetList;
+import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
 
 /**
  * Service gérant les salons de l'application.
@@ -39,7 +39,7 @@ public class SalonService implements ISalonService {
         ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
-        Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
+        appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
@@ -89,7 +89,7 @@ public class SalonService implements ISalonService {
     }
 
 
-    public void envoyerSalon(Utilisateur utilisateur, Context context, Salon salonAEnvoyer) {
+    public void envoyerSalon(Utilisateur utilisateur, Context context, Salon salonAEnvoyer, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories";
         String apikey = utilisateur.getCleApi();
@@ -97,9 +97,10 @@ public class SalonService implements ISalonService {
         Log.d("jsonBody",jsonBody.toString());
         Log.d("apikey",apikey);
 
-        appelAPIPostList(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackPost() {
+        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
-            public void onSuccess(Integer response) {
+            public void onSuccess(Integer response) throws JSONException {
+                callback.onSuccess(String.valueOf(response));
                 Log.d("onsucess",String.valueOf(response));
             }
 
