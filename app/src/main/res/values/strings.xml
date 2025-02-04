@@ -12,12 +12,12 @@
     <string name="hint_search">Entrez votre recherche</string>
 
     <!-- Ajout -->
-    <string name="labelNomPrenom">Nom et Prenom du Client/Prospect</string>
-    <string name="labelMail">Email du Client/Prospect</string>
-    <string name="labelTel">Téléphone du Client/Prospect</string>
-    <string name="labelAdresse">Adresse du Client/Prospect</string>
-    <string name="labelVille">Ville du Client/Prospect</string>
-    <string name="labelCP">Code Postal du Client/Prospect</string>
+    <string name="labelNomPrenom">Nom et Prenom</string>
+    <string name="labelMail">Email</string>
+    <string name="labelTel">Téléphone</string>
+    <string name="labelAdresse">Adresse</string>
+    <string name="labelVille">Ville</string>
+    <string name="labelCP">Code Postal</string>
     <string name="plus">+</string>
     <string name="annuler">Annuler</string>
     <string name="creer">Créer</string>
@@ -33,7 +33,8 @@
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggeres">Salons suggérés</string>
     <string name="erreur_pas_de_salons">Aucun salon n\'existe ou aucun salon ne correspond à votre recherche</string>
-    <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être comprit entre 2 et 50 caractères</string>
+    <string name="erreur_nom_salon_longueur">Le nom d\'un salon doit être compris entre 2 et 50 caractères</string>
+    <string name="erreur_nom_salon_vide">Le nom d\'un salon ne peut pas être vide</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
     <!-- Page Salon attente -->
@@ -51,8 +52,8 @@
     <string name="erreur_adresse_prospect_vide">L\'adresse d\'un prospect ne peut pas être vide</string>
     <string name="erreur_codePostal_prospect">Le code postal d\'un prospect doit être un nombre entre 01000 et 99999</string>
     <string name="erreur_estClient_prospect">Le statut de client d\'un prospect doit être spécifié (oui ou non)</string>
-    <string name="erreur_codePostal_prospect_invalid">le code postal est invalide !</string>
-    <string name="erreur_codePostal_prospect_vide">le code postal ne doit pas être vide !</string>
+    <string name="erreur_codePostal_prospect_invalid">Le code postal est invalide !</string>
+    <string name="erreur_codePostal_prospect_vide">Le code postal ne doit pas être vide !</string>
     <string name="erreur_ville_prospect_vide">La ville ne doit pas être vide !</string>
 
     <!-- Page Projet -->
@@ -67,7 +68,7 @@
     <string name="erreur_date_debut_format">Le format de la date de début doit être JJ/MM/AAAA.</string>
     <string name="erreur_date_fin_format">Le format de la date de fin doit être JJ/MM/AAAA.</string>
     <string name="erreur_date_debut_passee">La date de début ne peut pas être dans le passé.</string>
-    <string name="erreur_date_debut_apres_fin">La date de début ne peut pas être après la date de fin.</string>
+    <string name="erreur_date_debut_apres_fin">La date de début ne peut pas être inférieur à la date de fin.</string>
     <string name="erreur_date_invalide">La date saisie est invalide.</string>
 
     <!-- Page connexion -->
@@ -99,14 +100,14 @@
     <string name="hintDate">jj/mm/aaaa</string>
     <string name="hint_descriptionProspect">Description du projet</string>
 
-    <!-- Confirmation -->
-    <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon posséde des prospects et des projets ils seront aussi supprimé"</string>
-    <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect posséde des projets ils seront aussi supprimé"</string>
+
+    <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon possède des prospects et des projets, ils seront aussi supprimés"</string>
+    <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect possède des projets ils seront aussi supprimés"</string>
     <string name="confirmation_suppresion_projet">"Êtes-vous sûr de vouloir supprimer ce projet ?"</string>
 
     <!-- Toast selection-->
-    <string name="selection_salon">Veuillez selectioner un salon avant de vous rendre sur cette page</string>
-    <string name="selection_prospect">Veuillez selectioner un prospect avant de vous rendre sur cette page</string>
+    <string name="selection_salon">Veuillez sélectionner un salon avant de vous rendre sur cette page</string>
+    <string name="selection_prospect">Veuillez sélectionner un prospect avant de vous rendre sur cette page</string>
     <string name="erreur_titre_projet_longueur">Le titre doit faire plus de 2 caractères et moins de 50</string>
     <string name="erreur_date_fin_projet_longueur">La date doit faire 10 caractères au format jj/mm/aaaa</string>
     <string name="btn_tout_selectionner">Tout Selectionner</string>
@@ -116,4 +117,5 @@
     <string name="texte_checkbox">Je suis sûr(e) de vouloir envoyer</string>
     <string name="confirmation_envoie">Êtes-vous sûr de vouloir envoyer les informations ?</string>
 
+    <string name="labelNomSalon">Nom</string>
 </resources>

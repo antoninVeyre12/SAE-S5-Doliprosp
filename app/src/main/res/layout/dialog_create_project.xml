@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/creation_projet_marginTop"
         android:text="@string/labelTitreProjet"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_marginHorizontal="10dp"
+        android:textSize="@dimen/label_dialog" />
 
     <EditText
         android:id="@+id/editTextTitre"
@@ -19,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/creation_projet_marginTop"
         android:maxLength="50"
+        android:layout_marginHorizontal="10dp"
         android:hint="@string/hint_titreProjet"
         android:singleLine="true" />
 
@@ -27,13 +30,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/creation_projet_marginTop"
-        android:text="@string/labelDescriptionProjet" />
+        android:layout_marginHorizontal="@dimen/creation_projet_marginTop"
+        android:text="@string/labelDescriptionProjet"
+        android:textSize="@dimen/label_dialog" />
 
     <EditText
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="@dimen/creation_projet_height"
         android:layout_marginTop="@dimen/creation_projet_marginTop"
+        android:layout_marginHorizontal="@dimen/creation_projet_marginTop"
         android:maxLength="500"
         android:hint="@string/hint_descriptionProspect"
         android:gravity="top"
@@ -77,7 +83,7 @@
             android:layout_span="1"
             android:layout_marginBottom="@dimen/margin_creation"
             style="@style/button_validate" />
-        
+
     </TableRow>
 
     <TextView

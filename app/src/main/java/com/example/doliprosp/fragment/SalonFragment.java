@@ -141,7 +141,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
      * @param recherche la recherche sur critères de l'utilisateur
      */
     private void rechercheSalons(String recherche){
-        Log.d("urlll", utilisateur.getUrl());
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         chargement.setVisibility(View.VISIBLE);
 
         salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
