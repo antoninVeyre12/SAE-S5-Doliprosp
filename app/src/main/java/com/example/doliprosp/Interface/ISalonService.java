@@ -42,4 +42,7 @@ public interface ISalonService {
      */
     boolean salonExiste(String nomRecherche, SalonsViewModel salonsViewModel, MesSalonsViewModel mesSalonsViewModel);
     List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel) ;
-}
+
+    void recupererIdSalon(Utilisateur utilisateur,String recherche, Context context, Outils.APIResponseCallbackPost callback);
+
+    }

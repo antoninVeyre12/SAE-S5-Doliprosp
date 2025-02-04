@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.doliprosp.Services.Outils.appelAPIGet;
 import static com.example.doliprosp.Services.Outils.appelAPIGetList;
 import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
 
@@ -38,7 +39,7 @@ public class SalonService implements ISalonService {
     {
         ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&limit=6&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
+        urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
         appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -48,6 +49,7 @@ public class SalonService implements ISalonService {
                         JSONObject object = response.getJSONObject(i);
                         String nom = object.getString("label");
                         listeSalonsEnregistres.add(new Salon(nom));
+
                         Log.d("TEST_SALON",nom);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -133,12 +135,28 @@ public class SalonService implements ISalonService {
             }
         }
         return salonsSelectionnes;
-        /*
-        List<Salon> salonsSelectionnes = new ArrayList<>();
-        for (int index : salonsSelectionnesIndices) {
-            salonsSelectionnes.add(salonListe.get(index)); // Ajouter les salons correspondant aux indices
-        }
-        return salonsSelectionnes;*/
+    }
+
+    public void recupererIdSalon(Utilisateur utilisateur,String recherche, Context context, Outils.APIResponseCallbackPost callback) {
+        url = utilisateur.getUrl();
+        urlAppel = url + "/api/index.php/categories?&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'" + recherche +"')";
+        String apikey = utilisateur.getCleApi();
+        Log.d("apikey",apikey);
+        Log.d("apikey",urlAppel);
+
+        appelAPIGet(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallback() {
+            @Override
+            public void onSuccess(JSONObject response) throws JSONException {
+                int idSalon = response.getInt("id");
+                callback.onSuccess(idSalon);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("onerror",errorMessage.toString());
+                callback.onError(errorMessage);
+            }
+        });
     }
 
 }

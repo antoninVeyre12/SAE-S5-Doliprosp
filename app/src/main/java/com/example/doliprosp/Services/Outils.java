@@ -98,6 +98,7 @@ public class Outils {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("DOLAPIKEY", cleApi);
+                headers.put("Connection","close");
                 return headers;
             }
         };
@@ -136,6 +137,8 @@ public class Outils {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("DOLAPIKEY", cleApi);
+                headers.put("Connection","close");
+
                 return headers;
             }
         };

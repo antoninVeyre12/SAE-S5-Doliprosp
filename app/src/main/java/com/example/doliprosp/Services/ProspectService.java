@@ -46,7 +46,7 @@ public class ProspectService implements IProspectService {
 
                     @Override
                     public void onError(String errorMessage) {
-                        Log.d("errrrorrrrr",errorMessage);
+                        Log.d("er  rrrorrrrr",errorMessage);
 
                     }
                 });
