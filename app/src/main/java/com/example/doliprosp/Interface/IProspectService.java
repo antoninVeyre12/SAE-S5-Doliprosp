@@ -7,7 +7,6 @@ import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.ProspectViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,7 +12,6 @@ import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.ProspectViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

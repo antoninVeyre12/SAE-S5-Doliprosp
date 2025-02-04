@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView[] imageViews; // Tableau d'ImageViews pour la navigation
     private SalonsViewModel salonsViewModel; // ViewModel pour gérer les salons
     private MesSalonsViewModel mesSalonsViewModel; // ViewModel pour gérer les salons personnels
-    private MesProspectViewModel mesProspectViewModel; // ViewModel pour gérer les prospects
-    private ProspectViewModel prospectViewModel; // ViewModel pour gérer les prospects
+    private MesProspectViewModel mesProspectViewModel; // ViewModel pour gérer les prospectss
 
     private MesProjetsViewModel mesProjetsViewModel; // ViewModel pour gérer les prospects
 
