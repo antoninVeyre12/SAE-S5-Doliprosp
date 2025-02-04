@@ -91,10 +91,9 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
     }
 
     // Cette méthode retourne le nombre d'éléments à afficher dans le RecyclerView.
-    // Limite à un maximum de 15 éléments affichés.
     @Override
     public int getItemCount() {
-        return Math.min(prospectListe.size(), 15); // Limite le nombre d'éléments à 15
+        return prospectListe.size();
     }
 
     // Interface pour le gestionnaire de clics. Permet d'exécuter des actions lors du clic sur un item.

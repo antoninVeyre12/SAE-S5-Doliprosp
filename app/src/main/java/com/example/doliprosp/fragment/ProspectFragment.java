@@ -1,6 +1,7 @@
 package com.example.doliprosp.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
+import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
@@ -47,7 +49,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private IProjetService projetService;
     private TextView salonActuelEditText;
     private Salon salonActuel;
-    private static Salon dernierSalonSelectione;
+    static Salon dernierSalonSelectione;
     private Button boutonCreerProspect;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
@@ -132,15 +134,21 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setColors(2);
+
+        ((MainActivity) getActivity()).setColors(2, R.color.color_primary,true);
         if (dernierSalonSelectione != null) {
             salonActuel = dernierSalonSelectione;
             adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()),ProspectFragment.this,mesProspectViewModel);
             prospectRecyclerView.setAdapter(adapterProspect);
             adapterProspect.notifyDataSetChanged();
         } else {
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide,false);
+
             Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
-            ((MainActivity) getActivity()).setColors(1);
+            ((MainActivity) getActivity()).setColors(1, R.color.color_primary,true);
+        }
+        if (ProjetFragment.dernierProspectSelectionne == null) {
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
         }
     }
 
@@ -181,7 +189,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         ProjetFragment projetFragment = new ProjetFragment();
         projetFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(projetFragment);
-        ((MainActivity) getActivity()).setColors(3);
+        ((MainActivity) getActivity()).setColors(3, R.color.color_primary,true);
     }
 
     @Override
@@ -189,11 +197,14 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
 
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
         mesProspectViewModel.removeProspect(prospectASupprimer);
+        Log.d("adapterProspect",mesProspectViewModel.getProspectListe().toString());
+        adapterProspect.notifyItemRemoved(position);
         ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),prospectASupprimer.getNom());
         for (Projet projet : projets) {
             mesProjetsViewModel.removeProjet(projet);
         }
 
-        adapterProspect.notifyItemRemoved(position);
+        //adapterProspect.notifyDataSetChanged();
+
     }
 }

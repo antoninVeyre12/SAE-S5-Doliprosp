@@ -89,7 +89,7 @@ public class CreationSalonsDialogFragment extends DialogFragment {
                 ProspectFragment prospectFragment = new ProspectFragment();
                 prospectFragment.setArguments(bundle);
                 ((MainActivity) getActivity()).loadFragment(prospectFragment);
-                ((MainActivity) getActivity()).setColors(2);
+                ((MainActivity) getActivity()).setColors(2, R.color.color_primary,true);
             }
 
         });

@@ -42,7 +42,7 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
     private IProjetService projetService;
     private TextView prospectActuelEditText;
     private Prospect prospectActuel;
-    private static Prospect dernierProspectSelectionne;
+    static Prospect dernierProspectSelectionne;
     private Button boutonCreerProjet;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
@@ -131,7 +131,7 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
         super.onResume();
 
         // Met à jour l'interface avec le style du fragment actif
-        ((MainActivity) getActivity()).setColors(3);
+        ((MainActivity) getActivity()).setColors(3, R.color.color_primary,true);
 
         // Si un prospect est sélectionné, affiche la liste des projets associés
         if (prospectActuel != null) {
@@ -141,7 +141,7 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
             adapterProjet.notifyDataSetChanged();
         } else {
             Toast.makeText(getActivity(), R.string.selection_prospect, Toast.LENGTH_SHORT).show();
-            ((MainActivity) getActivity()).setColors(1);
+            ((MainActivity) getActivity()).setColors(1, R.color.color_primary,true);
         }
     }
 
@@ -167,12 +167,11 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
      * @param titre Le nouveau titre du projet.
      * @param description La nouvelle description du projet.
      * @param dateDebut La nouvelle date de début du projet.
-     * @param dateFin La nouvelle date de fin du projet.
      */
     @Override
-    public void onUpdateClick(int position, String titre, String description, String dateDebut, String dateFin) {
+    public void onUpdateClick(int position, String titre, String description, String dateDebut) {
         Projet projetAModifier = mesProjetsViewModel.getProjetListe().get(position);
-        projetService.updateProjet(projetAModifier, titre, description, dateDebut, dateFin);
+        projetService.updateProjet(projetAModifier, titre, description, dateDebut);
         adapterProjet.notifyItemChanged(position);
     }
 }

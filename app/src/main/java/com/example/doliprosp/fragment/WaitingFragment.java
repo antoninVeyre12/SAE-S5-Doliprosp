@@ -89,7 +89,13 @@ public class WaitingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setColors(0);
+        ((MainActivity) getActivity()).setColors(0, R.color.color_primary,true);
+        if (ProspectFragment.dernierSalonSelectione == null) {
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide,false);
+        }
+        if (ProjetFragment.dernierProspectSelectionne == null) {
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
+        }
         loadSalons(); // Rafraîchir la liste des salons à chaque retour sur la page
     }
 

@@ -13,12 +13,11 @@ public class ProjetService implements IProjetService {
 
     public ProjetService(){ }
 
-    public void updateProjet(Projet projet, String titre, String description, String dateDebut, String dateFin)
+    public void updateProjet(Projet projet, String titre, String description, String dateDebut)
     {
         projet.setTitre(titre);
         projet.setDescription(description);
         projet.setDateDebut(dateDebut);
-        projet.setDateFin(dateFin);
     }
 
     @Override

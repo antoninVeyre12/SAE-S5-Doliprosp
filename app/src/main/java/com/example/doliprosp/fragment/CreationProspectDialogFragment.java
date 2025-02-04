@@ -165,7 +165,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             ProjetFragment projetFragment = new ProjetFragment();
             projetFragment.setArguments(bundle);
             ((MainActivity) getActivity()).loadFragment(projetFragment);
-            ((MainActivity) getActivity()).setColors(3);
+            ((MainActivity) getActivity()).setColors(3, R.color.color_primary,true);
         });
 
         boutonAnnuler.setOnClickListener(v -> {

@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     loadFragment(getFragmentByIndex(index)); // Charger le fragment correspondant
-                    setColors(index); // Changer la couleur de l'élément sélectionné
+                    setColors(index,R.color.color_primary,true); // Changer la couleur de l'élément sélectionné
                 }
             });
         }
@@ -112,18 +112,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Méthode pour mettre à jour les couleurs des éléments de la navigation
-    public void setColors(int selectedIndex) {
+    public void setColors(int selectedIndex, int color, boolean reset) {
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
         // Réinitialiser les couleurs pour tous les éléments
-        for (int i = 0; i < bottomNav.getChildCount(); i++) {
-            textViews[i].setTextColor(Color.BLACK);
-            imageViews[i].setColorFilter(Color.BLACK);
+        if(reset) {
+            for (int i = 0; i < bottomNav.getChildCount(); i++) {
+                textViews[i].setTextColor(Color.BLACK);
+                imageViews[i].setColorFilter(Color.BLACK);
+            }
         }
 
         // Appliquer la couleur de sélection pour l'élément choisi
-        textViews[selectedIndex].setTextColor(getResources().getColor(R.color.color_primary));
-        imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.color_primary));
+        textViews[selectedIndex].setTextColor(getResources().getColor(color));
+        imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(MainActivity.this, color));
     }
+
 
     // Méthode pour obtenir le RequestQueue pour effectuer des requêtes réseau (non utilisée ici)
     public RequestQueue getFileRequete() {
@@ -143,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         // Initialisation des ViewModels pour la gestion des salons, prospects et utilisateurs
         salonsViewModel = new ViewModelProvider(this).get(SalonsViewModel.class);
         SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);

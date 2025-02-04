@@ -13,4 +13,6 @@
 
     <!-- Couleur principale plus claire pour l'état focus -->
     <color name="color_primary_light">#BB86FC</color> <!-- Exemple de bleu-violet clair -->
+    <color name="invalide">#7D7D7E</color> <!-- Exemple de bleu-violet clair -->
+
 </resources>

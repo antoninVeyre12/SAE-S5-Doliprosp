@@ -40,60 +40,29 @@
         android:inputType="textMultiLine"
         android:scrollbars="vertical" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/labelDateDebut"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/creation_projet_marginTop"
+        android:text="@string/labelDateDebutProjet"
+        android:singleLine="true" />
 
-        <TextView
-            android:id="@+id/labelDateDebut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/creation_projet_marginTop"
-            android:text="@string/labelDateDebutProjet"
-            android:singleLine="true" />
 
-        <TextView
-            android:id="@+id/labelDateFin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/creation_projet_marginTop"
-            android:text="@string/labelDateFinProjet"
-            android:singleLine="true" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editTextDateDebut"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/creation_projet_marginTop">
+        android:layout_weight="1"
+        android:hint="@string/hintDate"
+        android:inputType="none"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true" />
 
-        <EditText
-            android:id="@+id/editTextDateDebut"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/hintDate"
-            android:inputType="none"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:singleLine="true" />
-
-        <EditText
-            android:id="@+id/editTextDateFin"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/hintDate"
-            android:inputType="none"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:singleLine="true" />
-    </LinearLayout>
 
     <TableRow>
 

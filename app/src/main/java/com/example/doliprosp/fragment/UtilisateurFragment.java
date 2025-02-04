@@ -126,6 +126,12 @@ public class UtilisateurFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragment
-        ((MainActivity) getActivity()).setColors(4);
+        ((MainActivity) getActivity()).setColors(4, R.color.color_primary,true);
+        if (ProspectFragment.dernierSalonSelectione == null) {
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide,false);
+        }
+        if (ProjetFragment.dernierProspectSelectionne == null) {
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
+        }
     }
 }

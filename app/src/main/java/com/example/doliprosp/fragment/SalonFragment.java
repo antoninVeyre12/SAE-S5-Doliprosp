@@ -119,7 +119,13 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     public void onResume() {
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragment
-        ((MainActivity) getActivity()).setColors(1);
+        ((MainActivity) getActivity()).setColors(1, R.color.color_primary,true);
+        if (ProspectFragment.dernierSalonSelectione == null) {
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide,false);
+        }
+        if (ProjetFragment.dernierProspectSelectionne == null) {
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
+        }
 
         adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this,mesSalonsViewModel,salonsViewModel);
         recyclerViewMesSalons.setAdapter(adapterMesSalons);
@@ -207,8 +213,11 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     @Override
     public void onDeleteClick(int position) {
         // mets a jour la liste des salons
+
         Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
         mesSalonsViewModel.removeSalon(salonASupprimer);
+        Log.d("adapterMesSalons",String.valueOf(adapterMesSalons.getItemCount()));
+
         ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonASupprimer.getNom());
         for (Prospect prospect : prospects) {
             mesProspectViewModel.removeProspect(prospect);
@@ -248,6 +257,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         ProspectFragment prospectFragment = new ProspectFragment();
         prospectFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(prospectFragment);
-        ((MainActivity) getActivity()).setColors(2);
+        ((MainActivity) getActivity()).setColors(2, R.color.color_primary,true);
     }
 }

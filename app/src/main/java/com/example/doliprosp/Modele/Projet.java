@@ -13,7 +13,6 @@ public class Projet {
     private String titre;
     private String description;
     private String dateDebut;
-    private String dateFin;
 
     /**
      * Constructeur de la classe Projet.
@@ -21,15 +20,13 @@ public class Projet {
      * @param titre Le titre du projet.
      * @param description Une description du projet.
      * @param dateDebut La date de début du projet (format String).
-     * @param dateFin La date de fin du projet (format String).
      */
-    public Projet(String nomProspect, String titre, String description, String dateDebut, String dateFin) {
+    public Projet(String nomProspect, String titre, String description, String dateDebut) {
         this.idProjet = UUID.randomUUID();
         this.nomProspect = nomProspect;
         this.titre = titre;
         this.description = description;
         this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
     }
 
     /**
@@ -80,21 +77,6 @@ public class Projet {
         this.description = description;
     }
 
-    /**
-     * Retourne la date de fin du projet.
-     * @return La date de fin sous forme de String.
-     */
-    public String getDateFin() {
-        return dateFin;
-    }
-
-    /**
-     * Définit la date de fin du projet.
-     * @param dateFin La date de fin sous forme de String.
-     */
-    public void setDateFin(String dateFin) {
-        this.dateFin = dateFin;
-    }
 
     /**
      * Retourne la date de début du projet.

@@ -66,21 +66,6 @@
         android:singleLine="true" />
 
     <TextView
-        android:text="@string/labelVille"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"/>
-
-    <EditText
-        android:id="@+id/editTextVille"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:maxLength="70"
-        android:hint="@string/hint_villeProspect"
-        android:singleLine="true" />
-
-    <TextView
         android:text="@string/labelCP"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"/>
@@ -94,6 +79,21 @@
         android:inputType="number"
         android:maxLength="5"
         android:hint="@string/hint_cpProspect"
+        android:singleLine="true" />
+
+    <TextView
+        android:text="@string/labelVille"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"/>
+
+    <EditText
+        android:id="@+id/editTextVille"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:maxLength="70"
+        android:hint="@string/hint_villeProspect"
         android:singleLine="true" />
 
     <TableRow>

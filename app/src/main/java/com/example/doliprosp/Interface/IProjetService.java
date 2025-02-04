@@ -16,10 +16,8 @@ public interface IProjetService {
      * @param titre Le nouveau titre à mettre à jour.
      * @param description La nouvelle description à mettre à jour.
      * @param dateDebut La nouvelle date de début du projet à mettre à jour.
-     * @param dateFin La nouvelle date de fin du projet à mettre à jour.
-
      */
-    void updateProjet(Projet projet, String titre, String description, String dateDebut, String dateFin);
+    void updateProjet(Projet projet, String titre, String description, String dateDebut);
 
     /**
      * Récupère la liste des projets associés à un prospect donné.

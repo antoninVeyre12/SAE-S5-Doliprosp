@@ -85,7 +85,7 @@ public class ConnexionFragment extends Fragment {
                     MainActivity mainActivity = (MainActivity) getActivity();
                     if (mainActivity != null) {
                         mainActivity.loadFragment(salonFragment);
-                        mainActivity.setColors(1);
+                        mainActivity.setColors(1, R.color.color_primary,true);
                     }
                     bottomNav.setVisibility(View.VISIBLE);
                     chargement.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class ConnexionFragment extends Fragment {
                                             // Navigation vers ShowFragment
                                             SalonFragment salonFragment = new SalonFragment();
                                             ((MainActivity) getActivity()).loadFragment(salonFragment);
-                                            ((MainActivity) getActivity()).setColors(1);
+                                            ((MainActivity) getActivity()).setColors(1, R.color.color_primary,true);
                                             bottomNav.setVisibility(View.VISIBLE);
                                             chargement.setVisibility(View.GONE);
                                         } catch (Exception e) {
@@ -155,7 +155,7 @@ public class ConnexionFragment extends Fragment {
                                 MainActivity mainActivity = (MainActivity) getActivity();
                                 if (mainActivity != null) {
                                     mainActivity.loadFragment(salonFragment);
-                                    mainActivity.setColors(1);
+                                    mainActivity.setColors(1, R.color.color_primary,true);
                                 }
                                 bottomNav.setVisibility(View.VISIBLE);
                                 chargement.setVisibility(View.GONE);
@@ -181,7 +181,7 @@ public class ConnexionFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity != null) {
             mainActivity.loadFragment(salonFragment);
-            mainActivity.setColors(1);
+            mainActivity.setColors(1, R.color.color_primary,true);
         }
         bottomNav.setVisibility(View.VISIBLE);
         chargement.setVisibility(View.GONE);

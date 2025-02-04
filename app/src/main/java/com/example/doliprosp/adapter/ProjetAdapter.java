@@ -112,14 +112,13 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
             EditText editTextTitreProjet = layout.findViewById(R.id.editTextTitre);
             EditText editTextDescription = layout.findViewById(R.id.editTextDescription);
             EditText editTextDateDebut = layout.findViewById(R.id.editTextDateDebut);
-            EditText editTextDateFin = layout.findViewById(R.id.editTextDateFin);
             Button btnModifier = layout.findViewById(R.id.buttonSubmit);
             btnModifier.setText("Modifier");
             Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
             TextView erreurChamp = layout.findViewById(R.id.erreur);
 
             // Remplir les EditText avec les valeurs actuelles
-            saisirChamps(projet, editTextTitreProjet, editTextDescription, editTextDateDebut, editTextDateFin);
+            saisirChamps(projet, editTextTitreProjet, editTextDescription, editTextDateDebut);
 
             // Créer et afficher l'alerte pour la modification
             AlertDialog dialog = creationDialogModification(v.getContext(), layout);
@@ -127,7 +126,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
 
             // Actions des boutons dans le dialogue
             btnAnnuler.setOnClickListener(v1 -> dialog.dismiss());
-            btnModifier.setOnClickListener(v1 -> handleModification(editTextTitreProjet, editTextDescription, editTextDateDebut, editTextDateFin, erreurChamp, position, dialog));
+            btnModifier.setOnClickListener(v1 -> handleModification(editTextTitreProjet, editTextDescription,editTextDateDebut, erreurChamp, position, dialog));
         }
     }
 
@@ -139,13 +138,11 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
      * @param editTextTitreProjet Le champ de texte pour le titre du projet.
      * @param editTextDescription Le champ de texte pour la description du projet.
      * @param editTextDateDebut Le champ de texte pour la date de début du projet.
-     * @param editTextDateFin Le champ de texte pour la date de fin du projet.
      */
-    private void saisirChamps(Projet projet, EditText editTextTitreProjet, EditText editTextDescription, EditText editTextDateDebut, EditText editTextDateFin) {
+    private void saisirChamps(Projet projet, EditText editTextTitreProjet, EditText editTextDescription, EditText editTextDateDebut) {
         editTextTitreProjet.setText(projet.getTitre());
         editTextDescription.setText(projet.getDescription());
         editTextDateDebut.setText(projet.getDateDebut());
-        editTextDateFin.setText(projet.getDateFin());
     }
 
 
@@ -171,20 +168,18 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
      * @param titreProjet Le champ de texte pour le titre du projet.
      * @param description Le champ de texte pour la description du projet.
      * @param dateDebut Le champ de texte pour la date de début du projet.
-     * @param dateFin Le champ de texte pour la date de fin du projet.
      * @param erreurChamp Le champ de texte où afficher les messages d'erreur.
      * @param position La position du projet dans la liste.
      * @param dialog La boîte de dialogue de modification.
      */
-    private void handleModification(EditText titreProjet, EditText description, EditText dateDebut, EditText dateFin, TextView erreurChamp, int position, Dialog dialog) {
+    private void handleModification(EditText titreProjet, EditText description, EditText dateDebut, TextView erreurChamp, int position, Dialog dialog) {
         String nouveauTitre = titreProjet.getText().toString();
         String nouvelleDescription = description.getText().toString();
         String nouvelleDateDebut = dateDebut.getText().toString();
-        String nouvelleDatFin = dateFin.getText().toString();
 
         // Vérification des champs
-        if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, nouvelleDatFin, erreurChamp)) {
-            onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut, nouvelleDatFin);
+        if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, erreurChamp)) {
+            onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut);
             dialog.dismiss();
         }
     }
@@ -197,11 +192,10 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
      * @param titre Le titre du projet.
      * @param description La description du projet.
      * @param dateDebut La date de début du projet.
-     * @param dateFin La date de fin du projet.
      * @param erreurChamp Le champ où afficher les erreurs.
      * @return True si tous les champs sont valides, sinon false.
      */
-    private boolean champsValides(String titre, String description, String dateDebut, String dateFin, TextView erreurChamp) {
+    private boolean champsValides(String titre, String description, String dateDebut, TextView erreurChamp) {
         erreurChamp.setTextColor(Color.RED);
         erreurChamp.setVisibility(View.GONE);
 
@@ -213,7 +207,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
             erreurChamp.setText(R.string.erreur_description_projet_longueur);
             erreurChamp.setVisibility(View.VISIBLE);
             return false;
-        } else if (!saisieDateValide(dateDebut) || !saisieDateValide(dateFin)) {
+        } else if (!saisieDateValide(dateDebut)) {
             erreurChamp.setText(R.string.erreur_date_fin_projet_longueur);
             erreurChamp.setVisibility(View.VISIBLE);
             return false;
@@ -267,7 +261,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
      */
     public interface OnItemClickListener {
         void onDeleteClick(int position);
-        void onUpdateClick(int position, String titre, String description, String dateDebut, String dateFin);
+        void onUpdateClick(int position, String titre, String description, String dateDebut);
     }
 
     /**

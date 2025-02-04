@@ -37,7 +37,6 @@ public class CreationProjetDialogFragment extends DialogFragment {
     private EditText editTextTitreProjet;
     private EditText editTextDescriptionProjet;
     private EditText editTextDateDebutProjet;
-    private EditText editTextDateFinProjet;
     private Button boutonEnvoyer;
     private Button boutonAnnuler;
     private String nomSalon;
@@ -65,12 +64,10 @@ public class CreationProjetDialogFragment extends DialogFragment {
         editTextTitreProjet = view.findViewById(R.id.editTextTitre);
         editTextDescriptionProjet = view.findViewById(R.id.editTextDescription);
         editTextDateDebutProjet = view.findViewById(R.id.editTextDateDebut);
-        editTextDateFinProjet = view.findViewById(R.id.editTextDateFin);
         boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
         boutonAnnuler = view.findViewById(R.id.buttonCancel);
 
         setupDateInputMask(editTextDateDebutProjet);
-        setupDateInputMask(editTextDateFinProjet);
 
         if (getArguments().containsKey("nomDuProspect")) {
             nomProspect = (String) getArguments().getSerializable("nomDuProspect");
@@ -141,7 +138,6 @@ public class CreationProjetDialogFragment extends DialogFragment {
             String titreProjet = editTextTitreProjet.getText().toString().trim();
             String descriptionProjet = editTextDescriptionProjet.getText().toString().trim();
             String dateDebutProjet = editTextDateDebutProjet.getText().toString().trim();
-            String dateFinProjet = editTextDateFinProjet.getText().toString().trim();
 
             erreur.setVisibility(View.GONE); // Cacher le message d'erreur par défaut
 
@@ -173,12 +169,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
                 return;
             }
 
-            // 5️⃣ Vérification que la date de fin n’est pas vide
-            if (dateFinProjet.isEmpty()) {
-                erreur.setText(R.string.erreur_date_fin_vide);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
+
 
             // 6️⃣ Vérification du format de la date de début (JJ/MM/AAAA)
             if (!dateDebutProjet.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
@@ -187,36 +178,14 @@ public class CreationProjetDialogFragment extends DialogFragment {
                 return;
             }
 
-            // 7️⃣ Vérification du format de la date de fin (JJ/MM/AAAA)
-            if (!dateFinProjet.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
-                erreur.setText(R.string.erreur_date_fin_format);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
 
             // 8️⃣ Vérification des dates : existence réelle + logique
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             sdf.setLenient(false); // Empêche les dates invalides comme 32/01/2024
             try {
                 Date dateDebut = sdf.parse(dateDebutProjet);
-                Date dateFin = sdf.parse(dateFinProjet);
                 Date today = new Date();
 
-                if (dateDebut != null && dateFin != null) {
-                    // Vérification que la date de début n’est pas dans le passé
-                    if (dateDebut.before(today)) {
-                        erreur.setText(R.string.erreur_date_debut_passee);
-                        erreur.setVisibility(View.VISIBLE);
-                        return;
-                    }
-
-                    // Vérification que la date de début est avant la date de fin
-                    if (dateDebut.after(dateFin)) {
-                        erreur.setText(R.string.erreur_date_debut_apres_fin);
-                        erreur.setVisibility(View.VISIBLE);
-                        return;
-                    }
-                }
             } catch (ParseException e) {
                 erreur.setText(R.string.erreur_date_invalide);
                 erreur.setVisibility(View.VISIBLE);
@@ -224,7 +193,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
             }
 
             // Tout est valide, création du projet
-            Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, dateFinProjet);
+            Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet);
             mesProjetsViewModel.addProjet(projet);
 
             dismiss();
