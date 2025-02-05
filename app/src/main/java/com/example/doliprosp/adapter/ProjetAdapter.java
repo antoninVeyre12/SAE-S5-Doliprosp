@@ -1,7 +1,6 @@
 package com.example.doliprosp.adapter;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -32,8 +31,14 @@ import java.util.Locale;
 public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHolder> implements Serializable {
 
     // Liste des projets qui sera affichée dans le RecyclerView
-    private List<Projet> projetListe;
-    private ProjetAdapter.OnItemClickListener onItemClickListener;
+    private static List<Projet> projetListe;
+    private static ProjetAdapter.OnItemClickListener onItemClickListener;
+    private transient EditText editTextTitreProjet;
+    private transient EditText editTextDescription;
+    private transient DatePicker datePickerDateDebut;
+    private transient Button btnModifier;
+    private transient Button btnAnnuler;
+    private transient TextView erreurChamp;
 
     /**
      * Constructeur de l'adaptateur.
@@ -57,7 +62,6 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     @NonNull
     @Override
     public ProjetAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // On gonfle le layout item_project qui sera utilisé pour chaque item de la liste
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project, parent, false);
         return new ProjetAdapter.MyViewHolder(view); // Retourne un ViewHolder qui contient la vue gonflée
     }
@@ -74,13 +78,9 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         Projet projet = projetListe.get(position);
         holder.titre.setText(projet.getTitre());
 
-        // Gestion du bouton de suppression
         holder.projet_supprimer.setOnClickListener(v -> afficherDialogConfirmation(v, position));
 
-        // Gestion du bouton de modification
         holder.projet_modifier.setOnClickListener(v -> afficherDialogModification(v, projet, position));
-
-
     }
 
     /**
@@ -112,19 +112,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
             View layout = inflater.inflate(R.layout.dialog_create_project, null);
 
-            // Références des EditText et du DatePicker
-            EditText editTextTitreProjet = layout.findViewById(R.id.editTextTitre);
-            EditText editTextDescription = layout.findViewById(R.id.editTextDescription);
-            DatePicker datePickerDateDebut = layout.findViewById(R.id.datePickerDateDebut);
-            Button btnModifier = layout.findViewById(R.id.buttonSubmit);
-            btnModifier.setText("Modifier");
-            Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
-            TextView erreurChamp = layout.findViewById(R.id.erreur);
-
-            // Remplir les champs
-            editTextTitreProjet.setText(projet.getTitre());
-            editTextDescription.setText(projet.getDescription());
-            setDatePickerValue(datePickerDateDebut, projet.getDateDebut());
+            configurerElementsVue(layout);
+            remplirChamps(projet);
 
             // Créer et afficher l'alerte
             AlertDialog dialog = creationDialogModification(v.getContext(), layout);
@@ -145,8 +134,35 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         }
     }
 
+    private void configurerElementsVue(View vue) {
+        editTextTitreProjet = vue.findViewById(R.id.editTextTitre);
+        editTextDescription = vue.findViewById(R.id.editTextDescription);
+        datePickerDateDebut = vue.findViewById(R.id.datePickerDateDebut);
+        btnModifier = vue.findViewById(R.id.buttonSubmit);
+        btnModifier.setText("Modifier");
+        btnAnnuler = vue.findViewById(R.id.buttonCancel);
+        erreurChamp = vue.findViewById(R.id.erreur);
+    }
+
+
+    private void remplirChamps(Projet projet) {
+        editTextTitreProjet.setText(projet.getTitre());
+        editTextDescription.setText(projet.getDescription());
+        setDatePickerValue(datePickerDateDebut, projet.getDateDebut());
+    }
+
+
     /**
-     * Définit la date initiale du DatePicker à partir d'une date au format YYYY-MM-DD.
+     * Définit la date sélectionnée dans le DatePicker à partir d'une chaîne de caractères
+     * représentant une date au format "YYYY-MM-DD".
+     * <p>
+     * Cette méthode vérifie d'abord que la date passée respecte ce format, puis extrait les
+     * informations nécessaires (année, mois, jour) pour mettre à jour le DatePicker.
+     * </p>
+     *
+     * @param datePicker L'objet DatePicker dont la date doit être mise à jour.
+     * @param date       La date sous forme de chaîne de caractères (format "YYYY-MM-DD").
+     * @throws IllegalArgumentException si la date ne respecte pas le format attendu.
      */
     private void setDatePickerValue(DatePicker datePicker, String date) {
         if (date != null && date.matches("\\d{4}-\\d{2}-\\d{2}")) { // Vérifie le format YYYY-MM-DD
@@ -160,34 +176,20 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
             } catch (NumberFormatException e) {
                 e.printStackTrace(); // Log l'erreur pour le debug
             }
-        }
     }
 
 
     /**
      * Récupère la date sélectionnée dans le DatePicker au format YYYY-MM-DD.
+     *
+     * @param datePicker date sélectionnée par l'utilisateur
      */
     private String getDateFromDatePicker(DatePicker datePicker) {
         int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth() + 1; // Correction car le mois commence à 0
+        int month = datePicker.getMonth() + 1;
         int year = datePicker.getYear();
         return String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month, day);
     }
-
-    /**
-     * Remplir les champs de saisie avec les valeurs actuelles du projet.
-     *
-     * @param projet              L'objet Projet dont les informations sont à afficher.
-     * @param editTextTitreProjet Le champ de texte pour le titre du projet.
-     * @param editTextDescription Le champ de texte pour la description du projet.
-     * @param editTextDateDebut   Le champ de texte pour la date de début du projet.
-     */
-    private void saisirChamps(Projet projet, EditText editTextTitreProjet, EditText editTextDescription, EditText editTextDateDebut) {
-        editTextTitreProjet.setText(projet.getTitre());
-        editTextDescription.setText(projet.getDescription());
-        editTextDateDebut.setText(projet.getDateDebut());
-    }
-
 
     /**
      * Crée et retourne un AlertDialog pour la modification du projet.
@@ -202,29 +204,6 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
                 .setView(layout)
                 .setCancelable(false)
                 .create();
-    }
-
-
-    /**
-     * Traite la modification du projet et vérifie la validité des données saisies.
-     *
-     * @param titreProjet Le champ de texte pour le titre du projet.
-     * @param description Le champ de texte pour la description du projet.
-     * @param datePicker  Le DatePicker pour la date de début du projet.
-     * @param erreurChamp Le champ de texte où afficher les messages d'erreur.
-     * @param position    La position du projet dans la liste.
-     * @param dialog      La boîte de dialogue de modification.
-     */
-    private void handleModification(EditText titreProjet, EditText description, DatePicker datePicker, TextView erreurChamp, int position, Dialog dialog) {
-        String nouveauTitre = titreProjet.getText().toString();
-        String nouvelleDescription = description.getText().toString();
-        String nouvelleDateDebut = getDateFromDatePicker(datePicker); // Récupération de la date du DatePicker
-
-        // Vérification des champs
-        if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, erreurChamp)) {
-            onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut);
-            dialog.dismiss();
-        }
     }
 
 
@@ -288,20 +267,20 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     private boolean saisieDateValide(String date) {
 
         // Récupération de la date actuelle
-        Calendar aujourdhui = Calendar.getInstance();
+        Calendar dateDuJour = Calendar.getInstance();
 
         // Extraction de l'année, du mois et du jour depuis la date saisie
         try {
             String[] dateParts = date.split("-");
-            int year = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]) - 1; // Les mois commencent à 0 en Java
-            int day = Integer.parseInt(dateParts[2]);
+            int annee = Integer.parseInt(dateParts[0]);
+            int mois = Integer.parseInt(dateParts[1]) - 1;
+            int jour = Integer.parseInt(dateParts[2]);
 
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(year, month, day);
+            Calendar dateSaisie = Calendar.getInstance();
+            dateSaisie.set(annee, mois, jour);
 
             // Vérifie si la date est aujourd'hui ou dans le futur
-            return !selectedDate.before(aujourdhui);
+            return !dateSaisie.before(dateDuJour);
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
             return false;
         }

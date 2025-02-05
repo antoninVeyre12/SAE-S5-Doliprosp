@@ -2,7 +2,6 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +42,9 @@ public class CreationProjetDialogFragment extends DialogFragment {
 
     private MesProjetsViewModel mesProjetsViewModel;
 
-    @Nullable
+    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setTitle("Créer un projet");
         return dialog;
@@ -54,81 +53,45 @@ public class CreationProjetDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_create_project, container, false);
+        View vue = inflater.inflate(R.layout.dialog_create_project, container, false);
 
         projetService = new ProjetService();
 
-        erreur = view.findViewById(R.id.erreur);
-        editTextTitreProjet = view.findViewById(R.id.editTextTitre);
-        editTextDescriptionProjet = view.findViewById(R.id.editTextDescription);
-        datePickerDateDebutProjet = view.findViewById(R.id.datePickerDateDebut);
-        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
-        boutonAnnuler = view.findViewById(R.id.buttonCancel);
+        recupereChampsVue(vue);
 
         if (getArguments().containsKey("nomDuProspect")) {
             nomProspect = (String) getArguments().getSerializable("nomDuProspect");
-            Log.d("vhbzhbvzfbkhv", nomProspect);
             adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
         }
-
-
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         initialisationBouton();
 
-        return view;
+        return vue;
+    }
+
+    private void recupereChampsVue(View vue) {
+        erreur = vue.findViewById(R.id.erreur);
+        editTextTitreProjet = vue.findViewById(R.id.editTextTitre);
+        editTextDescriptionProjet = vue.findViewById(R.id.editTextDescription);
+        datePickerDateDebutProjet = vue.findViewById(R.id.datePickerDateDebut);
+        boutonEnvoyer = vue.findViewById(R.id.buttonSubmit);
+        boutonAnnuler = vue.findViewById(R.id.buttonCancel);
     }
 
     private void initialisationBouton() {
         boutonEnvoyer.setOnClickListener(v -> {
             String titreProjet = editTextTitreProjet.getText().toString().trim();
             String descriptionProjet = editTextDescriptionProjet.getText().toString().trim();
-            int day = datePickerDateDebutProjet.getDayOfMonth();
-            int month = datePickerDateDebutProjet.getMonth() + 1; // Les mois commencent à 0
-            int year = datePickerDateDebutProjet.getYear();
-            String dateDebutProjet = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+            int jour = datePickerDateDebutProjet.getDayOfMonth();
+            int mois = datePickerDateDebutProjet.getMonth() + 1; // Les mois commencent à 0
+            int annee = datePickerDateDebutProjet.getYear();
+            String dateDebutProjet = String.format(Locale.getDefault(), "%02d/%02d/%04d", jour, mois, annee);
 
-            erreur.setVisibility(View.GONE); // Cacher le message d'erreur par défaut
+            erreur.setVisibility(View.GONE);
 
-            // 1️⃣ Vérification du titre vide
-            if (titreProjet.isEmpty()) {
-                erreur.setText(R.string.erreur_titre_projet_vide);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
+            verificationValiditeChamps(titreProjet, descriptionProjet);
+            verificationValiditeDate(dateDebutProjet);
 
-            // 2️⃣ Vérification du titre non conforme (lettres, chiffres, espaces et tirets seulement)
-            if (!Pattern.matches("^[a-zA-Z0-9\\s\\-]+$", titreProjet)) {
-                erreur.setText(R.string.erreur_titre_projet_caracteres);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            // 3️⃣ Vérification de la description trop longue (max 1500 caractères)
-            if (descriptionProjet.length() > 1500) {
-                erreur.setText(R.string.erreur_description_projet_longueur);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            // 4 Vérification des dates : existence réelle + logique + futur
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            sdf.setLenient(false); // Empêche les dates invalides comme 32/01/2024
-            try {
-                Date dateDebut = sdf.parse(dateDebutProjet);
-                Date aujourdhui = new Date();
-
-                // Vérifier que la date est bien dans le futur
-                if (!dateDebut.after(aujourdhui)) {
-                    erreur.setText(R.string.erreur_date_debut_passee);
-                    erreur.setVisibility(View.VISIBLE);
-                    return;
-                }
-
-            } catch (ParseException e) {
-                erreur.setText(R.string.erreur_date_invalide);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
 
             // Tout est valide, création du projet
             Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet);
@@ -140,6 +103,50 @@ public class CreationProjetDialogFragment extends DialogFragment {
         boutonAnnuler.setOnClickListener(v -> {
             dismiss();
         });
+    }
+
+
+    private void verificationValiditeChamps(String titreProjet, String descriptionProjet) {
+        if (titreProjet.isEmpty()) {
+            erreur.setText(R.string.erreur_titre_projet_vide);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        if (!Pattern.matches("^[a-zA-Z0-9\\s\\-]+$", titreProjet)) {
+            erreur.setText(R.string.erreur_titre_projet_caracteres);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        // 3️⃣ Vérification de la description trop longue (max 1500 caractères)
+        if (descriptionProjet.length() > 1500) {
+            erreur.setText(R.string.erreur_description_projet_longueur);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
+    }
+
+    private void verificationValiditeDate(String dateDebutProjet) {
+        // 4 Vérification des dates : existence réelle + logique + futur
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        sdf.setLenient(false); // Empêche les dates invalides comme 32/01/2024
+        try {
+            Date dateDebut = sdf.parse(dateDebutProjet);
+            Date aujourdhui = new Date();
+
+            // Vérifier que la date est bien dans le futur
+            if (!dateDebut.after(aujourdhui)) {
+                erreur.setText(R.string.erreur_date_debut_passee);
+                erreur.setVisibility(View.VISIBLE);
+                return;
+            }
+
+        } catch (ParseException e) {
+            erreur.setText(R.string.erreur_date_invalide);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
     }
 
 }
