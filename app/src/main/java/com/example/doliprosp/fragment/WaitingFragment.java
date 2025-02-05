@@ -10,13 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
@@ -35,6 +28,13 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -99,12 +99,12 @@ public class WaitingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setColors(0, R.color.color_primary,true);
+        ((MainActivity) getActivity()).setColors(0, R.color.color_primary, true);
         if (ProspectFragment.dernierSalonSelectione == null) {
-            ((MainActivity) getActivity()).setColors(2, R.color.invalide,false);
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide, false);
         }
         if (ProjetFragment.dernierProspectSelectionne == null) {
-            ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide, false);
         }
         loadSalons(); // Rafraîchir la liste des salons à chaque retour sur la page
     }
@@ -114,7 +114,7 @@ public class WaitingFragment extends Fragment {
      */
     private void loadSalons() {
         ArrayList<Salon> salons = mesSalonsViewModel.getSalonListe();
-        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel,mesProspectViewModel);
+        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel, mesProspectViewModel);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
     }
 
@@ -161,15 +161,17 @@ public class WaitingFragment extends Fragment {
         });
     }
 
-    private void envoyerDonnees(){
+    private void envoyerDonnees() {
         Log.d("aaaaaaaaa", salonsSelectionnes.toString());
         for (Salon salonAEnvoyer : salonsSelectionnes) {
-            salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom(), getContext(),   new Outils.APIResponseCallbackPost() {
+            salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom(), getContext(), new Outils.APIResponseCallbackPost() {
                 @Override
                 public void onSuccess(Integer response) {
+                    
                     prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                    prospectService.envoyerProspect(utilisateur,getContext(),prospectSelectionnes, response);
+                    prospectService.envoyerProspect(utilisateur, getContext(), prospectSelectionnes, response);
                 }
+
                 @Override
                 public void onError(String errorMessage) {
                     salonService.envoyerSalon(utilisateur, getContext(), salonAEnvoyer, new Outils.APIResponseCallbackString() {
@@ -177,9 +179,10 @@ public class WaitingFragment extends Fragment {
                         public void onSuccess(String response) {
                             int idSalon = Integer.parseInt(response);
                             prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                            prospectService.envoyerProspect(utilisateur,getContext(),prospectSelectionnes, idSalon);
+                            prospectService.envoyerProspect(utilisateur, getContext(), prospectSelectionnes, idSalon);
 
                         }
+
                         @Override
                         public void onError(String errorMessage) {
                         }

@@ -12,11 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
@@ -31,6 +26,11 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 /**
  * Fragment permettant à un utilisateur de se connecter à l'application.
@@ -54,8 +54,8 @@ public class ConnexionFragment extends Fragment {
     /**
      * Crée la vue du fragment de connexion.
      *
-     * @param inflater Le LayoutInflater pour inflater la vue
-     * @param container Le conteneur parent
+     * @param inflater           Le LayoutInflater pour inflater la vue
+     * @param container          Le conteneur parent
      * @param savedInstanceState L'état sauvegardé de la vue
      * @return La vue du fragment
      */
@@ -87,7 +87,7 @@ public class ConnexionFragment extends Fragment {
     /**
      * Méthode appelée après la création de la vue pour définir la logique de connexion.
      *
-     * @param vue La vue du fragment
+     * @param vue                La vue du fragment
      * @param savedInstanceState L'état sauvegardé
      */
     @Override
@@ -105,7 +105,6 @@ public class ConnexionFragment extends Fragment {
 
     /**
      * Configure la connexion pour un nouvel utilisateur.
-     *
      */
 
     private void configurerNouvelUtilisateur() {
@@ -143,7 +142,7 @@ public class ConnexionFragment extends Fragment {
      * Gère le succès de la connexion de l'utilisateur.
      *
      * @param nouvelUtilisateur L'utilisateur connecté
-     * @param nomUtilisateur Le nom d'utilisateur
+     * @param nomUtilisateur    Le nom d'utilisateur
      */
 
     private void gererConnexionUtilisateur(Utilisateur nouvelUtilisateur, String nomUtilisateur) {
@@ -184,7 +183,8 @@ public class ConnexionFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.d("ERROR JSON EXCEPTION", e.getMessage());
-                }            }
+                }
+            }
 
             @Override
             public void onError(String errorMessage) {
@@ -230,9 +230,9 @@ public class ConnexionFragment extends Fragment {
     /**
      * Vérifie que les informations de connexion sont valides.
      *
-     * @param url L'URL de connexion
+     * @param url            L'URL de connexion
      * @param nomUtilisateur Le nom d'utilisateur
-     * @param motDePasse Le mot de passe
+     * @param motDePasse     Le mot de passe
      * @return true si les informations sont valides, false sinon
      */
     private boolean utilisateurEstValide(String url, String nomUtilisateur, String motDePasse) {
@@ -243,16 +243,19 @@ public class ConnexionFragment extends Fragment {
 
     /**
      * Récupère les données saisies dans les champs du formulaire.
-     *
      */
     private void recupereSaisieChamps() {
 
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-        url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-        nomUtilisateur = "antonin";
-        motDePasse = "antoninantonin";
+        //url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        //nomUtilisateur = "antonin";
+        //motDePasse = "antoninantonin";
+        url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
+        nomUtilisateur = "G42";
+        motDePasse = "3iFJWj26z";
+        Log.d("url", url);
     }
 
     /**
@@ -263,7 +266,7 @@ public class ConnexionFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity != null) {
             mainActivity.loadFragment(salonFragment);
-            mainActivity.setColors(1, R.color.color_primary,true);
+            mainActivity.setColors(1, R.color.color_primary, true);
         }
         bottomNav.setVisibility(View.VISIBLE);
         chargement.setVisibility(View.GONE);

@@ -30,16 +30,16 @@ public class SalonService implements ISalonService {
 
     /**
      * Méthode pour récupérer les salons enregistrées dans Dolibarr
-     * @param context Le contexte de l'application.
-     * @param recherche Le terme de recherche à utiliser pour filtrer les salons.
+     *
+     * @param context     Le contexte de l'application.
+     * @param recherche   Le terme de recherche à utiliser pour filtrer les salons.
      * @param utilisateur L'utilisateur effectuant la requête.
-     * @param callback Le callback pour récupérer la liste des salons trouvés.
+     * @param callback    Le callback pour récupérer la liste des salons trouvés.
      */
-    public void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback)
-    {
+    public void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback) {
         ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'%25" + recherche +"%25')";
+        urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'%25" + recherche + "%25')";
         appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -50,7 +50,7 @@ public class SalonService implements ISalonService {
                         String nom = object.getString("label");
                         listeSalonsEnregistres.add(new Salon(nom));
 
-                        Log.d("TEST_SALON",nom);
+                        Log.d("TEST_SALON", nom);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -68,8 +68,9 @@ public class SalonService implements ISalonService {
 
     /**
      * Méthode pour retrouver un salon dans Dolibarr.
-     * @param nomRecherche nom saisi par l'utilisateur.
-     * @param salonsViewModel Contient la liste des salons disponibles dans Dolibarr
+     *
+     * @param nomRecherche       nom saisi par l'utilisateur.
+     * @param salonsViewModel    Contient la liste des salons disponibles dans Dolibarr
      * @param mesSalonsViewModel contient la liste des salons saisis par l'utilisateur qui ne sont pas encore disponible dans Dolibarr
      * @return true si le salon existe sinon false
      */
@@ -97,28 +98,26 @@ public class SalonService implements ISalonService {
         urlAppel = url + "/api/index.php/categories";
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonSalon(salonAEnvoyer);
-        Log.d("jsonBody",jsonBody.toString());
-        Log.d("apikey",apikey);
+        Log.d("jsonBody", jsonBody.toString());
 
-        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(),jsonBody, context, new Outils.APIResponseCallbackPost() {
+        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
             public void onSuccess(Integer response) throws JSONException {
                 callback.onSuccess(String.valueOf(response));
-                Log.d("onsucess",String.valueOf(response));
             }
 
             @Override
             public void onError(String errorMessage) {
-                Log.d("onerror",errorMessage.toString());
+                //Log.d("onerror", errorMessage.toString());
             }
         });
     }
 
-    private JSONObject creationJsonSalon(Salon salonAEnvoyer){
+    private JSONObject creationJsonSalon(Salon salonAEnvoyer) {
         JSONObject jsonBody = new JSONObject();
         try {
-                jsonBody.put("label",salonAEnvoyer.getNom());
-                jsonBody.put("type",2);
+            jsonBody.put("label", salonAEnvoyer.getNom());
+            jsonBody.put("type", 2);
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -137,12 +136,12 @@ public class SalonService implements ISalonService {
         return salonsSelectionnes;
     }
 
-    public void recupererIdSalon(Utilisateur utilisateur,String recherche, Context context, Outils.APIResponseCallbackPost callback) {
+    public void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackPost callback) {
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'" + recherche +"')";
+        urlAppel = url + "/api/index.php/categories?&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'" + recherche + "')";
         String apikey = utilisateur.getCleApi();
-        Log.d("apikey",apikey);
-        Log.d("apikey",urlAppel);
+        Log.d("apikey", apikey);
+        Log.d("apikey", urlAppel);
 
         appelAPIGet(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallback() {
             @Override
@@ -153,7 +152,7 @@ public class SalonService implements ISalonService {
 
             @Override
             public void onError(String errorMessage) {
-                Log.d("onerror",errorMessage.toString());
+                Log.d("onErrorRecupID", errorMessage.toString());
                 callback.onError(errorMessage);
             }
         });

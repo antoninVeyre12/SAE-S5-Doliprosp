@@ -9,15 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
-import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
@@ -26,7 +20,11 @@ import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
@@ -159,17 +157,17 @@ public class CreationProspectDialogFragment extends DialogFragment {
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }*/
-            prospectService.prospectDejaExistantDolibarr(getContext(),tel, utilisateurViewModel.getUtilisateur(), mesProspectViewModel, new Outils.CallbackProspectExiste() {
+            prospectService.prospectDejaExistantDolibarr(getContext(), tel, utilisateurViewModel.getUtilisateur(), mesProspectViewModel, new Outils.CallbackProspectExiste() {
 
                 @Override
                 public void onResponse(boolean existeDeja) {
 
                     // Prospect deja existant
-                    if(existeDeja) {
+                    if (existeDeja) {
                         erreur.setText(R.string.erreur_prospect_existant);
                         erreur.setVisibility(View.VISIBLE);
                     } else {
-                        Prospect prospect = new Prospect(nomSalon,  nom, codePostal, ville, adresse, mail, tel, estClient, "image");
+                        Prospect prospect = new Prospect(nomSalon, nom, codePostal, ville, adresse, mail, tel, estClient, "image");
                         mesProspectViewModel.addProspect(prospect);
                         dismiss();
                         Bundle bundle = new Bundle();
@@ -177,9 +175,10 @@ public class CreationProspectDialogFragment extends DialogFragment {
                         ProjetFragment projetFragment = new ProjetFragment();
                         projetFragment.setArguments(bundle);
                         ((MainActivity) getActivity()).loadFragment(projetFragment);
-                        ((MainActivity) getActivity()).setColors(3,R.color.color_primary,true);
+                        ((MainActivity) getActivity()).setColors(3, R.color.color_primary, true);
                     }
                 }
+
             });
 
         });
