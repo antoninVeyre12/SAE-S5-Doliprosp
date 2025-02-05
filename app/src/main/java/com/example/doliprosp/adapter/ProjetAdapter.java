@@ -1,6 +1,7 @@
 package com.example.doliprosp.adapter;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -122,14 +123,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
             // Actions des boutons
             btnAnnuler.setOnClickListener(v1 -> dialog.dismiss());
             btnModifier.setOnClickListener(v1 -> {
-                String nouveauTitre = editTextTitreProjet.getText().toString();
-                String nouvelleDescription = editTextDescription.getText().toString();
-                String nouvelleDateDebut = getDateFromDatePicker(datePickerDateDebut);
+                handleModification(position, dialog);
 
-                if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, erreurChamp)) {
-                    onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut);
-                    dialog.dismiss();
-                }
             });
         }
     }
@@ -176,6 +171,25 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
             } catch (NumberFormatException e) {
                 e.printStackTrace(); // Log l'erreur pour le debug
             }
+        }
+    }
+
+    /**
+     * Traite la modification du projet et vérifie la validité des données saisies.
+     *
+     * @param position La position du projet dans la liste.
+     * @param dialog   La boîte de dialogue de modification.
+     */
+    private void handleModification(int position, Dialog dialog) {
+        String nouveauTitre = editTextTitreProjet.getText().toString();
+        String nouvelleDescription = editTextDescription.getText().toString();
+        String nouvelleDateDebut = getDateFromDatePicker(datePickerDateDebut); // Récupération de la date du DatePicker
+
+        // Vérification des champs
+        if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, erreurChamp)) {
+            onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut);
+            dialog.dismiss();
+        }
     }
 
 
