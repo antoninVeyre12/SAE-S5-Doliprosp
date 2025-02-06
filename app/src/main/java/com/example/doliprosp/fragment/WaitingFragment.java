@@ -161,15 +161,16 @@ public class WaitingFragment extends Fragment {
         });
     }
 
-    private void envoyerDonnees() {
+    private void envoyerSalons() {
         Log.d("aaaaaaaaa", salonsSelectionnes.toString());
         for (Salon salonAEnvoyer : salonsSelectionnes) {
-            salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom(), getContext(), new Outils.APIResponseCallbackPost() {
+            salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom(), getContext(), new Outils.APIResponseCallbackString() {
                 @Override
-                public void onSuccess(Integer response) {
-                    
+                public void onSuccess(String response) {
                     prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                    prospectService.envoyerProspect(utilisateur, getContext(), prospectSelectionnes, response);
+                    int idSalon = Integer.parseInt(response);
+                    envoyerProspects(prospectSelectionnes, idSalon);
+
                 }
 
                 @Override
@@ -179,18 +180,26 @@ public class WaitingFragment extends Fragment {
                         public void onSuccess(String response) {
                             int idSalon = Integer.parseInt(response);
                             prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                            prospectService.envoyerProspect(utilisateur, getContext(), prospectSelectionnes, idSalon);
+                            envoyerProspects(prospectSelectionnes, idSalon);
+
 
                         }
 
                         @Override
                         public void onError(String errorMessage) {
+                            Log.d("aaaa", "aaaaaa");
                         }
                     });
                 }
             });
             mesSalonsViewModel.removeSalon(salonAEnvoyer);
             adapterSalons.notifyDataSetChanged();
+        }
+    }
+
+    private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon) {
+        for (Prospect prospectAEnvoyer : listeAEnvoyer) {
+            prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon);
         }
     }
 }

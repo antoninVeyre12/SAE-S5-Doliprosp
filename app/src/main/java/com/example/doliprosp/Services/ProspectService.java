@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static com.example.doliprosp.Services.Outils.appelAPIGetList;
@@ -24,11 +23,11 @@ public class ProspectService implements IProspectService {
     private String url;
     private String urlAppel;
 
-    public void envoyerProspect(Utilisateur utilisateur, Context context, List<Prospect> prospectListe, int idSalon) {
+    public void envoyerProspect(Utilisateur utilisateur, Context context, Prospect prospectAEnvoyer, int idSalon) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties";
         String apikey = utilisateur.getCleApi();
-        JSONObject jsonBody = creationJsonProspect(prospectListe);
+        JSONObject jsonBody = creationJsonProspect(prospectAEnvoyer);
         Log.d("jsonBody", jsonBody.toString());
 
         appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
@@ -57,17 +56,15 @@ public class ProspectService implements IProspectService {
         });
     }
 
-    private JSONObject creationJsonProspect(List<Prospect> prospectListe) {
+    private JSONObject creationJsonProspect(Prospect prospect) {
         JSONObject jsonBody = new JSONObject();
         try {
-            for (Prospect prospect : prospectListe) {
-                jsonBody.put("name", prospect.getNom());
-                jsonBody.put("address", prospect.getAdresse());
-                jsonBody.put("zip", prospect.getCodePostal());
-                jsonBody.put("phone", prospect.getNumeroTelephone());
-                jsonBody.put("email", prospect.getMail());
-                jsonBody.put("client", 2);
-            }
+            jsonBody.put("name", prospect.getNom());
+            jsonBody.put("address", prospect.getAdresse());
+            jsonBody.put("zip", prospect.getCodePostal());
+            jsonBody.put("phone", prospect.getNumeroTelephone());
+            jsonBody.put("email", prospect.getMail());
+            jsonBody.put("client", 2);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

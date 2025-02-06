@@ -16,7 +16,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.doliprosp.Services.Outils.appelAPIGet;
 import static com.example.doliprosp.Services.Outils.appelAPIGetList;
 import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
 
@@ -136,19 +135,31 @@ public class SalonService implements ISalonService {
         return salonsSelectionnes;
     }
 
-    public void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackPost callback) {
+    public void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'" + recherche + "')";
         String apikey = utilisateur.getCleApi();
         Log.d("apikey", apikey);
         Log.d("apikey", urlAppel);
 
-        appelAPIGet(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallback() {
+        appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
+
             @Override
-            public void onSuccess(JSONObject response) throws JSONException {
-                int idSalon = response.getInt("id");
-                callback.onSuccess(idSalon);
+            public void onSuccess(JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String idSalon = object.getString("id");
+                        Log.d("idsalon", idSalon);
+                        callback.onSuccess(idSalon);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+
 
             @Override
             public void onError(String errorMessage) {
