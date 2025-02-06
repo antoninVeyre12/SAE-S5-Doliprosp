@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProspectService;
@@ -64,6 +65,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
     private ProspectAdapter adapterProspect;
 
+    private ArrayList<Prospect> listProspectRecherche = new ArrayList<>();
     private ArrayList<Prospect> premiereListeProspect = new ArrayList<>();
     private ArrayList<Prospect> deuxiemeListeProspect = new ArrayList<>();
 
@@ -85,6 +87,11 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
         intialiseVue(vue);
 
+        adapter = new ProspectRechercheAdapter(listProspectRecherche, CreationProspectDialogFragment.this);
+        GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
+        prospectRecyclerView.setLayoutManager(layoutManagerMyShow);
+        prospectRecyclerView.setAdapter(adapter);
+
         prospectService = new ProspectService();
         if (getArguments().containsKey("nomDuSalon")) {
             nomSalon = (String) getArguments().getSerializable("nomDuSalon");
@@ -99,14 +106,11 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         initialisationBouton();
 
         boutonRecherche1.setOnClickListener(v -> {
-            Log.d("loupe", "click effectué");
             String valeurCritere = texteRecherche1.getText().toString();
-            Log.d("valeurrrrrrrr", valeurCritere);
             premiereListeProspect = prospectClientExiste(valeurCritere, "nom");
         });
 
         boutonRecherche2.setOnClickListener(v -> {
-            Log.d("loupe", "click effectué");
             String valeurCritere = texteRecherche1.getText().toString();
             deuxiemeListeProspect = prospectClientExiste(valeurCritere, "nom");
             Prospect prospectARetourner = checheProspectEnCommun(premiereListeProspect, deuxiemeListeProspect);
@@ -144,8 +148,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         boutonRecherche1 = vue.findViewById(R.id.bouton_recherche_1);
         boutonRecherche2 = vue.findViewById(R.id.bouton_recherche_2);
         prospectRecyclerView = vue.findViewById(R.id.prospectRecyclerView);
-        adapter = new ProspectRechercheAdapter(new ArrayList<>(), CreationProspectDialogFragment.this);
-        prospectRecyclerView.setAdapter(adapter);
+
     }
 
     /**
@@ -163,15 +166,15 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             @Override
             public void onSuccess(ArrayList<Prospect> response) {
                 resultat.addAll(response);
+                listProspectRecherche.addAll(response);
+                Log.d("nombre", String.valueOf(listProspectRecherche.size()));
                 chargement.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
-                // TODO: afficher la liste des prosepcts sous forme de liste
             }
 
             @Override
             public void onError(String errorMessage) {
                 Log.d("recherche", "aucun propsect trouvé");
-                // TODO: Implémenter la gestion des erreurs
             }
         });
         return resultat;
@@ -291,7 +294,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         telProspect.setText(prospect.getNumeroTelephone());
         adresseProspect.setText(prospect.getAdresse());
         villeProspect.setText(prospect.getVille());
-        codePostalProspect.setText(prospect.getCodePostal());
+        codePostalProspect.setText(String.valueOf(prospect.getCodePostal()));
 
     }
 
