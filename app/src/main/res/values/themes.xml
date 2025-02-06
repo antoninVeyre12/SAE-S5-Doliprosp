@@ -88,7 +88,20 @@
         <item name="android:layout_marginLeft">@dimen/search_bar_marginLeft</item>
         <item name="android:text">@string/plus</item>
         <item name="android:textSize">@dimen/btn_add_text_size</item>
+        <item name="android:gravity">center</item>
     </style>
+
+    <style name="button_less">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:layout_width">@dimen/search_img_width</item>
+        <item name="android:layout_height">@dimen/search_img_height</item>
+        <item name="android:padding">@dimen/search_bar_padding</item>
+        <item name="android:layout_marginLeft">@dimen/search_bar_marginLeft</item>
+        <item name="android:text">@string/moins</item>
+        <item name="android:textSize">@dimen/btn_less_text_size</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 
     <style name="StyleDatePicker">
         <item name="android:layout_width">wrap_content</item>
@@ -98,4 +111,5 @@
         <item name="android:datePickerMode">spinner</item>
     </style>
 
+    <string name="moins">-</string>
 </resources>

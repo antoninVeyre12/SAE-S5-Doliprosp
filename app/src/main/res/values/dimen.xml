@@ -29,7 +29,10 @@
     <dimen name="btn_new_marginBottom">50dp</dimen>
 
     <!-- Button add -->
-    <dimen name="btn_add_text_size">20sp</dimen>
+    <dimen name="btn_add_text_size">25sp</dimen>
+
+    <!-- Button less -->
+    <dimen name="btn_less_text_size">25sp</dimen>
 
     <!-- Button deconnexion -->
     <dimen name="btn_deconnexion_width">200dp</dimen>

@@ -25,6 +25,53 @@
             android:gravity="center_vertical">
 
             <ImageButton
+                android:id="@+id/bouton_recherche_2"
+                android:background="@drawable/ic_search"
+                android:layout_width="@dimen/search_img_width"
+                android:layout_height="@dimen/search_img_height"
+                android:padding="@dimen/search_bar_padding" />
+
+            <EditText
+                android:id="@+id/texte_recherche_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_search"
+                android:padding="@dimen/search_bar_padding"
+                android:textColor="@color/black"
+                android:background="@android:color/transparent"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bouton_plus"
+            style="@style/button_add"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/search_bar_littleMarginTop"
+        android:layout_marginLeft="@dimen/search_bar_marginLeft"
+        android:layout_marginRight="@dimen/search_bar_marginRight"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="@dimen/search_bar_padding"
+            android:background="@drawable/search_bar_background"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <ImageButton
                 android:id="@+id/bouton_recherche_1"
                 android:background="@drawable/ic_search"
                 android:layout_width="@dimen/search_img_width"
@@ -43,47 +90,20 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:inputType="text" />
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bouton_toggle_recherche"
-            style="@style/button_add" />
+            android:id="@+id/bouton_moins"
+            style="@style/button_less"
+            android:visibility="gone" />
 
     </LinearLayout>
 
-    <!-- Deuxième barre de recherche, cachée par défaut -->
-    <LinearLayout
-        android:id="@+id/container_recherche_2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/prospectRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="@dimen/search_bar_padding"
-        android:background="@drawable/search_bar_background"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageButton
-            android:id="@+id/bouton_recherche_2"
-            android:background="@drawable/ic_search"
-            android:layout_width="@dimen/search_img_width"
-            android:layout_height="@dimen/search_img_height"
-            android:padding="@dimen/search_bar_padding" />
-
-        <EditText
-            android:id="@+id/texte_recherche_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/hint_search_2"
-            android:padding="@dimen/search_bar_padding"
-            android:textColor="@color/black"
-            android:background="@android:color/transparent"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:inputType="text" />
-    </LinearLayout>
-
+        android:layout_height="match_parent" />
 
     <TextView
         android:text="@string/labelNomPrenom"
