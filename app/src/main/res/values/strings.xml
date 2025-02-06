@@ -28,6 +28,9 @@
     <string name="hint_adresseProspect">Entrez l\'adresse du prospect</string>
     <string name="hint_villeProspect">Entrez la ville du prospect</string>
     <string name="hint_cpProspect">Entrez le code postal du prospect</string>
+    <string name="hint_search_1">Nom ou prénom</string>
+    <string name="hint_search_2">Email ou téléphone</string>
+
 
     <!-- Page Salon -->
     <string name="mes_salons">Mes salons</string>

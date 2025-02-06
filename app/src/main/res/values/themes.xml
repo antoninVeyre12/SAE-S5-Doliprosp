@@ -80,6 +80,16 @@
         <item name="android:textSize">@dimen/btn_new_text_size</item>
     </style>
 
+    <style name="button_add">
+        <item name="android:background">@drawable/ic_plus</item>
+        <item name="android:layout_width">@dimen/search_img_width</item>
+        <item name="android:layout_height">@dimen/search_img_height</item>
+        <item name="android:padding">@dimen/search_bar_padding</item>
+        <item name="android:layout_marginLeft">@dimen/search_bar_marginLeft</item>
+        <item name="android:text">@string/plus</item>
+        <item name="android:textSize">@dimen/btn_add_text_size</item>
+    </style>
+
     <style name="StyleDatePicker">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
