@@ -10,17 +10,21 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.MainActivity;
+import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
+import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.adapter.SalonAttenteAdapter;
+import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
@@ -45,12 +49,15 @@ public class WaitingFragment extends Fragment {
     private MesSalonsViewModel mesSalonsViewModel;
     private SalonsViewModel salonsViewModel;
     private MesProspectViewModel mesProspectViewModel;
+    private MesProjetsViewModel mesProjetsViewModel;
     private UtilisateurViewModel utilisateurViewModel;
     private ISalonService salonService;
     private IProspectService prospectService;
+    private IProjetService projetService;
 
     private List<Salon> salonsSelectionnes;
     private List<Prospect> prospectSelectionnes;
+    private List<Projet> projetsSelectionnes;
     private Utilisateur utilisateur;
 
     private Button boutonEnvoyer;
@@ -77,6 +84,7 @@ public class WaitingFragment extends Fragment {
 
         salonService = new SalonService();
         prospectService = new ProspectService();
+        projetService = new ProjetService();
 
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
@@ -84,6 +92,7 @@ public class WaitingFragment extends Fragment {
         mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
         salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         salonAttenteRecyclerView = view.findViewById(R.id.salonAttenteRecyclerView);
         boutonToutSelectionne = view.findViewById(R.id.btn_tout_selectionner);
         salonAttenteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -200,6 +209,14 @@ public class WaitingFragment extends Fragment {
     private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon) {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
             prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon);
+            projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectAEnvoyer.getNom());
+            envoyerProjets(projetsSelectionnes, 1);
+        }
+    }
+
+    private void envoyerProjets(List<Projet> listeAEnvoyer, int idProspect) {
+        for (Projet projetAEnvoyer : listeAEnvoyer) {
+            projetService.envoyerProjet(utilisateur, getContext(), projetAEnvoyer, idProspect);
         }
     }
 }

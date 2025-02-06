@@ -152,7 +152,6 @@ public class SalonService implements ISalonService {
                     try {
                         JSONObject object = response.getJSONObject(i);
                         String idSalon = object.getString("id");
-                        Log.d("idsalon", idSalon);
                         callback.onSuccess(idSalon);
 
                     } catch (JSONException e) {
@@ -164,7 +163,6 @@ public class SalonService implements ISalonService {
 
             @Override
             public void onError(String errorMessage) {
-                Log.d("onErrorRecupID", errorMessage.toString());
                 callback.onError(errorMessage);
             }
         });
