@@ -2,14 +2,11 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -36,7 +33,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
     private TextView erreur;
     private EditText editTextTitreProjet;
     private EditText editTextDescriptionProjet;
-    private EditText editTextDateDebutProjet;
+    private DatePicker datePickerDateDebutProjet;
     private Button boutonEnvoyer;
     private Button boutonAnnuler;
     private String nomSalon;
@@ -45,9 +42,9 @@ public class CreationProjetDialogFragment extends DialogFragment {
 
     private MesProjetsViewModel mesProjetsViewModel;
 
-    @Nullable
+    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setTitle("Créer un projet");
         return dialog;
@@ -56,141 +53,45 @@ public class CreationProjetDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_create_project, container, false);
+        View vue = inflater.inflate(R.layout.dialog_create_project, container, false);
 
         projetService = new ProjetService();
 
-        erreur = view.findViewById(R.id.erreur);
-        editTextTitreProjet = view.findViewById(R.id.editTextTitre);
-        editTextDescriptionProjet = view.findViewById(R.id.editTextDescription);
-        editTextDateDebutProjet = view.findViewById(R.id.editTextDateDebut);
-        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
-        boutonAnnuler = view.findViewById(R.id.buttonCancel);
-
-        setupDateInputMask(editTextDateDebutProjet);
+        recupereChampsVue(vue);
 
         if (getArguments().containsKey("nomDuProspect")) {
             nomProspect = (String) getArguments().getSerializable("nomDuProspect");
-            Log.d("vhbzhbvzfbkhv", nomProspect);
             adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
         }
-
-
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         initialisationBouton();
 
-        return view;
+        return vue;
     }
 
-    // Fonction pour ajouter un TextWatcher à un EditText
-    private void setupDateInputMask(EditText editText) {
-        editText.addTextChangedListener(new TextWatcher() {
-            private boolean isFormatting;
-            private int deletingHyphenIndex;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (count > 0 && after == 0) {
-                    char deletedChar = s.charAt(start);
-                    if (deletedChar == '/') {
-                        deletingHyphenIndex = start;
-                    }
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isFormatting) return;
-
-                isFormatting = true;
-                String clean = s.toString().replaceAll("[^0-9]", "");
-
-                StringBuilder formatted = new StringBuilder();
-                for (int i = 0; i < clean.length(); i++) {
-                    if (i == 2 || i == 4) {
-                        formatted.append('/');
-                    }
-                    formatted.append(clean.charAt(i));
-                }
-
-                editText.setText(formatted.toString());
-                editText.setSelection(formatted.length() > 10 ? 10 : formatted.length());
-                isFormatting = false;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        // Empêcher l'entrée de tout autre caractère que les chiffres
-        InputFilter onlyDigitsFilter = (source, start, end, dest, dstart, dend) -> {
-            if (source.toString().matches("[0-9/]*")) {
-                return null;
-            }
-            return "";
-        };
-        editText.setFilters(new InputFilter[]{onlyDigitsFilter, new InputFilter.LengthFilter(10)});
+    private void recupereChampsVue(View vue) {
+        erreur = vue.findViewById(R.id.erreur);
+        editTextTitreProjet = vue.findViewById(R.id.editTextTitre);
+        editTextDescriptionProjet = vue.findViewById(R.id.editTextDescription);
+        datePickerDateDebutProjet = vue.findViewById(R.id.datePickerDateDebut);
+        boutonEnvoyer = vue.findViewById(R.id.buttonSubmit);
+        boutonAnnuler = vue.findViewById(R.id.buttonCancel);
     }
 
     private void initialisationBouton() {
         boutonEnvoyer.setOnClickListener(v -> {
             String titreProjet = editTextTitreProjet.getText().toString().trim();
             String descriptionProjet = editTextDescriptionProjet.getText().toString().trim();
-            String dateDebutProjet = editTextDateDebutProjet.getText().toString().trim();
+            int jour = datePickerDateDebutProjet.getDayOfMonth();
+            int mois = datePickerDateDebutProjet.getMonth() + 1; // Les mois commencent à 0
+            int annee = datePickerDateDebutProjet.getYear();
+            String dateDebutProjet = String.format(Locale.getDefault(), "%02d/%02d/%04d", jour, mois, annee);
 
-            erreur.setVisibility(View.GONE); // Cacher le message d'erreur par défaut
+            erreur.setVisibility(View.GONE);
 
-            // 1️⃣ Vérification du titre vide
-            if (titreProjet.isEmpty()) {
-                erreur.setText(R.string.erreur_titre_projet_vide);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
+            verificationValiditeChamps(titreProjet, descriptionProjet);
+            verificationValiditeDate(dateDebutProjet);
 
-            // 2️⃣ Vérification du titre non conforme (lettres, chiffres, espaces et tirets seulement)
-            if (!Pattern.matches("^[a-zA-Z0-9\\s\\-]+$", titreProjet)) {
-                erreur.setText(R.string.erreur_titre_projet_caracteres);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            // 3️⃣ Vérification de la description trop longue (max 1500 caractères)
-            if (descriptionProjet.length() > 1500) {
-                erreur.setText(R.string.erreur_description_projet_longueur);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            // 4️⃣ Vérification que la date de début n’est pas vide
-            if (dateDebutProjet.isEmpty()) {
-                erreur.setText(R.string.erreur_date_debut_vide);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-
-
-            // 6️⃣ Vérification du format de la date de début (JJ/MM/AAAA)
-            if (!dateDebutProjet.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
-                erreur.setText(R.string.erreur_date_debut_format);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
-
-            // 8️⃣ Vérification des dates : existence réelle + logique
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            sdf.setLenient(false); // Empêche les dates invalides comme 32/01/2024
-            try {
-                Date dateDebut = sdf.parse(dateDebutProjet);
-                Date today = new Date();
-
-            } catch (ParseException e) {
-                erreur.setText(R.string.erreur_date_invalide);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
 
             // Tout est valide, création du projet
             Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet);
@@ -203,5 +104,50 @@ public class CreationProjetDialogFragment extends DialogFragment {
             dismiss();
         });
     }
+
+
+    private void verificationValiditeChamps(String titreProjet, String descriptionProjet) {
+        if (titreProjet.isEmpty()) {
+            erreur.setText(R.string.erreur_titre_projet_vide);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        if (!Pattern.matches("^[a-zA-Z0-9\\s\\-]+$", titreProjet)) {
+            erreur.setText(R.string.erreur_titre_projet_caracteres);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        // 3️⃣ Vérification de la description trop longue (max 1500 caractères)
+        if (descriptionProjet.length() > 1500) {
+            erreur.setText(R.string.erreur_description_projet_longueur);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
+    }
+
+    private void verificationValiditeDate(String dateDebutProjet) {
+        // 4 Vérification des dates : existence réelle + logique + futur
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        sdf.setLenient(false); // Empêche les dates invalides comme 32/01/2024
+        try {
+            Date dateDebut = sdf.parse(dateDebutProjet);
+            Date aujourdhui = new Date();
+
+            // Vérifier que la date est bien dans le futur
+            if (!dateDebut.after(aujourdhui)) {
+                erreur.setText(R.string.erreur_date_debut_passee);
+                erreur.setVisibility(View.VISIBLE);
+                return;
+            }
+
+        } catch (ParseException e) {
+            erreur.setText(R.string.erreur_date_invalide);
+            erreur.setVisibility(View.VISIBLE);
+            return;
+        }
+    }
+
 }
 
