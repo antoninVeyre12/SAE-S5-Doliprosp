@@ -137,10 +137,11 @@ public class SalonService implements ISalonService {
 
     public void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'" + recherche + "')";
+        String rechercheSansEspace = remplaceEspace(recherche);
+        urlAppel = url + "/api/index.php/categories?&sortorder=DESC&sqlfilters=(t.label%3A=%3A'" + rechercheSansEspace + "')";
         String apikey = utilisateur.getCleApi();
-        Log.d("apikey", apikey);
-        Log.d("apikey", urlAppel);
+
+        Log.d("urlAppel", urlAppel);
 
         appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
 
@@ -167,6 +168,12 @@ public class SalonService implements ISalonService {
                 callback.onError(errorMessage);
             }
         });
+    }
+
+
+    private String remplaceEspace(String str) {
+        // Remplacer chaque espace par "%20"
+        return str.replace(" ", "%20");
     }
 
 }
