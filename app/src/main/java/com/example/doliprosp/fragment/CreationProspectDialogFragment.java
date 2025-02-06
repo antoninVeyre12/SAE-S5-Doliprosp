@@ -2,12 +2,15 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,15 +20,20 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
+import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
+    private UtilisateurViewModel utilisateurViewModel;
     private TextView erreur;
     private EditText nomPrenomProspect;
     private EditText mailProspect;
@@ -35,6 +43,8 @@ public class CreationProspectDialogFragment extends DialogFragment {
     private EditText codePostalProspect;
     private Button boutonEnvoyer;
     private Button boutonAnnuler;
+    private ProgressBar chargement;
+
     private String nomSalon;
     private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
@@ -53,19 +63,11 @@ public class CreationProspectDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_create_prospect, container, false);
+        View vue = inflater.inflate(R.layout.dialog_create_prospect, container, false);
+
+        intialiseVue(vue);
 
         prospectService = new ProspectService();
-        erreur = view.findViewById(R.id.erreur);
-        nomPrenomProspect = view.findViewById(R.id.editTextNomPrenom);
-        mailProspect = view.findViewById(R.id.editTextMail);
-        telProspect = view.findViewById(R.id.editTextPhone);
-        adresseProspect = view.findViewById(R.id.editTextAdresse);
-        villeProspect = view.findViewById(R.id.editTextVille);
-        codePostalProspect = view.findViewById(R.id.editTextCodePostal);
-        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
-        boutonAnnuler = view.findViewById(R.id.buttonCancel);
-
         if (getArguments().containsKey("nomDuSalon")) {
             nomSalon = (String) getArguments().getSerializable("nomDuSalon");
             adapterProspect = (ProspectAdapter) getArguments().getSerializable("adapterProspect");
@@ -74,9 +76,59 @@ public class CreationProspectDialogFragment extends DialogFragment {
 
         // Initialiser le ViewModel
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+
         initialisationBouton();
 
-        return view;
+        return vue;
+    }
+
+    private void intialiseVue(View vue) {
+        erreur = vue.findViewById(R.id.erreur);
+        nomPrenomProspect = vue.findViewById(R.id.editTextNomPrenom);
+        mailProspect = vue.findViewById(R.id.editTextMail);
+        telProspect = vue.findViewById(R.id.editTextPhone);
+        adresseProspect = vue.findViewById(R.id.editTextAdresse);
+        villeProspect = vue.findViewById(R.id.editTextVille);
+        codePostalProspect = vue.findViewById(R.id.editTextCodePostal);
+        boutonEnvoyer = vue.findViewById(R.id.buttonSubmit);
+        boutonAnnuler = vue.findViewById(R.id.buttonCancel);
+        chargement = vue.findViewById(R.id.chargement);
+    }
+
+    /**
+     * Méthode pour vérifier si un prospect existe pour un client, basée sur les critères de recherche.
+     *
+     * @param recherche Le texte de recherche pour le prospect.
+     * @param champ     Le champ sur lequel effectuer la recherche.
+     * @param tri       La méthode de tri des prospects.
+     */
+    private void prospectClientExiste(String recherche, String champ, String tri) {
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+
+        chargement.setVisibility(View.VISIBLE);
+        prospectService.prospectClientExiste(getContext(), recherche, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
+            @Override
+            public void onSuccess(ArrayList<Prospect> response) {
+                // TODO: afficher la liste des prosepcts sous forme de liste
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("recherche", "aucun propsect trouvé");
+                // TODO: Implémenter la gestion des erreurs
+            }
+        });
+    }
+
+    private Prospect checheProspectEnCommun(ArrayList<Prospect> premiereListe, ArrayList<Prospect> deuxiemeListe) {
+        for (Prospect prospect : premiereListe) {
+            if (deuxiemeListe.contains(prospect)) {
+                return prospect;
+            }
+        }
+        Toast.makeText(getContext(), getString(R.string.recherche_prospect_nul), Toast.LENGTH_LONG).show();
+        return null;
     }
 
     private void initialisationBouton() {
@@ -154,7 +206,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             }*/
 
             // Tout est valide, créer le prospect
-            Prospect prospect = new Prospect(nomSalon,  nom, codePostal, ville, adresse, mail, tel, estClient, "image");
+            Prospect prospect = new Prospect(nomSalon, nom, codePostal, ville, adresse, mail, tel, estClient, "image");
             mesProspectViewModel.addProspect(prospect);
 
             if (adapterProspect != null) {
@@ -165,7 +217,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             ProjetFragment projetFragment = new ProjetFragment();
             projetFragment.setArguments(bundle);
             ((MainActivity) getActivity()).loadFragment(projetFragment);
-            ((MainActivity) getActivity()).setColors(3, R.color.color_primary,true);
+            ((MainActivity) getActivity()).setColors(3, R.color.color_primary, true);
         });
 
         boutonAnnuler.setOnClickListener(v -> {
