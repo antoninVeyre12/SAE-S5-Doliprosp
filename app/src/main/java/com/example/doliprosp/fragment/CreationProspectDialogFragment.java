@@ -8,14 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
@@ -25,13 +28,14 @@ import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
+import com.example.doliprosp.adapter.ProspectRechercheAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CreationProspectDialogFragment extends DialogFragment {
+public class CreationProspectDialogFragment extends DialogFragment implements ProspectRechercheAdapter.OnItemClickListener {
     private IProspectService prospectService;
     private UtilisateurViewModel utilisateurViewModel;
     private TextView erreur;
@@ -45,10 +49,24 @@ public class CreationProspectDialogFragment extends DialogFragment {
     private Button boutonAnnuler;
     private ProgressBar chargement;
 
+    private AppCompatButton boutonPlus;
+    private AppCompatButton boutonMoins;
+    private EditText texteRecherche1;
+    private EditText texteRecherche2;
+    private ImageButton boutonRecherche1;
+    private ImageButton boutonRecherche2;
+
+    private RecyclerView prospectRecyclerView;
+    private ProspectRechercheAdapter adapter;
+
     private String nomSalon;
     private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
     private ProspectAdapter adapterProspect;
+
+    private ArrayList<Prospect> premiereListeProspect = new ArrayList<>();
+    private ArrayList<Prospect> deuxiemeListeProspect = new ArrayList<>();
+
 
     private MesProspectViewModel mesProspectViewModel;
 
@@ -80,7 +98,32 @@ public class CreationProspectDialogFragment extends DialogFragment {
 
         initialisationBouton();
 
+        boutonRecherche1.setOnClickListener(v -> {
+            Log.d("loupe", "click effectué");
+            String valeurCritere = texteRecherche1.getText().toString();
+            Log.d("valeurrrrrrrr", valeurCritere);
+            premiereListeProspect = prospectClientExiste(valeurCritere, "nom");
+        });
+
+        boutonRecherche2.setOnClickListener(v -> {
+            Log.d("loupe", "click effectué");
+            String valeurCritere = texteRecherche1.getText().toString();
+            deuxiemeListeProspect = prospectClientExiste(valeurCritere, "nom");
+            Prospect prospectARetourner = checheProspectEnCommun(premiereListeProspect, deuxiemeListeProspect);
+            if (prospectARetourner != null) {
+                afficherValeurs(prospectARetourner);
+            }
+        });
+
         return vue;
+    }
+
+    private void afficherValeurs(Prospect prospectARetourner) {
+        nomPrenomProspect.setText(prospectARetourner.getNom());
+        mailProspect.setText(prospectARetourner.getMail());
+        telProspect.setText(prospectARetourner.getNumeroTelephone());
+        adresseProspect.setText(prospectARetourner.getAdresse());
+        villeProspect.setText(prospectARetourner.getVille());
     }
 
     private void intialiseVue(View vue) {
@@ -94,22 +137,34 @@ public class CreationProspectDialogFragment extends DialogFragment {
         boutonEnvoyer = vue.findViewById(R.id.buttonSubmit);
         boutonAnnuler = vue.findViewById(R.id.buttonCancel);
         chargement = vue.findViewById(R.id.chargement);
+        boutonPlus = vue.findViewById(R.id.bouton_plus);
+        boutonMoins = vue.findViewById(R.id.bouton_moins);
+        texteRecherche1 = vue.findViewById(R.id.texte_recherche_1);
+        texteRecherche2 = vue.findViewById(R.id.texte_recherche_2);
+        boutonRecherche1 = vue.findViewById(R.id.bouton_recherche_1);
+        boutonRecherche2 = vue.findViewById(R.id.bouton_recherche_2);
+        prospectRecyclerView = vue.findViewById(R.id.prospectRecyclerView);
+        adapter = new ProspectRechercheAdapter(new ArrayList<>(), CreationProspectDialogFragment.this);
+        prospectRecyclerView.setAdapter(adapter);
     }
 
     /**
      * Méthode pour vérifier si un prospect existe pour un client, basée sur les critères de recherche.
      *
      * @param recherche Le texte de recherche pour le prospect.
-     * @param champ     Le champ sur lequel effectuer la recherche.
      * @param tri       La méthode de tri des prospects.
      */
-    private void prospectClientExiste(String recherche, String champ, String tri) {
+    private ArrayList<Prospect> prospectClientExiste(String recherche, String tri) {
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+        ArrayList<Prospect> resultat = new ArrayList<>();
 
         chargement.setVisibility(View.VISIBLE);
         prospectService.prospectClientExiste(getContext(), recherche, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
             @Override
             public void onSuccess(ArrayList<Prospect> response) {
+                resultat.addAll(response);
+                chargement.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
                 // TODO: afficher la liste des prosepcts sous forme de liste
             }
 
@@ -119,6 +174,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
                 // TODO: Implémenter la gestion des erreurs
             }
         });
+        return resultat;
     }
 
     private Prospect checheProspectEnCommun(ArrayList<Prospect> premiereListe, ArrayList<Prospect> deuxiemeListe) {
@@ -224,6 +280,24 @@ public class CreationProspectDialogFragment extends DialogFragment {
             dismiss();
         });
         adapterProspect.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSelectClick(Prospect prospect) {
+
+        prospectRecyclerView.setVisibility(View.GONE);
+        nomPrenomProspect.setText(prospect.getNom());
+        mailProspect.setText(prospect.getMail());
+        telProspect.setText(prospect.getNumeroTelephone());
+        adresseProspect.setText(prospect.getAdresse());
+        villeProspect.setText(prospect.getVille());
+        codePostalProspect.setText(prospect.getCodePostal());
+
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+
     }
 }
 

@@ -5,6 +5,14 @@
     android:stretchColumns="0,1"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/chargement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_progressBar"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:layout_gravity="center" />
     <!-- Première barre de recherche avec le bouton de bascule -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,14 +33,14 @@
             android:gravity="center_vertical">
 
             <ImageButton
-                android:id="@+id/bouton_recherche_2"
+                android:id="@+id/bouton_recherche_1"
                 android:background="@drawable/ic_search"
                 android:layout_width="@dimen/search_img_width"
                 android:layout_height="@dimen/search_img_height"
                 android:padding="@dimen/search_bar_padding" />
 
             <EditText
-                android:id="@+id/texte_recherche_2"
+                android:id="@+id/texte_recherche_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -72,14 +80,14 @@
             android:visibility="gone">
 
             <ImageButton
-                android:id="@+id/bouton_recherche_1"
+                android:id="@+id/bouton_recherche_2"
                 android:background="@drawable/ic_search"
                 android:layout_width="@dimen/search_img_width"
                 android:layout_height="@dimen/search_img_height"
                 android:padding="@dimen/search_bar_padding" />
 
             <EditText
-                android:id="@+id/texte_recherche_1"
+                android:id="@+id/texte_recherche_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

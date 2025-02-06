@@ -84,7 +84,7 @@ public class ProspectService implements IProspectService {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
         String sqlfilters = creerSqlfilter(recherche);
-        urlAppel = url + "/api/index.php/categories?sortfield=t." + tri + "&sortorder=DESC&limit=6&sqlfilters=" + sqlfilters;
+        urlAppel = url + "/api/index.php/thirdparties?sortfield=t." + tri + "&sortorder=DESC&limit=6&sqlfilters=" + sqlfilters;
         Log.d("urlll", urlAppel);
         Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
 
@@ -97,14 +97,12 @@ public class ProspectService implements IProspectService {
                         String nom = object.getString("name");
                         int codePostal = object.getInt("zip");
                         String ville = object.getString("town");
-                        String adressePostale = object.getString("adress");
-                        String mail = object.getString("label");
-                        String numeroTelephone = object.getString("label");
-                        String estClient = object.getString("label");
-                        String image = object.getString("label");
+                        String adressePostale = object.getString("address");
+                        String mail = object.getString("email");
+                        String numeroTelephone = object.getString("phone");
                         listeProspectCorrespondant.add(new Prospect(nomSalon, nom, codePostal,
                                 ville, adressePostale, mail, numeroTelephone,
-                                estClient, image));
+                                "true", "lalala"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -114,19 +112,21 @@ public class ProspectService implements IProspectService {
 
             @Override
             public void onError(String errorMessage) {
-
+                Log.d("error", errorMessage);
             }
         });
     }
 
     private String creerSqlfilter(String valeur) {
-        return creerChercheChamp("nom", valeur) + SEPARATEUR_OR + creerChercheChamp("email", valeur)
-                + SEPARATEUR_OR + creerChercheChamp("phone", valeur) + SEPARATEUR_OR + creerChercheChamp("adress", valeur)
-                + SEPARATEUR_OR + creerChercheChamp("zip", valeur) + SEPARATEUR_OR + creerChercheChamp("town", valeur);
+        return creerChercheChamp("nom", valeur);
+//                + SEPARATEUR_OR + creerChercheChamp("email", valeur)
+//                + SEPARATEUR_OR + creerChercheChamp("phone", valeur) + SEPARATEUR_OR + creerChercheChamp("address", valeur)
+//                + SEPARATEUR_OR + creerChercheChamp("zip", valeur) + SEPARATEUR_OR + creerChercheChamp("town", valeur);
 
     }
 
     private String creerChercheChamp(String champ, String valeur) {
+        Log.d("valeur", valeur);
         return "(t." + champ + CHAMP_LIKE + OUVERTURE_LIKE + valeur + FERMETURE_LIKE + ")";
     }
 
