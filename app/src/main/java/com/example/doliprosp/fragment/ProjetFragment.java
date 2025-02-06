@@ -9,14 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Projet;
@@ -26,6 +18,14 @@ import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment représentant la gestion des projets pour un prospect donné.
@@ -163,9 +163,9 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
      * @param dateDebut   La nouvelle date de début du projet.
      */
     @Override
-    public void onUpdateClick(int position, String titre, String description, String dateDebut) {
+    public void onUpdateClick(int position, String titre, String description, String dateDebut, long dateTimestamp) {
         Projet projetAModifier = mesProjetsViewModel.getProjetListe().get(position);
-        projetService.updateProjet(projetAModifier, titre, description, dateDebut);
+        projetService.updateProjet(projetAModifier, titre, description, dateDebut, dateTimestamp);
         adapterProjet.notifyItemChanged(position);
     }
 }

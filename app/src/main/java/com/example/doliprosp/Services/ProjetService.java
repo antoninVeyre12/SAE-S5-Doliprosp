@@ -19,10 +19,11 @@ public class ProjetService implements IProjetService {
     private String url;
     private String urlAppel;
 
-    public void updateProjet(Projet projet, String titre, String description, String dateDebut) {
+    public void updateProjet(Projet projet, String titre, String description, String dateDebut, long dateTimestamp) {
         projet.setTitre(titre);
         projet.setDescription(description);
         projet.setDateDebut(dateDebut);
+        projet.setDateTimestamp(dateTimestamp);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ProjetService implements IProjetService {
         try {
             jsonBody.put("description", projet.getDescription());
             jsonBody.put("title", projet.getTitre());
-            jsonBody.put("date_start", 171815111);
+            jsonBody.put("date_start", projet.getDateTimestamp());
             jsonBody.put("socid", idProspect);
             jsonBody.put("ref", projet.getTitre() + ' ' + ' ' + projet.getNomProspect());
             jsonBody.put("statut", 1);

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.R;
 
@@ -24,6 +22,11 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.doliprosp.fragment.CreationProjetDialogFragment.convertirEnTimestamp;
 
 /**
  * ProjetAdapter est un adaptateur pour le RecyclerView qui affiche une liste de projets.
@@ -143,7 +146,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     private void remplirChamps(Projet projet) {
         editTextTitreProjet.setText(projet.getTitre());
         editTextDescription.setText(projet.getDescription());
-        setDatePickerValue(datePickerDateDebut, projet.getDateDebut());
+        setDatePickerValue(datePickerDateDebut, String.valueOf(projet.getDateDebut()));
     }
 
 
@@ -184,10 +187,12 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         String nouveauTitre = editTextTitreProjet.getText().toString();
         String nouvelleDescription = editTextDescription.getText().toString();
         String nouvelleDateDebut = getDateFromDatePicker(datePickerDateDebut); // Récupération de la date du DatePicker
+        long nouveauTimestamp = convertirEnTimestamp(datePickerDateDebut.getDayOfMonth(), datePickerDateDebut.getMonth() + 1, datePickerDateDebut.getYear());
+        Log.d("timestampDate", String.valueOf(nouveauTimestamp));
 
         // Vérification des champs
         if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, erreurChamp)) {
-            onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut);
+            onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut, nouveauTimestamp);
             dialog.dismiss();
         }
     }
@@ -317,7 +322,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     public interface OnItemClickListener {
         void onDeleteClick(int position);
 
-        void onUpdateClick(int position, String titre, String description, String dateDebut);
+        void onUpdateClick(int position, String titre, String description, String dateDebut, long nouveauTimestamp);
     }
 
     /**

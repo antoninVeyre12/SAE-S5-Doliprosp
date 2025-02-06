@@ -10,11 +10,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.R;
@@ -24,9 +19,15 @@ import com.example.doliprosp.viewModel.MesProjetsViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class CreationProjetDialogFragment extends DialogFragment {
     private IProjetService projetService;
@@ -85,6 +86,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
             int jour = datePickerDateDebutProjet.getDayOfMonth();
             int mois = datePickerDateDebutProjet.getMonth() + 1; // Les mois commencent à 0
             int annee = datePickerDateDebutProjet.getYear();
+            long timestampDate = convertirEnTimestamp(jour, mois, annee);
             String dateDebutProjet = String.format(Locale.getDefault(), "%02d/%02d/%04d", jour, mois, annee);
 
             erreur.setVisibility(View.GONE);
@@ -92,9 +94,8 @@ public class CreationProjetDialogFragment extends DialogFragment {
             verificationValiditeChamps(titreProjet, descriptionProjet);
             verificationValiditeDate(dateDebutProjet);
 
-
             // Tout est valide, création du projet
-            Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet);
+            Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, timestampDate);
             mesProjetsViewModel.addProjet(projet);
 
             dismiss();
@@ -147,6 +148,16 @@ public class CreationProjetDialogFragment extends DialogFragment {
             erreur.setVisibility(View.VISIBLE);
             return;
         }
+    }
+
+
+    public static long convertirEnTimestamp(int jour, int mois, int annee) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(annee, mois - 1, jour, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTimeInMillis() / 1000;
     }
 
 }
