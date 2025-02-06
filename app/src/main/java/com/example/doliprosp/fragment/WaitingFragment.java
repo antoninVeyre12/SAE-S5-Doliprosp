@@ -142,7 +142,7 @@ public class WaitingFragment extends Fragment {
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
-                    envoyerDonnees();
+                    envoyerSalons();
 
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
