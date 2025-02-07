@@ -108,6 +108,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         initialisationBouton();
 
         boutonRecherche1.setOnClickListener(v -> {
+            prospectRecyclerView.setVisibility(View.VISIBLE);
             String valeurCritere = texteRecherche1.getText().toString();
 
             Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
@@ -120,6 +121,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                     premiereListeProspect.addAll(response);
                     listProspectRecherche.addAll(premiereListeProspect);
                     chargement.setVisibility(View.GONE);
+                    Log.d("nombreee", String.valueOf(listProspectRecherche.size()));
                     adapter.notifyDataSetChanged();
                 }
 
@@ -131,6 +133,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         });
 
         boutonRecherche2.setOnClickListener(v -> {
+            prospectRecyclerView.setVisibility(View.VISIBLE);
             String valeurCritere = texteRecherche2.getText().toString();
             Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
             listProspectRecherche.clear();
