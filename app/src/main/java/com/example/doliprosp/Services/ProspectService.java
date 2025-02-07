@@ -118,10 +118,10 @@ public class ProspectService implements IProspectService {
     }
 
     private String creerSqlfilter(String valeur) {
-        return creerChercheChamp("nom", valeur);
-//                + SEPARATEUR_OR + creerChercheChamp("email", valeur)
-//                + SEPARATEUR_OR + creerChercheChamp("phone", valeur) + SEPARATEUR_OR + creerChercheChamp("address", valeur)
-//                + SEPARATEUR_OR + creerChercheChamp("zip", valeur) + SEPARATEUR_OR + creerChercheChamp("town", valeur);
+        return creerChercheChamp("nom", valeur)
+                + SEPARATEUR_OR + creerChercheChamp("email", valeur)
+                + SEPARATEUR_OR + creerChercheChamp("phone", valeur) + SEPARATEUR_OR + creerChercheChamp("address", valeur)
+                + SEPARATEUR_OR + creerChercheChamp("zip", valeur) + SEPARATEUR_OR + creerChercheChamp("town", valeur);
 
     }
 

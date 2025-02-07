@@ -57,10 +57,6 @@ public class ProspectRechercheAdapter extends RecyclerView.Adapter<ProspectReche
             }
         });
 
-
-        //String imageName = prospect.getImage();
-        //int imageResId = holder.itemView.getContext().getResources().getIdentifier(imageName, "drawable", holder.itemView.getContext().getPackageName());
-        // On affiche l'image
     }
 
     // Cette méthode retourne le nombre d'éléments à afficher dans le RecyclerView.
@@ -72,8 +68,6 @@ public class ProspectRechercheAdapter extends RecyclerView.Adapter<ProspectReche
     // Interface pour le gestionnaire de clics. Permet d'exécuter des actions lors du clic sur un item.
     public interface OnItemClickListener {
         void onSelectClick(Prospect prospect);
-
-        void onDeleteClick(int position);
 
     }
 

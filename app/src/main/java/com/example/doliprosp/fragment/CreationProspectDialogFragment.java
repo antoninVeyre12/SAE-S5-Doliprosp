@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private EditText texteRecherche2;
     private ImageButton boutonRecherche1;
     private ImageButton boutonRecherche2;
+    private LinearLayout secondeBarreDeRecherche;
 
     private RecyclerView prospectRecyclerView;
     private ProspectRechercheAdapter adapter;
@@ -107,27 +109,66 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
         boutonRecherche1.setOnClickListener(v -> {
             String valeurCritere = texteRecherche1.getText().toString();
-            premiereListeProspect = prospectClientExiste(valeurCritere, "nom");
+
+            Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+            chargement.setVisibility(View.VISIBLE);
+            listProspectRecherche.clear();
+            premiereListeProspect.clear();
+            prospectService.prospectClientExiste(getContext(), valeurCritere, "nom", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
+                @Override
+                public void onSuccess(ArrayList<Prospect> response) {
+                    premiereListeProspect.addAll(response);
+                    listProspectRecherche.addAll(premiereListeProspect);
+                    chargement.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    Log.d("recherche", "aucun propsect trouvé");
+                }
+            });
         });
 
         boutonRecherche2.setOnClickListener(v -> {
-            String valeurCritere = texteRecherche1.getText().toString();
-            deuxiemeListeProspect = prospectClientExiste(valeurCritere, "nom");
-            Prospect prospectARetourner = checheProspectEnCommun(premiereListeProspect, deuxiemeListeProspect);
-            if (prospectARetourner != null) {
-                afficherValeurs(prospectARetourner);
-            }
+            String valeurCritere = texteRecherche2.getText().toString();
+            Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+            listProspectRecherche.clear();
+            deuxiemeListeProspect.clear();
+            chargement.setVisibility(View.VISIBLE);
+            prospectService.prospectClientExiste(getContext(), valeurCritere, "nom", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
+                @Override
+                public void onSuccess(ArrayList<Prospect> response) {
+                    deuxiemeListeProspect.addAll(response);
+                    chargement.setVisibility(View.GONE);
+                    Prospect prospectARetourner = chercheProspectEnCommun(premiereListeProspect, deuxiemeListeProspect);
+                    prospectARetourner.setNomSalon(nomSalon);
+                    if (prospectARetourner != null) {
+                        listProspectRecherche.add(prospectARetourner);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    Log.d("recherche", "aucun propsect trouvé");
+                }
+            });
+        });
+
+        boutonPlus.setOnClickListener(v -> {
+            boutonPlus.setVisibility(View.GONE);
+            boutonMoins.setVisibility(View.VISIBLE);
+            secondeBarreDeRecherche.setVisibility(View.VISIBLE);
+        });
+
+        boutonMoins.setOnClickListener(v -> {
+            boutonMoins.setVisibility(View.GONE);
+            boutonPlus.setVisibility(View.VISIBLE);
+            secondeBarreDeRecherche.setVisibility(View.GONE);
         });
 
         return vue;
-    }
-
-    private void afficherValeurs(Prospect prospectARetourner) {
-        nomPrenomProspect.setText(prospectARetourner.getNom());
-        mailProspect.setText(prospectARetourner.getMail());
-        telProspect.setText(prospectARetourner.getNumeroTelephone());
-        adresseProspect.setText(prospectARetourner.getAdresse());
-        villeProspect.setText(prospectARetourner.getVille());
     }
 
     private void intialiseVue(View vue) {
@@ -148,42 +189,15 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         boutonRecherche1 = vue.findViewById(R.id.bouton_recherche_1);
         boutonRecherche2 = vue.findViewById(R.id.bouton_recherche_2);
         prospectRecyclerView = vue.findViewById(R.id.prospectRecyclerView);
-
+        secondeBarreDeRecherche = vue.findViewById(R.id.deuxiemeBarreRecherche);
     }
 
-    /**
-     * Méthode pour vérifier si un prospect existe pour un client, basée sur les critères de recherche.
-     *
-     * @param recherche Le texte de recherche pour le prospect.
-     * @param tri       La méthode de tri des prospects.
-     */
-    private ArrayList<Prospect> prospectClientExiste(String recherche, String tri) {
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
-        ArrayList<Prospect> resultat = new ArrayList<>();
-
-        chargement.setVisibility(View.VISIBLE);
-        prospectService.prospectClientExiste(getContext(), recherche, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
-            @Override
-            public void onSuccess(ArrayList<Prospect> response) {
-                resultat.addAll(response);
-                listProspectRecherche.addAll(response);
-                Log.d("nombre", String.valueOf(listProspectRecherche.size()));
-                chargement.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Log.d("recherche", "aucun propsect trouvé");
-            }
-        });
-        return resultat;
-    }
-
-    private Prospect checheProspectEnCommun(ArrayList<Prospect> premiereListe, ArrayList<Prospect> deuxiemeListe) {
-        for (Prospect prospect : premiereListe) {
-            if (deuxiemeListe.contains(prospect)) {
-                return prospect;
+    private Prospect chercheProspectEnCommun(ArrayList<Prospect> premiereListe, ArrayList<Prospect> deuxiemeListe) {
+        for (Prospect prospectPremiereListe : premiereListe) {
+            for (Prospect prospectDeuxiemeListe : deuxiemeListe) {
+                if (prospectPremiereListe.equals(prospectDeuxiemeListe)) {
+                    return prospectPremiereListe;
+                }
             }
         }
         Toast.makeText(getContext(), getString(R.string.recherche_prospect_nul), Toast.LENGTH_LONG).show();
@@ -256,14 +270,6 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                 erreur.setVisibility(View.VISIBLE);
                 return;
             }
-
-            // Vérification si estClient est activé
-            /*if (estClient) {
-                erreur.setText(R.string.erreur_estClient_prospect);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }*/
-
             // Tout est valide, créer le prospect
             Prospect prospect = new Prospect(nomSalon, nom, codePostal, ville, adresse, mail, tel, estClient, "image");
             mesProspectViewModel.addProspect(prospect);
@@ -287,20 +293,31 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
     @Override
     public void onSelectClick(Prospect prospect) {
-
         prospectRecyclerView.setVisibility(View.GONE);
-        nomPrenomProspect.setText(prospect.getNom());
-        mailProspect.setText(prospect.getMail());
-        telProspect.setText(prospect.getNumeroTelephone());
-        adresseProspect.setText(prospect.getAdresse());
-        villeProspect.setText(prospect.getVille());
-        codePostalProspect.setText(String.valueOf(prospect.getCodePostal()));
-
+        remplirChamp(nomPrenomProspect, prospect.getNom());
+        remplirChamp(mailProspect, prospect.getMail());
+        remplirChamp(telProspect, prospect.getNumeroTelephone());
+        remplirChamp(adresseProspect, prospect.getAdresse());
+        remplirChamp(codePostalProspect, String.valueOf(prospect.getCodePostal()));
+        remplirChamp(villeProspect, prospect.getVille());
+        bloquerSaisieEditText();
     }
 
-    @Override
-    public void onDeleteClick(int position) {
+    private void bloquerSaisieEditText() {
+        nomPrenomProspect.setEnabled(false);
+        mailProspect.setEnabled(false);
+        telProspect.setEnabled(false);
+        adresseProspect.setEnabled(false);
+        codePostalProspect.setEnabled(false);
+        villeProspect.setEnabled(false);
+    }
 
+    private void remplirChamp(EditText champ, String valeur) {
+        if (!valeur.equals("null")) {
+            champ.setText(valeur);
+        } else {
+            champ.setText("");
+        }
     }
 }
 
