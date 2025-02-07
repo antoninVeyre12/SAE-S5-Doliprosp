@@ -11,15 +11,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.R;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 
 import java.io.Serializable;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 // La classe ProspectAdapter est un adaptateur pour lier une liste de prospects à un RecyclerView.
 // Elle implémente Serializable pour la sérialisation de l'adaptateur.
@@ -132,7 +132,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
         // Constructeur pour récupérer les vues par leur ID
         public MyViewHolder(View itemView) {
             super(itemView);
-            nom = itemView.findViewById(R.id.nom);
+            nom = itemView.findViewById(R.id.nomprenom);
             icone = itemView.findViewById(R.id.icone);
             prospect_supprimer = itemView.findViewById(R.id.prospect_supprimer);
             prospect_modifier = itemView.findViewById(R.id.prospect_modifier);
@@ -189,9 +189,8 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
 
                 erreurProspect.setTextColor(Color.RED);
                 erreurProspect.setVisibility(View.GONE);
-
                 dialog.dismiss();
-
+                onItemClickListener.OnModifyClick(position, nouveauNomPrenom, nouveauMail, nouveauTel, nouvelleAdresse, nouvelleVille, nouveauCodePostal);
             });
         }
     }
