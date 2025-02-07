@@ -51,13 +51,15 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private Button boutonCreerProspect;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
-    private MesProjetsViewModel projetViewModel;
+    private MesProjetsViewModel mesProjetsViewModel;
+
     private ProspectAdapter adapterProspect;
     private ProgressBar chargement;
     private String recherche;
     private RecyclerView prospectRecyclerView;
     private String champ;
     private String tri;
+    private Bundle bundle;
 
     /**
      * Crée et retourne la vue du fragment, en initialisant les données du salon si disponibles.
@@ -96,11 +98,12 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         prospectService = new ProspectService();
         projetService = new ProjetService();
+        bundle = new Bundle();
         boutonCreerProspect = view.findViewById(R.id.buttonCreateProspect);
         salonActuelEditText = view.findViewById(R.id.salonActuel);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
-        projetViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
+        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
         chargement = view.findViewById(R.id.chargement);
 
@@ -117,7 +120,6 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         // Ajoute un prospect via un dialog de création
         boutonCreerProspect.setOnClickListener(v -> {
             CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
-            Bundle bundle = new Bundle();
             bundle.putSerializable("nomDuSalon", (Serializable) salonActuel.getNom());
             bundle.putSerializable("adapterProspect", (Serializable) adapterProspect);
             dialog.setArguments(bundle);
@@ -176,7 +178,6 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     @Override
     public void onSelectClick(int position, List<Prospect> prospectListe) {
         Prospect prospect = prospectListe.get(position);
-        Bundle bundle = new Bundle();
         bundle.putSerializable("prospect", (Serializable) prospect);
         ProjetFragment projetFragment = new ProjetFragment();
         projetFragment.setArguments(bundle);
@@ -189,9 +190,9 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
 
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
         mesProspectViewModel.removeProspect(prospectASupprimer);
-        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(projetViewModel.getProjetListe(), prospectASupprimer.getNom());
+        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),prospectASupprimer.getNom());
         for (Projet projet : projets) {
-            projetViewModel.removeProjet(projet);
+            mesProjetsViewModel.removeProjet(projet);
         }
 
         adapterProspect.notifyItemRemoved(position);

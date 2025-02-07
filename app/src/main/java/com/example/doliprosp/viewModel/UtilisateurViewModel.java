@@ -1,20 +1,13 @@
 package com.example.doliprosp.viewModel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Utilisateur;
-import com.example.doliprosp.R;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 
 public class UtilisateurViewModel extends ViewModel implements Serializable {
 
@@ -79,27 +72,29 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
      */
     public Utilisateur chargementUtilisateur() {
         // Récupère les valeurs des SharedPreferences
-        String username = sharedPreferences.getString("username", null);
-        String url = sharedPreferences.getString("url", null);
-        String motDePasse = sharedPreferences.getString("motDePasse", null);
-        String apiKey = sharedPreferences.getString("apiKey", null);
-        String prenom = sharedPreferences.getString("prenom", null);
-        String nom = sharedPreferences.getString("nom", null);
-        String ville = sharedPreferences.getString("ville", null);
-        int codePostal = sharedPreferences.getInt("codePostal", 0);
-        String adresse = sharedPreferences.getString("adresse", null);
-        String mail = sharedPreferences.getString("mail", null);
-        String numTelephone = sharedPreferences.getString("numTelephone", null);
+        String[] cles = {
+                "username", "url", "motDePasse", "apiKey", "prenom",
+                "nom", "ville", "adresse", "mail", "numTelephone"
+        };
 
-        // Crée un nouvel objet Utilisateur à partir des données récupérées
-        utilisateurActuel = new Utilisateur(url, username, motDePasse, apiKey);
-        utilisateurActuel.setPrenom(prenom);
-        utilisateurActuel.setNom(nom);
-        utilisateurActuel.setVille(ville);
+        String[] valeurs = new String[cles.length];
+        for (int i = 0; i < cles.length; i++) {
+            valeurs[i] = sharedPreferences.getString(cles[i], null);
+        }
+
+        int codePostal = sharedPreferences.getInt("codePostal", 0);
+
+        // Crée un nouvel objet Utilisateur avec les premiers paramètres obligatoires
+        utilisateurActuel = new Utilisateur(valeurs[1], valeurs[0], valeurs[2], valeurs[3]);
+
+        // Remplit les autres informations avec les setters
+        utilisateurActuel.setPrenom(valeurs[4]);
+        utilisateurActuel.setNom(valeurs[5]);
+        utilisateurActuel.setVille(valeurs[6]);
         utilisateurActuel.setCodePostal(codePostal);
-        utilisateurActuel.setAdresse(adresse);
-        utilisateurActuel.setMail(mail);
-        utilisateurActuel.setNumTelephone(numTelephone);
+        utilisateurActuel.setAdresse(valeurs[7]);
+        utilisateurActuel.setMail(valeurs[8]);
+        utilisateurActuel.setNumTelephone(valeurs[9]);
 
         return utilisateurActuel;
     }
@@ -109,19 +104,13 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
      */
     public void supprimerDonnerUtilisateur() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Supprime les informations utilisateur stockées dans SharedPreferences
-        editor.putString("username", null);
-        editor.putString("url", null);
-        editor.putString("motDePasse", null);
-        editor.putString("apiKey", null);
-        editor.putString("prenom", null);
-        editor.putString("nom", null);
-        editor.putString("ville", null);
-        editor.putString("codePostal", null);
-        editor.putString("adresse", null);
-        editor.putString("mail", null);
-        editor.putString("numTelephone", null);
+        String[] cles = {
+                "username", "url", "motDePasse", "apiKey", "prenom", "nom",
+                "ville", "codePostal", "adresse", "mail", "numTelephone"
+        };
+        for (String cle : cles) {
+            editor.remove(cle);
+        }
         editor.apply(); // Applique les changements de manière asynchrone
     }
 }

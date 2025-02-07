@@ -137,7 +137,6 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
         if (prospectActuel != null) {
             adapterProjet = new ProjetAdapter(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom()), (ProjetAdapter.OnItemClickListener) ProjetFragment.this);
             ArrayList<Projet> listProjet = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectActuel.getNom());
-            Log.d("projet prospect", String.valueOf(listProjet.size()));
             projetRecyclerView.setAdapter(adapterProjet);
             adapterProjet.notifyDataSetChanged();
         } else {
@@ -146,11 +145,34 @@ public class ProjetFragment extends Fragment  implements ProjetAdapter.OnItemCli
         }
     }
 
+    /**
+     * Méthode appelée lorsque l'utilisateur clique sur un projet pour le supprimer.
+     * Cette méthode supprime le projet à la position spécifiée de la liste des projets et met à jour l'adaptateur pour refléter
+     * les modifications dans l'interface utilisateur.
+     * @param position La position du projet à supprimer dans la liste.
+     */
     @Override
     public void onDeleteClick(int position) {
         Projet projetASupprimer = mesProjetsViewModel.getProjetListe().get(position);
         mesProjetsViewModel.removeProjet(projetASupprimer);
         adapterProjet.notifyItemRemoved(position);
+    }
 
+    /**
+     * Méthode appelée lorsque l'utilisateur clique sur un projet pour le modifier.
+     * Cette méthode permet de mettre à jour les informations du projet
+     * avec les nouvelles valeurs fournies pour le titre, la description, la date de début et la date de fin.
+     * Après la mise à jour, l'adaptateur est notifié pour refléter les changements dans l'interface utilisateur.
+     * @param position La position du projet à modifier dans la liste.
+     * @param titre Le nouveau titre du projet.
+     * @param description La nouvelle description du projet.
+     * @param dateDebut La nouvelle date de début du projet.
+     * @param dateFin La nouvelle date de fin du projet.
+     */
+    @Override
+    public void onUpdateClick(int position, String titre, String description, String dateDebut, String dateFin) {
+        Projet projetAModifier = mesProjetsViewModel.getProjetListe().get(position);
+        projetService.updateProjet(projetAModifier, titre, description, dateDebut, dateFin);
+        adapterProjet.notifyItemChanged(position);
     }
 }

@@ -13,30 +13,19 @@ public class ProjetService implements IProjetService {
 
     public ProjetService(){ }
 
-
-    public void ajouterProjet(Projet projet)
+    public void updateProjet(Projet projet, String titre, String description, String dateDebut, String dateFin)
     {
-        //Ajoute un projet à la liste sauvegardée en local
-    }
-
-    public void supprimerProjet(Projet projet)
-    {
-        //Supprime un projet à la liste sauvegardée en local
-    }
-
-    public void updateProjet(Projet projet)
-    {
-        //Modifie un projet sélectionnée à la liste sauvegardée en local
+        projet.setTitre(titre);
+        projet.setDescription(description);
+        projet.setDateDebut(dateDebut);
+        projet.setDateFin(dateFin);
     }
 
     @Override
     public ArrayList<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect) {
 
         ArrayList<Projet> projetDuProspect = new ArrayList<>();
-        Log.d("nbProjetsss", String.valueOf(projetListe.size()));
         for(Projet projet : projetListe) {
-            Log.d("nomProspect", nomProspect);
-            Log.d("nomProspecttt", projet.getNomProspect());
             if(projet.getNomProspect().equals(nomProspect)) {
                 projetDuProspect.add(projet);
             }
