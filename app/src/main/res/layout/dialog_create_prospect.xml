@@ -5,14 +5,7 @@
     android:stretchColumns="0,1"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/chargement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_progressBar"
-        android:visibility="gone"
-        android:indeterminate="true"
-        android:layout_gravity="center" />
+
     <!-- Première barre de recherche avec le bouton de bascule -->
     <LinearLayout
         android:id="@+id/premiereBarreRecherche"
@@ -109,6 +102,42 @@
             android:visibility="gone" />
 
     </LinearLayout>
+
+    <!-- Spinner global pour le tri des résultats -->
+    <LinearLayout
+        android:id="@+id/triContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/search_bar_marginLeft"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/label_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_sort"
+            android:layout_marginRight="10dp"
+            android:textSize="@dimen/label_dialog" />
+
+        <Spinner
+            android:id="@+id/spinner_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/prospect_sort_options" />
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/chargement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_progressBar"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:layout_gravity="center" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/prospectRecyclerView"
