@@ -112,7 +112,7 @@
         android:layout_marginLeft="@dimen/search_bar_marginLeft"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/label_sort"

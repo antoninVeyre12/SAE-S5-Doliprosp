@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CreationProspectDialogFragment extends DialogFragment implements ProspectRechercheAdapter.OnItemClickListener {
     private IProspectService prospectService;
@@ -59,6 +62,9 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private ImageButton boutonRecherche1;
     private ImageButton boutonRecherche2;
     private LinearLayout secondeBarreDeRecherche;
+    private Spinner listeTri;
+    private String tri;
+    private LinearLayout triContainer;
 
     private RecyclerView prospectRecyclerView;
     private ProspectRechercheAdapter adapter;
@@ -116,9 +122,10 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             chargement.setVisibility(View.VISIBLE);
             listProspectRecherche.clear();
             premiereListeProspect.clear();
-            prospectService.prospectClientExiste(getContext(), valeurCritere, "nom", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
+            prospectService.prospectClientExiste(getContext(), valeurCritere, "rowid", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
                 @Override
                 public void onSuccess(ArrayList<Prospect> response) {
+                    triContainer.setVisibility(View.VISIBLE);
                     erreurRechercheprospect.setVisibility(View.GONE);
                     premiereListeProspect.addAll(response);
                     listProspectRecherche.addAll(premiereListeProspect);
@@ -142,7 +149,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             listProspectRecherche.clear();
             deuxiemeListeProspect.clear();
             chargement.setVisibility(View.VISIBLE);
-            prospectService.prospectClientExiste(getContext(), valeurCritere, "nom", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
+            prospectService.prospectClientExiste(getContext(), valeurCritere, "rowid", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
                 @Override
                 public void onSuccess(ArrayList<Prospect> response) {
                     erreurRechercheprospect.setVisibility(View.GONE);
@@ -165,6 +172,22 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             });
         });
 
+        listeTri.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedItem = parentView.getItemAtPosition(position).toString();
+                tri = GetChoixTri(selectedItem);
+                effectuerTri();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                tri = "nom";
+            }
+        });
+
+
         boutonPlus.setOnClickListener(v -> {
             boutonPlus.setVisibility(View.GONE);
             boutonMoins.setVisibility(View.VISIBLE);
@@ -178,6 +201,56 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         });
 
         return vue;
+    }
+
+    private void effectuerTri() {
+        if (tri.equals("nom")) {
+            Collections.sort(listProspectRecherche, Prospect.compareNom);
+        }
+        if (tri.equals("mail")) {
+            Collections.sort(listProspectRecherche, Prospect.compareMail);
+        }
+        if (tri.equals("numeroTelephone")) {
+            Collections.sort(listProspectRecherche, Prospect.compareTelephone);
+        }
+        if (tri.equals("adresse")) {
+            Collections.sort(listProspectRecherche, Prospect.compareAdresse);
+        }
+        if (tri.equals("codePostal")) {
+            Collections.sort(listProspectRecherche, Prospect.compareCodePostal);
+        }
+        if (tri.equals("ville")) {
+            Collections.sort(listProspectRecherche, Prospect.compareVille);
+        }
+    }
+
+
+    private String GetChoixTri(String selectedItem) {
+        String valeurTri = "";
+        switch (selectedItem) {
+            case "Aucun tri":
+                valeurTri = "nom";
+                break;
+            case "Nom/Prénom":
+                valeurTri = "nom";
+                break;
+            case "Email":
+                valeurTri = "mail";
+                break;
+            case "Téléphone":
+                valeurTri = "numeroTelephone";
+                break;
+            case "Adresse":
+                valeurTri = "adresse";
+                break;
+            case "Code Postal":
+                valeurTri = "codePostal";
+                break;
+            case "Ville":
+                valeurTri = "ville";
+                break;
+        }
+        return valeurTri;
     }
 
     private void intialiseVue(View vue) {
@@ -200,6 +273,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         boutonRecherche2 = vue.findViewById(R.id.bouton_recherche_2);
         prospectRecyclerView = vue.findViewById(R.id.prospectRecyclerView);
         secondeBarreDeRecherche = vue.findViewById(R.id.deuxiemeBarreRecherche);
+        listeTri = vue.findViewById(R.id.spinner_sort);
+        triContainer = vue.findViewById(R.id.triContainer);
     }
 
     private Prospect chercheProspectEnCommun(ArrayList<Prospect> premiereListe, ArrayList<Prospect> deuxiemeListe) {

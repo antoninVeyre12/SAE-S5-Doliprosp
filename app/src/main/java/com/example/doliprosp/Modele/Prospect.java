@@ -1,6 +1,7 @@
 package com.example.doliprosp.Modele;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -235,32 +236,6 @@ public class Prospect implements Serializable {
      * @param obj L'objet à comparer avec l'objet actuel.
      * @return true si les objets sont égaux, sinon false.
      */
-//    @Override
-//    public boolean equals(Object obj) {
-//        // Vérifier si les deux objets sont identiques (même référence)
-//        if (this == obj) {
-//            return true;
-//        }
-//
-//        // Vérifier si l'objet est une instance de Prospect
-//        if (obj == null || getClass() != obj.getClass()) {
-//            return false;
-//        }
-//
-//        // Convertir l'objet en Prospect
-//        Prospect other = (Prospect) obj;
-//
-//        return other.nomSalon.equals(nomSalon) && other.nom.equals(nom) && other.codePostal == codePostal
-//                && other.ville.equals(ville) && other.adresse.equals(adresse) && other.mail.equals(mail)
-//                && other.numeroTelephone.equals(numeroTelephone) && other.estClient.equals(estClient)
-//                && other.image.equals(image);
-//
-////        if (nomSalon == null || nom == null || codePostal == 0 || ville == null || adresse == null
-////                || mail == null || numeroTelephone == null || estClient == null || image == null) {
-////            return false;
-////        }
-//
-//    }
     @Override
     public boolean equals(Object obj) {
         // Vérifier si les deux objets sont identiques (même référence)
@@ -284,5 +259,49 @@ public class Prospect implements Serializable {
                 Objects.equals(mail, other.mail) &&
                 Objects.equals(numeroTelephone, other.numeroTelephone);
     }
+
+    public static Comparator<Prospect> compareNom = new Comparator<Prospect>() {
+        @Override
+        public int compare(Prospect prospect1, Prospect prospect2) {
+            return prospect1.getNom().compareTo(prospect2.getNom());
+        }
+    };
+
+    public static Comparator<Prospect> compareMail = new Comparator<Prospect>() {
+        @Override
+        public int compare(Prospect prospect1, Prospect prospect2) {
+            return prospect1.getMail().compareTo(prospect2.getMail());
+        }
+    };
+
+    public static Comparator<Prospect> compareTelephone = new Comparator<Prospect>() {
+        @Override
+        public int compare(Prospect prospect1, Prospect prospect2) {
+            return prospect1.getNumeroTelephone().compareTo(prospect2.getNumeroTelephone());
+        }
+    };
+
+    public static Comparator<Prospect> compareAdresse = new Comparator<Prospect>() {
+        @Override
+        public int compare(Prospect prospect1, Prospect prospect2) {
+            return prospect1.getAdresse().compareTo(prospect2.getAdresse());
+        }
+    };
+
+    public static Comparator<Prospect> compareCodePostal = new Comparator<Prospect>() {
+        @Override
+        public int compare(Prospect prospect1, Prospect prospect2) {
+            return Integer.compare(prospect1.getCodePostal(), prospect2.getCodePostal());
+        }
+    };
+
+
+    public static Comparator<Prospect> compareVille = new Comparator<Prospect>() {
+        @Override
+        public int compare(Prospect prospect1, Prospect prospect2) {
+            return prospect1.getVille().compareTo(prospect2.getVille());
+        }
+    };
+
 
 }

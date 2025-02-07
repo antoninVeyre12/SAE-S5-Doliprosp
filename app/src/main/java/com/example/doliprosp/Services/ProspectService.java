@@ -84,7 +84,7 @@ public class ProspectService implements IProspectService {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
         String sqlfilters = creerSqlfilter(recherche);
-        urlAppel = url + "/api/index.php/thirdparties?sortfield=t." + tri + "&sortorder=DESC&limit=6&sqlfilters=" + sqlfilters;
+        urlAppel = url + "/api/index.php/thirdparties?sortfield=t." + tri + "&sortorder=ASC&limit=6&sqlfilters=" + sqlfilters;
         Log.d("urlll", urlAppel);
         Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
 
