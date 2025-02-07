@@ -1,5 +1,9 @@
 package com.example.doliprosp.Services;
 
+import static com.example.doliprosp.Services.Outils.appelAPIGetList;
+import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
+import static com.example.doliprosp.Services.Outils.appelAPIPostJson;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -15,15 +19,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.example.doliprosp.Services.Outils.appelAPIGetList;
-import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
-import static com.example.doliprosp.Services.Outils.appelAPIPostJson;
-
 public class ProspectService implements IProspectService {
     private String url;
     private String urlAppel;
 
-    public void envoyerProspect(Utilisateur utilisateur, Context context, Prospect prospectAEnvoyer, int idSalon) {
+    public void envoyerProspect(Utilisateur utilisateur, Context context, Prospect prospectAEnvoyer, int idSalon, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties";
         String apikey = utilisateur.getCleApi();
@@ -31,14 +31,19 @@ public class ProspectService implements IProspectService {
         Log.d("jsonBody", jsonBody.toString());
 
         appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
+
             @Override
-            public void onSuccess(Integer response) {
+            public void onSuccess(Integer response) throws JSONException {
                 urlAppel = url + "/api/index.php/thirdparties/" + response + "/categories/" + idSalon;
+                // Récupération de l'ID Prospect
+                Log.d("ID PROSPECT", String.valueOf(response));
+                // Appel du callback pour transmettre l'ID Prospect
+                callback.onSuccess(String.valueOf(response));
                 appelAPIPostJson(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallback() {
 
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-                        Log.d("sucesssss", response.toString());
+                        Log.d("sucessss envoyer prospect", response.toString());
                     }
 
                     @Override

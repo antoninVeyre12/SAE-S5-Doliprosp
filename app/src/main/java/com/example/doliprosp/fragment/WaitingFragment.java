@@ -10,6 +10,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
@@ -30,15 +37,10 @@ import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -171,7 +173,6 @@ public class WaitingFragment extends Fragment {
     }
 
     private void envoyerSalons() {
-        Log.d("aaaaaaaaa", salonsSelectionnes.toString());
         for (Salon salonAEnvoyer : salonsSelectionnes) {
             salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom(), getContext(), new Outils.APIResponseCallbackString() {
                 @Override
@@ -190,8 +191,6 @@ public class WaitingFragment extends Fragment {
                             int idSalon = Integer.parseInt(response);
                             prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                             envoyerProspects(prospectSelectionnes, idSalon);
-
-
                         }
 
                         @Override
@@ -208,9 +207,19 @@ public class WaitingFragment extends Fragment {
 
     private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon) {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
-            prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon);
-            projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectAEnvoyer.getNom());
-            envoyerProjets(projetsSelectionnes, 1);
+            prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
+                @Override
+                public void onSuccess(String response) throws JSONException {
+                    Log.d("NAEL", response);
+                    projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectAEnvoyer.getNom());
+                    envoyerProjets(projetsSelectionnes, Integer.parseInt(response));
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+
+                }
+            });
         }
     }
 
