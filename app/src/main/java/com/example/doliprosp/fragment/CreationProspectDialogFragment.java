@@ -9,11 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
@@ -25,6 +20,11 @@ import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
@@ -59,7 +59,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_create_prospect, container, false);
 
         prospectService = new ProspectService();
-        erreur = view.findViewById(R.id.erreur);
+        erreur = view.findViewById(R.id.erreur_prospect);
         nomPrenomProspect = view.findViewById(R.id.editTextNomPrenom);
         mailProspect = view.findViewById(R.id.editTextMail);
         telProspect = view.findViewById(R.id.editTextPhone);

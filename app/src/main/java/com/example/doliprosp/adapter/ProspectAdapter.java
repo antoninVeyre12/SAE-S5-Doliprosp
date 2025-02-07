@@ -1,10 +1,12 @@
 package com.example.doliprosp.adapter;
 
 import android.app.AlertDialog;
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +14,6 @@ import android.widget.TextView;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.R;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.MesSalonsViewModel;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
 
     // Interface pour gérer les événements de clic sur les items
     private ProspectAdapter.OnItemClickListener onItemClickListener;
+
     // Constructeur de l'adaptateur qui prend la liste des prospects et un gestionnaire de clics
     public ProspectAdapter(List<Prospect> prospectListe, ProspectAdapter.OnItemClickListener onItemClickListener,
                            MesProspectViewModel mesProspectViewModel) {
@@ -69,6 +71,14 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
                 onItemClickListener.onSelectClick(position, prospectListe); // Déclenche le clic pour le nom du prospect
             }
         });
+
+        // Clic sur le bouton modifier
+        holder.prospect_modifier.setOnClickListener(v -> {
+            afficherDialogModification(v, prospect, position);
+            //    onItemClickListener.OnModifyClick(position, nouveauNomPrenom, nouveauMail, nouveauTel,
+            //            nouvelleAdresse, nouvelleVille, nouveauCodePostal);
+        });
+
         holder.prospect_supprimer.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 new AlertDialog.Builder(v.getContext())
@@ -100,7 +110,12 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
     // Interface pour le gestionnaire de clics. Permet d'exécuter des actions lors du clic sur un item.
     public interface OnItemClickListener {
         void onSelectClick(int position, List<Prospect> prospectListe);
+
         void onDeleteClick(int position);
+
+        void OnModifyClick(int position, String nouveauNomPrenom, String nouveauMail,
+                           String nouveauTel, String nouvelleAdresse, String nouvelleVille,
+                           String nouveauCodePostal);
 
     }
 
@@ -112,13 +127,72 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
         public ImageView icone;
         public ImageButton prospect_supprimer;
 
+        public ImageButton prospect_modifier;
+
         // Constructeur pour récupérer les vues par leur ID
         public MyViewHolder(View itemView) {
             super(itemView);
             nom = itemView.findViewById(R.id.nom);
             icone = itemView.findViewById(R.id.icone);
             prospect_supprimer = itemView.findViewById(R.id.prospect_supprimer);
+            prospect_modifier = itemView.findViewById(R.id.prospect_modifier);
 
+        }
+    }
+
+    private void afficherDialogModification(View v, Prospect prospect, int
+            position) {
+        if (onItemClickListener != null) {
+            LayoutInflater inflater = LayoutInflater.from(v.getContext());
+            View layout = inflater.inflate(R.layout.dialog_create_prospect, null);
+
+            EditText editTextNomPrenom = layout.findViewById(R.id.editTextNomPrenom);
+            EditText editTextMail = layout.findViewById(R.id.editTextMail);
+            EditText editTextPhone = layout.findViewById(R.id.editTextPhone);
+            EditText editTextAdresse = layout.findViewById(R.id.editTextAdresse);
+            EditText editTextVille = layout.findViewById(R.id.editTextVille);
+            EditText editTextCodePostal = layout.findViewById(R.id.editTextCodePostal);
+            Button btnModifier = layout.findViewById(R.id.buttonSubmit);
+            Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
+            TextView erreurProspect = layout.findViewById(R.id.erreur_prospect);
+
+            // Remplir les EditText avec les valeurs actuelles
+            editTextNomPrenom.setText(prospect.getNom());
+            editTextMail.setText(prospect.getMail());
+            editTextPhone.setText(prospect.getNumeroTelephone());
+            editTextAdresse.setText(prospect.getAdresse());
+            editTextVille.setText(prospect.getVille());
+            editTextCodePostal.setText(prospect.getCodePostal());
+
+            btnModifier.setText("Modifier");
+            // Créer une alerte pour confirmer la modification
+            AlertDialog.Builder builder = new
+                    AlertDialog.Builder(v.getContext())
+                    .setTitle("Modifier le prospect")
+                    .setView(layout)
+                    .setCancelable(false);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            btnAnnuler.setOnClickListener(v1 -> {
+                dialog.dismiss();
+            });
+            // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
+
+            btnModifier.setOnClickListener(v1 -> {
+                String nouveauNomPrenom = editTextNomPrenom.getText().toString();
+                String nouveauMail = editTextMail.getText().toString();
+                String nouveauTel = editTextPhone.getText().toString();
+                String nouvelleAdresse = editTextAdresse.getText().toString();
+                String nouvelleVille = editTextVille.getText().toString();
+                String nouveauCodePostal = editTextCodePostal.getText().toString();
+
+                erreurProspect.setTextColor(Color.RED);
+                erreurProspect.setVisibility(View.GONE);
+
+                dialog.dismiss();
+
+            });
         }
     }
 }

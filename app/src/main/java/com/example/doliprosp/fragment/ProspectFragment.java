@@ -1,8 +1,6 @@
 package com.example.doliprosp.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +8,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
@@ -31,13 +21,21 @@ import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
+import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.ProjetViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment représentant la gestion des prospects dans un salon.
@@ -53,8 +51,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private Button boutonCreerProspect;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
-    private ProjetViewModel projetViewModel;
-
+    private MesProjetsViewModel projetViewModel;
     private ProspectAdapter adapterProspect;
     private ProgressBar chargement;
     private String recherche;
@@ -65,8 +62,8 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     /**
      * Crée et retourne la vue du fragment, en initialisant les données du salon si disponibles.
      *
-     * @param inflater Le LayoutInflater pour inflater la vue du fragment.
-     * @param container Le conteneur dans lequel la vue sera ajoutée.
+     * @param inflater           Le LayoutInflater pour inflater la vue du fragment.
+     * @param container          Le conteneur dans lequel la vue sera ajoutée.
      * @param savedInstanceState L'état précédent sauvegardé du fragment.
      * @return La vue du fragment.
      */
@@ -92,7 +89,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     /**
      * Méthode appelée après la création de la vue pour initialiser les éléments de l'interface et configurer les listeners.
      *
-     * @param view La vue du fragment.
+     * @param view               La vue du fragment.
      * @param savedInstanceState L'état sauvegardé de la vue.
      */
     @Override
@@ -103,7 +100,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         salonActuelEditText = view.findViewById(R.id.salonActuel);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
-        projetViewModel = new ViewModelProvider(requireActivity()).get(ProjetViewModel.class);
+        projetViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
         chargement = view.findViewById(R.id.chargement);
 
@@ -137,7 +134,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         ((MainActivity) getActivity()).setColors(2);
         if (dernierSalonSelectione != null) {
             salonActuel = dernierSalonSelectione;
-            adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()),ProspectFragment.this,mesProspectViewModel);
+            adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonActuel.getNom()), ProspectFragment.this, mesProspectViewModel);
             prospectRecyclerView.setAdapter(adapterProspect);
             adapterProspect.notifyDataSetChanged();
         } else {
@@ -151,8 +148,8 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
      * Méthode pour vérifier si un prospect existe pour un client, basée sur les critères de recherche.
      *
      * @param recherche Le texte de recherche pour le prospect.
-     * @param champ Le champ sur lequel effectuer la recherche.
-     * @param tri La méthode de tri des prospects.
+     * @param champ     Le champ sur lequel effectuer la recherche.
+     * @param tri       La méthode de tri des prospects.
      */
     private void prospectClientExiste(String recherche, String champ, String tri) {
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
@@ -173,7 +170,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     /**
      * Méthode appelée lorsqu'un élément de la liste des prospects est sélectionné.
      *
-     * @param position La position de l'élément sélectionné.
+     * @param position      La position de l'élément sélectionné.
      * @param prospectListe La liste des prospects.
      */
     @Override
@@ -192,11 +189,27 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
 
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
         mesProspectViewModel.removeProspect(prospectASupprimer);
-        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(projetViewModel.getProjetListe(),prospectASupprimer.getNom());
+        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(projetViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {
             projetViewModel.removeProjet(projet);
         }
 
         adapterProspect.notifyItemRemoved(position);
+    }
+
+    @Override
+    public void OnModifyClick(int position, String nouveauNomPrenom, String nouveauMail, String nouveauTel, String nouvelleAdresse, String nouvelleVille, String nouveauCodePostal) {
+        Prospect prospectAModifier = mesProspectViewModel.getProspectListe().get(position);
+
+        // ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonActuel.getNom());
+        // for (Prospect prospect : prospects) {
+        prospectAModifier.setNom(nouveauNomPrenom);
+        prospectAModifier.setMail(nouveauMail);
+        prospectAModifier.setNumeroTelephone(nouveauTel);
+        prospectAModifier.setAdresse(nouvelleAdresse);
+        prospectAModifier.setVille(nouvelleVille);
+        prospectAModifier.setCodePostal(nouveauCodePostal);
+        // }
+        adapterProspect.notifyItemChanged(position);
     }
 }
