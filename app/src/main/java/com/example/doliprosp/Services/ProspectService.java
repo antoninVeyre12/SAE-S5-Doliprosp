@@ -1,13 +1,11 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.ProspectViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +42,7 @@ public class ProspectService implements IProspectService {
     public void prospectClientExiste(Context context, String recherche, String champ, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback) {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?sortfield=t." + tri + "&sortorder=DESC&limit=6&sqlfilters=(t." + champ + "%3Alike%3A'%25" + recherche +"%25')";
+        urlAppel = url + "/api/index.php/categories?sortfield=t." + tri + "&sortorder=DESC&limit=6&sqlfilters=(t." + champ + "%3Alike%3A'%25" + recherche + "%25')";
         Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
 
             @Override
@@ -54,7 +52,7 @@ public class ProspectService implements IProspectService {
                         JSONObject object = response.getJSONObject(i);
                         String nomSalon = "";
                         String nom = object.getString("name");
-                        int codePostal = object.getInt("zip");
+                        String codePostal = object.getString("zip");
                         String ville = object.getString("town");
                         String adressePostale = object.getString("adress");
                         String mail = object.getString("email");
@@ -62,8 +60,8 @@ public class ProspectService implements IProspectService {
                         String estClient = object.getString("client");
                         String image = object.getString("logo");
                         listeProspectCorrespondant.add(new Prospect(nomSalon, nom, codePostal,
-                         ville,  adressePostale,  mail,  numeroTelephone,
-                                 estClient,  image));
+                                ville, adressePostale, mail, numeroTelephone,
+                                estClient, image));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -75,13 +73,12 @@ public class ProspectService implements IProspectService {
             public void onError(String errorMessage) {
                 callback.onError("client deja existant");
             }
-        }); 
+        });
     }
 
 
-
     public void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur,
-                                                MesProspectViewModel mesProspectViewModel, Outils.CallbackProspectExiste callback) {
+                                             MesProspectViewModel mesProspectViewModel, Outils.CallbackProspectExiste callback) {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties?sortfield=t.rowid&sortorder=DESC&limit=6&sqlfilters=(t.phone%3Alike%3A'" + recherche + "')";
@@ -120,8 +117,7 @@ public class ProspectService implements IProspectService {
 
     public void updateProspect(String prenom, String nom, int codePostal, String ville,
                                String adresse, String mail, String numeroTelephone,
-                               Boolean estClient, UUID idProspect)
-    {
+                               Boolean estClient, UUID idProspect) {
     }
 
 

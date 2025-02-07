@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
-import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProspectService;
@@ -26,7 +25,6 @@ import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class CreationProspectDialogFragment extends DialogFragment {
     private IProspectService prospectService;
@@ -93,6 +91,7 @@ public class CreationProspectDialogFragment extends DialogFragment {
             String tel = telProspect.getText().toString().trim();
             String adresse = adresseProspect.getText().toString().trim();
             String ville = villeProspect.getText().toString().trim();
+            String codePostal = codePostalProspect.getText().toString().trim();
             String estClient = "Prospect";
 
             erreur.setVisibility(View.GONE); // Cacher l'erreur au début
@@ -109,9 +108,17 @@ public class CreationProspectDialogFragment extends DialogFragment {
                 erreur.setText(R.string.erreur_mail_prospect);
                 erreur.setVisibility(View.VISIBLE);
                 return;
+            } else {
+
             }
 
             // Vérification du téléphone
+            if (!tel.startsWith("0")) {
+                erreur.setText(R.string.erreur_tel_prospect_zero);
+                erreur.setVisibility(View.VISIBLE);
+                return;
+            }
+
             if (!tel.matches(REGEX_TEL)) {
                 erreur.setText(R.string.erreur_tel_prospect);
                 erreur.setVisibility(View.VISIBLE);
@@ -136,18 +143,8 @@ public class CreationProspectDialogFragment extends DialogFragment {
                 return;
             }
 
-            int codePostal; // Déclarer le code postal comme un entier
-            try {
-                codePostal = Integer.parseInt(codePostalProspect.getText().toString().trim());
-            } catch (NumberFormatException e) {
-                // Gérer le cas où le champ est vide ou contient une valeur non valide
-                erreur.setText(R.string.erreur_codePostal_prospect_invalid);
-                erreur.setVisibility(View.VISIBLE);
-                return;
-            }
-
             // Vérification du code postal
-            if (codePostal < 01000 || codePostal > 99999) {
+            if (codePostal.length() < 5) {
                 erreur.setText(R.string.erreur_codePostal_prospect);
                 erreur.setVisibility(View.VISIBLE);
                 return;
@@ -161,17 +158,17 @@ public class CreationProspectDialogFragment extends DialogFragment {
             }*/
 
 
-            prospectService.prospectDejaExistantDolibarr(getContext(),tel, utilisateurViewModel.getUtilisateur(), mesProspectViewModel, new Outils.CallbackProspectExiste() {
+            prospectService.prospectDejaExistantDolibarr(getContext(), tel, utilisateurViewModel.getUtilisateur(), mesProspectViewModel, new Outils.CallbackProspectExiste() {
 
                 @Override
                 public void onResponse(boolean existeDeja) {
 
                     // Prospect deja existant
-                    if(existeDeja) {
+                    if (existeDeja) {
                         erreur.setText(R.string.erreur_prospect_existant);
                         erreur.setVisibility(View.VISIBLE);
                     } else {
-                        Prospect prospect = new Prospect(nomSalon,  nom, codePostal, ville, adresse, mail, tel, estClient, "image");
+                        Prospect prospect = new Prospect(nomSalon, nom, codePostal, ville, adresse, mail, tel, estClient, "image");
                         mesProspectViewModel.addProspect(prospect);
                         dismiss();
                         Bundle bundle = new Bundle();
