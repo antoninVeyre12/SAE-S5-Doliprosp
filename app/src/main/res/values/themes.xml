@@ -110,6 +110,4 @@
         <item name="android:calendarViewShown">false</item>
         <item name="android:datePickerMode">spinner</item>
     </style>
-
-    <string name="moins">-</string>
 </resources>

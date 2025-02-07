@@ -88,8 +88,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         intialiseVue(vue);
 
         adapter = new ProspectRechercheAdapter(listProspectRecherche, CreationProspectDialogFragment.this);
-        GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
-        prospectRecyclerView.setLayoutManager(layoutManagerMyShow);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+        prospectRecyclerView.setLayoutManager(layoutManager);
         prospectRecyclerView.setAdapter(adapter);
 
         prospectService = new ProspectService();

@@ -122,4 +122,6 @@
 
     <string name="labelNomSalon">Nom</string>
     <string name="recherche_prospect_nul">Aucun prospect ne correspond aux critères saisies</string>
+
+    <string name="moins">-</string>
 </resources>
