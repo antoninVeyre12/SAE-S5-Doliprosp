@@ -138,7 +138,6 @@
         android:visibility="gone"
         android:indeterminate="true"
         android:layout_gravity="center" />
-    =======
 
     <TextView
         android:id="@+id/erreur_recherche_prospect"
