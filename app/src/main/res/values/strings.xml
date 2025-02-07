@@ -125,4 +125,5 @@
 
     <string name="moins">-</string>
     <string name="label_sort">Trier par :</string>
+    <string name="aucun_prospect_trouvee">Aucun prospect ne correspond aux critères renseignés</string>
 </resources>

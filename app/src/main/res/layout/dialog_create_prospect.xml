@@ -138,6 +138,17 @@
         android:visibility="gone"
         android:indeterminate="true"
         android:layout_gravity="center" />
+    =======
+
+    <TextView
+        android:id="@+id/erreur_recherche_prospect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_creation"
+        android:layout_marginLeft="@dimen/search_bar_marginLeft"
+        android:textColor="@color/red"
+        android:textSize="@dimen/erreur_texte"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/prospectRecyclerView"

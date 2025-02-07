@@ -2,7 +2,6 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +40,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private IProspectService prospectService;
     private UtilisateurViewModel utilisateurViewModel;
     private TextView erreur;
+    private TextView erreurRechercheprospect;
+
     private EditText nomPrenomProspect;
     private EditText mailProspect;
     private EditText telProspect;
@@ -118,16 +119,18 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             prospectService.prospectClientExiste(getContext(), valeurCritere, "nom", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
                 @Override
                 public void onSuccess(ArrayList<Prospect> response) {
+                    erreurRechercheprospect.setVisibility(View.GONE);
                     premiereListeProspect.addAll(response);
                     listProspectRecherche.addAll(premiereListeProspect);
                     chargement.setVisibility(View.GONE);
-                    Log.d("nombreee", String.valueOf(listProspectRecherche.size()));
                     adapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onError(String errorMessage) {
-                    Log.d("recherche", "aucun propsect trouvé");
+                    chargement.setVisibility(View.GONE);
+                    erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
+                    erreurRechercheprospect.setVisibility(View.VISIBLE);
                 }
             });
         });
@@ -142,6 +145,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             prospectService.prospectClientExiste(getContext(), valeurCritere, "nom", utilisateur, new Outils.APIResponseCallbackArrayProspect() {
                 @Override
                 public void onSuccess(ArrayList<Prospect> response) {
+                    erreurRechercheprospect.setVisibility(View.GONE);
                     deuxiemeListeProspect.addAll(response);
                     chargement.setVisibility(View.GONE);
                     Prospect prospectARetourner = chercheProspectEnCommun(premiereListeProspect, deuxiemeListeProspect);
@@ -154,7 +158,9 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
                 @Override
                 public void onError(String errorMessage) {
-                    Log.d("recherche", "aucun propsect trouvé");
+                    chargement.setVisibility(View.GONE);
+                    erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
+                    erreurRechercheprospect.setVisibility(View.VISIBLE);
                 }
             });
         });
@@ -176,6 +182,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
     private void intialiseVue(View vue) {
         erreur = vue.findViewById(R.id.erreur);
+        erreurRechercheprospect = vue.findViewById(R.id.erreur_recherche_prospect);
         nomPrenomProspect = vue.findViewById(R.id.editTextNomPrenom);
         mailProspect = vue.findViewById(R.id.editTextMail);
         telProspect = vue.findViewById(R.id.editTextPhone);
