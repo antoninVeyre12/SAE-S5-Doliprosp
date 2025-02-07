@@ -15,6 +15,7 @@
         android:layout_gravity="center" />
     <!-- Première barre de recherche avec le bouton de bascule -->
     <LinearLayout
+        android:id="@+id/premiereBarreRecherche"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/search_bar_littleMarginTop"
@@ -71,6 +72,7 @@
         android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/deuxiemeBarreRecherche"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
