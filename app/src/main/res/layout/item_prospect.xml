@@ -17,46 +17,35 @@
         android:src="@drawable/ic_user"
         android:layout_gravity="center" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/nomprenom"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="@dimen/information_size"
+        android:textColor="#000000"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:layout_marginTop="8dp">
-
-        <!-- Nom -->
-        <TextView
-            android:id="@+id/nom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/information_size"
-            android:textColor="#000000"
-            android:gravity="center" />
-
-        <!-- Prénom -->
-        <TextView
-            android:id="@+id/prenom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/information_size"
-            android:textColor="#000000"
-            android:gravity="center" />
 
         <ImageButton
             android:id="@+id/prospect_supprimer"
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_width"
             android:background="@drawable/ic_trash"
-            android:layout_gravity="left|top"
+            android:layout_gravity="center|bottom"
             android:layout_margin="@dimen/item_show_text_margin" />
 
         <ImageButton
             android:id="@+id/prospect_modifier"
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_width"
-            android:layout_gravity="right|top"
+            android:layout_gravity="right|bottom"
             android:layout_margin="@dimen/item_show_text_margin"
             android:background="@drawable/ic_stylo" />
 

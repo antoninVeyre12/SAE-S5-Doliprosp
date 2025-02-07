@@ -8,8 +8,7 @@
     <TextView
         android:text="@string/labelNomPrenom"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextNomPrenom"
@@ -24,8 +23,7 @@
     <TextView
         android:text="@string/labelMail"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextMail"
@@ -40,8 +38,7 @@
     <TextView
         android:text="@string/labelTel"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextPhone"
@@ -57,8 +54,7 @@
     <TextView
         android:text="@string/labelAdresse"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextAdresse"
@@ -73,8 +69,7 @@
     <TextView
         android:text="@string/labelVille"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextVille"
@@ -89,8 +84,7 @@
     <TextView
         android:text="@string/labelCP"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextCodePostal"
