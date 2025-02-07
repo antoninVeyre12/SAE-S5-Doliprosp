@@ -89,5 +89,12 @@
     <dimen name="margin_dialog_envoie">16dp</dimen>
     <dimen name="taille_texte">16sp</dimen>
 
+    <!-- item recherche -->
+    <dimen name="padding_default">10dp</dimen>
+    <dimen name="cercle_size">55dp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_medium">20sp</dimen>
+    <dimen name="text_size_normal">18sp</dimen>
+    <dimen name="margin_start">10dp</dimen>
 
 </resources>

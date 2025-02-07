@@ -2,36 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:padding="@dimen/padding_default"
     android:background="@drawable/item_background">
 
-    <!-- Cercle contenant les initiales -->
     <TextView
         android:id="@+id/textViewInitiales"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/cercle_size"
+        android:layout_height="@dimen/cercle_size"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:text="NP"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:background="@drawable/circle_background" />
 
-    <!-- Bloc d'informations -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/textViewInitiales"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_start"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewNomPrenom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:text="Nom Prénom" />
@@ -40,7 +38,7 @@
             android:id="@+id/textViewEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/gray"
             android:text="email@example.com" />
 
@@ -48,9 +46,43 @@
             android:id="@+id/textViewTelephone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/gray"
             android:text="+33 6 12 34 56 78" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_start"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/textViewAdresse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/black"
+            android:text="Adresse" />
+
+        <TextView
+            android:id="@+id/textViewCodePostal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/gray"
+            android:text="75001" />
+
+        <TextView
+            android:id="@+id/textViewVille"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/gray"
+            android:text="Paris" />
     </LinearLayout>
 
 </RelativeLayout>
