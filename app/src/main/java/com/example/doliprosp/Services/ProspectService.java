@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ProspectService implements IProspectService {
     private String url;
@@ -24,6 +23,13 @@ public class ProspectService implements IProspectService {
     private final static String FERMETURE_LIKE = "%25'";
 
 
+    /**
+     * Envoie une liste de prospects à l'API Dolibarr.
+     *
+     * @param utilisateur   L'utilisateur connecté, contenant l'URL et la clé API nécessaires pour l'appel.
+     * @param context       Le contexte de l'application utilisé pour effectuer l'appel API.
+     * @param prospectListe La liste des prospects à envoyer.
+     */
     public void envoyerProspect(Utilisateur utilisateur, Context context, List<Prospect> prospectListe) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties";
@@ -45,6 +51,13 @@ public class ProspectService implements IProspectService {
         });
     }
 
+    /**
+     * Crée un objet JSON représentant la liste des prospects à envoyer.
+     *
+     * @param prospectListe La liste des prospects à convertir en JSON.
+     * @return L'objet JSON représentant les prospects.
+     */
+
     private JSONObject creationJsonProspect(List<Prospect> prospectListe) {
         JSONObject jsonBody = new JSONObject();
         try {
@@ -63,10 +76,13 @@ public class ProspectService implements IProspectService {
         return jsonBody;
     }
 
-    public void supprimerProspect(Prospect prospect) {
-
-    }
-
+    /**
+     * Filtre les prospects en fonction du nom du salon auquel ils sont associés.
+     *
+     * @param prospectListe La liste des prospects à filtrer.
+     * @param nomSalon      Le nom du salon pour lequel nous voulons filtrer les prospects.
+     * @return Une liste de prospects associés au salon donné.
+     */
     public ArrayList<Prospect> getProspectDUnSalon(ArrayList<Prospect> prospectListe, String nomSalon) {
 
         ArrayList<Prospect> prospectsduSalon = new ArrayList<>();
@@ -80,6 +96,15 @@ public class ProspectService implements IProspectService {
         return prospectsduSalon;
     }
 
+    /**
+     * Recherche des prospects dans le système en fonction de la recherche et du tri.
+     *
+     * @param context     Le contexte de l'application utilisé pour l'appel API.
+     * @param recherche   La valeur de recherche pour filtrer les prospects (nom, email, téléphone, etc.).
+     * @param tri         Le critère de tri des résultats.
+     * @param utilisateur L'utilisateur connecté, contenant l'URL et la clé API nécessaires.
+     * @param callback    Le callback à appeler une fois la réponse reçue de l'API.
+     */
     public void prospectClientExiste(Context context, String recherche, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback) {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
@@ -117,6 +142,12 @@ public class ProspectService implements IProspectService {
         });
     }
 
+    /**
+     * Crée un filtre SQL pour rechercher un prospect en fonction d'une valeur donnée.
+     *
+     * @param valeur La valeur de recherche (nom, email, téléphone, etc.).
+     * @return La chaîne de filtre SQL générée.
+     */
     private String creerSqlfilter(String valeur) {
         return creerChercheChamp("nom", valeur)
                 + SEPARATEUR_OR + creerChercheChamp("email", valeur)
@@ -125,15 +156,14 @@ public class ProspectService implements IProspectService {
 
     }
 
+    /**
+     * Crée une condition de recherche pour un attribut donné avec une valeur spécifique.
+     *
+     * @param champ  Le nom du champ de la base de données.
+     * @param valeur La valeur à rechercher dans ce champ.
+     * @return La condition SQL formatée pour ce champ et cette valeur.
+     */
     private String creerChercheChamp(String champ, String valeur) {
-        Log.d("valeur", valeur);
         return "(t." + champ + CHAMP_LIKE + OUVERTURE_LIKE + valeur + FERMETURE_LIKE + ")";
     }
-
-    public void updateProspect(String prenom, String nom, int codePostal, String ville,
-                               String adresse, String mail, String numeroTelephone,
-                               Boolean estClient, UUID idProspect) {
-    }
-
-
 }

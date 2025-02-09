@@ -238,20 +238,16 @@ public class Prospect implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-        // Vérifier si les deux objets sont identiques (même référence)
         if (this == obj) {
             return true;
         }
 
-        // Vérifier si l'objet comparé est de type Prospect
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        // Convertir l'objet en un prospect
         Prospect other = (Prospect) obj;
 
-        // Comparer tous les champs un par un
         return codePostal == other.codePostal &&
                 Objects.equals(nom, other.nom) &&
                 Objects.equals(ville, other.ville) &&
@@ -260,35 +256,90 @@ public class Prospect implements Serializable {
                 Objects.equals(numeroTelephone, other.numeroTelephone);
     }
 
+    /**
+     * Comparator pour comparer les prospects par leur nom.
+     */
     public static Comparator<Prospect> compareNom = new Comparator<Prospect>() {
+        /**
+         * Compare deux prospects par leur nom.
+         *
+         * @param prospect1 le premier prospect à comparer
+         * @param prospect2 le deuxième prospect à comparer
+         * @return un entier négatif, nul ou positif si le nom de prospect1 est respectivement inférieur,
+         * égal ou supérieur dans l'ordre alphabétique à celui de prospect2
+         */
         @Override
         public int compare(Prospect prospect1, Prospect prospect2) {
             return prospect1.getNom().compareTo(prospect2.getNom());
         }
     };
 
+    /**
+     * Comparator pour comparer les prospects par leur mail.
+     */
     public static Comparator<Prospect> compareMail = new Comparator<Prospect>() {
+        /**
+         * Compare deux prospects par leur mail.
+         *
+         * @param prospect1 le premier prospect à comparer
+         * @param prospect2 le deuxième prospect à comparer
+         * @return un entier négatif, nul ou positif si le mail du prospect1 est respectivement inférieur,
+         * égal ou supérieur dans l'ordre alphabétique à celui du prospect2
+         */
         @Override
         public int compare(Prospect prospect1, Prospect prospect2) {
             return prospect1.getMail().compareTo(prospect2.getMail());
         }
     };
 
+    /**
+     * Comparator pour comparer les prospects par leur numéro de téléphone.
+     */
     public static Comparator<Prospect> compareTelephone = new Comparator<Prospect>() {
+        /**
+         * Compare deux prospects par leur numéro de téléphone.
+         *
+         * @param prospect1 le premier prospect à comparer
+         * @param prospect2 le deuxième prospect à comparer
+         * @return un entier négatif, nul ou positif si le numéro de téléphone du prospect1 est respectivement inférieur,
+         * égal ou supérieur dans l'ordre alphabétique à celui du prospect2
+         */
         @Override
         public int compare(Prospect prospect1, Prospect prospect2) {
             return prospect1.getNumeroTelephone().compareTo(prospect2.getNumeroTelephone());
         }
     };
 
+    /**
+     * Comparator pour comparer les prospects par leur adresse.
+     */
     public static Comparator<Prospect> compareAdresse = new Comparator<Prospect>() {
+        /**
+         * Compare deux prospects par leur adresse.
+         *
+         * @param prospect1 le premier prospect à comparer
+         * @param prospect2 le deuxième prospect à comparer
+         * @return un entier négatif, nul ou positif si l'adresse du prospect1 est respectivement inférieur,
+         * égal ou supérieur dans l'ordre alphabétique à celui du prospect2
+         */
         @Override
         public int compare(Prospect prospect1, Prospect prospect2) {
             return prospect1.getAdresse().compareTo(prospect2.getAdresse());
         }
     };
 
+    /**
+     * Comparator pour comparer les prospects par leur code postal.
+     */
     public static Comparator<Prospect> compareCodePostal = new Comparator<Prospect>() {
+        /**
+         * Compare deux prospects par leur code postal.
+         *
+         * @param prospect1 le premier prospect à comparer
+         * @param prospect2 le deuxième prospect à comparer
+         * @return un entier négatif, nul ou positif si le code postal du prospect1 est respectivement inférieur,
+         * égal ou supérieur à celui du prospect2
+         */
         @Override
         public int compare(Prospect prospect1, Prospect prospect2) {
             return Integer.compare(prospect1.getCodePostal(), prospect2.getCodePostal());
@@ -296,7 +347,18 @@ public class Prospect implements Serializable {
     };
 
 
+    /**
+     * Comparator pour comparer les prospects par leur ville.
+     */
     public static Comparator<Prospect> compareVille = new Comparator<Prospect>() {
+        /**
+         * Compare deux prospects par leur ville.
+         *
+         * @param prospect1 le premier prospect à comparer
+         * @param prospect2 le deuxième prospect à comparer
+         * @return un entier négatif, nul ou positif si le ville du prospect1 est respectivement inférieur,
+         * égal ou supérieur dans l'ordre alphabétique à celui du prospect2
+         */
         @Override
         public int compare(Prospect prospect1, Prospect prospect2) {
             return prospect1.getVille().compareTo(prospect2.getVille());
