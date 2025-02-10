@@ -68,7 +68,6 @@ public class MesProspectViewModel extends ViewModel {
     private void enregistrerProspect() {
         // Création d'un éditeur pour modifier les SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         // Sauvegarde du JSON dans SharedPreferences avec la clé "mes_prospect_list"
         editor.putString(PREF_KEY, gson.toJson(prospectListe));
         editor.apply(); // Applique les changements de manière asynchrone
@@ -83,7 +82,8 @@ public class MesProspectViewModel extends ViewModel {
         String json = sharedPreferences.getString(PREF_KEY, null);
 
         // Définition du type générique pour la désérialisation
-        Type type = new TypeToken<ArrayList<Prospect>>() {}.getType();
+        Type type = new TypeToken<ArrayList<Prospect>>() {
+        }.getType();
 
         // Si le JSON existe, on désérialise la chaîne en une liste de prospects
         if (json != null) {

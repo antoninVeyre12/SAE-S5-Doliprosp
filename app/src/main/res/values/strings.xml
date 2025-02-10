@@ -43,7 +43,7 @@
     <string name="erreur_mail_prospect">Le champ mail n\'a pas été rempli avec un email valide</string>
     <string name="erreur_tel_prospect">Le numéro de téléphone d\'un prospect doit être composé de 10 chiffres</string>
     <string name="erreur_tel_prospect_zero">Le numéro de téléphone d\'un prospect doit débuter par un 0</string>
-    <string name="erreur_adresse_prospect_maxLongueur">L\'adresse d\'un prospect ne doit pas dépasser 255 caractères</string>
+    <string name="erreur_adresse_prospect_maxLongueur">L\'adresse d\'un prospect ne doit pas dépasser 80 caractères</string>
     <string name="erreur_adresse_prospect_vide">L\'adresse d\'un prospect ne peut pas être vide</string>
     <string name="erreur_codePostal_prospect">Le code postal d\'un prospect doit être un nombre entre 01000 et 99999</string>
     <string name="erreur_estClient_prospect">Le statut de client d\'un prospect doit être spécifié (oui ou non)</string>
