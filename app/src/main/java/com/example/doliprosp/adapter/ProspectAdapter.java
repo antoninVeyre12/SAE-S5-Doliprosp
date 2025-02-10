@@ -24,6 +24,9 @@ import java.util.List;
 // La classe ProspectAdapter est un adaptateur pour lier une liste de prospects à un RecyclerView.
 // Elle implémente Serializable pour la sérialisation de l'adaptateur.
 public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyViewHolder> implements Serializable {
+    // Regex pour vérifier les champs lors de la modification
+    private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
 
     // Liste des prospects à afficher dans le RecyclerView
     private List<Prospect> prospectListe;
