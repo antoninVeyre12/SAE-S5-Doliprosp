@@ -44,7 +44,6 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private IProspectService prospectService;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
-
     private TextView erreur, erreurRechercheprospect;
     private EditText nomPrenomProspect, mailProspect, telProspect, adresseProspect, villeProspect, codePostalProspect;
     private Button boutonEnvoyer, boutonAnnuler;
@@ -295,7 +294,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
         erreur.setVisibility(View.GONE);
 
-        if (!validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
+        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
             Prospect prospect = new Prospect(nomSalon, nom, Integer.valueOf(codePostal), ville, adresse, mail, tel, estClient, "image");
             mesProspectViewModel.addProspect(prospect);
             dismiss();
@@ -319,15 +318,11 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_champ_vide);
             return false;
-        }
-
-        if (!mail.matches(REGEX_MAIl)) {
+        } else if (!mail.matches(REGEX_MAIl)) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_mail_prospect);
             return false;
-        }
-
-        if (!tel.matches(REGEX_TEL)) {
+        } else if (!tel.matches(REGEX_TEL)) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_tel_prospect);
             return false;
