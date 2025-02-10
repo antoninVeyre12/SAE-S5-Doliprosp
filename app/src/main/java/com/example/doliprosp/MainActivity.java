@@ -1,7 +1,13 @@
 package com.example.doliprosp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,17 +38,28 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 public class MainActivity extends AppCompatActivity {
     // Déclaration des variables nécessaires
     private RequestQueue fileRequete;
+
+    private ImageView statusConnection;  // Icône de statut de connexion
+    private BroadcastReceiver networkReceiver;
+
     private TextView[] textViews; // Tableau de TextViews pour la navigation
     private ImageView[] imageViews; // Tableau d'ImageViews pour la navigation
     private SalonsViewModel salonsViewModel; // ViewModel pour gérer les salons
-    private MesSalonsViewModel mesSalonsViewModel; // ViewModel pour gérer les salons personnels
-    private MesProspectViewModel mesProspectViewModel; // ViewModel pour gérer les prospects
-    private MesProjetsViewModel mesProjetsViewModel; // ViewModel pour gérer les prospects
+    private MesSalonsViewModel mesSalonsViewModel; // ViewModel pour gérer
+    // les salons personnels
+    private MesProspectViewModel mesProspectViewModel; // ViewModel pour
+    // gérer les prospects
+    private MesProjetsViewModel mesProjetsViewModel; // ViewModel pour gérer
+    // les prospects
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        statusConnection = findViewById(R.id.status_connection);
+        setupNetworkReceiver();
+
 
         // Initialisation du menu de navigation
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
@@ -65,25 +82,56 @@ public class MainActivity extends AppCompatActivity {
         };
 
         Log.d("MAIN ACTIVITY", "retour dans le main");
-        // Chargement du fragment par défaut (Connexion) si c'est la première fois que l'activité est lancée
+        // Chargement du fragment par défaut (Connexion) si c'est la première
+        // fois que l'activité est lancée
         if (savedInstanceState == null) {
-            bottomNav.setVisibility(View.GONE); // Cache la barre de navigation pour la première connexion
-            ConnexionFragment connexionFragment = new ConnexionFragment(); // Fragment de connexion
+            bottomNav.setVisibility(View.GONE); // Cache la barre de
+            // navigation pour la première connexion
+            ConnexionFragment connexionFragment = new ConnexionFragment(); //
+            // Fragment de connexion
             loadFragment(connexionFragment); // Chargement du fragment
         }
 
-        // Configuration des actions au clic sur chaque élément du menu de navigation
+        // Configuration des actions au clic sur chaque élément du menu de
+        // navigation
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
             final int index = i;
             bottomNav.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    loadFragment(getFragmentByIndex(index)); // Charger le fragment correspondant
-                    setColors(index,R.color.color_primary,true); // Changer la couleur de l'élément sélectionné
+                    loadFragment(getFragmentByIndex(index)); // Charger le
+                    // fragment correspondant
+                    setColors(index, R.color.color_primary, true); // Changer
+                    // la couleur de l'élément sélectionné
                 }
             });
         }
     }
+
+    private void setupNetworkReceiver() {
+        networkReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ConnectivityManager cm =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected =
+                        activeNetwork != null && activeNetwork.isConnected();
+                updateConnectionStatus(isConnected);
+            }
+        };
+    }
+
+    private void updateConnectionStatus(boolean isConnected) {
+        if (isConnected) {
+            statusConnection.setImageResource(R.drawable.ic_plus); // Vert
+            // (connecté)
+        } else {
+            statusConnection.setImageResource(R.drawable.round_button); //
+            // Rouge (hors ligne)
+        }
+    }
+
 
     // Méthode pour récupérer le fragment à afficher selon l'index
     private Fragment getFragmentByIndex(int index) {
@@ -97,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 return new ProjetFragment(); // Fragment des projets
             case 4:
-                return new UtilisateurFragment(); // Fragment des informations utilisateur
+                return new UtilisateurFragment(); // Fragment des
+            // informations utilisateur
             default:
                 return null; // Retourne null si index inconnu
         }
@@ -105,9 +154,13 @@ public class MainActivity extends AppCompatActivity {
 
     // Méthode pour charger un fragment dans le conteneur
     public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction(); // Commencer la transaction du fragment
-        transaction.replace(R.id.fragment_container, fragment); // Remplacer le fragment actuellement affiché par le nouveau
-        transaction.addToBackStack(null); // Ajouter à la pile arrière pour pouvoir revenir
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction(); // Commencer
+        // la transaction du fragment
+        transaction.replace(R.id.fragment_container, fragment); // Remplacer
+        // le fragment actuellement affiché par le nouveau
+        transaction.addToBackStack(null); // Ajouter à la pile arrière pour
+        // pouvoir revenir
         transaction.commit(); // Valider la transaction
     }
 
@@ -115,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     public void setColors(int selectedIndex, int color, boolean reset) {
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
         // Réinitialiser les couleurs pour tous les éléments
-        if(reset) {
+        if (reset) {
             for (int i = 0; i < bottomNav.getChildCount(); i++) {
                 textViews[i].setTextColor(Color.BLACK);
                 imageViews[i].setColorFilter(Color.BLACK);
@@ -128,15 +181,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Méthode pour obtenir le RequestQueue pour effectuer des requêtes réseau (non utilisée ici)
+    // Méthode pour obtenir le RequestQueue pour effectuer des requêtes
+    // réseau (non utilisée ici)
     public RequestQueue getFileRequete() {
         if (fileRequete == null) {
-            fileRequete = Volley.newRequestQueue(this); // Initialisation de la file de requêtes si elle n'existe pas
+            fileRequete = Volley.newRequestQueue(this); // Initialisation de
+            // la file de requêtes si elle n'existe pas
         }
         return fileRequete;
     }
 
-    // Empêcher la navigation arrière de l'utilisateur (pas de retour à l'écran précédent)
+    // Empêcher la navigation arrière de l'utilisateur (pas de retour à
+    // l'écran précédent)
     @Override
     public void onBackPressed() {
         // Ne fait rien, empêche le retour arrière
@@ -147,20 +203,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Initialisation des ViewModels pour la gestion des salons, prospects et utilisateurs
-        salonsViewModel = new ViewModelProvider(this).get(SalonsViewModel.class);
-        SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        registerReceiver(networkReceiver,
+                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+
+        // Initialisation des ViewModels pour la gestion des salons,
+        // prospects et utilisateurs
+        salonsViewModel =
+                new ViewModelProvider(this).get(SalonsViewModel.class);
+        SharedPreferences sharedPreferencesSalon = getSharedPreferences(
+                "user_prefs", MODE_PRIVATE);
         salonsViewModel.initSharedPreferences(sharedPreferencesSalon);
 
-        mesSalonsViewModel = new ViewModelProvider(this).get(MesSalonsViewModel.class);
-        SharedPreferences sharedPreferencesMesSalons = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesSalonsViewModel =
+                new ViewModelProvider(this).get(MesSalonsViewModel.class);
+        SharedPreferences sharedPreferencesMesSalons = getSharedPreferences(
+                "user_prefs", MODE_PRIVATE);
         mesSalonsViewModel.initSharedPreferences(sharedPreferencesMesSalons);
 
-        mesProspectViewModel = new ViewModelProvider(this).get(MesProspectViewModel.class);
-        SharedPreferences sharedPreferencesMesProspect = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesProspectViewModel =
+                new ViewModelProvider(this).get(MesProspectViewModel.class);
+        SharedPreferences sharedPreferencesMesProspect =
+                getSharedPreferences("user_prefs", MODE_PRIVATE);
         mesProspectViewModel.initSharedPreferences(sharedPreferencesMesProspect);
-        mesProjetsViewModel = new ViewModelProvider(this).get(MesProjetsViewModel.class);
-        SharedPreferences sharedPreferencesMesProjets = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesProjetsViewModel =
+                new ViewModelProvider(this).get(MesProjetsViewModel.class);
+        SharedPreferences sharedPreferencesMesProjets = getSharedPreferences(
+                "user_prefs", MODE_PRIVATE);
         mesProjetsViewModel.initSharedPreferences(sharedPreferencesMesProjets);
 
 
@@ -168,7 +237,8 @@ public class MainActivity extends AppCompatActivity {
         salonsViewModel.chargementSalons();
         mesSalonsViewModel.chargementSalons();
 
-        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
+        UtilisateurViewModel utilisateurViewModel =
+                new ViewModelProvider(this).get(UtilisateurViewModel.class);
         utilisateurViewModel.initSharedPreferences(this);
 
         utilisateurViewModel.chargementUtilisateur();
