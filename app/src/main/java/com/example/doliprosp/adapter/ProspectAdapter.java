@@ -187,6 +187,45 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
                 String nouvelleVille = editTextVille.getText().toString();
                 String nouveauCodePostal = editTextCodePostal.getText().toString();
 
+                // Vérification du nom
+                if (nouveauNomPrenom.length() <= 2 || nouveauNomPrenom.length() >= 50) {
+                    erreurProspect.setText(R.string.erreur_nom_prospect_longueur);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                } else if (!nouveauMail.matches(REGEX_MAIl)) {
+                    erreurProspect.setText(R.string.erreur_mail_prospect);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                } else if (!nouveauTel.startsWith("0")) {
+                    erreurProspect.setText(R.string.erreur_tel_prospect_zero);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                } else if (!nouveauTel.matches(REGEX_TEL)) {
+                    erreurProspect.setText(R.string.erreur_tel_prospect);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                } else if (nouvelleAdresse.length() >= 60) {
+                    erreurProspect.setText(R.string.erreur_adresse_prospect_maxLongueur);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                } else if (nouvelleAdresse.isEmpty()) {
+                    erreurProspect.setText(R.string.erreur_adresse_prospect_vide);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                }
+                if (nouvelleVille.isEmpty()) {
+                    erreurProspect.setText(R.string.erreur_ville_prospect_vide);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                // Vérification du code postal
+                if (nouveauCodePostal.length() < 5) {
+                    erreurProspect.setText(R.string.erreur_codePostal_prospect);
+                    erreurProspect.setVisibility(View.VISIBLE);
+                    return;
+                }
+
                 erreurProspect.setTextColor(Color.RED);
                 erreurProspect.setVisibility(View.GONE);
                 dialog.dismiss();
