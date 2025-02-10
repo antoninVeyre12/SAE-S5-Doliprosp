@@ -87,6 +87,7 @@ public class ProjetService implements IProjetService {
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonModule(utilisateur, projetAEnvoyer,
                 prospectAEnvoyer, salonAEnvoyer, idProspect);
+        Log.d("jsonBOdy", jsonBody.toString());
         appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
             public void onSuccess(Integer response) {

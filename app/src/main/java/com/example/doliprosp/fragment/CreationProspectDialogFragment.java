@@ -15,14 +15,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.R;
@@ -35,6 +27,14 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment permettant de créer un prospect et de gérer la recherche et la
@@ -183,23 +183,23 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                     texteRecherche1.getText().toString(), "rowid",
                     utilisateurViewModel.getUtilisateur(),
                     new Outils.APIResponseCallbackArrayProspect() {
-                @Override
-                public void onSuccess(ArrayList<Prospect> response) {
-                    triContainer.setVisibility(View.VISIBLE);
-                    erreurRechercheprospect.setVisibility(View.GONE);
-                    premiereListeProspect.addAll(response);
-                    listProspectRecherche.addAll(premiereListeProspect);
-                    chargement.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                }
+                        @Override
+                        public void onSuccess(ArrayList<Prospect> response) {
+                            triContainer.setVisibility(View.VISIBLE);
+                            erreurRechercheprospect.setVisibility(View.GONE);
+                            premiereListeProspect.addAll(response);
+                            listProspectRecherche.addAll(premiereListeProspect);
+                            chargement.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                        }
 
-                @Override
-                public void onError(String errorMessage) {
-                    chargement.setVisibility(View.GONE);
-                    erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
-                    erreurRechercheprospect.setVisibility(View.VISIBLE);
-                }
-            });
+                        @Override
+                        public void onError(String errorMessage) {
+                            chargement.setVisibility(View.GONE);
+                            erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
+                            erreurRechercheprospect.setVisibility(View.VISIBLE);
+                        }
+                    });
         });
 
         boutonRecherche2.setOnClickListener(v -> {
@@ -211,27 +211,27 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                     texteRecherche2.getText().toString(), "rowid",
                     utilisateurViewModel.getUtilisateur(),
                     new Outils.APIResponseCallbackArrayProspect() {
-                @Override
-                public void onSuccess(ArrayList<Prospect> response) {
-                    erreurRechercheprospect.setVisibility(View.GONE);
-                    deuxiemeListeProspect.addAll(response);
-                    chargement.setVisibility(View.GONE);
-                    Prospect prospectARetourner =
-                            chercheProspectEnCommun(premiereListeProspect,
-                                    deuxiemeListeProspect);
-                    if (prospectARetourner != null) {
-                        listProspectRecherche.add(prospectARetourner);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
+                        @Override
+                        public void onSuccess(ArrayList<Prospect> response) {
+                            erreurRechercheprospect.setVisibility(View.GONE);
+                            deuxiemeListeProspect.addAll(response);
+                            chargement.setVisibility(View.GONE);
+                            Prospect prospectARetourner =
+                                    chercheProspectEnCommun(premiereListeProspect,
+                                            deuxiemeListeProspect);
+                            if (prospectARetourner != null) {
+                                listProspectRecherche.add(prospectARetourner);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
 
-                @Override
-                public void onError(String errorMessage) {
-                    chargement.setVisibility(View.GONE);
-                    erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
-                    erreurRechercheprospect.setVisibility(View.VISIBLE);
-                }
-            });
+                        @Override
+                        public void onError(String errorMessage) {
+                            chargement.setVisibility(View.GONE);
+                            erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
+                            erreurRechercheprospect.setVisibility(View.VISIBLE);
+                        }
+                    });
         });
 
     }
@@ -320,7 +320,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
         erreur.setVisibility(View.GONE);
 
-        if (!validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
+        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
             Prospect prospect = new Prospect(nomSalon, nom,
                     Integer.valueOf(codePostal), ville, adresse, mail, tel,
                     estClient, "image");
@@ -343,21 +343,22 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      */
     private boolean validerInformations(String nom, String mail, String tel,
                                         String adresse, String ville) {
+        boolean valide = true;
         if (nom.isEmpty() || mail.isEmpty() || tel.isEmpty() || adresse.isEmpty() || ville.isEmpty()) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_champ_vide);
-            return false;
+            valide = false;
         } else if (!mail.matches(REGEX_MAIl)) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_mail_prospect);
-            return false;
+            valide = false;
         } else if (!tel.matches(REGEX_TEL)) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_tel_prospect);
-            return false;
+            valide = false;
         }
 
-        return true;
+        return valide;
     }
 
     /**
@@ -408,7 +409,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * Retourne la valeur de tri correspondant à l'élément sélectionné.
      *
      * @param itemSelectionne L'élément sélectionné par l'utilisateur pour le
-     *                       tri.
+     *                        tri.
      * @return La valeur associée au critère de tri sélectionné. Par défaut,
      * renvoie le nom si aucun cas ne correspond.
      */

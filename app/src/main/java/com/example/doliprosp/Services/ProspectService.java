@@ -1,9 +1,5 @@
 package com.example.doliprosp.Services;
 
-import static com.example.doliprosp.Services.Outils.appelAPIGetList;
-import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
-import static com.example.doliprosp.Services.Outils.appelAPIPostJson;
-
 import android.content.Context;
 import android.util.Log;
 
@@ -17,7 +13,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static com.example.doliprosp.Services.Outils.appelAPIGetList;
+import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
+import static com.example.doliprosp.Services.Outils.appelAPIPostJson;
 
 public class ProspectService implements IProspectService {
     private String url;
@@ -62,6 +61,7 @@ public class ProspectService implements IProspectService {
             }
         });
     }
+
 
     private JSONObject creationJsonProspect(Prospect prospect) {
         JSONObject jsonBody = new JSONObject();
@@ -110,7 +110,8 @@ public class ProspectService implements IProspectService {
     public void prospectClientExiste(Context context, String recherche, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback) {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?sortfield=t." + tri + "&sortorder=DESC&limit=6&sqlfilters=(t." + champ + "%3Alike%3A'%25" + recherche + "%25')";
+        String sqlfilters = creerSqlfilter(recherche);
+        urlAppel = url + "/api/index.php/thirdparties?sortfield=t." + tri + "&sortorder=ASC&limit=6&sqlfilters=" + sqlfilters;
         appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
 
             @Override
@@ -179,7 +180,6 @@ public class ProspectService implements IProspectService {
         }
         return existe;
     }
-
 
 
     /**

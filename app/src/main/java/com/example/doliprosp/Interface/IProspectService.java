@@ -8,7 +8,6 @@ import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Interface définissant les opérations liées à la gestion des prospects.
@@ -22,12 +21,6 @@ public interface IProspectService {
      */
     void envoyerProspect(Utilisateur utilisateur, Context context, Prospect prospectAEnvoyer, int idSalon, Outils.APIResponseCallbackString callback);
 
-    /**
-     * Supprime un prospect existant.
-     *
-     * @param prospect Le prospect à supprimer.
-     */
-    void supprimerProspect(Prospect prospect);
 
     /**
      * Récupère la liste des prospects associés à un salon donné.
@@ -43,31 +36,15 @@ public interface IProspectService {
      *
      * @param context     Le contexte de l'application.
      * @param recherche   La valeur à rechercher.
-     * @param champ       Le champ sur lequel effectuer la recherche (ex: nom, email).
      * @param tri         Le critère de tri à appliquer.
      * @param utilisateur L'utilisateur effectuant la recherche.
      * @param callback    Le callback pour récupérer les résultats de la recherche.
      */
-    void prospectClientExiste(Context context, String recherche, String champ, String tri,
+    void prospectClientExiste(Context context, String recherche, String tri,
                               Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback);
 
     void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur, MesProspectViewModel mesProspectViewModel
             , Outils.CallbackProspectExiste callback);
 
-    /**
-     * Met à jour les informations d'un prospect existant.
-     *
-     * @param prenom          Le prénom du prospect.
-     * @param nom             Le nom du prospect.
-     * @param codePostal      Le code postal du prospect.
-     * @param ville           La ville du prospect.
-     * @param adresse         L'adresse du prospect.
-     * @param email           L'adresse email du prospect.
-     * @param numeroTelephone Le numéro de téléphone du prospect.
-     * @param estClient       Indique si le prospect est devenu client.
-     * @param idProspet       L'identifiant unique du prospect.
-     */
-    void updateProspect(String prenom, String nom, int codePostal, String ville,
-                        String adresse, String email, String numeroTelephone,
-                        Boolean estClient, UUID idProspet);
+
 }
