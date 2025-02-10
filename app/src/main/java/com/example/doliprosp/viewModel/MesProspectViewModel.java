@@ -65,7 +65,7 @@ public class MesProspectViewModel extends ViewModel {
     /**
      * Enregistre la liste des prospects dans les SharedPreferences sous forme de chaîne JSON.
      */
-    private void enregistrerProspect() {
+    public void enregistrerProspect() {
         // Création d'un éditeur pour modifier les SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // Sauvegarde du JSON dans SharedPreferences avec la clé "mes_prospect_list"

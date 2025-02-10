@@ -171,6 +171,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         mesProjetsViewModel.getProjetListe().set(position, projetAModifier);
 
         // Notifier l'adapter du changement
+        mesProjetsViewModel.enregistrerProjet();
         adapterProjet.notifyItemChanged(position);
 
         // Log.d("ModifierProjet", "Projet reçu: " + projetAModifier.getTitre() + ", " + projetAModifier.getDescription() + ", " + projetAModifier.getDateDebut());

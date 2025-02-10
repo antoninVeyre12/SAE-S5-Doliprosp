@@ -1,9 +1,6 @@
 package com.example.doliprosp.viewModel;
 
 import android.content.SharedPreferences;
-import android.util.Log;
-
-import androidx.lifecycle.ViewModel;
 
 import com.example.doliprosp.Modele.Projet;
 import com.google.gson.Gson;
@@ -11,6 +8,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import androidx.lifecycle.ViewModel;
 
 /**
  * ViewModel permettant de gérer la liste des projets dans l'application.
@@ -77,7 +76,7 @@ public class MesProjetsViewModel extends ViewModel {
     /**
      * Enregistre la liste des projets dans les SharedPreferences sous forme de chaîne JSON.
      */
-    private void enregistrerProjet() {
+    public void enregistrerProjet() {
         // Création d'un éditeur pour modifier les SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // Sauvegarde du JSON dans SharedPreferences avec la clé "mes_projets_list"
@@ -93,7 +92,8 @@ public class MesProjetsViewModel extends ViewModel {
         // Récupération de la chaîne JSON des SharedPreferences
         String json = sharedPreferences.getString(PREF_KEY, null);
         // Définition du type générique pour la désérialisation
-        Type type = new TypeToken<ArrayList<Projet>>() {}.getType();
+        Type type = new TypeToken<ArrayList<Projet>>() {
+        }.getType();
 
         // Si le JSON existe, on désérialise la chaîne en une liste de projets
         if (json != null) {

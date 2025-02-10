@@ -179,7 +179,6 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         for (Projet projet : projets) {
             mesProjetsViewModel.removeProjet(projet);
         }
-
         //adapterProspect.notifyDataSetChanged();
 
     }
@@ -197,6 +196,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         prospectAModifier.setVille(nouvelleVille);
         prospectAModifier.setCodePostal(nouveauCodePostal);
         // }
+        mesProspectViewModel.enregistrerProspect();
         adapterProspect.notifyItemChanged(position);
     }
 }

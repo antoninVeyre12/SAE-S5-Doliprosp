@@ -322,7 +322,7 @@ public class Prospect implements Serializable {
          */
         @Override
         public int compare(Prospect prospect1, Prospect prospect2) {
-            return Integer.compare(prospect1.getCodePostal(), prospect2.getCodePostal());
+            return prospect1.getCodePostal().compareTo(prospect2.getCodePostal());
         }
     };
 

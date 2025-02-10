@@ -322,7 +322,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
         if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
             Prospect prospect = new Prospect(nomSalon, nom,
-                    Integer.valueOf(codePostal), ville, adresse, mail, tel,
+                    codePostal, ville, adresse, mail, tel,
                     estClient, "image");
             mesProspectViewModel.addProspect(prospect);
             dismiss();
