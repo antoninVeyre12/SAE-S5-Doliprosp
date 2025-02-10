@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Cercle vert -->
-    <item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
         <shape android:shape="oval">
-            <solid android:color="@color/green" />
-            <size android:width="48dp" android:height="48dp" />
+            <solid android:color="@color/green"/>
         </shape>
     </item>
-
-    <!-- Symbole "+" -->
-    <item>
-        <vector
-            android:width="24dp"
-            android:height="24dp"
-            android:viewportWidth="24"
-            android:viewportHeight="24"
-            android:tint="@color/white">
-            <path
-                android:fillColor="@android:color/white"
-                android:pathData="M12,5v14M5,12h14" />
-        </vector>
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/green"/>
+        </shape>
     </item>
-
-</layer-list>
+</selector>
