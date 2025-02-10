@@ -37,7 +37,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Fragment permettant de créer un prospect et de gérer la recherche et la sélection de prospects existants.
+ * Fragment permettant de créer un prospect et de gérer la recherche et la
+ * sélection de prospects existants.
  */
 public class CreationProspectDialogFragment extends DialogFragment implements ProspectRechercheAdapter.OnItemClickListener {
 
@@ -46,7 +47,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private MesProspectViewModel mesProspectViewModel;
 
     private TextView erreur, erreurRechercheprospect;
-    private EditText nomPrenomProspect, mailProspect, telProspect, adresseProspect, villeProspect, codePostalProspect;
+    private EditText nomPrenomProspect, mailProspect, telProspect,
+            adresseProspect, villeProspect, codePostalProspect;
     private Button boutonEnvoyer, boutonAnnuler;
     private ProgressBar chargement;
     private AppCompatButton boutonPlus, boutonMoins;
@@ -59,7 +61,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private ProspectRechercheAdapter adapter;
 
     private String nomSalon, tri;
-    private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\" +
+            ".[a-zA-Z]{2,}$";
     private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
 
     private ArrayList<Prospect> listProspectRecherche = new ArrayList<>();
@@ -91,8 +94,11 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View vue = inflater.inflate(R.layout.dialog_create_prospect, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View vue = inflater.inflate(R.layout.dialog_create_prospect,
+                container, false);
         initialiserVue(vue);
         initialiserRecyclerView();
         initialiserServices();
@@ -112,7 +118,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      */
     private void initialiserVue(View vue) {
         erreur = vue.findViewById(R.id.erreur);
-        erreurRechercheprospect = vue.findViewById(R.id.erreur_recherche_prospect);
+        erreurRechercheprospect =
+                vue.findViewById(R.id.erreur_recherche_prospect);
         nomPrenomProspect = vue.findViewById(R.id.editTextNomPrenom);
         mailProspect = vue.findViewById(R.id.editTextMail);
         telProspect = vue.findViewById(R.id.editTextPhone);
@@ -138,8 +145,10 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * Initialise et configure le RecyclerView pour afficher les prospects.
      */
     private void initialiserRecyclerView() {
-        adapter = new ProspectRechercheAdapter(listProspectRecherche, CreationProspectDialogFragment.this);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+        adapter = new ProspectRechercheAdapter(listProspectRecherche,
+                CreationProspectDialogFragment.this);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
+                1);
         prospectRecyclerView.setLayoutManager(layoutManager);
         prospectRecyclerView.setAdapter(adapter);
     }
@@ -149,12 +158,16 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      */
     private void initialiserServices() {
         prospectService = new ProspectService();
-        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        mesProspectViewModel =
+                new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        utilisateurViewModel =
+                new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
 
         if (getArguments().containsKey("nomDuSalon")) {
             nomSalon = getArguments().getString("nomDuSalon");
-            adapterProspect = (ProspectAdapter) getArguments().getSerializable("adapterProspect");
+            adapterProspect =
+                    (ProspectAdapter) getArguments().getSerializable(
+                            "adapterProspect");
         }
     }
 
@@ -167,7 +180,10 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             chargement.setVisibility(View.VISIBLE);
             listProspectRecherche.clear();
             premiereListeProspect.clear();
-            prospectService.prospectClientExiste(getContext(), texteRecherche1.getText().toString(), "rowid", utilisateurViewModel.getUtilisateur(), new Outils.APIResponseCallbackArrayProspect() {
+            prospectService.prospectClientExiste(getContext(),
+                    texteRecherche1.getText().toString(), "rowid",
+                    utilisateurViewModel.getUtilisateur(),
+                    new Outils.APIResponseCallbackArrayProspect() {
                 @Override
                 public void onSuccess(ArrayList<Prospect> response) {
                     triContainer.setVisibility(View.VISIBLE);
@@ -192,13 +208,18 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             chargement.setVisibility(View.VISIBLE);
             listProspectRecherche.clear();
             deuxiemeListeProspect.clear();
-            prospectService.prospectClientExiste(getContext(), texteRecherche2.getText().toString(), "rowid", utilisateurViewModel.getUtilisateur(), new Outils.APIResponseCallbackArrayProspect() {
+            prospectService.prospectClientExiste(getContext(),
+                    texteRecherche2.getText().toString(), "rowid",
+                    utilisateurViewModel.getUtilisateur(),
+                    new Outils.APIResponseCallbackArrayProspect() {
                 @Override
                 public void onSuccess(ArrayList<Prospect> response) {
                     erreurRechercheprospect.setVisibility(View.GONE);
                     deuxiemeListeProspect.addAll(response);
                     chargement.setVisibility(View.GONE);
-                    Prospect prospectARetourner = chercheProspectEnCommun(premiereListeProspect, deuxiemeListeProspect);
+                    Prospect prospectARetourner =
+                            chercheProspectEnCommun(premiereListeProspect,
+                                    deuxiemeListeProspect);
                     if (prospectARetourner != null) {
                         listProspectRecherche.add(prospectARetourner);
                     }
@@ -221,7 +242,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      *
      * @param premiereListeProspect La première liste de prospects à comparer.
      * @param deuxiemeListeProspect La deuxième liste de prospects à comparer.
-     * @return Le prospect en commun trouvé dans les deux listes, ou null si aucun prospect
+     * @return Le prospect en commun trouvé dans les deux listes, ou null si
+     * aucun prospect
      * en commun n'est trouvé.
      */
     private Prospect chercheProspectEnCommun(ArrayList<Prospect> premiereListeProspect, ArrayList<Prospect> deuxiemeListeProspect) {
@@ -230,7 +252,9 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                 return prospectDeuxiemeListe;
             }
         }
-        Toast.makeText(getContext(), getString(R.string.recherche_prospect_nul), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),
+                getString(R.string.recherche_prospect_nul),
+                Toast.LENGTH_LONG).show();
         return null;
     }
 
@@ -240,7 +264,9 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private void configurerTri() {
         listeTri.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView,
+                                       View selectedItemView, int position,
+                                       long id) {
                 tri = GetChoixTri(parentView.getItemAtPosition(position).toString());
                 effectuerTri();
                 adapter.notifyDataSetChanged();
@@ -296,7 +322,9 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         erreur.setVisibility(View.GONE);
 
         if (!validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
-            Prospect prospect = new Prospect(nomSalon, nom, Integer.valueOf(codePostal), ville, adresse, mail, tel, estClient, "image");
+            Prospect prospect = new Prospect(nomSalon, nom,
+                    Integer.valueOf(codePostal), ville, adresse, mail, tel,
+                    estClient, "image");
             mesProspectViewModel.addProspect(prospect);
             dismiss();
         }
@@ -314,7 +342,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * @param ville   La ville du prospect.
      * @return true si toutes les informations sont valides.
      */
-    private boolean validerInformations(String nom, String mail, String tel, String adresse, String ville) {
+    private boolean validerInformations(String nom, String mail, String tel,
+                                        String adresse, String ville) {
         if (nom.isEmpty() || mail.isEmpty() || tel.isEmpty() || adresse.isEmpty() || ville.isEmpty()) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_champ_vide);
@@ -362,13 +391,16 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                 Collections.sort(listProspectRecherche, Prospect.compareMail);
                 break;
             case "numeroTelephone":
-                Collections.sort(listProspectRecherche, Prospect.compareTelephone);
+                Collections.sort(listProspectRecherche,
+                        Prospect.compareTelephone);
                 break;
             case "adresse":
-                Collections.sort(listProspectRecherche, Prospect.compareAdresse);
+                Collections.sort(listProspectRecherche,
+                        Prospect.compareAdresse);
                 break;
             case "codePostal":
-                Collections.sort(listProspectRecherche, Prospect.compareCodePostal);
+                Collections.sort(listProspectRecherche,
+                        Prospect.compareCodePostal);
                 break;
             case "ville":
                 Collections.sort(listProspectRecherche, Prospect.compareVille);
@@ -380,8 +412,10 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     /**
      * Retourne la valeur de tri correspondant à l'élément sélectionné.
      *
-     * @param itemSelectionne L'élément sélectionné par l'utilisateur pour le tri.
-     * @return La valeur associée au critère de tri sélectionné. Par défaut, renvoie le nom si aucun cas ne correspond.
+     * @param itemSelectionne L'élément sélectionné par l'utilisateur pour le
+     *                       tri.
+     * @return La valeur associée au critère de tri sélectionné. Par défaut,
+     * renvoie le nom si aucun cas ne correspond.
      */
     private String GetChoixTri(String itemSelectionne) {
         String valeurTri = "";
@@ -413,8 +447,10 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
     /**
      * Méthode appelée lorsqu'un prospect est sélectionné dans la liste.
-     * Cette méthode cache le RecyclerView, puis remplit les champs de texte avec les informations du prospect sélectionné,
-     * et bloque la saisie dans les champs pour empêcher toute modification après la sélection.
+     * Cette méthode cache le RecyclerView, puis remplit les champs de texte
+     * avec les informations du prospect sélectionné,
+     * et bloque la saisie dans les champs pour empêcher toute modification
+     * après la sélection.
      *
      * @param prospect Le prospect sélectionné à afficher dans les champs.
      */
@@ -426,14 +462,17 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         remplirChamp(mailProspect, prospect.getMail());
         remplirChamp(telProspect, prospect.getNumeroTelephone());
         remplirChamp(adresseProspect, prospect.getAdresse());
-        remplirChamp(codePostalProspect, String.valueOf(prospect.getCodePostal()));
+        remplirChamp(codePostalProspect,
+                String.valueOf(prospect.getCodePostal()));
         remplirChamp(villeProspect, prospect.getVille());
         bloquerSaisieEditText();
     }
 
     /**
-     * Désactive la saisie dans tous les champs EditText de l'interface utilisateur.
-     * Cette méthode est appelée après la sélection d'un prospect pour empêcher toute modification des informations affichées.
+     * Désactive la saisie dans tous les champs EditText de l'interface
+     * utilisateur.
+     * Cette méthode est appelée après la sélection d'un prospect pour
+     * empêcher toute modification des informations affichées.
      */
     private void bloquerSaisieEditText() {
         nomPrenomProspect.setEnabled(false);
@@ -445,10 +484,12 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     }
 
     /**
-     * Remplie un champ EditText avec une valeur donnée. Si la valeur est "null", le champ est vidé.
+     * Remplie un champ EditText avec une valeur donnée. Si la valeur est
+     * "null", le champ est vidé.
      *
      * @param champ  Le champ EditText à remplir.
-     * @param valeur La valeur à afficher dans le champ. Si la valeur est "null", le champ sera vidé.
+     * @param valeur La valeur à afficher dans le champ. Si la valeur est
+     *               "null", le champ sera vidé.
      */
     private void remplirChamp(EditText champ, String valeur) {
         if (!valeur.equals("null")) {
