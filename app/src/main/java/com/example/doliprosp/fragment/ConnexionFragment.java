@@ -249,12 +249,12 @@ public class ConnexionFragment extends Fragment {
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-        //url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-        //nomUtilisateur = "antonin";
-        //motDePasse = "antoninantonin";
-        url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
-        nomUtilisateur = "G42";
-        motDePasse = "3iFJWj26z";
+        url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        nomUtilisateur = "antonin";
+        motDePasse = "antoninantonin";
+        //url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
+        //nomUtilisateur = "G42";
+        //motDePasse = "3iFJWj26z";
         Log.d("url", url);
     }
 

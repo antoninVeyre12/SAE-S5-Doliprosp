@@ -65,7 +65,7 @@ public class MesSalonsViewModel extends ViewModel {
     /**
      * Enregistre la liste des salons dans les SharedPreferences sous forme de chaîne JSON.
      */
-    private void enregistrerSalons() {
+    public void enregistrerSalons() {
         // Création d'un éditeur pour modifier les SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
 

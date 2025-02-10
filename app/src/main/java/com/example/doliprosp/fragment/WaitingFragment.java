@@ -10,13 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
@@ -41,6 +34,13 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -154,7 +154,6 @@ public class WaitingFragment extends Fragment {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
                     envoyerSalons();
-
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
 
@@ -179,7 +178,7 @@ public class WaitingFragment extends Fragment {
                 public void onSuccess(String response) {
                     prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                     int idSalon = Integer.parseInt(response);
-                    envoyerProspects(prospectSelectionnes, idSalon);
+                    envoyerProspects(prospectSelectionnes, idSalon, salonAEnvoyer);
 
                 }
 
@@ -190,7 +189,7 @@ public class WaitingFragment extends Fragment {
                         public void onSuccess(String response) {
                             int idSalon = Integer.parseInt(response);
                             prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                            envoyerProspects(prospectSelectionnes, idSalon);
+                            envoyerProspects(prospectSelectionnes, idSalon, salonAEnvoyer);
                         }
 
                         @Override
@@ -205,14 +204,17 @@ public class WaitingFragment extends Fragment {
         }
     }
 
-    private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon) {
+    private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon,
+                                  Salon salonAEnvoyer) {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
             prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
                 @Override
                 public void onSuccess(String response) throws JSONException {
-                    Log.d("NAEL", response);
-                    projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectAEnvoyer.getNom());
-                    envoyerProjets(projetsSelectionnes, Integer.parseInt(response));
+                    projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                            prospectAEnvoyer.getNom());
+
+                    envoyerProjets(projetsSelectionnes,
+                            Integer.parseInt(response), salonAEnvoyer, prospectAEnvoyer);
                 }
 
                 @Override
@@ -220,13 +222,21 @@ public class WaitingFragment extends Fragment {
 
                 }
             });
+            mesProspectViewModel.removeProspect(prospectAEnvoyer);
         }
     }
 
-    private void envoyerProjets(List<Projet> listeAEnvoyer, int idProspect) {
+    private void envoyerProjets(List<Projet> listeAEnvoyer, int idProspect,
+                                Salon salonAEnvoyer,
+                                Prospect prospectAEnvoyer) {
         for (Projet projetAEnvoyer : listeAEnvoyer) {
             projetService.envoyerProjet(utilisateur, getContext(), projetAEnvoyer, idProspect);
+            projetService.envoyerVersModule(utilisateur, getContext(),
+                    projetAEnvoyer, prospectAEnvoyer,
+                    salonAEnvoyer, idProspect);
+            mesProjetsViewModel.removeProjet(projetAEnvoyer);
         }
     }
+
 }
 

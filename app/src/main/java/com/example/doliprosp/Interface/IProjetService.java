@@ -3,6 +3,8 @@ package com.example.doliprosp.Interface;
 import android.content.Context;
 
 import com.example.doliprosp.Modele.Projet;
+import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ public interface IProjetService {
      * @param description La nouvelle description à mettre à jour.
      * @param dateDebut   La nouvelle date de début du projet à mettre à jour.
      */
-    void updateProjet(Projet projet, String titre, String description, String dateDebut, long dateTimestamp);
+    void updateProjet(Projet projet, String titre, String description,
+                      String dateDebut, long dateTimestamp);
 
     /**
      * Récupère la liste des projets associés à un prospect donné.
@@ -32,6 +35,12 @@ public interface IProjetService {
      */
     List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect);
 
-    public void envoyerProjet(Utilisateur utilisateur, Context context, Projet projetAEnvoyer, int idProspect);
+    public void envoyerProjet(Utilisateur utilisateur, Context context,
+                              Projet projetAEnvoyer, int idProspect);
+
+    public void envoyerVersModule(Utilisateur utilisateur, Context context,
+                                  Projet projetAEnvoyer,
+                                  Prospect prospectAEnvoyer,
+                                  Salon salonAEnvoyer, int idProspect);
 
 }

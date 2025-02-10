@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Modele.Projet;
+import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 
 import org.json.JSONException;
@@ -41,7 +43,6 @@ public class ProjetService implements IProjetService {
     public void envoyerProjet(Utilisateur utilisateur, Context context, Projet projetAEnvoyer, int idProspect) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/projects";
-        Log.d("url", urlAppel);
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonProjet(projetAEnvoyer, idProspect);
         Log.d("jsonBody", jsonBody.toString());
@@ -65,8 +66,64 @@ public class ProjetService implements IProjetService {
             jsonBody.put("title", projet.getTitre());
             jsonBody.put("date_start", projet.getDateTimestamp());
             jsonBody.put("socid", idProspect);
-            jsonBody.put("ref", projet.getTitre() + ' ' + ' ' + projet.getNomProspect());
+            jsonBody.put("ref",
+                    projet.getTitre() + '-' + projet.getNomProspect());
             jsonBody.put("statut", 1);
+            jsonBody.put("status", 1);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonBody;
+    }
+
+    public void envoyerVersModule(Utilisateur utilisateur, Context context,
+                                  Projet projetAEnvoyer,
+                                  Prospect prospectAEnvoyer,
+                                  Salon salonAEnvoyer, int idProspect) {
+
+        url = utilisateur.getUrl();
+        urlAppel = url + "/api/index.php/doliprospapi/salons";
+
+        String apikey = utilisateur.getCleApi();
+        JSONObject jsonBody = creationJsonModule(utilisateur, projetAEnvoyer,
+                prospectAEnvoyer, salonAEnvoyer, idProspect);
+        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
+            @Override
+            public void onSuccess(Integer response) {
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("onerror", errorMessage.toString());
+            }
+        });
+
+    }
+
+    private JSONObject creationJsonModule(Utilisateur utilisateur, Projet projet,
+                                          Prospect prospect,
+                                          Salon salon, int idProspect) {
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("ref",
+                    salon.getNom() + '-' + projet.getTitre());
+            jsonBody.put("refProjet",
+                    projet.getTitre() + '-' + projet.getNomProspect());
+            jsonBody.put("description", projet.getDescription());
+            jsonBody.put("titreProjet", projet.getTitre());
+            jsonBody.put("date_start", projet.getDateTimestamp());
+            jsonBody.put("IDProspectClient", idProspect);
+            jsonBody.put("NomProspectClient", prospect.getNom());
+            jsonBody.put("adressePostale", prospect.getAdresse());
+            jsonBody.put("CodePostal", prospect.getCodePostal());
+            jsonBody.put("Ville", prospect.getVille());
+            jsonBody.put("noTel", prospect.getNumeroTelephone());
+            jsonBody.put("email", prospect.getMail());
+            jsonBody.put("ClientProspect", "0");
+            jsonBody.put("DateDebutProjet", projet.getDateTimestamp());
+            jsonBody.put("Commercial", utilisateur.getNomUtilisateur());
+            jsonBody.put("miseAjour", "1");
+            jsonBody.put("intituleSalon", salon.getNom());
             jsonBody.put("status", 1);
         } catch (JSONException e) {
             throw new RuntimeException(e);
