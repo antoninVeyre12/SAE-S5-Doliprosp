@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Prospect implements Serializable {
     private String nomSalon;
     private String nom;
-    private int codePostal;
+    private String codePostal;
     private String ville;
     private String adresse;
     private String mail;
@@ -31,7 +31,7 @@ public class Prospect implements Serializable {
      * @param estClient       Indique si le prospect est un client ("oui" ou "non").
      * @param image           Une image associée au prospect (URL ou chemin).
      */
-    public Prospect(String nomSalon, String nom, int codePostal,
+    public Prospect(String nomSalon, String nom, String codePostal,
                     String ville, String adressePostale, String mail, String numeroTelephone,
                     String estClient, String image) {
         this.nomSalon = nomSalon;
@@ -87,7 +87,7 @@ public class Prospect implements Serializable {
      *
      * @return Le code postal du prospect.
      */
-    public int getCodePostal() {
+    public String getCodePostal() {
         return codePostal;
     }
 
@@ -96,7 +96,7 @@ public class Prospect implements Serializable {
      *
      * @param codePostal Le code postal du prospect.
      */
-    public void setCodePostal(int codePostal) {
+    public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
 

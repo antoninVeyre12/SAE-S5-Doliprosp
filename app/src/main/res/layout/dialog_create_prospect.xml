@@ -175,8 +175,7 @@
     <TextView
         android:text="@string/labelMail"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextMail"
@@ -191,8 +190,7 @@
     <TextView
         android:text="@string/labelTel"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextPhone"
@@ -208,8 +206,7 @@
     <TextView
         android:text="@string/labelAdresse"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextAdresse"
@@ -217,15 +214,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
-        android:maxLength="100"
+        android:maxLength="80"
         android:hint="@string/hint_adresseProspect"
         android:singleLine="true" />
+
 
     <TextView
         android:text="@string/labelCP"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:textSize="@dimen/label_dialog" />
+        android:layout_marginHorizontal="10dp" />
 
     <EditText
         android:id="@+id/editTextCodePostal"
@@ -272,7 +269,7 @@
     </TableRow>
 
     <TextView
-        android:id="@+id/erreur"
+        android:id="@+id/erreur_prospect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_creation"

@@ -1,7 +1,6 @@
 package com.example.doliprosp.Services;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Modele.Prospect;
@@ -121,7 +120,7 @@ public class ProspectService implements IProspectService {
                         JSONObject object = response.getJSONObject(i);
                         String nomSalon = "";
                         String nom = object.getString("name");
-                        int codePostal = object.getInt("zip");
+                        String codePostal = object.getString("zip");
                         String ville = object.getString("town");
                         String adressePostale = object.getString("address");
                         String mail = object.getString("email");

@@ -46,5 +46,4 @@ public interface IProspectService {
     void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur, MesProspectViewModel mesProspectViewModel
             , Outils.CallbackProspectExiste callback);
 
-
 }
