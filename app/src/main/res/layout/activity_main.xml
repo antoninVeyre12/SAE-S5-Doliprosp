@@ -1,8 +1,22 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_secondary">
+
+        <ImageView
+            android:id="@+id/status_connection"
+            android:layout_width="@dimen/status_icon_size"
+            android:layout_height="@dimen/status_icon_size"
+            android:layout_margin="8dp"
+            android:layout_gravity="end|top"
+            android:src="@drawable/ic_plus" />
+    </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -10,8 +24,8 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -84,7 +98,6 @@
                 android:gravity="center"
                 android:text="@string/prospects" />
         </LinearLayout>
-
 
 
         <LinearLayout

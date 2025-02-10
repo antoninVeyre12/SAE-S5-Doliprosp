@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prospect_sort_options">
+        <item>Aucun tri</item>
+        <item>Nom/Prénom</item>
+        <item>Email</item>
+        <item>Téléphone</item>
+        <item>Adresse</item>
+        <item>Code Postal</item>
+        <item>Ville</item>
+    </string-array>
+</resources>

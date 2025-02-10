@@ -5,6 +5,9 @@
     <color name="black">#000000</color>
     <color name="green">#43CD49</color>
     <color name="red">#FF0000</color>
+    <color name="gray">#757575</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="border_gray">#DDDDDD</color>
     <!-- Couleur principale -->
     <color name="color_primary">#EE001C</color> <!-- Exemple de bleu-violet -->
 

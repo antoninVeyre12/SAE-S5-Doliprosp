@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doliprosp.Modele.Projet;
@@ -35,8 +34,9 @@ import static com.example.doliprosp.fragment.CreationProjetDialogFragment.conver
 public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHolder> implements Serializable {
 
     // Liste des projets qui sera affichée dans le RecyclerView
-    private static List<Projet> projetListe;
-    private static ProjetAdapter.OnItemClickListener onItemClickListener;
+    private List<Projet> projetListe;
+    private ProjetAdapter.OnItemClickListener onItemClickListener;
+
     private transient EditText editTextTitreProjet;
     private transient EditText editTextDescription;
     private transient DatePicker datePickerDateDebut;
@@ -146,7 +146,9 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     private void remplirChamps(Projet projet) {
         editTextTitreProjet.setText(projet.getTitre());
         editTextDescription.setText(projet.getDescription());
-        setDatePickerValue(datePickerDateDebut, String.valueOf(projet.getDateDebut()));
+        setDatePickerValue(datePickerDateDebut, projet.getDateDebut());
+
+        // Log.d("Date jcgn : ", projet.getDateDebut());
     }
 
 
@@ -186,13 +188,26 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     private void handleModification(int position, Dialog dialog) {
         String nouveauTitre = editTextTitreProjet.getText().toString();
         String nouvelleDescription = editTextDescription.getText().toString();
-        String nouvelleDateDebut = getDateFromDatePicker(datePickerDateDebut); // Récupération de la date du DatePicker
+        String nouvelleDateDebut = getDateFromDatePicker(datePickerDateDebut);
         long nouveauTimestamp = convertirEnTimestamp(datePickerDateDebut.getDayOfMonth(), datePickerDateDebut.getMonth() + 1, datePickerDateDebut.getYear());
-        Log.d("timestampDate", String.valueOf(nouveauTimestamp));
+
+        Log.d("Données : ", nouveauTitre + ", " + nouvelleDescription + ", " + nouvelleDateDebut);
 
         // Vérification des champs
         if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, erreurChamp)) {
+            // Mettre à jour l'objet Projet dans la liste
+            Projet projetModifie = projetListe.get(position);
+            projetModifie.setTitre(nouveauTitre);
+            projetModifie.setDescription(nouvelleDescription);
+            projetModifie.setDateDebut(nouvelleDateDebut);
+
+            // Notifier l'adaptateur de la modification
+            notifyItemChanged(position);
+
+            // Appeler le listener pour toute action supplémentaire (ex: mise à jour BD)
             onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut, nouveauTimestamp);
+
+            // Fermer la boîte de dialogue
             dialog.dismiss();
         }
     }
@@ -332,7 +347,6 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titre;
-        public ImageView icone;
         public ImageButton projet_supprimer;
         public ImageButton projet_modifier;
 

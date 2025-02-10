@@ -166,6 +166,14 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     public void onUpdateClick(int position, String titre, String description, String dateDebut, long dateTimestamp) {
         Projet projetAModifier = mesProjetsViewModel.getProjetListe().get(position);
         projetService.updateProjet(projetAModifier, titre, description, dateDebut, dateTimestamp);
+
+        // Mettre à jour l'objet dans la liste
+        mesProjetsViewModel.getProjetListe().set(position, projetAModifier);
+
+        // Notifier l'adapter du changement
         adapterProjet.notifyItemChanged(position);
+
+        // Log.d("ModifierProjet", "Projet reçu: " + projetAModifier.getTitre() + ", " + projetAModifier.getDescription() + ", " + projetAModifier.getDateDebut());
     }
+
 }

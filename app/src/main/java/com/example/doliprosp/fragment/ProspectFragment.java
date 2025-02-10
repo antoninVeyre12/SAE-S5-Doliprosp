@@ -25,15 +25,12 @@ import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
-import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
@@ -67,8 +64,8 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     /**
      * Crée et retourne la vue du fragment, en initialisant les données du salon si disponibles.
      *
-     * @param inflater Le LayoutInflater pour inflater la vue du fragment.
-     * @param container Le conteneur dans lequel la vue sera ajoutée.
+     * @param inflater           Le LayoutInflater pour inflater la vue du fragment.
+     * @param container          Le conteneur dans lequel la vue sera ajoutée.
      * @param savedInstanceState L'état précédent sauvegardé du fragment.
      * @return La vue du fragment.
      */
@@ -94,7 +91,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     /**
      * Méthode appelée après la création de la vue pour initialiser les éléments de l'interface et configurer les listeners.
      *
-     * @param view La vue du fragment.
+     * @param view               La vue du fragment.
      * @param savedInstanceState L'état sauvegardé de la vue.
      */
     @Override
@@ -137,51 +134,29 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     public void onResume() {
         super.onResume();
 
-        ((MainActivity) getActivity()).setColors(2, R.color.color_primary,true);
+        ((MainActivity) getActivity()).setColors(2, R.color.color_primary, true);
         if (dernierSalonSelectione != null) {
             salonActuel = dernierSalonSelectione;
-            adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonActuel.getNom()),ProspectFragment.this,mesProspectViewModel);
+            adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonActuel.getNom()), ProspectFragment.this, mesProspectViewModel);
             prospectRecyclerView.setAdapter(adapterProspect);
             adapterProspect.notifyDataSetChanged();
         } else {
-            ((MainActivity) getActivity()).setColors(2, R.color.invalide,false);
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide, false);
 
             Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
-            ((MainActivity) getActivity()).setColors(1, R.color.color_primary,true);
+            ((MainActivity) getActivity()).setColors(1, R.color.color_primary, true);
         }
         if (ProjetFragment.dernierProspectSelectionne == null) {
-            ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide, false);
         }
 
     }
 
-    /**
-     * Méthode pour vérifier si un prospect existe pour un client, basée sur les critères de recherche.
-     *
-     * @param recherche Le texte de recherche pour le prospect.
-     * @param champ Le champ sur lequel effectuer la recherche.
-     * @param tri La méthode de tri des prospects.
-     */
-    private void prospectClientExiste(String recherche, String champ, String tri) {
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
-        chargement.setVisibility(View.VISIBLE);
-        prospectService.prospectClientExiste(getContext(), recherche, champ, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
-            @Override
-            public void onSuccess(ArrayList<Prospect> response) {
-                // TODO: Implémenter la gestion des succès
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                // TODO: Implémenter la gestion des erreurs
-            }
-        });
-    }
 
     /**
      * Méthode appelée lorsqu'un élément de la liste des prospects est sélectionné.
      *
-     * @param position La position de l'élément sélectionné.
+     * @param position      La position de l'élément sélectionné.
      * @param prospectListe La liste des prospects.
      */
     @Override
@@ -191,7 +166,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         ProjetFragment projetFragment = new ProjetFragment();
         projetFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(projetFragment);
-        ((MainActivity) getActivity()).setColors(3, R.color.color_primary,true);
+        ((MainActivity) getActivity()).setColors(3, R.color.color_primary, true);
     }
 
     @Override
@@ -199,9 +174,9 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
 
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
         mesProspectViewModel.removeProspect(prospectASupprimer);
-        Log.d("adapterProspect",mesProspectViewModel.getProspectListe().toString());
+        Log.d("adapterProspect", mesProspectViewModel.getProspectListe().toString());
         adapterProspect.notifyItemRemoved(position);
-        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),prospectASupprimer.getNom());
+        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {
             mesProjetsViewModel.removeProjet(projet);
         }

@@ -8,7 +8,7 @@ import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Interface définissant les opérations liées à la gestion des prospects.

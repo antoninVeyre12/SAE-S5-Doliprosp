@@ -17,11 +17,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 public class ProspectService implements IProspectService {
     private String url;
     private String urlAppel;
+    private final static String SEPARATEUR_OR = "%20or%20";
+    private final static String CHAMP_LIKE = "%3Alike%3A";
+    private final static String OUVERTURE_LIKE = "'%25";
+    private final static String FERMETURE_LIKE = "%25'";
 
     public void envoyerProspect(Utilisateur utilisateur, Context context, Prospect prospectAEnvoyer, int idSalon, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
@@ -74,10 +78,13 @@ public class ProspectService implements IProspectService {
         return jsonBody;
     }
 
-    public void supprimerProspect(Prospect prospect) {
-
-    }
-
+    /**
+     * Filtre les prospects en fonction du nom du salon auquel ils sont associés.
+     *
+     * @param prospectListe La liste des prospects à filtrer.
+     * @param nomSalon      Le nom du salon pour lequel nous voulons filtrer les prospects.
+     * @return Une liste de prospects associés au salon donné.
+     */
     public ArrayList<Prospect> getProspectDUnSalon(ArrayList<Prospect> prospectListe, String nomSalon) {
 
         ArrayList<Prospect> prospectsduSalon = new ArrayList<>();
@@ -91,7 +98,16 @@ public class ProspectService implements IProspectService {
         return prospectsduSalon;
     }
 
-    public void prospectClientExiste(Context context, String recherche, String champ, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback) {
+    /**
+     * Recherche des prospects dans le système en fonction de la recherche et du tri.
+     *
+     * @param context     Le contexte de l'application utilisé pour l'appel API.
+     * @param recherche   La valeur de recherche pour filtrer les prospects (nom, email, téléphone, etc.).
+     * @param tri         Le critère de tri des résultats.
+     * @param utilisateur L'utilisateur connecté, contenant l'URL et la clé API nécessaires.
+     * @param callback    Le callback à appeler une fois la réponse reçue de l'API.
+     */
+    public void prospectClientExiste(Context context, String recherche, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback) {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?sortfield=t." + tri + "&sortorder=DESC&limit=6&sqlfilters=(t." + champ + "%3Alike%3A'%25" + recherche + "%25')";
@@ -106,14 +122,12 @@ public class ProspectService implements IProspectService {
                         String nom = object.getString("name");
                         int codePostal = object.getInt("zip");
                         String ville = object.getString("town");
-                        String adressePostale = object.getString("adress");
+                        String adressePostale = object.getString("address");
                         String mail = object.getString("email");
                         String numeroTelephone = object.getString("phone");
-                        String estClient = object.getString("client");
-                        String image = object.getString("logo");
                         listeProspectCorrespondant.add(new Prospect(nomSalon, nom, codePostal,
                                 ville, adressePostale, mail, numeroTelephone,
-                                estClient, image));
+                                "true", "lalala"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -167,10 +181,29 @@ public class ProspectService implements IProspectService {
     }
 
 
-    public void updateProspect(String prenom, String nom, int codePostal, String ville,
-                               String adresse, String mail, String numeroTelephone,
-                               Boolean estClient, UUID idProspect) {
+
+    /**
+     * Crée un filtre SQL pour rechercher un prospect en fonction d'une valeur donnée.
+     *
+     * @param valeur La valeur de recherche (nom, email, téléphone, etc.).
+     * @return La chaîne de filtre SQL générée.
+     */
+    private String creerSqlfilter(String valeur) {
+        return creerChercheChamp("nom", valeur)
+                + SEPARATEUR_OR + creerChercheChamp("email", valeur)
+                + SEPARATEUR_OR + creerChercheChamp("phone", valeur) + SEPARATEUR_OR + creerChercheChamp("address", valeur)
+                + SEPARATEUR_OR + creerChercheChamp("zip", valeur) + SEPARATEUR_OR + creerChercheChamp("town", valeur);
+
     }
 
-
+    /**
+     * Crée une condition de recherche pour un attribut donné avec une valeur spécifique.
+     *
+     * @param champ  Le nom du champ de la base de données.
+     * @param valeur La valeur à rechercher dans ce champ.
+     * @return La condition SQL formatée pour ce champ et cette valeur.
+     */
+    private String creerChercheChamp(String champ, String valeur) {
+        return "(t." + champ + CHAMP_LIKE + OUVERTURE_LIKE + valeur + FERMETURE_LIKE + ")";
+    }
 }
