@@ -9,14 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Projet;
@@ -26,6 +18,16 @@ import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
+
+import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment représentant la gestion des projets pour un prospect donné.
@@ -110,10 +112,9 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
             CreationProjetDialogFragment dialog = new CreationProjetDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("nomDuProspect", prospectActuel.getNom());
-            //bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
+            bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreerDialogueSalon");
-            adapterProjet.setProjetListe(mesProjetsViewModel.getProjetListe());
         });
     }
 
