@@ -3,7 +3,6 @@ package com.example.doliprosp.fragment;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,6 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private ArrayList<Prospect> premiereListeProspect = new ArrayList<>();
     private ArrayList<Prospect> deuxiemeListeProspect = new ArrayList<>();
     private ProspectAdapter adapterProspect;
-    private static final int KEYCODE_TOUCHE_ENTREE = 66;
 
     /**
      * Crée le DialogFragment et définit son titre.
@@ -111,17 +109,6 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         configurerRecherche();
         configurerBoutons();
 
-
-        nomPrenomProspect.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KEYCODE_TOUCHE_ENTREE) {
-                    Log.d("entree", "touche entree detcte");
-                    return true;
-                }
-                return false;
-            }
-        });
         return vue;
     }
 

@@ -11,6 +11,13 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
@@ -35,13 +42,6 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Classe comprenant l'ensemble des méthodes de gestion et d'utilisation du fragment salon
@@ -201,11 +201,10 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     private void setupListeners() {
         // Lancer la recherche avec le texte saisi
         boutonRecherche.setOnClickListener(v -> {
-            String recherche = texteRecherche.getText().toString();
-            salonsViewModel.clear();
-            // Remplacer les espaces par %20 pour les requêtes API
-            String rechercheEspace = recherche.replace(" ", "%20");
-            rechercheSalons(rechercheEspace);
+            effectuerRechercheSalons();
+        });
+        texteRecherche.setOnClickListener(v -> {
+            effectuerRechercheSalons();
         });
 
         // Ajouter un salon
@@ -216,6 +215,14 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
+    }
+
+    private void effectuerRechercheSalons() {
+        String recherche = texteRecherche.getText().toString();
+        salonsViewModel.clear();
+        // Remplacer les espaces par %20 pour les requêtes API
+        String rechercheEspace = recherche.replace(" ", "%20");
+        rechercheSalons(rechercheEspace);
     }
 
     /**
