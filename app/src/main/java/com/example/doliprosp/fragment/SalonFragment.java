@@ -1,7 +1,6 @@
 package com.example.doliprosp.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
@@ -42,6 +34,13 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Classe comprenant l'ensemble des méthodes de gestion et d'utilisation du fragment salon
@@ -115,9 +114,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
         recyclerViewMesSalons.setLayoutManager(layoutManagerMyShow);
 
-
-        String rechercheVide = "";
-        rechercheSalons(rechercheVide);
+        recupererSalonsDolibarr();
         setupListeners();
 
     }
@@ -149,14 +146,12 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     /**
      * Méthode appellée lors de la recherche de salons par critères de l'utilisateur puis affiche
      * les salons correspondants aux critères
-     *
-     * @param recherche la recherche sur critères de l'utilisateur
      */
-    private void rechercheSalons(String recherche) {
+    private void recupererSalonsDolibarr() {
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         chargement.setVisibility(View.VISIBLE);
 
-        salonService.getSalonsEnregistres(getContext(), recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
+        salonService.getSalonsEnregistres(getContext(), utilisateur, new Outils.APIResponseCallbackArrayTest() {
 
             /**
              * Méthode appellée en cas de succès de recherche des salons avec le critère de
@@ -218,11 +213,25 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     private void effectuerRechercheSalons() {
-        String recherche = texteRecherche.getText().toString();
-        salonsViewModel.clear();
-        // Remplacer les espaces par %20 pour les requêtes API
-        String rechercheEspace = recherche.replace(" ", "%20");
-        rechercheSalons(rechercheEspace);
+        String recherche = texteRecherche.getText().toString().trim();
+        rechercheSalons(recherche);
+    }
+
+
+    private void rechercheSalons(String recherche) {
+        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
+        chargement.setVisibility(View.VISIBLE);
+
+        List<Salon> mesSalonsListe =
+                salonService.rechercheMesSalons(recherche, mesSalonsViewModel);
+        List<Salon> salonsListe =
+                salonService.rechercheSalons(recherche, salonsViewModel);
+
+        adapterSalons.setSalonsList(salonsListe);
+        adapterMesSalons.setSalonsList(mesSalonsListe);
+
+        chargement.setVisibility(View.GONE);
+
     }
 
     /**
@@ -236,7 +245,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
         Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
         mesSalonsViewModel.removeSalon(salonASupprimer);
-        Log.d("adapterMesSalons", String.valueOf(adapterMesSalons.getItemCount()));
 
         ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonASupprimer.getNom());
         for (Prospect prospect : prospects) {
