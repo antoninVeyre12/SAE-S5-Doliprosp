@@ -49,7 +49,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private MesProspectViewModel mesProspectViewModel;
     private TextView erreur, erreurRechercheprospect;
     private EditText nomPrenomProspect, mailProspect, telProspect,
-            adresseProspect, villeProspect, codePostalProspect;
+            adresseProspect, villeProspect, codePostalProspect, estClient,
+            idDolibarr;
     private Button boutonEnvoyer, boutonAnnuler;
     private ProgressBar chargement;
     private AppCompatButton boutonPlus, boutonMoins;
@@ -127,6 +128,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         adresseProspect = vue.findViewById(R.id.editTextAdresse);
         villeProspect = vue.findViewById(R.id.editTextVille);
         codePostalProspect = vue.findViewById(R.id.editTextCodePostal);
+        estClient = vue.findViewById(R.id.editTextEstClient);
+        idDolibarr = vue.findViewById(R.id.editTextIdDolibarr);
         boutonEnvoyer = vue.findViewById(R.id.buttonSubmit);
         boutonAnnuler = vue.findViewById(R.id.buttonCancel);
         chargement = vue.findViewById(R.id.chargement);
@@ -315,14 +318,16 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         String adresse = adresseProspect.getText().toString().trim();
         String ville = villeProspect.getText().toString().trim();
         String codePostal = codePostalProspect.getText().toString().trim();
-        String estClient = "Prospect";
-
+        String client = estClient.getText().toString().trim();
+        String idDolibar = idDolibarr.getText().toString().trim();
+        long heureSaisieTimestamp = System.currentTimeMillis() / 1000;
+        Log.d("heureSaisieTimestamp", String.valueOf(heureSaisieTimestamp));
         erreur.setVisibility(View.GONE);
 
         if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
             Prospect prospect = new Prospect(nomSalon, nom,
                     codePostal, ville, adresse, mail, tel,
-                    estClient, "image");
+                    client, "image", idDolibar, heureSaisieTimestamp);
             mesProspectViewModel.addProspect(prospect);
             dismiss();
 
@@ -465,9 +470,11 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         remplirChamp(mailProspect, prospect.getMail());
         remplirChamp(telProspect, prospect.getNumeroTelephone());
         remplirChamp(adresseProspect, prospect.getAdresse());
-        remplirChamp(codePostalProspect,
-                String.valueOf(prospect.getCodePostal()));
+        remplirChamp(codePostalProspect, prospect.getCodePostal());
         remplirChamp(villeProspect, prospect.getVille());
+        remplirChamp(estClient, prospect.getEstClient());
+        remplirChamp(idDolibarr, prospect.getIdDolibarr());
+
         bloquerSaisieEditText();
     }
 

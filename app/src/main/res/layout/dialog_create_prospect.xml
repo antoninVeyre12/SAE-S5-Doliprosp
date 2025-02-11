@@ -4,8 +4,6 @@
     android:layout_height="wrap_content"
     android:stretchColumns="0,1"
     android:orientation="vertical">
-
-
     <!-- Première barre de recherche avec le bouton de bascule -->
     <LinearLayout
         android:id="@+id/premiereBarreRecherche"
@@ -316,5 +314,15 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <EditText
+        android:id="@+id/editTextEstClient"
+        android:visibility="gone"
+        android:text="@string/idEstProspect" />
+
+    <EditText
+        android:id="@+id/editTextIdDolibarr"
+        android:visibility="gone"
+        android:text="@string/idDolibarrBase" />
 
 </TableLayout>

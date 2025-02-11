@@ -22,12 +22,13 @@ import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.MesSalonsViewModel;
-import com.example.doliprosp.viewModel.SalonsViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 // Adapter pour la liste des salons dans un RecyclerView
 public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapter.MyViewHolder> implements Serializable {
@@ -40,7 +41,6 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
     private IProjetService projetService;
 
     // Listener pour gérer les actions sur chaque item de la liste
-    private MesSalonsViewModel mesSalonsViewModel;
     private MesProspectViewModel mesProspectViewModel;
 
     private MesProjetsViewModel mesProjetsViewModel;
@@ -54,7 +54,6 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
                                MesProjetsViewModel mesProjetsViewModel,
                                IProjetService projetService) {
         this.salonListe = salonList;
-        this.mesSalonsViewModel = mesSalonsViewModel;
         this.mesProspectViewModel = mesProspectViewModel;
         this.mesProjetsViewModel = mesProjetsViewModel;
         this.projetService = projetService;

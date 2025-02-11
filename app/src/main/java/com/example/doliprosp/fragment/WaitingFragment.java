@@ -132,8 +132,6 @@ public class WaitingFragment extends Fragment {
             ((MainActivity) getActivity()).setColors(3, R.color.invalide,
                     false);
         }
-        loadSalons(); // Rafraîchir la liste des salons à chaque retour sur
-        // la page
     }
 
     /**
@@ -141,9 +139,16 @@ public class WaitingFragment extends Fragment {
      * RecyclerView.
      */
     private void loadSalons() {
-        ArrayList<Salon> salons = mesSalonsViewModel.getSalonListe();
-        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel,
-                mesProspectViewModel, mesProjetsViewModel, projetService);
+        ArrayList<Salon> salons = new ArrayList<>();
+        /*salons.clear();*/
+        salons = mesSalonsViewModel.getSalonListe();
+        /*for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
+            if (prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).size() > 0) {
+                salons.add(salonEnregistrer);
+            }
+        }*/
+        Log.d("salons", salons.toString());
+        adapterSalons = new SalonAttenteAdapter(salons, mesProspectViewModel);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
     }
 
@@ -237,25 +242,34 @@ public class WaitingFragment extends Fragment {
     private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon,
                                   Salon salonAEnvoyer) {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
-            prospectService.envoyerProspect(utilisateur, getContext(),
-                    prospectAEnvoyer, idSalon,
-                    new Outils.APIResponseCallbackString() {
-                        @Override
-                        public void onSuccess(String response) throws JSONException {
-                            projetsSelectionnes =
-                                    projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
-                                            prospectAEnvoyer.getNom());
 
-                            envoyerProjets(projetsSelectionnes,
-                                    Integer.parseInt(response), salonAEnvoyer,
-                                    prospectAEnvoyer);
-                        }
+            if (!prospectAEnvoyer.getIdDolibarr().equals("false")) {
+                prospectService.lieProspectSalon(utilisateur, getContext(),
+                        idSalon, Integer.parseInt(prospectAEnvoyer.getIdDolibarr()));
 
-                        @Override
-                        public void onError(String errorMessage) {
+                projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                        prospectAEnvoyer.getNom());
 
-                        }
-                    });
+                envoyerProjets(projetsSelectionnes,
+                        Integer.parseInt(prospectAEnvoyer.getIdDolibarr()), salonAEnvoyer,
+                        prospectAEnvoyer);
+            } else {
+                prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
+                    @Override
+                    public void onSuccess(String response) throws JSONException {
+                        projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                                prospectAEnvoyer.getNom());
+
+                        envoyerProjets(projetsSelectionnes,
+                                Integer.parseInt(response), salonAEnvoyer, prospectAEnvoyer);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
+            }
             mesProspectViewModel.removeProspect(prospectAEnvoyer);
         }
     }
