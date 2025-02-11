@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Modele.Prospect;
@@ -157,6 +159,19 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
             Button btnModifier = layout.findViewById(R.id.buttonSubmit);
             Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
             TextView erreurProspect = layout.findViewById(R.id.erreur_prospect);
+
+            LinearLayout premiereBarreRecherche =
+                    layout.findViewById(R.id.premiereBarreRecherche);
+
+            LinearLayout deuxiemeBarreRecherche =
+                    layout.findViewById(R.id.deuxiemeBarreRecherche);
+
+            AppCompatButton btnPlus = layout.findViewById(R.id.bouton_plus);
+            AppCompatButton btnMoins = layout.findViewById(R.id.bouton_moins);
+
+            premiereBarreRecherche.setVisibility(View.GONE);
+            deuxiemeBarreRecherche.setVisibility(View.GONE);
+
 
             // Remplir les EditText avec les valeurs actuelles
             editTextNomPrenom.setText(prospect.getNom());

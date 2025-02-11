@@ -10,6 +10,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
@@ -27,14 +35,6 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment représentant la gestion des prospects dans un salon.
@@ -187,15 +187,13 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     public void OnModifyClick(int position, String nouveauNomPrenom, String nouveauMail, String nouveauTel, String nouvelleAdresse, String nouvelleVille, String nouveauCodePostal) {
         Prospect prospectAModifier = mesProspectViewModel.getProspectListe().get(position);
 
-        // ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonActuel.getNom());
-        // for (Prospect prospect : prospects) {
         prospectAModifier.setNom(nouveauNomPrenom);
         prospectAModifier.setMail(nouveauMail);
         prospectAModifier.setNumeroTelephone(nouveauTel);
         prospectAModifier.setAdresse(nouvelleAdresse);
         prospectAModifier.setVille(nouvelleVille);
         prospectAModifier.setCodePostal(nouveauCodePostal);
-        // }
+
         mesProspectViewModel.enregistrerProspect();
         adapterProspect.notifyItemChanged(position);
     }
