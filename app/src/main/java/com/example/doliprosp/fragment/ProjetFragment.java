@@ -106,6 +106,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     /**
      * Initialise les listeners pour les boutons et interactions de l'interface.
      */
+    //asa
     private void setupListeners() {
         // Ajoute un projet
         boutonCreerProjet.setOnClickListener(v -> {
