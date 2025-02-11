@@ -12,6 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
@@ -26,11 +31,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 /**
  * Fragment permettant à un utilisateur de se connecter à l'application.
@@ -249,7 +249,7 @@ public class ConnexionFragment extends Fragment {
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-        url = "http://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
         nomUtilisateur = "antonin";
         motDePasse = "antoninantonin";
         //url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";

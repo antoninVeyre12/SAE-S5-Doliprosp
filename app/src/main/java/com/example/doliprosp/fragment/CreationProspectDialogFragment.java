@@ -324,6 +324,19 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         Log.d("heureSaisieTimestamp", String.valueOf(heureSaisieTimestamp));
         erreur.setVisibility(View.GONE);
 
+//        prospectService.prospectClientExiste(getContext(), tel, "row.id",
+//                utilisateurViewModel.getUtilisateur(),
+//                new Outils.APIResponseCallbackArrayProspect() {
+//                    @Override
+//                    public void onSuccess(ArrayList<Prospect> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(String errorMessage) {
+//
+//                    }
+//                });
         if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
             Prospect prospect = new Prospect(nomSalon, nom,
                     codePostal, ville, adresse, mail, tel,
