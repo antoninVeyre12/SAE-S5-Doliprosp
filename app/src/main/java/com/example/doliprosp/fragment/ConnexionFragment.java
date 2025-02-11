@@ -80,8 +80,7 @@ public class ConnexionFragment extends Fragment {
         bottomNav = activity.findViewById(R.id.bottom_navigation);
         connexionService = new ConnexionService();
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        utilisateurViewModel.initSharedPreferences(getContext());
-        utilisateur = utilisateurViewModel.chargementUtilisateur();
+        utilisateur = utilisateurViewModel.chargementUtilisateur(getContext());
     }
 
     /**
@@ -124,7 +123,7 @@ public class ConnexionFragment extends Fragment {
     }
 
     private void configurerUtilisateurExistant() {
-        utilisateurViewModel.chargementUtilisateur();
+        utilisateurViewModel.chargementUtilisateur(getContext());
         urlEditText.setText(utilisateur.getUrl());
         nomUtilisateurEditText.setText(utilisateur.getNomUtilisateur());
 
@@ -224,7 +223,7 @@ public class ConnexionFragment extends Fragment {
         utilisateur.setVille(reponse.getString("town"));
         utilisateur.setNumTelephone(reponse.getString("office_phone"));
 
-        utilisateurViewModel.setUtilisateur(utilisateur);
+        utilisateurViewModel.setUtilisateur(utilisateur, getContext());
     }
 
     /**

@@ -1,20 +1,20 @@
 package com.example.doliprosp.viewModel;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
 import com.example.doliprosp.Modele.Utilisateur;
+import com.example.doliprosp.Services.ChiffrementVigenere;
+import com.example.doliprosp.Services.Outils;
 
-import java.io.Serializable;
+public class UtilisateurViewModel extends ViewModel {
 
-public class UtilisateurViewModel extends ViewModel implements Serializable {
+    private Utilisateur utilisateur;
+    private final String SEPARATOR = ";";
+    private final String NOM_FICHIER = "utilisateur.csv";
 
-    private static final long serialVersionUID = 1L;
-    private Utilisateur utilisateurActuel;
-
-    private SharedPreferences sharedPreferences;
 
     /**
      * Retourne l'utilisateur actuel.
@@ -22,47 +22,29 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
      * @return L'utilisateur actuel.
      */
     public Utilisateur getUtilisateur() {
-        return utilisateurActuel;
+        return utilisateur;
     }
 
     /**
-     * Définit un nouvel utilisateur et l'enregistre dans les SharedPreferences.
+     * Définit un nouvel utilisateur et l'enregistre dans le fichier CSV.
      *
      * @param nouvelUtilisateur L'utilisateur à définir.
      */
-    public void setUtilisateur(Utilisateur nouvelUtilisateur) {
-        this.utilisateurActuel = nouvelUtilisateur;
-        enregistrerUtilisateur(); // Sauvegarde les informations de l'utilisateur dans SharedPreferences.
+    public void setUtilisateur(Utilisateur nouvelUtilisateur, Context context) {
+        this.utilisateur = nouvelUtilisateur;
+        enregistrerUtilisateur(context);
     }
 
     /**
-     * Initialise les SharedPreferences pour le stockage persistant des données utilisateur.
-     *
-     * @param context Le contexte pour accéder aux SharedPreferences.
+     * Enregistre les données de l'utilisateur dans un fichier CSV.
      */
-    public void initSharedPreferences(Context context) {
-        this.sharedPreferences = context.getSharedPreferences("users_prefs", Context.MODE_PRIVATE);
-    }
-
-    /**
-     * Enregistre les données de l'utilisateur dans les SharedPreferences.
-     */
-    public void enregistrerUtilisateur() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Enregistre chaque information de l'utilisateur dans les SharedPreferences.
-        editor.putString("username", utilisateurActuel.getNomUtilisateur());
-        editor.putString("url", utilisateurActuel.getUrl());
-        editor.putString("motDePasse", utilisateurActuel.getMotDePasse());
-        editor.putString("apiKey", utilisateurActuel.getCleApi());
-        editor.putString("prenom", utilisateurActuel.getPrenom());
-        editor.putString("nom", utilisateurActuel.getNom());
-        editor.putString("ville", utilisateurActuel.getVille());
-        editor.putInt("codePostal", utilisateurActuel.getCodePostal());
-        editor.putString("adresse", utilisateurActuel.getAdresse());
-        editor.putString("mail", utilisateurActuel.getMail());
-        editor.putString("numTelephone", utilisateurActuel.getNumTelephone());
-        editor.apply(); // Applique les changements de manière asynchrone.
+    public void enregistrerUtilisateur(Context context) {
+        String apiKeyChiifre =
+                ChiffrementVigenere.chiffrement(utilisateur.getCleApi());
+        String content =
+                utilisateur.getNomUtilisateur() + SEPARATOR + utilisateur.getUrl() + SEPARATOR + utilisateur.getMotDePasse() + SEPARATOR + utilisateur.getCleApi() + SEPARATOR + apiKeyChiifre + SEPARATOR + utilisateur.getMail() + SEPARATOR + utilisateur.getNom() + SEPARATOR + utilisateur.getPrenom() + SEPARATOR + utilisateur.getVille() + SEPARATOR + utilisateur.getCodePostal() + SEPARATOR + utilisateur.getAdresse() + SEPARATOR + utilisateur.getNumTelephone() + SEPARATOR;
+        Log.d("content", content);
+        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
     }
 
     /**
@@ -70,47 +52,30 @@ public class UtilisateurViewModel extends ViewModel implements Serializable {
      *
      * @return L'objet Utilisateur contenant les informations chargées.
      */
-    public Utilisateur chargementUtilisateur() {
-        // Récupère les valeurs des SharedPreferences
-        String[] cles = {
-                "username", "url", "motDePasse", "apiKey", "prenom",
-                "nom", "ville", "adresse", "mail", "numTelephone"
-        };
-
-        String[] valeurs = new String[cles.length];
-        for (int i = 0; i < cles.length; i++) {
-            valeurs[i] = sharedPreferences.getString(cles[i], null);
-        }
-
-        int codePostal = sharedPreferences.getInt("codePostal", 0);
-
+    public Utilisateur chargementUtilisateur(Context context) {
+        String valeurs[] = Outils.lireFichierInterne(context,
+                NOM_FICHIER).split(";");
+        Log.d("valeurs", String.valueOf(valeurs.length));
         // Crée un nouvel objet Utilisateur avec les premiers paramètres obligatoires
-        utilisateurActuel = new Utilisateur(valeurs[1], valeurs[0], valeurs[2], valeurs[3]);
+        utilisateur = new Utilisateur(valeurs[1], valeurs[0], valeurs[2], valeurs[3]);
 
         // Remplit les autres informations avec les setters
-        utilisateurActuel.setPrenom(valeurs[4]);
-        utilisateurActuel.setNom(valeurs[5]);
-        utilisateurActuel.setVille(valeurs[6]);
-        utilisateurActuel.setCodePostal(codePostal);
-        utilisateurActuel.setAdresse(valeurs[7]);
-        utilisateurActuel.setMail(valeurs[8]);
-        utilisateurActuel.setNumTelephone(valeurs[9]);
+        utilisateur.setCleChiffrement(valeurs[4]);
+        utilisateur.setPrenom(valeurs[7]);
+        utilisateur.setNom(valeurs[6]);
+        utilisateur.setVille(valeurs[8]);
+        utilisateur.setCodePostal(Integer.parseInt(valeurs[9]));
+        utilisateur.setAdresse(valeurs[10]);
+        utilisateur.setMail(valeurs[5]);
+        utilisateur.setNumTelephone(valeurs[11]);
 
-        return utilisateurActuel;
+        return utilisateur;
     }
 
     /**
-     * Supprime les données utilisateur des SharedPreferences.
+     * Supprime les données utilisateur en supprimant le fichier CSV associé.
      */
-    public void supprimerDonnerUtilisateur() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String[] cles = {
-                "username", "url", "motDePasse", "apiKey", "prenom", "nom",
-                "ville", "codePostal", "adresse", "mail", "numTelephone"
-        };
-        for (String cle : cles) {
-            editor.remove(cle);
-        }
-        editor.apply(); // Applique les changements de manière asynchrone
+    public void supprimerDonnerUtilisateur(Context context) {
+        context.deleteFile(NOM_FICHIER);
     }
 }

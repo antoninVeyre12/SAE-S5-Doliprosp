@@ -15,6 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.fragment.ConnexionFragment;
@@ -28,12 +34,6 @@ import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 public class MainActivity extends AppCompatActivity {
     // Déclaration des variables nécessaires
@@ -240,9 +240,8 @@ public class MainActivity extends AppCompatActivity {
 
         UtilisateurViewModel utilisateurViewModel =
                 new ViewModelProvider(this).get(UtilisateurViewModel.class);
-        utilisateurViewModel.initSharedPreferences(this);
 
-        utilisateurViewModel.chargementUtilisateur();
+        utilisateurViewModel.chargementUtilisateur(this);
 
         mesProspectViewModel.chargementProspect();
         mesProjetsViewModel.chargementProjet();

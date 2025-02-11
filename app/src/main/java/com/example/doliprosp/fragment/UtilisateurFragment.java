@@ -1,9 +1,7 @@
 package com.example.doliprosp.fragment;
+
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +17,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class UtilisateurFragment extends Fragment {
     private Utilisateur utilisateurActuel;
@@ -51,20 +45,19 @@ public class UtilisateurFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_user, container, false);
     }
 
     /**
      * Méthode pour gérer l'affichage des éléments de la vue et le clic sur le bouton deconnecter
-     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     *
+     * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
+     *                           from a previous saved state as given here.
      */
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
@@ -84,8 +77,7 @@ public class UtilisateurFragment extends Fragment {
         textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
 
 
-        if(utilisateurActuel.informationutilisateurDejaRecupere())
-        {
+        if (utilisateurActuel.informationutilisateurDejaRecupere()) {
             nom = utilisateurActuel.getNom();
             prenom = utilisateurActuel.getPrenom();
             mail = utilisateurActuel.getMail();
@@ -98,7 +90,7 @@ public class UtilisateurFragment extends Fragment {
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
-            utilisateurViewModel.supprimerDonnerUtilisateur();
+            utilisateurViewModel.supprimerDonnerUtilisateur(getContext());
             ConnexionFragment connexionFragment = new ConnexionFragment();
             ((MainActivity) getActivity()).loadFragment(connexionFragment);
             bottomNav.setVisibility(View.GONE);
@@ -108,8 +100,7 @@ public class UtilisateurFragment extends Fragment {
     /**
      * Méthode permettant d'afficher les informations de l'utilisateur
      */
-    private void afficherInformations()
-    {
+    private void afficherInformations() {
         textViewNom.setText(nom);
         textViewPrenom.setText(prenom);
         textViewUserName.setText(userName);
@@ -126,12 +117,12 @@ public class UtilisateurFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragment
-        ((MainActivity) getActivity()).setColors(4, R.color.color_primary,true);
+        ((MainActivity) getActivity()).setColors(4, R.color.color_primary, true);
         if (ProspectFragment.dernierSalonSelectione == null) {
-            ((MainActivity) getActivity()).setColors(2, R.color.invalide,false);
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide, false);
         }
         if (ProjetFragment.dernierProspectSelectionne == null) {
-            ((MainActivity) getActivity()).setColors(3, R.color.invalide,false);
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide, false);
         }
     }
 }

@@ -19,13 +19,16 @@ public class Utilisateur implements Serializable {
     private int codePostal;
     private String ville;
     private String numTelephone;
+    private String cleChiffrement;
+
 
     /**
      * Constructeur de la classe Utilisateur.
-     * @param url L'URL de l'utilisateur.
+     *
+     * @param url            L'URL de l'utilisateur.
      * @param nomUtilisateur Le nom d'utilisateur pour la connexion.
-     * @param motDePasse Le mot de passe pour la connexion.
-     * @param apiKey La clé API associée à l'utilisateur.
+     * @param motDePasse     Le mot de passe pour la connexion.
+     * @param apiKey         La clé API associée à l'utilisateur.
      */
     public Utilisateur(String url, String nomUtilisateur, String motDePasse, String apiKey) {
         this.url = url;
@@ -36,6 +39,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Vérifie si toutes les informations personnelles de l'utilisateur ont été récupérées.
+     *
      * @return true si les informations personnelles sont complètes, false sinon.
      */
     public boolean informationutilisateurDejaRecupere() {
@@ -44,8 +48,10 @@ public class Utilisateur implements Serializable {
     }
 
     // Getters et Setters
+
     /**
      * Retourne la ville de l'utilisateur.
+     *
      * @return La ville de l'utilisateur.
      */
     public String getVille() {
@@ -54,6 +60,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit la ville de l'utilisateur.
+     *
      * @param ville La ville de l'utilisateur.
      */
     public void setVille(String ville) {
@@ -62,6 +69,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne le code postal de l'utilisateur.
+     *
      * @return Le code postal de l'utilisateur.
      */
     public int getCodePostal() {
@@ -70,6 +78,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit le code postal de l'utilisateur.
+     *
      * @param codePostal Le code postal de l'utilisateur.
      */
     public void setCodePostal(int codePostal) {
@@ -78,6 +87,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne l'adresse de l'utilisateur.
+     *
      * @return L'adresse de l'utilisateur.
      */
     public String getAdresse() {
@@ -86,6 +96,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit l'adresse de l'utilisateur.
+     *
      * @param adresse L'adresse de l'utilisateur.
      */
     public void setAdresse(String adresse) {
@@ -94,6 +105,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne l'adresse e-mail de l'utilisateur.
+     *
      * @return L'adresse e-mail de l'utilisateur.
      */
     public String getMail() {
@@ -102,6 +114,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit l'adresse e-mail de l'utilisateur.
+     *
      * @param mail L'adresse e-mail de l'utilisateur.
      */
     public void setMail(String mail) {
@@ -110,6 +123,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne le numéro de téléphone de l'utilisateur.
+     *
      * @return Le numéro de téléphone de l'utilisateur.
      */
     public String getNumTelephone() {
@@ -118,6 +132,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit le numéro de téléphone de l'utilisateur.
+     *
      * @param numTelephone Le numéro de téléphone de l'utilisateur.
      */
     public void setNumTelephone(String numTelephone) {
@@ -126,6 +141,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne l'URL de l'utilisateur.
+     *
      * @return L'URL de l'utilisateur.
      */
     public String getUrl() {
@@ -134,6 +150,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne le nom d'utilisateur pour la connexion.
+     *
      * @return Le nom d'utilisateur.
      */
     public String getNomUtilisateur() {
@@ -142,6 +159,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne le mot de passe pour la connexion.
+     *
      * @return Le mot de passe.
      */
     public String getMotDePasse() {
@@ -150,6 +168,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne la clé API associée à l'utilisateur.
+     *
      * @return La clé API.
      */
     public String getCleApi() {
@@ -158,6 +177,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit l'URL de l'utilisateur.
+     *
      * @param url L'URL de l'utilisateur.
      */
     public void setUrl(String url) {
@@ -166,6 +186,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit le nom d'utilisateur pour la connexion.
+     *
      * @param newUserName Le nouveau nom d'utilisateur.
      */
     public void setNomUtilisateur(String newUserName) {
@@ -174,6 +195,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit le mot de passe pour la connexion.
+     *
      * @param nouveauMotDePasse Le nouveau mot de passe.
      */
     public void setMotDePasse(String nouveauMotDePasse) {
@@ -182,6 +204,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit la clé API de l'utilisateur.
+     *
      * @param cleAPI La nouvelle clé API.
      */
     public void setApiKey(String cleAPI) {
@@ -190,6 +213,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne le prénom de l'utilisateur.
+     *
      * @return Le prénom de l'utilisateur.
      */
     public String getPrenom() {
@@ -198,6 +222,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit le prénom de l'utilisateur.
+     *
      * @param prenom Le prénom de l'utilisateur.
      */
     public void setPrenom(String prenom) {
@@ -206,6 +231,7 @@ public class Utilisateur implements Serializable {
 
     /**
      * Retourne le nom de l'utilisateur.
+     *
      * @return Le nom de l'utilisateur.
      */
     public String getNom() {
@@ -214,9 +240,28 @@ public class Utilisateur implements Serializable {
 
     /**
      * Définit le nom de l'utilisateur.
+     *
      * @param nom Le nom de l'utilisateur.
      */
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    /**
+     * Retourne la clé de chiffrement
+     *
+     * @return la clé de chiffrement
+     */
+    public String getCleChiffrement() {
+        return cleChiffrement;
+    }
+
+    /**
+     * Définit la cle de chiffrement.
+     *
+     * @param cleChiffrement la clé de chiffrement.
+     */
+    public void setCleChiffrement(String cleChiffrement) {
+        this.cleChiffrement = cleChiffrement;
     }
 }

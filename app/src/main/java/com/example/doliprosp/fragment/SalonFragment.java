@@ -27,6 +27,7 @@ import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.ChiffrementVigenere;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
@@ -73,6 +74,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_show, container, false);
 
     }
@@ -96,7 +98,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         mesProjetViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
-        utilisateurViewModel.initSharedPreferences(getContext());
         utilisateur = utilisateurViewModel.getUtilisateur();
         boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
         recyclerView = view.findViewById(R.id.showRecyclerView);
@@ -106,6 +107,15 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         erreur = view.findViewById(R.id.erreur_pas_de_salons);
         chargement = view.findViewById(R.id.chargement);
 
+
+        String cleChiffre =
+                ChiffrementVigenere.chiffrement(utilisateur.getCleApi());
+        String keyDechiffrement = ChiffrementVigenere.key;
+        String nomFichier = "cleApi.csv";
+        String contenu = keyDechiffrement;
+        Outils.ecrireDansFichierInterne(getContext(), nomFichier, contenu);
+        Log.d("recupOfTheFIle", Outils.lireFichierInterne(getContext(),
+                nomFichier));
 
         // Set l'adapter des salons de l'utilisateur
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);

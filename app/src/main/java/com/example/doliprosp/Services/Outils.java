@@ -18,6 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -248,6 +251,39 @@ public class Outils {
             fileRequete = Volley.newRequestQueue(context);
         }
         return fileRequete;
+    }
+
+    public static void ecrireDansFichierInterne(Context context, String nomFichier, String contenu) {
+        try {
+            // Ouvre le fichier en mode privé pour écrire dedans
+            FileOutputStream fos = context.openFileOutput(nomFichier,
+                    Context.MODE_PRIVATE);
+            fos.write(contenu.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String lireFichierInterne(Context context,
+                                            String fichierNom) {
+        String contenu = "";
+        try {
+            // Ouvrir le fichier en mode lecture
+            FileInputStream fis = context.openFileInput(fichierNom);
+            int character;
+
+            // Lire chaque caractère du fichier et l'ajouter à une chaîne
+            while ((character = fis.read()) != -1) {
+                contenu += (char) character;
+            }
+
+            // Fermer le flux une fois la lecture terminée
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return contenu;
     }
 
     /**
