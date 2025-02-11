@@ -302,7 +302,9 @@ public class Outils {
     }
 
     public interface CallbackProspectExiste {
-        void onResponse(boolean b);
+        void onResponse();
+
+        void onError();
     }
 
 

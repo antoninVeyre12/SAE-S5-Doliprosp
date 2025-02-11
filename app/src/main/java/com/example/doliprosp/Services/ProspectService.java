@@ -1,5 +1,9 @@
 package com.example.doliprosp.Services;
 
+import static com.example.doliprosp.Services.Outils.appelAPIGetList;
+import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
+import static com.example.doliprosp.Services.Outils.appelAPIPostJson;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -13,10 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static com.example.doliprosp.Services.Outils.appelAPIGetList;
-import static com.example.doliprosp.Services.Outils.appelAPIPostInteger;
-import static com.example.doliprosp.Services.Outils.appelAPIPostJson;
 
 public class ProspectService implements IProspectService {
     private String url;
@@ -161,16 +161,12 @@ public class ProspectService implements IProspectService {
         Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
-                callback.onResponse(true);
-
+                callback.onResponse();
             }
 
             @Override
             public void onError(String errorMessage) {
-                boolean existe = existeDansViewModel(recherche, mesProspectViewModel);
-
-                callback.onResponse(existe);
-
+                callback.onError();
 
             }
         });

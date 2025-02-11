@@ -252,9 +252,6 @@ public class ConnexionFragment extends Fragment {
         url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
         nomUtilisateur = "antonin";
         motDePasse = "antoninantonin";
-        //url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs";
-        //nomUtilisateur = "G42";
-        //motDePasse = "3iFJWj26z";
         Log.d("url", url);
     }
 

@@ -34,7 +34,6 @@ import com.example.doliprosp.adapter.ProspectRechercheAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -321,39 +320,38 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         String client = estClient.getText().toString().trim();
         String idDolibar = idDolibarr.getText().toString().trim();
         long heureSaisieTimestamp = System.currentTimeMillis() / 1000;
-        Log.d("heureSaisieTimestamp", String.valueOf(heureSaisieTimestamp));
         erreur.setVisibility(View.GONE);
+        prospectService.prospectDejaExistantDolibarr(getContext(), tel,
+                utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
+                new Outils.CallbackProspectExiste() {
+                    @Override
+                    public void onResponse() {
+                        erreur.setText("Un prospect avec ce numéro de " +
+                                "téléphone existe déjà");
+                        erreur.setVisibility(View.VISIBLE);
+                        Log.d("telllll", "prospect existe déjà");
+                    }
 
-//        prospectService.prospectClientExiste(getContext(), tel, "row.id",
-//                utilisateurViewModel.getUtilisateur(),
-//                new Outils.APIResponseCallbackArrayProspect() {
-//                    @Override
-//                    public void onSuccess(ArrayList<Prospect> response) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(String errorMessage) {
-//
-//                    }
-//                });
-        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
-            Prospect prospect = new Prospect(nomSalon, nom,
-                    codePostal, ville, adresse, mail, tel,
-                    client, "image", idDolibar, heureSaisieTimestamp);
-            mesProspectViewModel.addProspect(prospect);
-            dismiss();
+                    @Override
+                    public void onError() {
+                        Log.d("telllll", "prospect n'existe pas existe déjà");
+                        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
+                            Prospect prospect = new Prospect(nomSalon, nom,
+                                    codePostal, ville, adresse, mail, tel,
+                                    client, "image", idDolibar, heureSaisieTimestamp);
+                            mesProspectViewModel.addProspect(prospect);
+                            dismiss();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("prospect", prospect);
+                            ProjetFragment projetFragment = new ProjetFragment();
+                            projetFragment.setArguments(bundle);
+                            ((MainActivity) getActivity()).loadFragment(projetFragment);
+                            ((MainActivity) getActivity()).setColors(2, R.color.color_primary
+                                    , true);
+                        }
+                    }
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("prospect", (Serializable) prospect);
-            ProjetFragment projetFragment = new ProjetFragment();
-            projetFragment.setArguments(bundle);
-            ((MainActivity) getActivity()).loadFragment(projetFragment);
-            ((MainActivity) getActivity()).setColors(2, R.color.color_primary
-                    , true);
-        }
-
-
+                });
     }
 
     /**
