@@ -112,18 +112,18 @@ public class ProjetService implements IProjetService {
                     projet.getTitre() + '-' + projet.getNomProspect());
             jsonBody.put("description", projet.getDescription());
             jsonBody.put("titreProjet", projet.getTitre());
-            jsonBody.put("date_start", projet.getDateTimestamp());
             jsonBody.put("IDProspectClient", idProspect);
-            jsonBody.put("NomProspectClient", prospect.getNom());
+            jsonBody.put("nomProspectClient", prospect.getNom());
             jsonBody.put("adressePostale", prospect.getAdresse());
-            jsonBody.put("CodePostal", prospect.getCodePostal());
-            jsonBody.put("Ville", prospect.getVille());
+            jsonBody.put("codePostal", prospect.getCodePostal());
+            jsonBody.put("ville", prospect.getVille());
             jsonBody.put("noTel", prospect.getNumeroTelephone());
             jsonBody.put("email", prospect.getMail());
-            jsonBody.put("ClientProspect", "0");
-            jsonBody.put("DateDebutProjet", projet.getDateTimestamp());
-            jsonBody.put("Commercial", utilisateur.getNomUtilisateur());
-            jsonBody.put("miseAjour", "1");
+            jsonBody.put("clientProspect", "0");
+            jsonBody.put("dateDebutProjet", projet.getDateTimestamp());
+            jsonBody.put("dateSaisie", prospect.getHeureSaisieTimestamp());
+            jsonBody.put("commercial", utilisateur.getNomUtilisateur());
+            jsonBody.put("miseAJour", "1");
             jsonBody.put("intituleSalon", salon.getNom());
             jsonBody.put("status", 1);
         } catch (JSONException e) {

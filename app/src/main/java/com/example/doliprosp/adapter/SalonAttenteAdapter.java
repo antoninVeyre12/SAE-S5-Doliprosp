@@ -1,15 +1,11 @@
 package com.example.doliprosp.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
@@ -18,16 +14,18 @@ import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.MesSalonsViewModel;
-import com.example.doliprosp.viewModel.SalonsViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 // Adapter pour la liste des salons dans un RecyclerView
 public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapter.MyViewHolder> implements Serializable {
@@ -40,26 +38,19 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
     private IProjetService projetService;
 
     // Listener pour gérer les actions sur chaque item de la liste
-    private MesSalonsViewModel mesSalonsViewModel;
     private MesProspectViewModel mesProspectViewModel;
 
     private MesProjetsViewModel mesProjetsViewModel;
-    private SalonsViewModel salonsViewModel;
+
 
     // Constructeur pour initialiser la liste des salons et le listener
     public SalonAttenteAdapter(ArrayList<Salon> salonList,
-                               MesSalonsViewModel mesSalonsViewModel/*,
-                               SalonsViewModel salonsViewModel*/,
                                MesProspectViewModel mesProspectViewModel,
-                               MesProjetsViewModel mesProjetsViewModel,
-                               IProjetService projetService) {
+                               MesProjetsViewModel mesProjetsViewModel) {
         this.salonListe = salonList;
-        this.mesSalonsViewModel = mesSalonsViewModel;
         this.mesProspectViewModel = mesProspectViewModel;
         this.mesProjetsViewModel = mesProjetsViewModel;
-        this.projetService = projetService;
 
-//        this.salonsViewModel = salonsViewModel;
     }
 
     // Crée une nouvelle vue pour un item de la liste
@@ -77,39 +68,25 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         salonService = new SalonService();
         prospectService = new ProspectService();
+        projetService = new ProjetService();
 
         Salon salon = salonListe.get(position);
         holder.salon_nom.setText(salon.getNom());
-        if (projetService != null) {
-            holder.nb_prospect.setText(String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salon.getNom()).size()));
+        holder.nb_prospect.setText(String.valueOf(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salon.getNom()).size()));
+        int nbProjets = 0;
+        List<Prospect> prospects =
+                prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salon.getNom());
 
-            // Calcul du nombre de projets pour ce salon via ses prospects
-            int nbProjets = 0;
-            List<Prospect> prospects =
-                    prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salon.getNom());
-            for (Prospect prospect : prospects) {
-                // Pour chaque prospect, on récupère ses projets via le
-                // projetService
-                List<Projet> projets =
-                        projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospect.getNom());
-                Log.d("SalonAttenteAdapter", "Projets trouvés pour le " +
-                        "prospect " + prospect.getNom() + ": " + projets.size());
+        for (Prospect prospect : prospects) {
+            List<Projet> projets =
+                    projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospect.getNom());
 
-                nbProjets += projets.size(); // Ajoute le nombre de projets du
-                // prospect
-            }
-            holder.nb_projet.setText(String.valueOf(nbProjets));
-        } else {
-            Log.e("SalonAttenteAdapter", "IProjetService is null. Cannot " +
-                    "fetch projects.");
+            nbProjets += projets.size();
         }
-
+        holder.nb_projet.setText(String.valueOf(nbProjets));
         holder.salon_checkbox.setChecked(salon.estSelectionne());
-
-
         holder.salon_checkbox.setOnCheckedChangeListener((buttonView,
                                                           isChecked) -> {
-
             salon.setEstSelectionne(isChecked);
             holder.itemView.post(() -> notifyItemChanged(position));
 

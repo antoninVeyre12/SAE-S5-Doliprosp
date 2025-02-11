@@ -2,31 +2,27 @@ package com.example.doliprosp.adapter;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Button;
 
 import com.example.doliprosp.Interface.ISalonService;
-import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.Serializable;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 // Adapter pour la liste des salons dans un RecyclerView
 public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHolder> implements Serializable {
@@ -94,11 +90,11 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
 
         // Clic sur le bouton modifier
         holder.salon_modifier.setOnClickListener(v -> {
-            afficherDialogModification(v,salon,position);
+            afficherDialogModification(v, salon, position);
         });
     }
 
-    private void afficherDialogModification(View v, Salon salon, int position){
+    private void afficherDialogModification(View v, Salon salon, int position) {
         if (onItemClickListener != null) {
 
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
@@ -150,6 +146,11 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
         }
     }
 
+    public void setSalonsList(List<Salon> salonsList) {
+        this.salonListe = salonsList;
+        notifyDataSetChanged();
+    }
+
     // Retourne le nombre d'items dans la liste
     @Override
     public int getItemCount() {
@@ -159,7 +160,9 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
     // Interface pour gérer les actions des items (supprimer, sélectionner, modifier)
     public interface OnItemClickListener {
         void onDeleteClick(int position);
+
         void onSelectClick(int position, List<Salon> salonList);
+
         void onModifyClick(int position, String nouveauNom);
     }
 

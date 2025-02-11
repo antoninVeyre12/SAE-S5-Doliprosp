@@ -34,7 +34,6 @@ import com.example.doliprosp.adapter.ProspectRechercheAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -49,7 +48,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private MesProspectViewModel mesProspectViewModel;
     private TextView erreur, erreurRechercheprospect;
     private EditText nomPrenomProspect, mailProspect, telProspect,
-            adresseProspect, villeProspect, codePostalProspect;
+            adresseProspect, villeProspect, codePostalProspect, estClient,
+            idDolibarr;
     private Button boutonEnvoyer, boutonAnnuler;
     private ProgressBar chargement;
     private AppCompatButton boutonPlus, boutonMoins;
@@ -127,6 +127,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         adresseProspect = vue.findViewById(R.id.editTextAdresse);
         villeProspect = vue.findViewById(R.id.editTextVille);
         codePostalProspect = vue.findViewById(R.id.editTextCodePostal);
+        estClient = vue.findViewById(R.id.editTextEstClient);
+        idDolibarr = vue.findViewById(R.id.editTextIdDolibarr);
         boutonEnvoyer = vue.findViewById(R.id.buttonSubmit);
         boutonAnnuler = vue.findViewById(R.id.buttonCancel);
         chargement = vue.findViewById(R.id.chargement);
@@ -315,27 +317,41 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         String adresse = adresseProspect.getText().toString().trim();
         String ville = villeProspect.getText().toString().trim();
         String codePostal = codePostalProspect.getText().toString().trim();
-        String estClient = "Prospect";
-
+        String client = estClient.getText().toString().trim();
+        String idDolibar = idDolibarr.getText().toString().trim();
+        long heureSaisieTimestamp = System.currentTimeMillis() / 1000;
         erreur.setVisibility(View.GONE);
+        prospectService.prospectDejaExistantDolibarr(getContext(), tel,
+                utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
+                new Outils.CallbackProspectExiste() {
+                    @Override
+                    public void onResponse() {
+                        erreur.setText("Un prospect avec ce numéro de " +
+                                "téléphone existe déjà");
+                        erreur.setVisibility(View.VISIBLE);
+                        Log.d("telllll", "prospect existe déjà");
+                    }
 
-        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
-            Prospect prospect = new Prospect(nomSalon, nom,
-                    codePostal, ville, adresse, mail, tel,
-                    estClient, "image");
-            mesProspectViewModel.addProspect(prospect);
-            dismiss();
+                    @Override
+                    public void onError() {
+                        Log.d("telllll", "prospect n'existe pas existe déjà");
+                        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
+                            Prospect prospect = new Prospect(nomSalon, nom,
+                                    codePostal, ville, adresse, mail, tel,
+                                    client, "image", idDolibar, heureSaisieTimestamp);
+                            mesProspectViewModel.addProspect(prospect);
+                            dismiss();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("prospect", prospect);
+                            ProjetFragment projetFragment = new ProjetFragment();
+                            projetFragment.setArguments(bundle);
+                            ((MainActivity) getActivity()).loadFragment(projetFragment);
+                            ((MainActivity) getActivity()).setColors(2, R.color.color_primary
+                                    , true);
+                        }
+                    }
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("prospect", (Serializable) prospect);
-            ProjetFragment projetFragment = new ProjetFragment();
-            projetFragment.setArguments(bundle);
-            ((MainActivity) getActivity()).loadFragment(projetFragment);
-            ((MainActivity) getActivity()).setColors(2, R.color.color_primary
-                    , true);
-        }
-
-
+                });
     }
 
     /**
@@ -465,9 +481,11 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         remplirChamp(mailProspect, prospect.getMail());
         remplirChamp(telProspect, prospect.getNumeroTelephone());
         remplirChamp(adresseProspect, prospect.getAdresse());
-        remplirChamp(codePostalProspect,
-                String.valueOf(prospect.getCodePostal()));
+        remplirChamp(codePostalProspect, prospect.getCodePostal());
         remplirChamp(villeProspect, prospect.getVille());
+        remplirChamp(estClient, prospect.getEstClient());
+        remplirChamp(idDolibarr, prospect.getIdDolibarr());
+
         bloquerSaisieEditText();
     }
 

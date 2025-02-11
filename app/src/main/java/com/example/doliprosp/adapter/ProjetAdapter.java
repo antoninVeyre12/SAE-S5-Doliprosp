@@ -1,5 +1,7 @@
 package com.example.doliprosp.adapter;
 
+import static com.example.doliprosp.fragment.CreationProjetDialogFragment.convertirEnTimestamp;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -14,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.R;
 
@@ -22,13 +27,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static com.example.doliprosp.fragment.CreationProjetDialogFragment.convertirEnTimestamp;
-
 /**
- * ProjetAdapter est un adaptateur pour le RecyclerView qui affiche une liste de projets.
+ * ProjetAdapter est un adaptateur pour le RecyclerView qui affiche une liste
+ * de projets.
  * Chaque élément de la liste permet de modifier ou supprimer un projet.
  */
 public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHolder> implements Serializable {
@@ -47,10 +48,13 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     /**
      * Constructeur de l'adaptateur.
      *
-     * @param projetListe         Liste des projets à afficher dans le RecyclerView.
-     * @param onItemClickListener Listener pour gérer les événements de clic (suppression et modification).
+     * @param projetListe         Liste des projets à afficher dans le
+     *                            RecyclerView.
+     * @param onItemClickListener Listener pour gérer les événements de clic
+     *                            (suppression et modification).
      */
-    public ProjetAdapter(List<Projet> projetListe, ProjetAdapter.OnItemClickListener onItemClickListener) {
+    public ProjetAdapter(List<Projet> projetListe,
+                         ProjetAdapter.OnItemClickListener onItemClickListener) {
         this.projetListe = projetListe;
         this.onItemClickListener = onItemClickListener;
 
@@ -66,8 +70,10 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     @NonNull
     @Override
     public ProjetAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project, parent, false);
-        return new ProjetAdapter.MyViewHolder(view); // Retourne un ViewHolder qui contient la vue gonflée
+        View view =
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project, parent, false);
+        return new ProjetAdapter.MyViewHolder(view); // Retourne un
+        // ViewHolder qui contient la vue gonflée
     }
 
     /**
@@ -88,7 +94,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     }
 
     /**
-     * Affiche une boîte de dialogue de confirmation avant de supprimer un projet.
+     * Affiche une boîte de dialogue de confirmation avant de supprimer un
+     * projet.
      *
      * @param v        La vue qui a déclenché l'action.
      * @param position La position de l'élément dans la liste.
@@ -97,30 +104,37 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         if (onItemClickListener != null) {
             new AlertDialog.Builder(v.getContext())
                     .setMessage(R.string.confirmation_suppresion_projet)
-                    .setPositiveButton("Oui", (dialog, which) -> onItemClickListener.onDeleteClick(position))
-                    .setNegativeButton("Non", (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton("Oui",
+                            (dialog, which) -> onItemClickListener.onDeleteClick(position))
+                    .setNegativeButton("Non",
+                            (dialog, which) -> dialog.dismiss())
                     .show();
         }
     }
 
 
     /**
-     * Affiche une boîte de dialogue permettant à l'utilisateur de modifier un projet.
+     * Affiche une boîte de dialogue permettant à l'utilisateur de modifier
+     * un projet.
      *
      * @param v        La vue qui a déclenché l'action.
-     * @param projet   L'objet Projet contenant les informations à afficher dans la boîte de dialogue.
+     * @param projet   L'objet Projet contenant les informations à afficher
+     *                 dans la boîte de dialogue.
      * @param position La position de l'élément dans la liste.
      */
-    private void afficherDialogModification(View v, Projet projet, int position) {
+    private void afficherDialogModification(View v, Projet projet,
+                                            int position) {
         if (onItemClickListener != null) {
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
-            View layout = inflater.inflate(R.layout.dialog_create_project, null);
+            View layout = inflater.inflate(R.layout.dialog_create_project,
+                    null);
 
             configurerElementsVue(layout);
             remplirChamps(projet);
 
             // Créer et afficher l'alerte
-            AlertDialog dialog = creationDialogModification(v.getContext(), layout);
+            AlertDialog dialog = creationDialogModification(v.getContext(),
+                    layout);
             dialog.show();
 
             // Actions des boutons
@@ -148,39 +162,63 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         editTextDescription.setText(projet.getDescription());
         setDatePickerValue(datePickerDateDebut, projet.getDateDebut());
 
-        // Log.d("Date jcgn : ", projet.getDateDebut());
+        Log.d("Date debut : ", projet.getDateDebut());
     }
 
 
     /**
-     * Définit la date sélectionnée dans le DatePicker à partir d'une chaîne de caractères
+     * Définit la date sélectionnée dans le DatePicker à partir d'une chaîne
+     * de caractères
      * représentant une date au format "YYYY-MM-DD".
      * <p>
-     * Cette méthode vérifie d'abord que la date passée respecte ce format, puis extrait les
-     * informations nécessaires (année, mois, jour) pour mettre à jour le DatePicker.
+     * Cette méthode vérifie d'abord que la date passée respecte ce format,
+     * puis extrait les
+     * informations nécessaires (année, mois, jour) pour mettre à jour le
+     * DatePicker.
      * </p>
      *
      * @param datePicker L'objet DatePicker dont la date doit être mise à jour.
-     * @param date       La date sous forme de chaîne de caractères (format "YYYY-MM-DD").
-     * @throws IllegalArgumentException si la date ne respecte pas le format attendu.
+     * @param date       La date sous forme de chaîne de caractères (format
+     *                   "YYYY-MM-DD").
+     * @throws IllegalArgumentException si la date ne respecte pas le format
+     *                                  attendu.
      */
     private void setDatePickerValue(DatePicker datePicker, String date) {
-        if (date != null && date.matches("\\d{4}-\\d{2}-\\d{2}")) { // Vérifie le format YYYY-MM-DD
+        if (date != null) {
             try {
-                String[] dateParts = date.split("-");
-                int year = Integer.parseInt(dateParts[0]);
-                int month = Integer.parseInt(dateParts[1]) - 1; // Le mois commence à 0
-                int day = Integer.parseInt(dateParts[2]);
+                int year = 0, month = 0, day = 0;
 
-                datePicker.updateDate(year, month, day);
+                // Vérifie si la date est au format YYYY-MM-DD
+                if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                    String[] dateParts = date.split("-");
+                    year = Integer.parseInt(dateParts[0]);
+                    month = Integer.parseInt(dateParts[1]) - 1; // Le mois
+                    // commence à 0
+                    day = Integer.parseInt(dateParts[2]);
+                }
+                // Vérifie si la date est au format dd/MM/yyyy
+                else if (date.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                    String[] dateParts = date.split("/");
+                    day = Integer.parseInt(dateParts[0]);
+                    month = Integer.parseInt(dateParts[1]) - 1; // Le mois
+                    // commence à 0
+                    year = Integer.parseInt(dateParts[2]);
+                }
+
+                // Applique la date au DatePicker
+                if (year != 0 && month != 0 && day != 0) {
+                    datePicker.updateDate(year, month, day);
+                }
             } catch (NumberFormatException e) {
                 e.printStackTrace(); // Log l'erreur pour le debug
             }
         }
     }
 
+
     /**
-     * Traite la modification du projet et vérifie la validité des données saisies.
+     * Traite la modification du projet et vérifie la validité des données
+     * saisies.
      *
      * @param position La position du projet dans la liste.
      * @param dialog   La boîte de dialogue de modification.
@@ -189,12 +227,17 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         String nouveauTitre = editTextTitreProjet.getText().toString();
         String nouvelleDescription = editTextDescription.getText().toString();
         String nouvelleDateDebut = getDateFromDatePicker(datePickerDateDebut);
-        long nouveauTimestamp = convertirEnTimestamp(datePickerDateDebut.getDayOfMonth(), datePickerDateDebut.getMonth() + 1, datePickerDateDebut.getYear());
+        long nouveauTimestamp =
+                convertirEnTimestamp(datePickerDateDebut.getDayOfMonth(),
+                        datePickerDateDebut.getMonth() + 1,
+                        datePickerDateDebut.getYear());
 
-        Log.d("Données : ", nouveauTitre + ", " + nouvelleDescription + ", " + nouvelleDateDebut);
+        Log.d("Données : ",
+                nouveauTitre + ", " + nouvelleDescription + ", " + nouvelleDateDebut);
 
         // Vérification des champs
-        if (champsValides(nouveauTitre, nouvelleDescription, nouvelleDateDebut, erreurChamp)) {
+        if (champsValides(nouveauTitre, nouvelleDescription,
+                nouvelleDateDebut, erreurChamp)) {
             // Mettre à jour l'objet Projet dans la liste
             Projet projetModifie = projetListe.get(position);
             projetModifie.setTitre(nouveauTitre);
@@ -204,8 +247,10 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
             // Notifier l'adaptateur de la modification
             notifyItemChanged(position);
 
-            // Appeler le listener pour toute action supplémentaire (ex: mise à jour BD)
-            onItemClickListener.onUpdateClick(position, nouveauTitre, nouvelleDescription, nouvelleDateDebut, nouveauTimestamp);
+            // Appeler le listener pour toute action supplémentaire (ex: mise
+            // à jour BD)
+            onItemClickListener.onUpdateClick(position, nouveauTitre,
+                    nouvelleDescription, nouvelleDateDebut, nouveauTimestamp);
 
             // Fermer la boîte de dialogue
             dialog.dismiss();
@@ -222,7 +267,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth() + 1;
         int year = datePicker.getYear();
-        return String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month, day);
+        return String.format(Locale.getDefault(), "%04d-%02d-%02d", year,
+                month, day);
     }
 
     /**
@@ -232,7 +278,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
      * @param layout  Le layout à afficher dans la boîte de dialogue.
      * @return L'AlertDialog créé.
      */
-    private AlertDialog creationDialogModification(Context context, View layout) {
+    private AlertDialog creationDialogModification(Context context,
+                                                   View layout) {
         return new AlertDialog.Builder(context)
                 .setTitle("Modifier le projet")
                 .setView(layout)
@@ -250,7 +297,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
      * @param erreurChamp Le champ où afficher les erreurs.
      * @return True si tous les champs sont valides, sinon false.
      */
-    private boolean champsValides(String titre, String description, String dateDebut, TextView erreurChamp) {
+    private boolean champsValides(String titre, String description,
+                                  String dateDebut, TextView erreurChamp) {
         erreurChamp.setTextColor(Color.RED);
         erreurChamp.setVisibility(View.GONE);
 
@@ -272,7 +320,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     }
 
     /**
-     * Vérifie que le titre du projet est valide (longueur entre 3 et 50 caractères).
+     * Vérifie que le titre du projet est valide (longueur entre 3 et 50
+     * caractères).
      *
      * @param nouveauTitre Le titre du projet à vérifier.
      * @return True si le titre est valide, sinon false.
@@ -282,7 +331,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     }
 
     /**
-     * Vérifie que la description du projet est valide (longueur supérieure à 2 caractères).
+     * Vérifie que la description du projet est valide (longueur supérieure à
+     * 2 caractères).
      *
      * @param nouvelleDescription La description du projet à vérifier.
      * @return True si la description est valide, sinon false.
@@ -292,7 +342,8 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     }
 
     /**
-     * Vérifie que la date est valide (longueur exactement de 10 caractères, format attendu : YYYY-MM-DD).
+     * Vérifie que la date est valide (longueur exactement de 10 caractères,
+     * format attendu : YYYY-MM-DD).
      *
      * @param date La date à vérifier.
      * @return True si la date est valide, sinon false.
@@ -322,27 +373,32 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
 
 
     /**
-     * Retourne le nombre d'éléments à afficher dans le RecyclerView. Limité à un maximum de 15 projets.
+     * Retourne le nombre d'éléments à afficher dans le RecyclerView. Limité
+     * à un maximum de 15 projets.
      *
      * @return Le nombre d'éléments à afficher.
      */
     @Override
     public int getItemCount() {
-        return Math.min(projetListe.size(), 15); // Affiche au maximum 15 projets
+        return Math.min(projetListe.size(), 15); // Affiche au maximum 15
+        // projets
     }
 
     /**
-     * Interface pour gérer les actions de clic (suppression et modification) sur les éléments de la liste.
+     * Interface pour gérer les actions de clic (suppression et modification)
+     * sur les éléments de la liste.
      */
     public interface OnItemClickListener {
         void onDeleteClick(int position);
 
-        void onUpdateClick(int position, String titre, String description, String dateDebut, long nouveauTimestamp);
+        void onUpdateClick(int position, String titre, String description,
+                           String dateDebut, long nouveauTimestamp);
     }
 
     /**
      * ViewHolder représentant un élément de la liste de projets.
-     * Permet de maintenir les vues nécessaires pour chaque élément afin d'optimiser les performances.
+     * Permet de maintenir les vues nécessaires pour chaque élément afin
+     * d'optimiser les performances.
      */
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 

@@ -19,17 +19,14 @@ public interface ISalonService {
      * Récupère la liste des salons enregistrés.
      *
      * @param context     Le contexte de l'application.
-     * @param recherche   Le terme de recherche à utiliser pour filtrer les salons.
      * @param utilisateur L'utilisateur effectuant la requête.
      * @param callback    Le callback pour récupérer la liste des salons trouvés.
      */
-    void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur,
+    void getSalonsEnregistres(Context context, Utilisateur utilisateur,
                               Outils.APIResponseCallbackArrayTest callback);
 
     /**
      * Envoie les informations d'un salon à Dolibarr.
-     *
-     * @param salonService L'instance du service qui gère l'envoi du salon.
      */
     void envoyerSalon(Utilisateur utilisateur, Context context, Salon salonAEnvoyer, Outils.APIResponseCallbackString callback);
 
@@ -46,5 +43,11 @@ public interface ISalonService {
     List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel);
 
     void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackString callback);
+
+    public List<Salon> rechercheSalons(String recherche,
+                                       SalonsViewModel salonsViewModel);
+
+    public List<Salon> rechercheMesSalons(String recherche,
+                                          MesSalonsViewModel mesSalonsViewModel);
 
 }

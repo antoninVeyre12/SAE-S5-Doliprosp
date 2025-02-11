@@ -10,13 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
@@ -41,6 +34,13 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -132,8 +132,6 @@ public class WaitingFragment extends Fragment {
             ((MainActivity) getActivity()).setColors(3, R.color.invalide,
                     false);
         }
-        loadSalons(); // Rafraîchir la liste des salons à chaque retour sur
-        // la page
     }
 
     /**
@@ -141,9 +139,16 @@ public class WaitingFragment extends Fragment {
      * RecyclerView.
      */
     private void loadSalons() {
-        ArrayList<Salon> salons = mesSalonsViewModel.getSalonListe();
-        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel,
-                mesProspectViewModel, mesProjetsViewModel, projetService);
+        ArrayList<Salon> salons = new ArrayList<>();
+        /*salons.clear();*/
+        salons = mesSalonsViewModel.getSalonListe();
+        /*for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
+            if (prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).size() > 0) {
+                salons.add(salonEnregistrer);
+            }
+        }*/
+        Log.d("salons", salons.toString());
+        adapterSalons = new SalonAttenteAdapter(salons, mesProspectViewModel, mesProjetsViewModel);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
     }
 
@@ -237,25 +242,34 @@ public class WaitingFragment extends Fragment {
     private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon,
                                   Salon salonAEnvoyer) {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
-            prospectService.envoyerProspect(utilisateur, getContext(),
-                    prospectAEnvoyer, idSalon,
-                    new Outils.APIResponseCallbackString() {
-                        @Override
-                        public void onSuccess(String response) throws JSONException {
-                            projetsSelectionnes =
-                                    projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
-                                            prospectAEnvoyer.getNom());
 
-                            envoyerProjets(projetsSelectionnes,
-                                    Integer.parseInt(response), salonAEnvoyer,
-                                    prospectAEnvoyer);
-                        }
+            if (!prospectAEnvoyer.getIdDolibarr().equals("false")) {
+                prospectService.lieProspectSalon(utilisateur, getContext(),
+                        idSalon, Integer.parseInt(prospectAEnvoyer.getIdDolibarr()));
 
-                        @Override
-                        public void onError(String errorMessage) {
+                projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                        prospectAEnvoyer.getNom());
 
-                        }
-                    });
+                envoyerProjets(projetsSelectionnes,
+                        Integer.parseInt(prospectAEnvoyer.getIdDolibarr()), salonAEnvoyer,
+                        prospectAEnvoyer);
+            } else {
+                prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
+                    @Override
+                    public void onSuccess(String response) throws JSONException {
+                        projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                                prospectAEnvoyer.getNom());
+
+                        envoyerProjets(projetsSelectionnes,
+                                Integer.parseInt(response), salonAEnvoyer, prospectAEnvoyer);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
+            }
             mesProspectViewModel.removeProspect(prospectAEnvoyer);
         }
     }
