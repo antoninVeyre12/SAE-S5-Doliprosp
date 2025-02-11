@@ -15,7 +15,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Interface.IProspectService;
+import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.Outils;
@@ -25,16 +34,9 @@ import com.example.doliprosp.adapter.ProspectRechercheAdapter;
 import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment permettant de créer un prospect et de gérer la recherche et la
@@ -116,7 +118,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * @param vue La vue du fragment.
      */
     private void initialiserVue(View vue) {
-        erreur = vue.findViewById(R.id.erreur);
+        erreur = vue.findViewById(R.id.erreur_prospect);
         erreurRechercheprospect =
                 vue.findViewById(R.id.erreur_recherche_prospect);
         nomPrenomProspect = vue.findViewById(R.id.editTextNomPrenom);
@@ -326,6 +328,14 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                     estClient, "image");
             mesProspectViewModel.addProspect(prospect);
             dismiss();
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("prospect", (Serializable) prospect);
+            ProjetFragment projetFragment = new ProjetFragment();
+            projetFragment.setArguments(bundle);
+            ((MainActivity) getActivity()).loadFragment(projetFragment);
+            ((MainActivity) getActivity()).setColors(2, R.color.color_primary
+                    , true);
         }
 
 

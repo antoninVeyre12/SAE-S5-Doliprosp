@@ -10,6 +10,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
@@ -34,13 +41,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -68,34 +68,46 @@ public class WaitingFragment extends Fragment {
     /**
      * Crée et retourne la vue associée à ce fragment.
      *
-     * @param inflater           L'objet LayoutInflater qui peut être utilisé pour inflater des vues XML.
-     * @param container          Le parent auquel la vue du fragment doit être attachée.
+     * @param inflater           L'objet LayoutInflater qui peut être utilisé
+     *                           pour inflater des vues XML.
+     * @param container          Le parent auquel la vue du fragment doit
+     *                           être attachée.
      * @param savedInstanceState L'état sauvegardé précédent du fragment.
      * @return La vue racine du fragment.
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_salon_attente, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_salon_attente,
+                container, false);
         return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         salonService = new SalonService();
         prospectService = new ProspectService();
         projetService = new ProjetService();
 
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        utilisateurViewModel =
+                new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
         utilisateur = utilisateurViewModel.getUtilisateur();
-        mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
-        salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
-        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
-        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
-        salonAttenteRecyclerView = view.findViewById(R.id.salonAttenteRecyclerView);
+        mesSalonsViewModel =
+                new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
+        salonsViewModel =
+                new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
+        mesProspectViewModel =
+                new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        mesProjetsViewModel =
+                new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
+        salonAttenteRecyclerView =
+                view.findViewById(R.id.salonAttenteRecyclerView);
         boutonToutSelectionne = view.findViewById(R.id.btn_tout_selectionner);
         salonAttenteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         boutonEnvoyer = view.findViewById(R.id.btn_envoyer_salon_attente);
@@ -110,22 +122,28 @@ public class WaitingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setColors(0, R.color.color_primary, true);
+        ((MainActivity) getActivity()).setColors(0, R.color.color_primary,
+                true);
         if (ProspectFragment.dernierSalonSelectione == null) {
-            ((MainActivity) getActivity()).setColors(2, R.color.invalide, false);
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide,
+                    false);
         }
         if (ProjetFragment.dernierProspectSelectionne == null) {
-            ((MainActivity) getActivity()).setColors(3, R.color.invalide, false);
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide,
+                    false);
         }
-        loadSalons(); // Rafraîchir la liste des salons à chaque retour sur la page
+        loadSalons(); // Rafraîchir la liste des salons à chaque retour sur
+        // la page
     }
 
     /**
-     * Charge la liste des salons locaux et met à jour l'adaptateur du RecyclerView.
+     * Charge la liste des salons locaux et met à jour l'adaptateur du
+     * RecyclerView.
      */
     private void loadSalons() {
         ArrayList<Salon> salons = mesSalonsViewModel.getSalonListe();
-        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel, mesProspectViewModel);
+        adapterSalons = new SalonAttenteAdapter(salons, mesSalonsViewModel,
+                mesProspectViewModel, mesProjetsViewModel, projetService);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
     }
 
@@ -136,12 +154,14 @@ public class WaitingFragment extends Fragment {
 
             Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
             Button btnEnvoyer = layout.findViewById(R.id.buttonSubmit);
-            CheckBox checkboxConfirmation = layout.findViewById(R.id.checkbox_confirmation);
+            CheckBox checkboxConfirmation =
+                    layout.findViewById(R.id.checkbox_confirmation);
             TextView erreur = layout.findViewById(R.id.erreur);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext())
-                    .setView(layout)
-                    .setCancelable(false);
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(v.getContext())
+                            .setView(layout)
+                            .setCancelable(false);
 
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -152,7 +172,8 @@ public class WaitingFragment extends Fragment {
 
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
-                    salonsSelectionnes = salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
+                    salonsSelectionnes =
+                            salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
                     envoyerSalons();
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
@@ -166,39 +187,48 @@ public class WaitingFragment extends Fragment {
         });
 
         boutonToutSelectionne.setOnClickListener(v -> {
-            // Appeler une méthode dans l'adaptateur pour sélectionner toutes les checkboxes
+            // Appeler une méthode dans l'adaptateur pour sélectionner toutes
+            // les checkboxes
             adapterSalons.selectAllSalons();
         });
     }
 
     private void envoyerSalons() {
         for (Salon salonAEnvoyer : salonsSelectionnes) {
-            salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom(), getContext(), new Outils.APIResponseCallbackString() {
-                @Override
-                public void onSuccess(String response) {
-                    prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                    int idSalon = Integer.parseInt(response);
-                    envoyerProspects(prospectSelectionnes, idSalon, salonAEnvoyer);
-
-                }
-
-                @Override
-                public void onError(String errorMessage) {
-                    salonService.envoyerSalon(utilisateur, getContext(), salonAEnvoyer, new Outils.APIResponseCallbackString() {
+            salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom()
+                    , getContext(), new Outils.APIResponseCallbackString() {
                         @Override
                         public void onSuccess(String response) {
+                            prospectSelectionnes =
+                                    prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                             int idSalon = Integer.parseInt(response);
-                            prospectSelectionnes = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                            envoyerProspects(prospectSelectionnes, idSalon, salonAEnvoyer);
+                            envoyerProspects(prospectSelectionnes, idSalon,
+                                    salonAEnvoyer);
+
                         }
 
                         @Override
                         public void onError(String errorMessage) {
-                            Log.d("aaaa", "aaaaaa");
+                            salonService.envoyerSalon(utilisateur, getContext(),
+                                    salonAEnvoyer,
+                                    new Outils.APIResponseCallbackString() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            int idSalon =
+                                                    Integer.parseInt(response);
+                                            prospectSelectionnes =
+                                                    prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
+                                            envoyerProspects(prospectSelectionnes, idSalon,
+                                                    salonAEnvoyer);
+                                        }
+
+                                        @Override
+                                        public void onError(String errorMessage) {
+                                            Log.d("aaaa", "aaaaaa");
+                                        }
+                                    });
                         }
                     });
-                }
-            });
             mesSalonsViewModel.removeSalon(salonAEnvoyer);
             adapterSalons.notifyDataSetChanged();
         }
@@ -207,21 +237,25 @@ public class WaitingFragment extends Fragment {
     private void envoyerProspects(List<Prospect> listeAEnvoyer, int idSalon,
                                   Salon salonAEnvoyer) {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
-            prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
-                @Override
-                public void onSuccess(String response) throws JSONException {
-                    projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
-                            prospectAEnvoyer.getNom());
+            prospectService.envoyerProspect(utilisateur, getContext(),
+                    prospectAEnvoyer, idSalon,
+                    new Outils.APIResponseCallbackString() {
+                        @Override
+                        public void onSuccess(String response) throws JSONException {
+                            projetsSelectionnes =
+                                    projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                                            prospectAEnvoyer.getNom());
 
-                    envoyerProjets(projetsSelectionnes,
-                            Integer.parseInt(response), salonAEnvoyer, prospectAEnvoyer);
-                }
+                            envoyerProjets(projetsSelectionnes,
+                                    Integer.parseInt(response), salonAEnvoyer,
+                                    prospectAEnvoyer);
+                        }
 
-                @Override
-                public void onError(String errorMessage) {
+                        @Override
+                        public void onError(String errorMessage) {
 
-                }
-            });
+                        }
+                    });
             mesProspectViewModel.removeProspect(prospectAEnvoyer);
         }
     }
@@ -230,7 +264,8 @@ public class WaitingFragment extends Fragment {
                                 Salon salonAEnvoyer,
                                 Prospect prospectAEnvoyer) {
         for (Projet projetAEnvoyer : listeAEnvoyer) {
-            projetService.envoyerProjet(utilisateur, getContext(), projetAEnvoyer, idProspect);
+            projetService.envoyerProjet(utilisateur, getContext(),
+                    projetAEnvoyer, idProspect);
             projetService.envoyerVersModule(utilisateur, getContext(),
                     projetAEnvoyer, prospectAEnvoyer,
                     salonAEnvoyer, idProspect);

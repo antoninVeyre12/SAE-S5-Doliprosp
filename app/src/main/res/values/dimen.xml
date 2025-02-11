@@ -94,9 +94,24 @@
     <!-- item recherche -->
     <dimen name="padding_default">10dp</dimen>
     <dimen name="cercle_size">55dp</dimen>
-    <dimen name="text_size_large">22sp</dimen>
-    <dimen name="text_size_medium">20sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
     <dimen name="margin_start">10dp</dimen>
+
+    <!-- Dimensions générales -->
+    <dimen name="item_salon_height_">120dp</dimen>
+    <dimen name="item_salon_margin">8dp</dimen>
+    <dimen name="item_show_padding">10dp</dimen>
+
+    <!-- Margins spécifiques -->
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">20dp</dimen>
+
+    <!-- Icon Sizes -->
+    <dimen name="icon_size">40dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="text_size_large">30sp</dimen>
+    <dimen name="text_size_medium">27sp</dimen>
 
 </resources>

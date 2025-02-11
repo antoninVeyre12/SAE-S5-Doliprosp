@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/item_show_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="30sp"
+                android:textSize="@dimen/text_size_large"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
                 android:ellipsize="end"
@@ -44,7 +44,7 @@
                 android:id="@+id/salon_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp" />
+                android:layout_marginLeft="@dimen/margin_small" />
 
         </LinearLayout>
 
@@ -53,36 +53,39 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="left"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="@dimen/margin_medium">
 
             <ImageView
                 android:id="@+id/icon_prospect"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
                 android:src="@drawable/ic_prospect" />
 
             <TextView
                 android:id="@+id/nb_prospect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="@dimen/margin_small"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/text_size_medium"
+                android:text="2"
+                android:layout_marginRight="@dimen/margin_large" />
 
             <ImageView
                 android:id="@+id/icon_projet"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
                 android:src="@drawable/ic_project"
-                android:layout_marginLeft="16dp" />
+                android:layout_marginLeft="@dimen/margin_medium" />
 
             <TextView
                 android:id="@+id/nb_projet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="@dimen/margin_small"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/nb_projet" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
