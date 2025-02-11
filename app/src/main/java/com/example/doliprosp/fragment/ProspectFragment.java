@@ -1,7 +1,6 @@
 package com.example.doliprosp.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -168,19 +166,23 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         ((MainActivity) getActivity()).setColors(3, R.color.color_primary, true);
     }
 
+
     @Override
     public void onDeleteClick(int position) {
-
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
+
+        // Supprime le prospect et met à jour la liste dans l'Adapter
         mesProspectViewModel.removeProspect(prospectASupprimer);
-        Log.d("adapterProspect", mesProspectViewModel.getProspectListe().toString());
-        adapterProspect.notifyItemRemoved(position);
-        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
+        adapterProspect.setProspectList(mesProspectViewModel.getProspectListe());
+
+        // Suppression des projets liés
+        List<Projet> projets = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {
             mesProjetsViewModel.removeProjet(projet);
         }
-        //adapterProspect.notifyDataSetChanged();
 
+        // Notifier l'adapter après mise à jour
+        adapterProspect.notifyDataSetChanged();
     }
 
     @Override
