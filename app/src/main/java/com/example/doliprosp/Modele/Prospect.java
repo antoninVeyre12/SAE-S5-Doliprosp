@@ -228,7 +228,7 @@ public class Prospect implements Serializable {
 
         Prospect other = (Prospect) obj;
 
-        return codePostal == other.codePostal &&
+        return Objects.equals(codePostal, other.codePostal) &&
                 Objects.equals(nom, other.nom) &&
                 Objects.equals(ville, other.ville) &&
                 Objects.equals(adresse, other.adresse) &&

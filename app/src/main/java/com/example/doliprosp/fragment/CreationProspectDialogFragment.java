@@ -2,6 +2,8 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -70,6 +71,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private ArrayList<Prospect> premiereListeProspect = new ArrayList<>();
     private ArrayList<Prospect> deuxiemeListeProspect = new ArrayList<>();
     private ProspectAdapter adapterProspect;
+    private static final int KEYCODE_TOUCHE_ENTREE = 66;
 
     /**
      * Crée le DialogFragment et définit son titre.
@@ -109,6 +111,17 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         configurerRecherche();
         configurerBoutons();
 
+
+        nomPrenomProspect.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KEYCODE_TOUCHE_ENTREE) {
+                    Log.d("entree", "touche entree detcte");
+                    return true;
+                }
+                return false;
+            }
+        });
         return vue;
     }
 
@@ -177,65 +190,63 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      */
     private void configurerRecherche() {
         boutonRecherche1.setOnClickListener(v -> {
-            prospectRecyclerView.setVisibility(View.VISIBLE);
-            chargement.setVisibility(View.VISIBLE);
-            listProspectRecherche.clear();
             premiereListeProspect.clear();
-            prospectService.prospectClientExiste(getContext(),
-                    texteRecherche1.getText().toString(), "rowid",
-                    utilisateurViewModel.getUtilisateur(),
-                    new Outils.APIResponseCallbackArrayProspect() {
-                        @Override
-                        public void onSuccess(ArrayList<Prospect> response) {
-                            triContainer.setVisibility(View.VISIBLE);
-                            erreurRechercheprospect.setVisibility(View.GONE);
-                            premiereListeProspect.addAll(response);
-                            listProspectRecherche.addAll(premiereListeProspect);
-                            chargement.setVisibility(View.GONE);
-                            adapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onError(String errorMessage) {
-                            chargement.setVisibility(View.GONE);
-                            erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
-                            erreurRechercheprospect.setVisibility(View.VISIBLE);
-                        }
-                    });
+            effectuerRecherche(texteRecherche1.getText().toString().trim(),
+                    premiereListeProspect);
         });
 
         boutonRecherche2.setOnClickListener(v -> {
-            prospectRecyclerView.setVisibility(View.VISIBLE);
-            chargement.setVisibility(View.VISIBLE);
-            listProspectRecherche.clear();
             deuxiemeListeProspect.clear();
-            prospectService.prospectClientExiste(getContext(),
-                    texteRecherche2.getText().toString(), "rowid",
-                    utilisateurViewModel.getUtilisateur(),
-                    new Outils.APIResponseCallbackArrayProspect() {
-                        @Override
-                        public void onSuccess(ArrayList<Prospect> response) {
-                            erreurRechercheprospect.setVisibility(View.GONE);
-                            deuxiemeListeProspect.addAll(response);
-                            chargement.setVisibility(View.GONE);
-                            Prospect prospectARetourner =
-                                    chercheProspectEnCommun(premiereListeProspect,
-                                            deuxiemeListeProspect);
-                            if (prospectARetourner != null) {
-                                listProspectRecherche.add(prospectARetourner);
-                            }
-                            adapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onError(String errorMessage) {
-                            chargement.setVisibility(View.GONE);
-                            erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
-                            erreurRechercheprospect.setVisibility(View.VISIBLE);
-                        }
-                    });
+            effectuerRecherche(texteRecherche2.getText().toString().trim(),
+                    deuxiemeListeProspect);
         });
 
+        texteRecherche1.setOnClickListener(v -> {
+            premiereListeProspect.clear();
+            effectuerRecherche(texteRecherche1.getText().toString().trim(),
+                    premiereListeProspect);
+        });
+
+        texteRecherche2.setOnClickListener(v -> {
+            deuxiemeListeProspect.clear();
+            effectuerRecherche(texteRecherche2.getText().toString().trim(),
+                    deuxiemeListeProspect);
+        });
+    }
+
+    private void effectuerRecherche(String valeurRecherche,
+                                    ArrayList<Prospect> listeProspect) {
+        prospectRecyclerView.setVisibility(View.VISIBLE);
+        chargement.setVisibility(View.VISIBLE);
+        listProspectRecherche.clear();
+        prospectService.prospectClientExiste(getContext(), valeurRecherche, "rowid",
+                utilisateurViewModel.getUtilisateur(),
+                new Outils.APIResponseCallbackArrayProspect() {
+                    @Override
+                    public void onSuccess(ArrayList<Prospect> response) {
+                        triContainer.setVisibility(View.VISIBLE);
+                        erreurRechercheprospect.setVisibility(View.GONE);
+                        listeProspect.addAll(response);
+                        if (deuxiemeListeProspect.isEmpty() || premiereListeProspect.isEmpty()) {
+                            listProspectRecherche.addAll(listeProspect);
+                        } else {
+                            ArrayList<Prospect> prospectARetourner =
+                                    chercheProspectEnCommun(premiereListeProspect,
+                                            deuxiemeListeProspect);
+                            listProspectRecherche.addAll(prospectARetourner);
+
+                        }
+                        chargement.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        chargement.setVisibility(View.GONE);
+                        erreurRechercheprospect.setText(R.string.aucun_prospect_trouvee);
+                        erreurRechercheprospect.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
     /**
@@ -247,16 +258,15 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * aucun prospect
      * en commun n'est trouvé.
      */
-    private Prospect chercheProspectEnCommun(ArrayList<Prospect> premiereListeProspect, ArrayList<Prospect> deuxiemeListeProspect) {
-        for (Prospect prospectDeuxiemeListe : deuxiemeListeProspect) {
-            if (premiereListeProspect.contains(prospectDeuxiemeListe)) {
-                return prospectDeuxiemeListe;
+    private ArrayList<Prospect> chercheProspectEnCommun(ArrayList<Prospect> premiereListeProspect, ArrayList<Prospect> deuxiemeListeProspect) {
+        ArrayList<Prospect> result = new ArrayList<>();
+        for (Prospect prospectPremiereListe : premiereListeProspect) {
+            if (deuxiemeListeProspect.contains(prospectPremiereListe)) {
+                Log.d("trouve", "prospect en commun trouve");
+                result.add(prospectPremiereListe);
             }
         }
-        Toast.makeText(getContext(),
-                getString(R.string.recherche_prospect_nul),
-                Toast.LENGTH_LONG).show();
-        return null;
+        return result;
     }
 
     /**
