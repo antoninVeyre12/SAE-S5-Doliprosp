@@ -9,9 +9,10 @@ import android.widget.TextView;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
 
 // La classe ShowAdapter est un adaptateur pour lier une liste de salons à un RecyclerView.
 // Elle permet d'afficher une liste de salons avec leur nom et gère les événements de clic sur chaque élément.
@@ -63,6 +64,12 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
             });
         }
     }
+
+    public void setSalonsList(List<Salon> salonsListe) {
+        this.salonListe = salonsListe;
+        notifyDataSetChanged();
+    }
+
 
     // Cette méthode retourne le nombre d'éléments à afficher dans le RecyclerView.
     // Limite à un maximum de 6 éléments affichés.

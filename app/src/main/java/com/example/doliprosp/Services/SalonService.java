@@ -31,14 +31,13 @@ public class SalonService implements ISalonService {
      * Méthode pour récupérer les salons enregistrées dans Dolibarr
      *
      * @param context     Le contexte de l'application.
-     * @param recherche   Le terme de recherche à utiliser pour filtrer les salons.
      * @param utilisateur L'utilisateur effectuant la requête.
      * @param callback    Le callback pour récupérer la liste des salons trouvés.
      */
-    public void getSalonsEnregistres(Context context, String recherche, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback) {
+    public void getSalonsEnregistres(Context context, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback) {
         ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
         url = utilisateur.getUrl();
-        urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC&sqlfilters=(t.label%3Alike%3A'%25" + recherche + "%25')";
+        urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC";
         appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -168,10 +167,35 @@ public class SalonService implements ISalonService {
         });
     }
 
+    public List<Salon> rechercheMesSalons(String recherche,
+                                          MesSalonsViewModel mesSalonsViewModel) {
+
+        List<Salon> resultat = new ArrayList<>();
+
+        for (Salon salon : mesSalonsViewModel.getSalonListe()) {
+            if (salon.getNom().contains(recherche)) {
+                resultat.add(salon);
+            }
+        }
+        return resultat;
+    }
+
+    public List<Salon> rechercheSalons(String recherche, SalonsViewModel salonsViewModel) {
+
+        List<Salon> resultat = new ArrayList<>();
+
+        for (Salon salon : salonsViewModel.getSalonListe()) {
+            if (salon.getNom().contains(recherche)) {
+                resultat.add(salon);
+            }
+        }
+        return resultat;
+    }
 
     private String remplaceEspace(String str) {
         // Remplacer chaque espace par "%20"
         return str.replace(" ", "%20");
     }
+
 
 }
