@@ -19,9 +19,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Classe utilitaire pour effectuer des appels API avec la bibliothèque Volley.
@@ -42,6 +48,7 @@ public class Outils {
      * @param callback Le callback à invoquer après la réponse.
      */
     public static void appelAPIConnexion(String url, Context context, APIResponseCallback callback) {
+        ignorerSSLCertifcat();
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -74,6 +81,7 @@ public class Outils {
      * @param callback Le callback à invoquer après la réponse.
      */
     public static void appelAPIGet(String url, String cleApi, Context context, APIResponseCallback callback) {
+        ignorerSSLCertifcat();
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -115,6 +123,7 @@ public class Outils {
      * @param callback Le callback à invoquer après la réponse.
      */
     public static void appelAPIGetList(String url, String cleApi, Context context, APIResponseCallbackArray callback) {
+        ignorerSSLCertifcat();
         StringRequest requeteVolley = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -146,7 +155,7 @@ public class Outils {
     }
 
     public static void appelAPIPostInteger(String url, String cleApi, JSONObject jsonBody, Context context, APIResponseCallbackPost callback) {
-
+        ignorerSSLCertifcat();
         StringRequest requeteVolley = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -192,7 +201,7 @@ public class Outils {
 
 
     public static void appelAPIPostJson(String url, String cleApi, Context context, APIResponseCallback callback) {
-
+        ignorerSSLCertifcat();
         StringRequest requeteVolley = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -294,5 +303,34 @@ public class Outils {
 
     public interface CallbackProspectExiste {
         void onResponse(boolean b);
+    }
+
+
+    /**
+     * Cette méthode ignore les vérifications du certificat SSL
+     */
+    private static void ignorerSSLCertifcat() {
+        TrustManager[] trustAllCertificates = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    }
+
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+        // Installer un gestionnaire de confiance pour tous les certificats
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCertificates, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
