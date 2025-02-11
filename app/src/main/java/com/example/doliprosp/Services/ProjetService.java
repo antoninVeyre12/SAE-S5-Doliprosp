@@ -122,8 +122,8 @@ public class ProjetService implements IProjetService {
             jsonBody.put("clientProspect", "0");
             jsonBody.put("dateDebutProjet", projet.getDateTimestamp());
             jsonBody.put("dateSaisie", prospect.getHeureSaisieTimestamp());
-            jsonBody.put("Commercial", utilisateur.getNomUtilisateur());
-            jsonBody.put("miseAjour", "1");
+            jsonBody.put("commercial", utilisateur.getNomUtilisateur());
+            jsonBody.put("miseAJour", "1");
             jsonBody.put("intituleSalon", salon.getNom());
             jsonBody.put("status", 1);
         } catch (JSONException e) {

@@ -10,13 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.Interface.ISalonService;
@@ -41,6 +34,13 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -148,7 +148,7 @@ public class WaitingFragment extends Fragment {
             }
         }*/
         Log.d("salons", salons.toString());
-        adapterSalons = new SalonAttenteAdapter(salons, mesProspectViewModel);
+        adapterSalons = new SalonAttenteAdapter(salons, mesProspectViewModel, mesProjetsViewModel);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
     }
 
