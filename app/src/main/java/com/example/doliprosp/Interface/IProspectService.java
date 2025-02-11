@@ -16,42 +16,37 @@ import java.util.UUID;
 public interface IProspectService {
 
     /**
-     * Ajoute un nouveau prospect.
-     *
-     * @param prospect Le prospect à ajouter.
-     */
-    void ajouterProspect(Prospect prospect);
-
-    /**
-     * Supprime un prospect existant.
-     *
-     * @param prospect Le prospect à supprimer.
-     */
-    void supprimerProspect(Prospect prospect);
-
-    /**
      * Récupère la liste des prospects associés à un salon donné.
      *
      * @param prospectListe La liste des prospects disponibles.
-     * @param nomSalon      Le nom du salon dont on souhaite récupérer les prospects.
+     * @param nomSalon      Le nom du salon dont on souhaite récupérer les
+     *                      prospects.
      * @return Une liste des prospects appartenant au salon spécifié.
      */
-    ArrayList<Prospect> getProspectDUnSalon(ArrayList<Prospect> prospectListe, String nomSalon);
+    ArrayList<Prospect> getProspectDUnSalon(ArrayList<Prospect> prospectListe
+            , String nomSalon);
 
     /**
-     * Vérifie si un prospect ou un client existe en fonction d'un critère de recherche.
+     * Vérifie si un prospect ou un client existe en fonction d'un critère de
+     * recherche.
      *
      * @param context     Le contexte de l'application.
      * @param recherche   La valeur à rechercher.
-     * @param champ       Le champ sur lequel effectuer la recherche (ex: nom, email).
+     * @param champ       Le champ sur lequel effectuer la recherche (ex:
+     *                    nom, email).
      * @param tri         Le critère de tri à appliquer.
      * @param utilisateur L'utilisateur effectuant la recherche.
-     * @param callback    Le callback pour récupérer les résultats de la recherche.
+     * @param callback    Le callback pour récupérer les résultats de la
+     *                    recherche.
      */
-    void prospectClientExiste(Context context, String recherche, String champ, String tri,
-                              Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback);
+    void prospectClientExiste(Context context, String recherche, String champ
+            , String tri,
+                              Utilisateur utilisateur,
+                              Outils.APIResponseCallbackArrayProspect callback);
 
-    void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur, MesProspectViewModel mesProspectViewModel
+    void prospectDejaExistantDolibarr(Context context, String recherche,
+                                      Utilisateur utilisateur,
+                                      MesProspectViewModel mesProspectViewModel
             , Outils.CallbackProspectExiste callback);
 
     /**

@@ -1,5 +1,6 @@
 package com.example.doliprosp.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +10,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
-import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
 import com.example.doliprosp.adapter.ProspectAdapter;
@@ -29,48 +36,40 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 /**
  * Fragment représentant la gestion des prospects dans un salon.
- * Permet de lister, d'ajouter des prospects et de naviguer vers un projet associé à un prospect sélectionné.
+ * Permet de lister, d'ajouter des prospects et de naviguer vers un projet
+ * associé à un prospect sélectionné.
  */
 public class ProspectFragment extends Fragment implements ProspectAdapter.OnItemClickListener {
 
     private IProspectService prospectService;
     private IProjetService projetService;
-    private TextView salonActuelEditText;
     private Salon salonActuel;
     private static Salon dernierSalonSelectione;
     private Button boutonCreerProspect;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
-
     private ProspectAdapter adapterProspect;
     private ProgressBar chargement;
-    private String recherche;
     private RecyclerView prospectRecyclerView;
-    private String champ;
-    private String tri;
     private Bundle bundle;
 
     /**
-     * Crée et retourne la vue du fragment, en initialisant les données du salon si disponibles.
+     * Crée et retourne la vue du fragment, en initialisant les données du
+     * salon si disponibles.
      *
-     * @param inflater           Le LayoutInflater pour inflater la vue du fragment.
+     * @param inflater           Le LayoutInflater pour inflater la vue du
+     *                           fragment.
      * @param container          Le conteneur dans lequel la vue sera ajoutée.
      * @param savedInstanceState L'état précédent sauvegardé du fragment.
      * @return La vue du fragment.
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if (bundle != null) {
             salonActuel = (Salon) bundle.getSerializable("salon");
@@ -79,8 +78,10 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
             if (dernierSalonSelectione != null) {
                 salonActuel = dernierSalonSelectione;
             } else {
-                Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                Toast.makeText(getActivity(), R.string.selection_salon,
+                        Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager =
+                        getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();
                 return null;
             }
@@ -89,26 +90,32 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     }
 
     /**
-     * Méthode appelée après la création de la vue pour initialiser les éléments de l'interface et configurer les listeners.
+     * Méthode appelée après la création de la vue pour initialiser les
+     * éléments de l'interface et configurer les listeners.
      *
      * @param view               La vue du fragment.
      * @param savedInstanceState L'état sauvegardé de la vue.
      */
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
         prospectService = new ProspectService();
         projetService = new ProjetService();
         bundle = new Bundle();
         boutonCreerProspect = view.findViewById(R.id.buttonCreateProspect);
-        salonActuelEditText = view.findViewById(R.id.salonActuel);
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
-        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
+        TextView salonActuelEditText = view.findViewById(R.id.salonActuel);
+        utilisateurViewModel =
+                new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        mesProspectViewModel =
+                new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        mesProjetsViewModel =
+                new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
         chargement = view.findViewById(R.id.chargement);
 
         salonActuelEditText.setText(salonActuel.getNom());
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
+                3);
         prospectRecyclerView.setLayoutManager(layoutManager);
         setupListeners();
     }
@@ -119,58 +126,43 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private void setupListeners() {
         // Ajoute un prospect via un dialog de création
         boutonCreerProspect.setOnClickListener(v -> {
-            CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
-            bundle.putSerializable("nomDuSalon", (Serializable) salonActuel.getNom());
-            bundle.putSerializable("adapterProspect", (Serializable) adapterProspect);
+            CreationProspectDialogFragment dialog =
+                    new CreationProspectDialogFragment();
+            bundle.putSerializable("nomDuSalon",
+                    (Serializable) salonActuel.getNom());
+            bundle.putSerializable("adapterProspect",
+                    (Serializable) adapterProspect);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
     }
 
     /**
-     * Méthode appelée lors de la reprise du fragment pour recharger la liste des prospects et mettre à jour les éléments visuels.
+     * Méthode appelée lors de la reprise du fragment pour recharger la liste
+     * des prospects et mettre à jour les éléments visuels.
      */
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setColors(2);
         if (dernierSalonSelectione != null) {
             salonActuel = dernierSalonSelectione;
-            adapterProspect = new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonActuel.getNom()), ProspectFragment.this, mesProspectViewModel);
+            adapterProspect =
+                    new ProspectAdapter(prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonActuel.getNom()), ProspectFragment.this);
             prospectRecyclerView.setAdapter(adapterProspect);
             adapterProspect.notifyDataSetChanged();
         } else {
-            Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.selection_salon,
+                    Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).setColors(1);
         }
 
     }
 
     /**
-     * Méthode pour vérifier si un prospect existe pour un client, basée sur les critères de recherche.
-     *
-     * @param recherche Le texte de recherche pour le prospect.
-     * @param champ     Le champ sur lequel effectuer la recherche.
-     * @param tri       La méthode de tri des prospects.
-     */
-    private void prospectClientExiste(String recherche, String champ, String tri) {
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
-        chargement.setVisibility(View.VISIBLE);
-        prospectService.prospectClientExiste(getContext(), recherche, champ, tri, utilisateur, new Outils.APIResponseCallbackArrayProspect() {
-            @Override
-            public void onSuccess(ArrayList<Prospect> response) {
-                // TODO: Implémenter la gestion des succès
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                // TODO: Implémenter la gestion des erreurs
-            }
-        });
-    }
-
-    /**
-     * Méthode appelée lorsqu'un élément de la liste des prospects est sélectionné.
+     * Méthode appelée lorsqu'un élément de la liste des prospects est
+     * sélectionné.
      *
      * @param position      La position de l'élément sélectionné.
      * @param prospectListe La liste des prospects.
@@ -188,9 +180,11 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     @Override
     public void onDeleteClick(int position) {
 
-        Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
+        Prospect prospectASupprimer =
+                mesProspectViewModel.getProspectListe().get(position);
         mesProspectViewModel.removeProspect(prospectASupprimer);
-        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),prospectASupprimer.getNom());
+        ArrayList<Projet> projets =
+                (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {
             mesProjetsViewModel.removeProjet(projet);
         }
@@ -199,18 +193,19 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     }
 
     @Override
-    public void OnModifyClick(int position, String nouveauNomPrenom, String nouveauMail, String nouveauTel, String nouvelleAdresse, String nouvelleVille, String nouveauCodePostal) {
-        Prospect prospectAModifier = mesProspectViewModel.getProspectListe().get(position);
+    public void OnModifyClick(int position, String nouveauNomPrenom,
+                              String nouveauMail, String nouveauTel,
+                              String nouvelleAdresse, String nouvelleVille,
+                              String nouveauCodePostal) {
+        Prospect prospectAModifier =
+                mesProspectViewModel.getProspectListe().get(position);
 
-        // ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonActuel.getNom());
-        // for (Prospect prospect : prospects) {
         prospectAModifier.setNom(nouveauNomPrenom);
         prospectAModifier.setMail(nouveauMail);
         prospectAModifier.setNumeroTelephone(nouveauTel);
         prospectAModifier.setAdresse(nouvelleAdresse);
         prospectAModifier.setVille(nouvelleVille);
         prospectAModifier.setCodePostal(nouveauCodePostal);
-        // }
         adapterProspect.notifyItemChanged(position);
     }
 }

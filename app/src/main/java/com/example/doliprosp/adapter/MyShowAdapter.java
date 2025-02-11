@@ -2,16 +2,18 @@ package com.example.doliprosp.adapter;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.Interface.ISalonService;
 import com.example.doliprosp.Modele.Salon;
@@ -19,10 +21,6 @@ import com.example.doliprosp.R;
 import com.example.doliprosp.Services.SalonService;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,7 +38,10 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
     private SalonsViewModel salonsViewModel;
 
     // Constructeur pour initialiser la liste des salons et le listener
-    public MyShowAdapter(List<Salon> salonList, OnItemClickListener onItemClickListener, MesSalonsViewModel mesSalonsViewModel, SalonsViewModel salonsViewModel) {
+    public MyShowAdapter(List<Salon> salonList,
+                         OnItemClickListener onItemClickListener,
+                         MesSalonsViewModel mesSalonsViewModel,
+                         SalonsViewModel salonsViewModel) {
         this.salonListe = salonList;
         this.onItemClickListener = onItemClickListener;
         this.mesSalonsViewModel = mesSalonsViewModel;
@@ -50,8 +51,10 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
     // Crée une nouvelle vue pour un item de la liste
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_show, parent, false);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                           int viewType) {
+        View view =
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_show, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -66,9 +69,10 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
         holder.salon_supprimer.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 new AlertDialog.Builder(v.getContext())
-                        .setMessage(R.string.confirmation_suppresion_salon)
+                        .setMessage(R.string.confirmation_suppression_salon)
                         .setPositiveButton("Oui", (dialog, which) -> {
-                            // Si l'utilisateur confirme, appeler la méthode de suppression
+                            // Si l'utilisateur confirme, appeler la méthode
+                            // de suppression
                             onItemClickListener.onDeleteClick(position);
                         })
                         .setNegativeButton("Non", (dialog, which) -> {
@@ -110,7 +114,8 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                 layout.addView(erreurNom);
 
                 // Créer une alerte pour confirmer la modification
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext())
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(v.getContext())
                         .setTitle("Modifier le salon")
                         .setView(layout)
                         .setCancelable(false)
@@ -122,8 +127,10 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
-                // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
-                Button confirmButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                // Validation du nom lorsque l'utilisateur appuie sur
+                // "Confirmer"
+                Button confirmButton =
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 confirmButton.setOnClickListener(v1 -> {
                     String nouveauNom = editText.getText().toString();
                     erreurNom.setTextColor(Color.RED);
@@ -134,7 +141,8 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
                     if (nouveauNom.length() <= 2 || nouveauNom.length() >= 50) {
                         erreurNom.setText(R.string.erreur_nom_salon_longueur);
                         erreurNom.setVisibility(View.VISIBLE);
-                    } else if (salonService.salonExiste(nouveauNom, salonsViewModel, mesSalonsViewModel) && !nouveauNom.equals(salon.getNom())) {
+                    } else if (salonService.salonExiste(nouveauNom,
+                            salonsViewModel, mesSalonsViewModel) && !nouveauNom.equals(salon.getNom())) {
                         erreurNom.setText(R.string.erreur_nom_salon_existe);
                         erreurNom.setVisibility(View.VISIBLE);
                     } else {
@@ -153,10 +161,13 @@ public class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.MyViewHold
         return salonListe.size();
     }
 
-    // Interface pour gérer les actions des items (supprimer, sélectionner, modifier)
+    // Interface pour gérer les actions des items (supprimer, sélectionner,
+    // modifier)
     public interface OnItemClickListener {
         void onDeleteClick(int position);
+
         void onSelectClick(int position, List<Salon> salonList);
+
         void onModifyClick(int position, String nouveauNom);
     }
 

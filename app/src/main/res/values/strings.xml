@@ -98,9 +98,9 @@
     <string name="hint_descriptionProspect">Description du projet</string>
 
 
-    <string name="confirmation_suppresion_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon possède des prospects et des projets, ils seront aussi supprimés"</string>
-    <string name="confirmation_suppresion_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect possède des projets ils seront aussi supprimés"</string>
-    <string name="confirmation_suppresion_projet">"Êtes-vous sûr de vouloir supprimer ce projet ?"</string>
+    <string name="confirmation_suppression_salon">"Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon possède des prospects et des projets, ils seront aussi supprimés"</string>
+    <string name="confirmation_suppression_prospect">"Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect possède des projets ils seront aussi supprimés"</string>
+    <string name="confirmation_suppression_projet">"Êtes-vous sûr de vouloir supprimer ce projet ?"</string>
 
     <!-- Toast selection-->
     <string name="selection_salon">Veuillez sélectionner un salon avant de vous rendre sur cette page</string>

@@ -18,7 +18,7 @@
         android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/nomprenom"
+        android:id="@+id/nom_prenom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
