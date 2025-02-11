@@ -15,12 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.fragment.ConnexionFragment;
@@ -34,6 +28,12 @@ import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 public class MainActivity extends AppCompatActivity {
     // Déclaration des variables nécessaires
@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     // gérer les prospects
     private MesProjetsViewModel mesProjetsViewModel; // ViewModel pour gérer
     // les prospects
-
 
 
     @Override
@@ -247,6 +246,5 @@ public class MainActivity extends AppCompatActivity {
 
         mesProspectViewModel.chargementProspect();
         mesProjetsViewModel.chargementProjet();
-        Log.d("laaaaa", mesProspectViewModel.getProspectListe().toString());
     }
 }

@@ -227,6 +227,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonASupprimer.getNom());
         for (Prospect prospect : prospects) {
             mesProspectViewModel.removeProspect(prospect);
+
         }
         adapterMesSalons.notifyItemRemoved(position);
     }

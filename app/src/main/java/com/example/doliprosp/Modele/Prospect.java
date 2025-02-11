@@ -17,6 +17,8 @@ public class Prospect implements Serializable {
     private String numeroTelephone;
     private String estClient;
     private String image;
+    private String idDolibarr;
+    private long heureSaisieTimestamp;
 
     /**
      * Constructeur de la classe Prospect.
@@ -33,7 +35,7 @@ public class Prospect implements Serializable {
      */
     public Prospect(String nomSalon, String nom, String codePostal,
                     String ville, String adressePostale, String mail, String numeroTelephone,
-                    String estClient, String image) {
+                    String estClient, String image, String idDolibarr, long heureSaisieTimestamp) {
         this.nomSalon = nomSalon;
         this.nom = nom;
         this.codePostal = codePostal;
@@ -43,6 +45,8 @@ public class Prospect implements Serializable {
         this.numeroTelephone = numeroTelephone;
         this.estClient = estClient;
         this.image = image;
+        this.idDolibarr = idDolibarr;
+        this.heureSaisieTimestamp = heureSaisieTimestamp;
     }
 
 
@@ -188,6 +192,32 @@ public class Prospect implements Serializable {
      */
     public void setEstClient(String estClient) {
         this.estClient = estClient;
+    }
+
+    /**
+     * Indique si le prospect est un client.
+     *
+     * @return "oui" si c'est un client, sinon "non".
+     */
+    public String getIdDolibarr() {
+        return idDolibarr;
+    }
+
+    /**
+     * Définit si le prospect est un client.
+     *
+     * @param idDolibarr "oui" si c'est un client, sinon "non".
+     */
+    public void setIdDolibarr(String idDolibarr) {
+        this.idDolibarr = idDolibarr;
+    }
+
+    public long getHeureSaisieTimestamp() {
+        return heureSaisieTimestamp;
+    }
+
+    public void heureSaisieTimestamp(long heureSaisieTimestamp) {
+        this.heureSaisieTimestamp = heureSaisieTimestamp;
     }
 
     /**

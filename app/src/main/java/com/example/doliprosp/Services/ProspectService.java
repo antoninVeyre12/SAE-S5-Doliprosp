@@ -37,22 +37,8 @@ public class ProspectService implements IProspectService {
 
             @Override
             public void onSuccess(Integer response) throws JSONException {
-                urlAppel = url + "/api/index.php/thirdparties/" + response + "/categories/" + idSalon;
-                // Récupération de l'ID Prospect
-                Log.d("ID PROSPECT", String.valueOf(response));
-                // Appel du callback pour transmettre l'ID Prospect
+                lieProspectSalon(utilisateur, context, idSalon, response);
                 callback.onSuccess(String.valueOf(response));
-                appelAPIPostJson(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallback() {
-
-                    @Override
-                    public void onSuccess(JSONObject response) throws JSONException {
-                        Log.d("sucessss envoyer prospect", response.toString());
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                    }
-                });
             }
 
             @Override
@@ -62,6 +48,25 @@ public class ProspectService implements IProspectService {
         });
     }
 
+    public void lieProspectSalon(Utilisateur utilisateur, Context context,
+                                 int idSalon, int response) {
+        url = utilisateur.getUrl();
+        urlAppel = url + "/api/index.php/thirdparties/" + response + "/categories/" + idSalon;
+        // Récupération de l'ID Prospect
+        Log.d("ID PROSPECT", String.valueOf(response));
+        // Appel du callback pour transmettre l'ID Prospect
+        appelAPIPostJson(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallback() {
+
+            @Override
+            public void onSuccess(JSONObject response) throws JSONException {
+                Log.d("sucessss envoyer prospect", response.toString());
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+            }
+        });
+    }
 
     private JSONObject creationJsonProspect(Prospect prospect) {
         JSONObject jsonBody = new JSONObject();
@@ -71,7 +76,7 @@ public class ProspectService implements IProspectService {
             jsonBody.put("zip", prospect.getCodePostal());
             jsonBody.put("phone", prospect.getNumeroTelephone());
             jsonBody.put("email", prospect.getMail());
-            jsonBody.put("client", 2);
+            jsonBody.put("client", prospect.getEstClient());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -126,9 +131,13 @@ public class ProspectService implements IProspectService {
                         String adressePostale = object.getString("address");
                         String mail = object.getString("email");
                         String numeroTelephone = object.getString("phone");
+                        String estClient = object.getString(
+                                "client");
+                        String idDolibarr = object.getString(
+                                "id");
                         listeProspectCorrespondant.add(new Prospect(nomSalon, nom, codePostal,
                                 ville, adressePostale, mail, numeroTelephone,
-                                "true", "lalala"));
+                                estClient, "lalala", idDolibarr, 0));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
