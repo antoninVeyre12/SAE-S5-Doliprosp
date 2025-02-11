@@ -94,7 +94,9 @@ public class ConnexionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setUp(vue);
-        if (utilisateur != null && utilisateur.informationutilisateurDejaRecupere()) {
+
+        if (utilisateur != null ) {
+            Log.d("vfbjsvbjsvdj", "info user deja recup");
             recupereSaisieChamps();
             configurerUtilisateurExistant();
         } else {

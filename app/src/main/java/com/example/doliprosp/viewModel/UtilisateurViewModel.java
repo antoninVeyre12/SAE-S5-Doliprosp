@@ -43,7 +43,6 @@ public class UtilisateurViewModel extends ViewModel {
                 ChiffrementVigenere.chiffrement(utilisateur.getCleApi());
         String content =
                 utilisateur.getNomUtilisateur() + SEPARATOR + utilisateur.getUrl() + SEPARATOR + utilisateur.getMotDePasse() + SEPARATOR + utilisateur.getCleApi() + SEPARATOR + apiKeyChiifre + SEPARATOR + utilisateur.getMail() + SEPARATOR + utilisateur.getNom() + SEPARATOR + utilisateur.getPrenom() + SEPARATOR + utilisateur.getVille() + SEPARATOR + utilisateur.getCodePostal() + SEPARATOR + utilisateur.getAdresse() + SEPARATOR + utilisateur.getNumTelephone() + SEPARATOR;
-        Log.d("content", content);
         Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
     }
 
@@ -53,22 +52,26 @@ public class UtilisateurViewModel extends ViewModel {
      * @return L'objet Utilisateur contenant les informations chargées.
      */
     public Utilisateur chargementUtilisateur(Context context) {
-        String valeurs[] = Outils.lireFichierInterne(context,
-                NOM_FICHIER).split(";");
-        Log.d("valeurs", String.valueOf(valeurs.length));
-        // Crée un nouvel objet Utilisateur avec les premiers paramètres obligatoires
-        utilisateur = new Utilisateur(valeurs[1], valeurs[0], valeurs[2], valeurs[3]);
+        if(Outils.fichierValide(context, NOM_FICHIER)) {
+            Log.d("content", Outils.lireFichierInterne(context, NOM_FICHIER));
+            String valeurs[] = Outils.lireFichierInterne(context,
+                    NOM_FICHIER).split(";");
+            Log.d("valeurs", String.valueOf(valeurs.length));
+            // Crée un nouvel objet Utilisateur avec les premiers paramètres obligatoires
+            utilisateur = new Utilisateur(valeurs[1], valeurs[0], valeurs[2], valeurs[3]);
 
-        // Remplit les autres informations avec les setters
-        utilisateur.setCleChiffrement(valeurs[4]);
-        utilisateur.setPrenom(valeurs[7]);
-        utilisateur.setNom(valeurs[6]);
-        utilisateur.setVille(valeurs[8]);
-        utilisateur.setCodePostal(Integer.parseInt(valeurs[9]));
-        utilisateur.setAdresse(valeurs[10]);
-        utilisateur.setMail(valeurs[5]);
-        utilisateur.setNumTelephone(valeurs[11]);
+            // Remplit les autres informations avec les setters
+            utilisateur.setCleChiffrement(valeurs[4]);
+            utilisateur.setPrenom(valeurs[7]);
+            utilisateur.setNom(valeurs[6]);
+            utilisateur.setVille(valeurs[8]);
+            utilisateur.setCodePostal(Integer.parseInt(valeurs[9]));
+            utilisateur.setAdresse(valeurs[10]);
+            utilisateur.setMail(valeurs[5]);
+            utilisateur.setNumTelephone(valeurs[11]);
 
+            Log.d("bivfebivfbivf", "utilisateur retourné");
+        }
         return utilisateur;
     }
 

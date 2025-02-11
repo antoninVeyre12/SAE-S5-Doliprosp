@@ -1,6 +1,7 @@
 package com.example.doliprosp.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,8 +114,6 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         String nomFichier = "cleApi.csv";
         String contenu = keyDechiffrement;
         Outils.ecrireDansFichierInterne(getContext(), nomFichier, contenu);
-        Log.d("recupOfTheFIle", Outils.lireFichierInterne(getContext(),
-                nomFichier));
 
         // Set l'adapter des salons de l'utilisateur
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
