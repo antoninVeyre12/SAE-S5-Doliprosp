@@ -34,6 +34,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.example.doliprosp.fragment.ProjetFragment.dernierProspectSelectionne;
+
 /**
  * Fragment représentant la gestion des prospects dans un salon.
  * Permet de lister, d'ajouter des prospects et de naviguer vers un projet associé à un prospect sélectionné.
@@ -143,7 +145,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
             Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).setColors(1, R.color.color_primary, true);
         }
-        if (ProjetFragment.dernierProspectSelectionne == null) {
+        if (dernierProspectSelectionne == null) {
             ((MainActivity) getActivity()).setColors(3, R.color.invalide, false);
         }
 
@@ -181,8 +183,13 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
             mesProjetsViewModel.removeProjet(projet);
         }
 
-        // Notifier l'adapter après mise à jour
-        adapterProspect.notifyDataSetChanged();
+        // si c'est le dernier prospect selectionné, emepche de retourner sur
+        // la page
+        if (prospectASupprimer == dernierProspectSelectionne) {
+            dernierProspectSelectionne = null;
+            ((MainActivity) getActivity()).setColors(3, R.color.gray, false);
+        }
+
     }
 
     @Override

@@ -173,8 +173,11 @@ public class SalonService implements ISalonService {
 
         List<Salon> resultat = new ArrayList<>();
 
+        // met la recherche en minuscule pour empecher les problemes de cases
+        String rechercheLower = recherche.toLowerCase();
+
         for (Salon salon : mesSalonsViewModel.getSalonListe()) {
-            if (salon.getNom().contains(recherche)) {
+            if (salon.getNom().toLowerCase().contains(rechercheLower)) {
                 resultat.add(salon);
             }
         }
@@ -185,8 +188,11 @@ public class SalonService implements ISalonService {
 
         List<Salon> resultat = new ArrayList<>();
 
+        // met la recherche en minuscule pour empecher les problemes de cases
+        String rechercheLower = recherche.toLowerCase();
+
         for (Salon salon : salonsViewModel.getSalonListe()) {
-            if (salon.getNom().contains(recherche)) {
+            if (salon.getNom().toLowerCase().contains(rechercheLower)) {
                 resultat.add(salon);
             }
         }
