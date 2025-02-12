@@ -19,6 +19,8 @@ import com.example.doliprosp.adapter.ProjetAdapter;
 import com.example.doliprosp.viewModel.MesProjetsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
+import java.io.Serializable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -104,13 +106,14 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     /**
      * Initialise les listeners pour les boutons et interactions de l'interface.
      */
+    //asa
     private void setupListeners() {
         // Ajoute un projet
         boutonCreerProjet.setOnClickListener(v -> {
             CreationProjetDialogFragment dialog = new CreationProjetDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("nomDuProspect", prospectActuel.getNom());
-            //bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
+            bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreerDialogueSalon");
         });
@@ -148,6 +151,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     public void onDeleteClick(int position) {
         Projet projetASupprimer = mesProjetsViewModel.getProjetListe().get(position);
         mesProjetsViewModel.removeProjet(projetASupprimer);
+        adapterProjet.setProjetListe(mesProjetsViewModel.getProjetListe());
         adapterProjet.notifyItemRemoved(position);
     }
 

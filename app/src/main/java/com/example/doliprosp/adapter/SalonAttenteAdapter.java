@@ -88,8 +88,6 @@ public class SalonAttenteAdapter extends RecyclerView.Adapter<SalonAttenteAdapte
         holder.salon_checkbox.setOnCheckedChangeListener((buttonView,
                                                           isChecked) -> {
             salon.setEstSelectionne(isChecked);
-            holder.itemView.post(() -> notifyItemChanged(position));
-
         });
     }
 

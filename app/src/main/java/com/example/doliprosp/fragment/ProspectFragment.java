@@ -24,7 +24,6 @@ import com.example.doliprosp.viewModel.MesProspectViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -34,6 +33,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.doliprosp.fragment.ProjetFragment.dernierProspectSelectionne;
 
 /**
  * Fragment représentant la gestion des prospects dans un salon.
@@ -144,7 +145,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
             Toast.makeText(getActivity(), R.string.selection_salon, Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).setColors(1, R.color.color_primary, true);
         }
-        if (ProjetFragment.dernierProspectSelectionne == null) {
+        if (dernierProspectSelectionne == null) {
             ((MainActivity) getActivity()).setColors(3, R.color.invalide, false);
         }
 
@@ -167,17 +168,27 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         ((MainActivity) getActivity()).setColors(3, R.color.color_primary, true);
     }
 
+
     @Override
     public void onDeleteClick(int position) {
-
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
+
+        // Supprime le prospect et met à jour la liste dans l'Adapter
         mesProspectViewModel.removeProspect(prospectASupprimer);
-        adapterProspect.notifyItemRemoved(position);
-        ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
+        adapterProspect.setProspectList(mesProspectViewModel.getProspectListe());
+
+        // Suppression des projets liés
+        List<Projet> projets = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {
             mesProjetsViewModel.removeProjet(projet);
         }
-        //adapterProspect.notifyDataSetChanged();
+
+        // si c'est le dernier prospect selectionné, emepche de retourner sur
+        // la page
+        if (prospectASupprimer == dernierProspectSelectionne) {
+            dernierProspectSelectionne = null;
+            ((MainActivity) getActivity()).setColors(3, R.color.gray, false);
+        }
 
     }
 

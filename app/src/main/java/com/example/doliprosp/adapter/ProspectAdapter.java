@@ -144,6 +144,11 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
         }
     }
 
+    public void setProspectList(List<Prospect> nouvelleListe) {
+        this.prospectListe = nouvelleListe;
+        notifyDataSetChanged();
+    }
+
     private void afficherDialogModification(View v, Prospect prospect, int
             position) {
         if (onItemClickListener != null) {

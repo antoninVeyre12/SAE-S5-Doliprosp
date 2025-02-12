@@ -2,14 +2,14 @@ package com.example.doliprosp.viewModel;
 
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.ViewModel;
+
 import com.example.doliprosp.Modele.Prospect;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import androidx.lifecycle.ViewModel;
 
 /**
  * ViewModel pour gérer la liste des prospects dans l'application.

@@ -2,6 +2,7 @@ package com.example.doliprosp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,8 @@ public class CreationProjetDialogFragment extends DialogFragment {
 
         if (getArguments().containsKey("nomDuProspect")) {
             nomProspect = (String) getArguments().getSerializable("nomDuProspect");
-            adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProspect");
+            adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProjet");
+            Log.d("adapterProjet", adapterProjet.toString());
         }
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         initialisationBouton();
@@ -97,6 +99,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
             // Tout est valide, création du projet
             Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, timestampDate);
             mesProjetsViewModel.addProjet(projet);
+            adapterProjet.setProjetListe(mesProjetsViewModel.getProjetListe());
 
             dismiss();
         });

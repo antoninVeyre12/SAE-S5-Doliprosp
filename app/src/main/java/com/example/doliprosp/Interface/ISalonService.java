@@ -40,7 +40,7 @@ public interface ISalonService {
      */
     boolean salonExiste(String nomRecherche, SalonsViewModel salonsViewModel, MesSalonsViewModel mesSalonsViewModel);
 
-    List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel);
+    List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel, SalonsViewModel salonsViewModel);
 
     void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackString callback);
 

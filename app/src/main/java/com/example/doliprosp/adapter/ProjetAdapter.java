@@ -146,6 +146,11 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         }
     }
 
+    public void setProjetListe(List<Projet> nouveauProjet) {
+        this.projetListe = nouveauProjet;
+        notifyDataSetChanged();
+    }
+
     private void configurerElementsVue(View vue) {
         editTextTitreProjet = vue.findViewById(R.id.editTextTitre);
         editTextDescription = vue.findViewById(R.id.editTextDescription);

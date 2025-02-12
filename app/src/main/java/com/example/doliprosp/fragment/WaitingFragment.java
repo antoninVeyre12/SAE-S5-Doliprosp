@@ -138,15 +138,13 @@ public class WaitingFragment extends Fragment {
      * RecyclerView.
      */
     private void loadSalons() {
-        ArrayList<Salon> salons = new ArrayList<>();
-        /*salons.clear();*/
-        salons = mesSalonsViewModel.getSalonListe();
-        /*for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
+        ArrayList<Salon> salons = new ArrayList<>(mesSalonsViewModel.getSalonListe());
+
+        for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
             if (prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).size() > 0) {
                 salons.add(salonEnregistrer);
             }
-        }*/
-        Log.d("salons", salons.toString());
+        }
         adapterSalons = new SalonAttenteAdapter(salons, mesProspectViewModel, mesProjetsViewModel);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
     }
@@ -177,7 +175,7 @@ public class WaitingFragment extends Fragment {
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes =
-                            salonService.getListeSalonsSelectionnes(mesSalonsViewModel);
+                            salonService.getListeSalonsSelectionnes(mesSalonsViewModel, salonsViewModel);
                     envoyerSalons();
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
@@ -199,6 +197,8 @@ public class WaitingFragment extends Fragment {
 
     private void envoyerSalons() {
         for (Salon salonAEnvoyer : salonsSelectionnes) {
+            Log.d("ee&", salonAEnvoyer.getNom());
+
             salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom()
                     , getContext(), new Outils.APIResponseCallbackString() {
                         @Override
@@ -206,9 +206,11 @@ public class WaitingFragment extends Fragment {
                             prospectSelectionnes =
                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                             int idSalon = Integer.parseInt(response);
+
+                            salonsViewModel.removeSalon(salonAEnvoyer);
+                            adapterSalons.notifyDataSetChanged();
                             envoyerProspects(prospectSelectionnes, idSalon,
                                     salonAEnvoyer);
-
                         }
 
                         @Override
@@ -222,19 +224,18 @@ public class WaitingFragment extends Fragment {
                                                     Integer.parseInt(response);
                                             prospectSelectionnes =
                                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
+                                            mesSalonsViewModel.removeSalon(salonAEnvoyer);
+                                            adapterSalons.notifyDataSetChanged();
                                             envoyerProspects(prospectSelectionnes, idSalon,
                                                     salonAEnvoyer);
                                         }
 
                                         @Override
                                         public void onError(String errorMessage) {
-                                            Log.d("aaaa", "aaaaaa");
                                         }
                                     });
                         }
                     });
-            mesSalonsViewModel.removeSalon(salonAEnvoyer);
-            adapterSalons.notifyDataSetChanged();
         }
     }
 
@@ -265,7 +266,8 @@ public class WaitingFragment extends Fragment {
 
                     @Override
                     public void onError(String errorMessage) {
-
+                        envoyerVersModule(null, prospectAEnvoyer, salonAEnvoyer,
+                                0);
                     }
                 });
             }
@@ -279,11 +281,18 @@ public class WaitingFragment extends Fragment {
         for (Projet projetAEnvoyer : listeAEnvoyer) {
             projetService.envoyerProjet(utilisateur, getContext(),
                     projetAEnvoyer, idProspect);
-            projetService.envoyerVersModule(utilisateur, getContext(),
-                    projetAEnvoyer, prospectAEnvoyer,
-                    salonAEnvoyer, idProspect);
+            envoyerVersModule(projetAEnvoyer, prospectAEnvoyer, salonAEnvoyer,
+                    idProspect);
             mesProjetsViewModel.removeProjet(projetAEnvoyer);
         }
+    }
+
+    private void envoyerVersModule(Projet projetAEnvoyer,
+                                   Prospect prospectAEnvoyer,
+                                   Salon salonAEnvoyer, int idProspect) {
+        projetService.envoyerVersModule(utilisateur, getContext(),
+                projetAEnvoyer, prospectAEnvoyer,
+                salonAEnvoyer, idProspect);
     }
 
 }

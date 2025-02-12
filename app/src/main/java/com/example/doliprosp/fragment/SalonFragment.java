@@ -44,6 +44,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.example.doliprosp.fragment.ProjetFragment.dernierProspectSelectionne;
+import static com.example.doliprosp.fragment.ProspectFragment.dernierSalonSelectione;
+
 /**
  * Classe comprenant l'ensemble des méthodes de gestion et d'utilisation du fragment salon
  *
@@ -136,7 +139,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragment
         ((MainActivity) getActivity()).setColors(1, R.color.color_primary, true);
-        if (ProspectFragment.dernierSalonSelectione == null) {
+        if (dernierSalonSelectione == null) {
             ((MainActivity) getActivity()).setColors(2, R.color.invalide, false);
         }
         if (ProjetFragment.dernierProspectSelectionne == null) {
@@ -263,7 +266,17 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
                 mesProjetViewModel.removeProjet(projet);
             }
         }
-        adapterMesSalons.notifyItemRemoved(position);
+
+        adapterMesSalons.setSalonsList(mesSalonsViewModel.getSalonListe());
+
+        // si c'est le dernier salon selectionné, emepche de retourner sur
+        // la page
+        if (salonASupprimer == dernierSalonSelectione) {
+            dernierSalonSelectione = null;
+            dernierProspectSelectionne = null;
+            ((MainActivity) getActivity()).setColors(2, R.color.gray, false);
+            ((MainActivity) getActivity()).setColors(3, R.color.gray, false);
+        }
     }
 
     /**
