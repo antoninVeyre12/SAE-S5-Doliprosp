@@ -162,6 +162,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     public void onSelectClick(int position, List<Prospect> prospectListe) {
         Prospect prospect = prospectListe.get(position);
         bundle.putSerializable("prospect", (Serializable) prospect);
+        bundle.putSerializable("salon", (Serializable) salonActuel);
         ProjetFragment projetFragment = new ProjetFragment();
         projetFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(projetFragment);

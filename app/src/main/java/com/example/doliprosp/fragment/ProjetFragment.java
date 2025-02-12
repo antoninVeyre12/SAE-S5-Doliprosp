@@ -13,6 +13,7 @@ import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
@@ -36,8 +37,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClickListener {
 
     private IProjetService projetService;
-    private TextView prospectActuelEditText;
+    private TextView prospectActuelTextView, salonActuelTextView;
     private Prospect prospectActuel;
+    private Salon salonActuel;
     public static Prospect dernierProspectSelectionne;
     private Button boutonCreerProjet;
     private UtilisateurViewModel utilisateurViewModel;
@@ -61,6 +63,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         Bundle bundle = getArguments();
         if (bundle != null) {
             prospectActuel = (Prospect) bundle.getSerializable("prospect");
+            salonActuel = (Salon) bundle.getSerializable("salon");
             dernierProspectSelectionne = prospectActuel;
 
         } else {
@@ -87,14 +90,16 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
 
         projetService = new ProjetService();
         boutonCreerProjet = view.findViewById(R.id.buttonCreateProject);
-        prospectActuelEditText = view.findViewById(R.id.prospectActuel);
+        prospectActuelTextView = view.findViewById(R.id.prospectActuel);
+        salonActuelTextView = view.findViewById(R.id.salonActuel);
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         projetRecyclerView = view.findViewById(R.id.projetRecyclerView);
         chargement = view.findViewById(R.id.chargement);
 
         // Affiche le nom du prospect actuellement sélectionné
-        prospectActuelEditText.setText(prospectActuel.getNom());
+        prospectActuelTextView.setText(prospectActuel.getNom());
+        salonActuelTextView.setText(salonActuel.getNom());
 
         // Configure le RecyclerView avec un layout en grille
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);

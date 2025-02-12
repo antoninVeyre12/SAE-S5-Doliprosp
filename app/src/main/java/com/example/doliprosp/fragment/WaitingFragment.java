@@ -202,7 +202,6 @@ public class WaitingFragment extends Fragment {
 
     private void envoyerSalons() {
         for (Salon salonAEnvoyer : salonsSelectionnes) {
-            Log.d("ee&", salonAEnvoyer.getNom());
 
             salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom()
                     , getContext(), new Outils.APIResponseCallbackString() {
@@ -217,7 +216,8 @@ public class WaitingFragment extends Fragment {
 
                             salonsViewModel.removeSalon(salonAEnvoyer,
                                     getContext());
-                            adapterSalons.notifyDataSetChanged();
+                            loadSalons();
+
                             envoyerProspects(prospectSelectionnes, idSalon,
                                     salonAEnvoyer);
 
@@ -235,11 +235,12 @@ public class WaitingFragment extends Fragment {
                                                     Integer.parseInt(response);
                                             prospectSelectionnes =
                                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                                            mesSalonsViewModel.removeSalon(salonAEnvoyer, getContext());
 
+                                            mesSalonsViewModel.removeSalon(salonAEnvoyer, getContext());
+                                            // Reload les salons
+                                            loadSalons();
 
                                             empecheRetourApresEnvoie(salonAEnvoyer);
-                                            adapterSalons.notifyDataSetChanged();
                                             envoyerProspects(prospectSelectionnes, idSalon,
                                                     salonAEnvoyer);
 

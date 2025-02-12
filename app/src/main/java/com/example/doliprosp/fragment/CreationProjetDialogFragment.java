@@ -98,9 +98,10 @@ public class CreationProjetDialogFragment extends DialogFragment {
 
             // Tout est valide, création du projet
             Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, timestampDate);
-            adapterProjet.setProjetListe(mesProjetsViewModel.getProjetListe());
             mesProjetsViewModel.addProjet(projet, getContext());
-
+            adapterProjet.setProjetListe(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                    nomProspect));
+            
             dismiss();
         });
 

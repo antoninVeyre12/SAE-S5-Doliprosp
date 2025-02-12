@@ -79,6 +79,8 @@
     <string name="erreur_date_debut_passee">La date de début ne peut pas être dans le passé.</string>
     <string name="erreur_date_debut_apres_fin">La date de début ne peut pas être inférieur à la date de fin.</string>
     <string name="erreur_date_invalide">La date saisie est invalide.</string>
+    <string name="salon_actuel">Salon actuel :</string>
+    <string name="prospect_actuel">Prospect actuel :</string>
 
     <!-- Page connexion -->
     <string name="btn_connexion">Se connecter</string>

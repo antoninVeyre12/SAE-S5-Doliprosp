@@ -129,6 +129,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
      */
     public void onResume() {
         super.onResume();
+        dernierProspectSelectionne = null;
         // Met en primaryColor l'icone et le texte du fragment
         ((MainActivity) getActivity()).setColors(1, R.color.color_primary, true);
         if (dernierSalonSelectione == null) {
