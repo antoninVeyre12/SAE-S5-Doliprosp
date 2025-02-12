@@ -60,15 +60,6 @@ public class ConnexionService implements IConnexionService {
     }
 
     /**
-     * Méthode de chiffrement de la clé API.
-     * @param cleApi La clé API à chiffrer.
-     * @return La clé API chiffrée
-     */
-    public String chiffrementApiKey(String cleApi) {
-        return cleApi; // TODO chiffrer avec la méthode Vigenère
-    }
-
-    /**
      * Retourne l'objet Utilisateur associé à la connexion.
      * @return L'utilisateur nouvellement connecté.
      */

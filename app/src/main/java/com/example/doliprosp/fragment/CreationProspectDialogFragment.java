@@ -322,25 +322,37 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         long heureSaisieTimestamp = System.currentTimeMillis() / 1000;
         erreur.setVisibility(View.GONE);
         if(idDolibar.equals("false")) {
-            prospectService.prospectDejaExistantDolibarr(getContext(), tel,
-                    utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
-                    new Outils.CallbackProspectExiste() {
-                        @Override
-                        public void onResponse() {
-                            erreur.setText("Un prospect avec ce numéro de " +
-                                    "téléphone existe déjà");
-                            erreur.setVisibility(View.VISIBLE);
-                        }
+            if(!prospectService.existeDansViewModel(tel, mesProspectViewModel)) {
+                prospectService.prospectDejaExistantDolibarr(getContext(), tel,
+                        utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
+                        new Outils.CallbackProspectExiste() {
+                            @Override
+                            public void onResponse() {
+                                erreur.setText("Un prospect avec ce numéro de " +
+                                        "téléphone existe déjà");
+                                erreur.setVisibility(View.VISIBLE);
+                            }
 
-                        @Override
-                        public void onError() {
-                            ajouterProspect(nom, mail, tel, adresse, ville, codePostal, client, idDolibar, heureSaisieTimestamp);
-                        }
+                            @Override
+                            public void onError() {
+                                ajouterProspect(nom, mail, tel, adresse, ville, codePostal, client, idDolibar, heureSaisieTimestamp);
+                            }
 
-                    });
+                        });
+            } else {
+                erreur.setText("Un prospect avec ce numéro de " +
+                        "téléphone existe déjà");
+                erreur.setVisibility(View.VISIBLE);
+            }
+
         } else {
-            ajouterProspect(nom, mail, tel, adresse, ville, codePostal, client, idDolibar, heureSaisieTimestamp);
-
+            if(prospectService.existeDansViewModel(tel, mesProspectViewModel)) {
+                erreur.setText("Un prospect avec ce numéro de " +
+                        "téléphone existe déjà");
+                erreur.setVisibility(View.VISIBLE);
+            } else {
+                ajouterProspect(nom, mail, tel, adresse, ville, codePostal, client, idDolibar, heureSaisieTimestamp);
+            }
         }
 
     }

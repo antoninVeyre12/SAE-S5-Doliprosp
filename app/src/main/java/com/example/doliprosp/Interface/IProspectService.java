@@ -49,4 +49,6 @@ public interface IProspectService {
     void lieProspectSalon(Utilisateur utilisateur, Context context,
                           int idSalon, int response);
 
+    boolean existeDansViewModel(String recherche, MesProspectViewModel mesProspectViewModel);
+
 }
