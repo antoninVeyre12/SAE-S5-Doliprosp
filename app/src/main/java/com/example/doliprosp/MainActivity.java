@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.findViewById(R.id.image_utilisateur)
         };
 
-        Log.d("MAIN ACTIVITY", "retour dans le main");
         // Chargement du fragment par défaut (Connexion) si c'est la première
         // fois que l'activité est lancée
         if (savedInstanceState == null) {

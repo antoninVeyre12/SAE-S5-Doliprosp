@@ -83,10 +83,16 @@ public class ProjetService implements IProjetService {
 
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/doliprospapi/salons";
-
         String apikey = utilisateur.getCleApi();
-        JSONObject jsonBody = creationJsonModule(utilisateur, projetAEnvoyer,
-                prospectAEnvoyer, salonAEnvoyer, idProspect);
+        JSONObject jsonBody = null;
+        if (projetAEnvoyer == null) {
+            jsonBody = creationJsonModuleSansProjet(utilisateur,
+                    prospectAEnvoyer, salonAEnvoyer, idProspect);
+        } else {
+            jsonBody = creationJsonModule(utilisateur, projetAEnvoyer,
+                    prospectAEnvoyer, salonAEnvoyer, idProspect);
+        }
+
         Log.d("jsonBOdy", jsonBody.toString());
         appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
@@ -123,7 +129,38 @@ public class ProjetService implements IProjetService {
             jsonBody.put("dateDebutProjet", projet.getDateTimestamp());
             jsonBody.put("dateSaisie", prospect.getHeureSaisieTimestamp());
             jsonBody.put("commercial", utilisateur.getNomUtilisateur());
-            jsonBody.put("miseAJour", "1");
+            jsonBody.put("miseAJour", false);
+            jsonBody.put("intituleSalon", salon.getNom());
+            jsonBody.put("status", 1);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonBody;
+    }
+
+    private JSONObject creationJsonModuleSansProjet(Utilisateur utilisateur,
+                                                    Prospect prospect,
+                                                    Salon salon, int idProspect) {
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("ref",
+                    salon.getNom() + "-Non Envoyé");
+            jsonBody.put("refProjet",
+                    "Non Envoyé");
+            jsonBody.put("description", "");
+            jsonBody.put("titreProjet", "");
+            jsonBody.put("IDProspectClient", idProspect);
+            jsonBody.put("nomProspectClient", prospect.getNom());
+            jsonBody.put("adressePostale", prospect.getAdresse());
+            jsonBody.put("codePostal", prospect.getCodePostal());
+            jsonBody.put("ville", prospect.getVille());
+            jsonBody.put("noTel", prospect.getNumeroTelephone());
+            jsonBody.put("email", prospect.getMail());
+            jsonBody.put("clientProspect", "0");
+            jsonBody.put("dateDebutProjet", "");
+            jsonBody.put("dateSaisie", prospect.getHeureSaisieTimestamp());
+            jsonBody.put("commercial", utilisateur.getNomUtilisateur());
+            jsonBody.put("miseAJour", true);
             jsonBody.put("intituleSalon", salon.getNom());
             jsonBody.put("status", 1);
         } catch (JSONException e) {

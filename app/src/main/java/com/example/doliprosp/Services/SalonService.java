@@ -124,10 +124,15 @@ public class SalonService implements ISalonService {
         return jsonBody;
     }
 
-    public List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel) {
+    public List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel, SalonsViewModel salonsViewModel) {
 
         List<Salon> salonsSelectionnes = new ArrayList<>();
         for (Salon salon : mesSalonsViewModel.getSalonListe()) {
+            if (salon.estSelectionne()) {
+                salonsSelectionnes.add(salon);
+            }
+        }
+        for (Salon salon : salonsViewModel.getSalonListe()) {
             if (salon.estSelectionne()) {
                 salonsSelectionnes.add(salon);
             }

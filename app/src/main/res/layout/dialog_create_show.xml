@@ -19,16 +19,19 @@
         android:layout_marginHorizontal="10dp"
         android:maxLength="50"
         android:hint="@string/hint_show"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZéèêëàâäôöûüîïç0123456789-_"
+        android:inputType="text"
         android:singleLine="true" />
 
 
     <TableRow>
+
         <Button
             android:id="@+id/buttonCancel"
             android:layout_span="1"
             android:layout_marginBottom="@dimen/margin_creation"
             style="@style/button_cancel" />
-            
+
         <Button
             android:id="@+id/buttonSubmit"
             style="@style/button_validate"
