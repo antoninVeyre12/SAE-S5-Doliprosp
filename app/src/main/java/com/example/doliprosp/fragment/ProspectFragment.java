@@ -174,13 +174,13 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
 
         // Supprime le prospect et met à jour la liste dans l'Adapter
-        mesProspectViewModel.removeProspect(prospectASupprimer);
+        mesProspectViewModel.removeProspect(prospectASupprimer, getContext());
         adapterProspect.setProspectList(mesProspectViewModel.getProspectListe());
 
         // Suppression des projets liés
         List<Projet> projets = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {
-            mesProjetsViewModel.removeProjet(projet);
+            mesProjetsViewModel.removeProjet(projet, getContext());
         }
 
         // si c'est le dernier prospect selectionné, emepche de retourner sur
@@ -203,7 +203,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         prospectAModifier.setVille(nouvelleVille);
         prospectAModifier.setCodePostal(nouveauCodePostal);
 
-        mesProspectViewModel.enregistrerProspect();
+        mesProspectViewModel.enregistrerProspect(getContext());
         adapterProspect.notifyItemChanged(position);
     }
 }

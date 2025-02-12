@@ -1,11 +1,16 @@
 package com.example.doliprosp.viewModel;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.doliprosp.Modele.Salon;
-import com.google.gson.Gson;
+import com.example.doliprosp.Services.Outils;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -13,16 +18,14 @@ import androidx.lifecycle.ViewModel;
 
 /**
  * ViewModel pour gérer la liste des salons dans l'application.
- * Ce ViewModel utilise SharedPreferences pour la persistance des salons.
+ * Ce ViewModel utilise Su fichier CSV pour enregistrer des salons.
  */
 public class SalonsViewModel extends ViewModel {
 
-    // Liste des salons gérée par le ViewModel
     private ArrayList<Salon> salonListe = new ArrayList<>();
-    private final Gson gson = new Gson();
-    private static final String PREF_KEY = "salon_liste";
-    // Référence à SharedPreferences pour stocker et récupérer les données persistantes
-    private SharedPreferences sharedPreferences;
+    private final String SEPARATOR = ";";
+    private final String NOM_FICHIER = "salons.csv";
+
 
     /**
      * Retourne la liste actuelle des salons.
@@ -34,69 +37,48 @@ public class SalonsViewModel extends ViewModel {
     }
 
     /**
-     * Ajoute un salon à la liste et enregistre la liste mise à jour dans SharedPreferences.
+     * Ajoute un salon à la liste et enregistre la liste mise à jour dans le fichier CSV.
      *
      * @param salon Le salon à ajouter.
      */
-    public void addSalon(Salon salon) {
+    public void addSalon(Salon salon, Context context) {
         salonListe.add(salon);
-        enregistrerSalons(); // Sauvegarde la liste mise à jour.
+        enregistrerSalons(context);
     }
 
     /**
-     * Initialise les SharedPreferences à utiliser pour la persistance des données.
+     * Ajoute un salon à la liste et enregistre la liste mise à jour dans le fichier CSV.
      *
-     * @param sharedPreferences L'objet SharedPreferences.
+     * @param context le context de l'activité.
      */
-    public void initSharedPreferences(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
+    public void clear(Context context) {
+        context.deleteFile(NOM_FICHIER);
+        enregistrerSalons(context);
+    }
+
+
+    /**
+     * Enregistre la liste des salons dans un fichier CSV
+     */
+    private void enregistrerSalons(Context context) {
+        String content = "";
+        for(Salon salon : salonListe) {
+            content += salon.getNom() + SEPARATOR;
+        }
+        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
     }
 
     /**
-     * Supprime un salon de la liste et enregistre la liste mise à jour dans SharedPreferences.
-     *
-     * @param salon Le salon à supprimer.
+     * Charge la liste des salons depuis le fichier CSV.
      */
-    public void removeSalon(Salon salon) {
-        salonListe.remove(salon);
-        enregistrerSalons(); // Sauvegarde la liste mise à jour après suppression du salon.
-    }
-
-    /**
-     * Vide la liste des salons et met à jour les SharedPreferences en conséquence.
-     */
-    public void clear() {
+    public void chargementSalons(Context context) {
         salonListe.clear();
-        enregistrerSalons(); // Sauvegarde la liste vide des salons.
-    }
-
-    /**
-     * Enregistre la liste des salons dans SharedPreferences sous forme de chaîne JSON.
-     */
-    private void enregistrerSalons() {
-        // Création d'un éditeur pour modifier les SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Sauvegarde du JSON dans SharedPreferences avec la clé "salon_liste"
-        editor.putString(PREF_KEY, gson.toJson(salonListe));
-        editor.apply(); // Applique les changements de manière asynchrone
-    }
-
-    /**
-     * Charge la liste des salons depuis SharedPreferences et la désérialise.
-     * Les salons sont récupérés sous forme de JSON puis convertis en objets de type ArrayList<Salon>.
-     */
-    public void chargementSalons() {
-        // Récupération de la chaîne JSON des SharedPreferences
-        String json = sharedPreferences.getString(PREF_KEY, null);
-
-        // Définition du type générique pour la désérialisation
-        Type type = new TypeToken<ArrayList<Salon>>() {
-        }.getType();
-
-        // Si le JSON existe, on désérialise la chaîne en une liste de salons
-        if (json != null) {
-            salonListe = gson.fromJson(json, type);
+        String content = Outils.lireFichierInterne(context, NOM_FICHIER);
+        for(String champ : content.split(";")) {
+            if(!champ.isEmpty()) {
+                Salon salon = new Salon(champ);
+                salonListe.add(salon);
+            }
         }
     }
 }

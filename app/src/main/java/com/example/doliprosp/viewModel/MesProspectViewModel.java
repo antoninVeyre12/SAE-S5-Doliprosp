@@ -1,28 +1,34 @@
 package com.example.doliprosp.viewModel;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
 import com.example.doliprosp.Modele.Prospect;
+import com.example.doliprosp.Services.Outils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * ViewModel pour gérer la liste des prospects dans l'application.
- * Cette classe permet d'ajouter, supprimer et charger des prospects à partir des SharedPreferences.
+ * Cette classe permet d'ajouter, supprimer et charger des prospects à partir d'u fichier CSV.
  * Elle assure la gestion des données liées aux prospects, leur persistance et leur récupération.
  */
 public class MesProspectViewModel extends ViewModel {
     // Liste des prospects gérée dans le ViewModel
     private ArrayList<Prospect> prospectListe = new ArrayList<>();
-    private final Gson gson = new Gson();
-    // Référence à l'objet SharedPreferences pour la persistance des données
-    private SharedPreferences sharedPreferences;
-    private static final String PREF_KEY = "mes_prospect_list";
+    private final String NOM_FICHIER = "mesProspects.csv";
+    private final String SEPARATEUR = ";";
+    private final String SAUT_DE_LIGNE = "\n";
 
     /**
      * Retourne la liste des prospects.
@@ -34,60 +40,72 @@ public class MesProspectViewModel extends ViewModel {
     }
 
     /**
-     * Ajoute un prospect à la liste et enregistre la liste mise à jour dans SharedPreferences.
+     * Ajoute un prospect à la liste et enregistre la liste mise à jour dans le fichier CSV.
      *
      * @param prospect Le prospect à ajouter.
+     * @param context le context de l'acivité
      */
-    public void addProspect(Prospect prospect) {
+    public void addProspect(Prospect prospect, Context context) {
         prospectListe.add(prospect);
-        enregistrerProspect(); // Sauvegarde la liste mise à jour des prospects.
-    }
-
-    /**
-     * Initialise les SharedPreferences à utiliser pour la persistance des données.
-     *
-     * @param sharedPreferences L'objet SharedPreferences.
-     */
-    public void initSharedPreferences(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
+        enregistrerProspect(context); // Sauvegarde la liste mise à jour des prospects.
     }
 
     /**
      * Supprime un prospect de la liste et enregistre la liste mise à jour dans SharedPreferences.
      *
      * @param prospect Le prospect à supprimer.
+     * @param context le context de l'acivité
      */
-    public void removeProspect(Prospect prospect) {
+    public void removeProspect(Prospect prospect, Context context) {
         prospectListe.remove(prospect);
-        enregistrerProspect(); // Sauvegarde la liste mise à jour après suppression du prospect.
+        enregistrerProspect(context); // Sauvegarde la liste mise à jour après suppression du prospect.
     }
 
     /**
-     * Enregistre la liste des prospects dans les SharedPreferences sous forme de chaîne JSON.
+     * Enregistre la liste des prospects dans le fichier CSV.
+     * @param context le context de l'acivité
      */
-    public void enregistrerProspect() {
-        // Création d'un éditeur pour modifier les SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        // Sauvegarde du JSON dans SharedPreferences avec la clé "mes_prospect_list"
-        editor.putString(PREF_KEY, gson.toJson(prospectListe));
-        editor.apply(); // Applique les changements de manière asynchrone
-    }
-
-    /**
-     * Charge la liste des prospects depuis SharedPreferences et la désérialise.
-     * Les prospects sont récupérés sous forme de JSON puis convertis en objets de type ArrayList<Prospect>.
-     */
-    public void chargementProspect() {
-        // Récupération de la chaîne JSON des SharedPreferences
-        String json = sharedPreferences.getString(PREF_KEY, null);
-
-        // Définition du type générique pour la désérialisation
-        Type type = new TypeToken<ArrayList<Prospect>>() {
-        }.getType();
-
-        // Si le JSON existe, on désérialise la chaîne en une liste de prospects
-        if (json != null) {
-            prospectListe = gson.fromJson(json, type);
+    public void enregistrerProspect(Context context) {
+        String content = "";
+        for(Prospect monProspect : prospectListe) {
+            content += saisieProspect(monProspect) + SAUT_DE_LIGNE;
         }
+        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
+    }
+
+
+
+    /**
+     * Charge la liste des prospects depuis le fichier CSV..
+     * @param context le context de l'acivité
+     */
+    public void chargementProspect(Context context) {
+
+        prospectListe.clear();
+        String content = Outils.lireFichierInterne(context, NOM_FICHIER);
+
+        for(String prospect : content.split(SAUT_DE_LIGNE)) {
+            String [] champs = prospect.split(SEPARATEUR);
+            if(champs.length == 11) {
+                Prospect monProspect = new Prospect(champs[0], champs[1], champs[2], champs[3], champs[4],
+                                                champs[5], champs[6], champs[7], champs[8], champs[9],
+                                                Long.valueOf(champs[10]));
+                prospectListe.add(monProspect);
+            }
+        }
+    }
+
+    /**
+     * Retourne une string correspondante à la ligne du prospect à insérer dans le CSV
+     * @param monProspect
+     * @return
+     */
+    private String saisieProspect(Prospect monProspect) {
+        return monProspect.getNomSalon() + SEPARATEUR + monProspect.getNom()
+                + SEPARATEUR + monProspect.getCodePostal() + SEPARATEUR + monProspect.getVille()
+                + SEPARATEUR + monProspect.getAdresse() + SEPARATEUR + monProspect.getMail()
+                + SEPARATEUR + monProspect.getNumeroTelephone() + SEPARATEUR
+                + monProspect.getEstClient() + SEPARATEUR + monProspect.getImage() + SEPARATEUR
+                + monProspect.getIdDolibarr() + SEPARATEUR + (monProspect.getHeureSaisieTimestamp());
     }
 }

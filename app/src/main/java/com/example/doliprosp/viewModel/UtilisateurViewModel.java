@@ -79,6 +79,7 @@ public class UtilisateurViewModel extends ViewModel {
      * Supprime les données utilisateur en supprimant le fichier CSV associé.
      */
     public void supprimerDonnerUtilisateur(Context context) {
+        utilisateur = null;
         context.deleteFile(NOM_FICHIER);
     }
 }

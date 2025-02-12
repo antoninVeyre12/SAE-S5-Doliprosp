@@ -207,7 +207,7 @@ public class WaitingFragment extends Fragment {
                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                             int idSalon = Integer.parseInt(response);
 
-                            salonsViewModel.removeSalon(salonAEnvoyer);
+                            salonsViewModel.removeSalon(salonAEnvoyer, getContext());
                             adapterSalons.notifyDataSetChanged();
                             envoyerProspects(prospectSelectionnes, idSalon,
                                     salonAEnvoyer);
@@ -224,7 +224,7 @@ public class WaitingFragment extends Fragment {
                                                     Integer.parseInt(response);
                                             prospectSelectionnes =
                                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
-                                            mesSalonsViewModel.removeSalon(salonAEnvoyer);
+                                            mesSalonsViewModel.removeSalon(salonAEnvoyer, getContext());
                                             adapterSalons.notifyDataSetChanged();
                                             envoyerProspects(prospectSelectionnes, idSalon,
                                                     salonAEnvoyer);
@@ -271,7 +271,7 @@ public class WaitingFragment extends Fragment {
                     }
                 });
             }
-            mesProspectViewModel.removeProspect(prospectAEnvoyer);
+            mesProspectViewModel.removeProspect(prospectAEnvoyer, getContext());
         }
     }
 
@@ -283,7 +283,7 @@ public class WaitingFragment extends Fragment {
                     projetAEnvoyer, idProspect);
             envoyerVersModule(projetAEnvoyer, prospectAEnvoyer, salonAEnvoyer,
                     idProspect);
-            mesProjetsViewModel.removeProjet(projetAEnvoyer);
+            mesProjetsViewModel.removeProjet(projetAEnvoyer, getContext());
         }
     }
 

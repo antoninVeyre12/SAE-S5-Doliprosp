@@ -150,7 +150,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     @Override
     public void onDeleteClick(int position) {
         Projet projetASupprimer = mesProjetsViewModel.getProjetListe().get(position);
-        mesProjetsViewModel.removeProjet(projetASupprimer);
+        mesProjetsViewModel.removeProjet(projetASupprimer, getContext());
         adapterProjet.setProjetListe(mesProjetsViewModel.getProjetListe());
         adapterProjet.notifyItemRemoved(position);
     }
@@ -175,7 +175,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         mesProjetsViewModel.getProjetListe().set(position, projetAModifier);
 
         // Notifier l'adapter du changement
-        mesProjetsViewModel.enregistrerProjet();
+        mesProjetsViewModel.enregistrerProjet(getContext());
         adapterProjet.notifyItemChanged(position);
 
         // Log.d("ModifierProjet", "Projet reçu: " + projetAModifier.getTitre() + ", " + projetAModifier.getDescription() + ", " + projetAModifier.getDateDebut());
