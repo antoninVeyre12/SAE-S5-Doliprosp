@@ -207,7 +207,7 @@ public class WaitingFragment extends Fragment {
                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                             int idSalon = Integer.parseInt(response);
 
-                            salonsViewModel.removeSalon(salonAEnvoyer, getContext());
+//                            salonsViewModel.removeSalon(salonAEnvoyer, getContext());
                             adapterSalons.notifyDataSetChanged();
                             envoyerProspects(prospectSelectionnes, idSalon,
                                     salonAEnvoyer);

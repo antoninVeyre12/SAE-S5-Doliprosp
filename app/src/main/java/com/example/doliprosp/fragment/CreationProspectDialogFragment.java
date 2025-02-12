@@ -321,37 +321,61 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         String idDolibar = idDolibarr.getText().toString().trim();
         long heureSaisieTimestamp = System.currentTimeMillis() / 1000;
         erreur.setVisibility(View.GONE);
-        prospectService.prospectDejaExistantDolibarr(getContext(), tel,
-                utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
-                new Outils.CallbackProspectExiste() {
-                    @Override
-                    public void onResponse() {
-                        erreur.setText("Un prospect avec ce numéro de " +
-                                "téléphone existe déjà");
-                        erreur.setVisibility(View.VISIBLE);
-                        Log.d("telllll", "prospect existe déjà");
-                    }
-
-                    @Override
-                    public void onError() {
-                        Log.d("telllll", "prospect n'existe pas existe déjà");
-                        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
-                            Prospect prospect = new Prospect(nomSalon, nom,
-                                    codePostal, ville, adresse, mail, tel,
-                                    client, "image", idDolibar, heureSaisieTimestamp);
-                            mesProspectViewModel.addProspect(prospect, getContext());
-                            dismiss();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("prospect", prospect);
-                            ProjetFragment projetFragment = new ProjetFragment();
-                            projetFragment.setArguments(bundle);
-                            ((MainActivity) getActivity()).loadFragment(projetFragment);
-                            ((MainActivity) getActivity()).setColors(2, R.color.color_primary
-                                    , true);
+        if(idDolibar.equals("false")) {
+            prospectService.prospectDejaExistantDolibarr(getContext(), tel,
+                    utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
+                    new Outils.CallbackProspectExiste() {
+                        @Override
+                        public void onResponse() {
+                            erreur.setText("Un prospect avec ce numéro de " +
+                                    "téléphone existe déjà");
+                            erreur.setVisibility(View.VISIBLE);
                         }
-                    }
 
-                });
+                        @Override
+                        public void onError() {
+                            ajouterProspect(nom, mail, tel, adresse, ville, codePostal, client, idDolibar, heureSaisieTimestamp);
+                        }
+
+                    });
+        } else {
+            ajouterProspect(nom, mail, tel, adresse, ville, codePostal, client, idDolibar, heureSaisieTimestamp);
+
+        }
+
+    }
+
+    /**
+     * Ajoute un prospect à la liste des prospects et navigue vers un fragment de projet.
+     * Cette méthode valide les informations fournies pour le prospect, crée un nouvel objet `Prospect`
+     * et l'ajoute au modèle de vue des prospects. Ensuite, elle navigue vers un fragment de projet
+     * en passant l'objet `Prospect` en tant que paramètre.
+     *
+     * @param nom Le nom du prospect.
+     * @param mail L'adresse email du prospect.
+     * @param tel Le numéro de téléphone du prospect.
+     * @param adresse L'adresse complète du prospect.
+     * @param ville La ville où réside le prospect.
+     * @param codePostal Le code postal du prospect.
+     * @param client Le nom du client associé au prospect.
+     * @param idDolibar L'identifiant Dolibar du prospect.
+     * @param heureSaisieTimestamp Le timestamp de l'heure de saisie du prospect.
+     */
+    private void ajouterProspect(String nom, String mail, String tel, String adresse, String ville, String codePostal, String client, String idDolibar, long heureSaisieTimestamp) {
+        if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
+            Prospect prospect = new Prospect(nomSalon, nom,
+                    codePostal, ville, adresse, mail, tel,
+                    client, "image", idDolibar, heureSaisieTimestamp);
+            mesProspectViewModel.addProspect(prospect, getContext());
+            dismiss();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("prospect", prospect);
+            ProjetFragment projetFragment = new ProjetFragment();
+            projetFragment.setArguments(bundle);
+            ((MainActivity) getActivity()).loadFragment(projetFragment);
+            ((MainActivity) getActivity()).setColors(2, R.color.color_primary
+                    , true);
+        }
     }
 
     /**
