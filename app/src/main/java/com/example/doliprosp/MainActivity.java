@@ -29,25 +29,31 @@ import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
+/**
+ * Activité principale de l'application gérant la navigation et l'affichage
+ * des fragments.
+ */
 public class MainActivity extends AppCompatActivity {
-    // Déclaration des variables nécessaires
     private RequestQueue fileRequete;
-    private TextView[] textViews; // Tableau de TextViews pour la navigation
-    private ImageView[] imageViews; // Tableau d'ImageViews pour la navigation
-    private SalonsViewModel salonsViewModel; // ViewModel pour gérer les salons
-    private MesSalonsViewModel mesSalonsViewModel; // ViewModel pour gérer les salons personnels
-    private MesProspectViewModel mesProspectViewModel; // ViewModel pour gérer les prospects
-    private MesProjetsViewModel mesProjetsViewModel; // ViewModel pour gérer les prospects
+    private TextView[] textViews;
+    private ImageView[] imageViews;
+    private SalonsViewModel salonsViewModel;
+    private MesSalonsViewModel mesSalonsViewModel;
+    private MesProspectViewModel mesProspectViewModel;
+    private MesProjetsViewModel mesProjetsViewModel;
 
+    /**
+     * Méthode appelée lors de la création de l'activité.
+     *
+     * @param savedInstanceState L'état précédent de l'activité, s'il existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialisation du menu de navigation
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
 
-        // Initialisation des TextViews et ImageViews pour la navigation
         textViews = new TextView[]{
                 bottomNav.findViewById(R.id.texte_attente),
                 bottomNav.findViewById(R.id.texte_salon),
@@ -64,107 +70,137 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.findViewById(R.id.image_utilisateur)
         };
 
-        Log.d("MAIN ACTIVITY", "retour dans le main");
-        // Chargement du fragment par défaut (Connexion) si c'est la première fois que l'activité est lancée
+        Log.d("MAIN ACTIVITY", "Retour dans le main");
+
         if (savedInstanceState == null) {
-            bottomNav.setVisibility(View.GONE); // Cache la barre de navigation pour la première connexion
-            ConnexionFragment connexionFragment = new ConnexionFragment(); // Fragment de connexion
-            loadFragment(connexionFragment); // Chargement du fragment
+            bottomNav.setVisibility(View.GONE);
+            loadFragment(new ConnexionFragment());
         }
 
-        // Configuration des actions au clic sur chaque élément du menu de navigation
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
             final int index = i;
-            bottomNav.getChildAt(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadFragment(getFragmentByIndex(index)); // Charger le fragment correspondant
-                    setColors(index); // Changer la couleur de l'élément sélectionné
-                }
+            bottomNav.getChildAt(i).setOnClickListener(v -> {
+                loadFragment(getFragmentByIndex(index));
+                setColors(index);
             });
         }
     }
 
-    // Méthode pour récupérer le fragment à afficher selon l'index
+    /**
+     * Retourne le fragment correspondant à l'index sélectionné.
+     *
+     * @param index L'index du fragment à récupérer.
+     * @return Le fragment correspondant.
+     */
     private Fragment getFragmentByIndex(int index) {
         switch (index) {
-            case 0: return new WaitingFragment(); // Fragment d'attente
-            case 1: return new SalonFragment(); // Fragment des salons
-            case 2: return new ProspectFragment(); // Fragment des prospects
-            case 3: return new ProjetFragment(); // Fragment des projets
-            case 4: return new UtilisateurFragment(); // Fragment des informations utilisateur
-            default: return null; // Retourne null si index inconnu
+            case 0:
+                return new WaitingFragment();
+            case 1:
+                return new SalonFragment();
+            case 2:
+                return new ProspectFragment();
+            case 3:
+                return new ProjetFragment();
+            case 4:
+                return new UtilisateurFragment();
+            default:
+                return null;
         }
     }
 
-    // Méthode pour charger un fragment dans le conteneur
+    /**
+     * Charge un fragment dans le conteneur principal.
+     *
+     * @param fragment Le fragment à afficher.
+     */
     public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction(); // Commencer la transaction du fragment
-        transaction.replace(R.id.fragment_container, fragment); // Remplacer le fragment actuellement affiché par le nouveau
-        transaction.addToBackStack(null); // Ajouter à la pile arrière pour pouvoir revenir
-        transaction.commit(); // Valider la transaction
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
-    // Méthode pour mettre à jour les couleurs des éléments de la navigation
+    /**
+     * Met à jour les couleurs des éléments de navigation.
+     *
+     * @param selectedIndex L'index de l'élément sélectionné.
+     */
     public void setColors(int selectedIndex) {
         LinearLayout bottomNav = findViewById(R.id.bottom_navigation);
-        // Réinitialiser les couleurs pour tous les éléments
         for (int i = 0; i < bottomNav.getChildCount(); i++) {
             textViews[i].setTextColor(Color.BLACK);
             imageViews[i].setColorFilter(Color.BLACK);
         }
 
-        // Appliquer la couleur de sélection pour l'élément choisi
         textViews[selectedIndex].setTextColor(getResources().getColor(R.color.color_primary));
-        imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.color_primary));
+        imageViews[selectedIndex].setColorFilter(ContextCompat.getColor(this,
+                R.color.color_primary));
     }
 
-    // Méthode pour obtenir le RequestQueue pour effectuer des requêtes réseau (non utilisée ici)
+    /**
+     * Retourne la file de requêtes réseau.
+     *
+     * @return La file de requêtes {@link RequestQueue}.
+     */
     public RequestQueue getFileRequete() {
         if (fileRequete == null) {
-            fileRequete = Volley.newRequestQueue(this); // Initialisation de la file de requêtes si elle n'existe pas
+            fileRequete = Volley.newRequestQueue(this);
         }
         return fileRequete;
     }
 
-    // Empêcher la navigation arrière de l'utilisateur (pas de retour à l'écran précédent)
+    /**
+     * Désactive le bouton retour pour éviter la navigation arrière.
+     */
     @Override
     public void onBackPressed() {
-        // Ne fait rien, empêche le retour arrière
+        // Désactivation du retour en arrière
     }
 
-    // Méthode appelée quand l'activité reprend après avoir été suspendue
+    /**
+     * Méthode appelée lors de la reprise de l'activité.
+     */
     @Override
     protected void onResume() {
         super.onResume();
-        // Initialisation des ViewModels pour la gestion des salons, prospects et utilisateurs
-        salonsViewModel = new ViewModelProvider(this).get(SalonsViewModel.class);
-        SharedPreferences sharedPreferencesSalon = getSharedPreferences("user_prefs", MODE_PRIVATE);
+
+        salonsViewModel =
+                new ViewModelProvider(this).get(SalonsViewModel.class);
+        SharedPreferences sharedPreferencesSalon = getSharedPreferences(
+                "user_prefs", MODE_PRIVATE);
         salonsViewModel.initSharedPreferences(sharedPreferencesSalon);
 
-        mesSalonsViewModel = new ViewModelProvider(this).get(MesSalonsViewModel.class);
-        SharedPreferences sharedPreferencesMesSalons = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesSalonsViewModel =
+                new ViewModelProvider(this).get(MesSalonsViewModel.class);
+        SharedPreferences sharedPreferencesMesSalons = getSharedPreferences(
+                "user_prefs", MODE_PRIVATE);
         mesSalonsViewModel.initSharedPreferences(sharedPreferencesMesSalons);
 
-        mesProspectViewModel = new ViewModelProvider(this).get(MesProspectViewModel.class);
-        SharedPreferences sharedPreferencesMesProspect = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        mesProspectViewModel =
+                new ViewModelProvider(this).get(MesProspectViewModel.class);
+        SharedPreferences sharedPreferencesMesProspect =
+                getSharedPreferences("user_prefs", MODE_PRIVATE);
         mesProspectViewModel.initSharedPreferences(sharedPreferencesMesProspect);
-        mesProjetsViewModel = new ViewModelProvider(this).get(MesProjetsViewModel.class);
-        SharedPreferences sharedPreferencesMesProjets = getSharedPreferences("user_prefs", MODE_PRIVATE);
+
+        mesProjetsViewModel =
+                new ViewModelProvider(this).get(MesProjetsViewModel.class);
+        SharedPreferences sharedPreferencesMesProjets = getSharedPreferences(
+                "user_prefs", MODE_PRIVATE);
         mesProjetsViewModel.initSharedPreferences(sharedPreferencesMesProjets);
 
-
-        // recuperer les salons
         salonsViewModel.chargementSalons();
         mesSalonsViewModel.chargementSalons();
 
-        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(this).get(UtilisateurViewModel.class);
+        UtilisateurViewModel utilisateurViewModel =
+                new ViewModelProvider(this).get(UtilisateurViewModel.class);
         utilisateurViewModel.initSharedPreferences(this);
-
         utilisateurViewModel.chargementUtilisateur();
 
         mesProspectViewModel.chargementProspect();
         mesProjetsViewModel.chargementProjet();
+
         Log.d("laaaaa", mesProspectViewModel.getProspectListe().toString());
     }
 }

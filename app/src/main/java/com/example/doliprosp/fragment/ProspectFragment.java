@@ -182,7 +182,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
 
         Prospect prospectASupprimer =
                 mesProspectViewModel.getProspectListe().get(position);
-        mesProspectViewModel.removeProspect(prospectASupprimer);
+        mesProspectViewModel.enleverProspect(prospectASupprimer);
         ArrayList<Projet> projets =
                 (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {

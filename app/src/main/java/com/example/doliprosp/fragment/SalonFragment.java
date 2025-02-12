@@ -1,6 +1,6 @@
 package com.example.doliprosp.fragment;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +39,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe comprenant l'ensemble des méthodes de gestion et d'utilisation du fragment salon
+ * Classe comprenant l'ensemble des méthodes de gestion et d'utilisation du
+ * fragment salon
+ *
  * @author Parcours D IUT de Rodez
  * @version 1.0
  */
@@ -71,20 +73,27 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
     /**
      * Méthode appellée au démarrage de l'application pour créer la page Salon
-     * @param view La vue retournée par {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     *
+     * @param view               La vue retournée par
+     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
      * @param savedInstanceState Si non-null, le fragement est re-construit
-     * depuis une sauvegarde précédente
+     *                           depuis une sauvegarde précédente
      */
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         salonService = new SalonService();
         prospectService = new ProspectService();
-        mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
-        salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        mesSalonsViewModel =
+                new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
+        salonsViewModel =
+                new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
+        utilisateurViewModel =
+                new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        mesProspectViewModel =
+                new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         utilisateurViewModel.initSharedPreferences(getContext());
         boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
         recyclerView = view.findViewById(R.id.showRecyclerView);
@@ -96,11 +105,13 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
 
         // Set l'adapter des salons de l'utilisateur
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
+                3);
         recyclerView.setLayoutManager(layoutManager);
 
         // Set l'adapter des salons de l'utilisateur
-        GridLayoutManager layoutManagerMyShow = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager layoutManagerMyShow =
+                new GridLayoutManager(getContext(), 3);
         recyclerViewMesSalons.setLayoutManager(layoutManagerMyShow);
 
 
@@ -111,7 +122,8 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     /**
-     * Méthode appellée lors du retour sur l'applicationa afin de restaurer l'état
+     * Méthode appellée lors du retour sur l'applicationa afin de restaurer
+     * l'état
      * précédemment enregistré
      */
     public void onResume() {
@@ -119,29 +131,38 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         // Met en primaryColor l'icone et le texte du fragment
         ((MainActivity) getActivity()).setColors(1);
 
-        adapterMesSalons = new MyShowAdapter(mesSalonsViewModel.getSalonListe(), SalonFragment.this,mesSalonsViewModel,salonsViewModel);
+        adapterMesSalons =
+                new MyShowAdapter(mesSalonsViewModel.getSalonListe(),
+                        SalonFragment.this, mesSalonsViewModel,
+                        salonsViewModel);
         recyclerViewMesSalons.setAdapter(adapterMesSalons);
         adapterMesSalons.notifyDataSetChanged();
-        adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
+        adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(),
+                SalonFragment.this);
         recyclerView.setAdapter(adapterSalons);
         adapterSalons.notifyDataSetChanged();
 
     }
 
     /**
-     * Méthode appellée lors de la recherche de salons par critères de l'utilisateur puis affiche
+     * Méthode appellée lors de la recherche de salons par critères de
+     * l'utilisateur puis affiche
      * les salons correspondants aux critères
+     *
      * @param recherche la recherche sur critères de l'utilisateur
      */
-    private void rechercheSalons(String recherche){
+    private void rechercheSalons(String recherche) {
         Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         chargement.setVisibility(View.VISIBLE);
 
-        salonService.getSalonsEnregistres(getContext(),recherche, utilisateur, new Outils.APIResponseCallbackArrayTest() {
+        salonService.getSalonsEnregistres(getContext(), recherche,
+                utilisateur, new Outils.APIResponseCallbackArrayTest() {
 
             /**
-             * Méthode appellée en cas de succès de recherche des salons avec le critère de
-             * recherche de l'utilisateur pour afficher les salons trouvés suite à la recherche
+             * Méthode appellée en cas de succès de recherche des salons avec
+             * le critère de
+             * recherche de l'utilisateur pour afficher les salons trouvés
+             * suite à la recherche
              * @param shows
              */
             @Override
@@ -151,25 +172,30 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
                 // remet a 0 la liste des salons a afficher
                 salonsViewModel.clear();
                 // rajoute un a un les salons a afficher
-                for (Salon salon : shows){
+                for (Salon salon : shows) {
                     salonsViewModel.addSalon(salon);
 
                 }
                 // Set l'adapter des salons récupéré
-                adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
+                adapterSalons =
+                        new ShowAdapter(salonsViewModel.getSalonListe(),
+                                SalonFragment.this);
                 recyclerView.setAdapter(adapterSalons);
                 chargement.setVisibility(View.GONE);
 
             }
 
             /**
-             * Méthode appellée dans le cas où la recherche ou l'affichage des salons ne se
+             * Méthode appellée dans le cas où la recherche ou l'affichage
+             * des salons ne se
              * dérouleraient pas comme prévu
              * @param error le message d'erreur affiché à l'utilisateur
              */
             @Override
             public void onError(String error) {
-                adapterSalons = new ShowAdapter(salonsViewModel.getSalonListe(), SalonFragment.this);
+                adapterSalons =
+                        new ShowAdapter(salonsViewModel.getSalonListe(),
+                                SalonFragment.this);
                 chargement.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapterSalons);
                 //erreur.setVisibility(View.VISIBLE);
@@ -178,7 +204,8 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     }
 
     /**
-     * Méthode permettant d'initialiser les boutons lors de la création de la vue
+     * Méthode permettant d'initialiser les boutons lors de la création de la
+     * vue
      */
     private void setupListeners() {
         // Lancer la recherche avec le texte saisi
@@ -192,33 +219,41 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
         // Ajouter un salon
         boutonCreerSalon.setOnClickListener(v -> {
-            CreationSalonsDialogFragment dialog = new CreationSalonsDialogFragment();
+            CreationSalonsDialogFragment dialog =
+                    new CreationSalonsDialogFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("adapterMesSalons", (Serializable) adapterMesSalons);
+            bundle.putSerializable("adapterMesSalons",
+                    (Serializable) adapterMesSalons);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
     }
 
     /**
-     * Méthode appellée lors du click sur le bouton de suppression du salon pour le supprimer
+     * Méthode appellée lors du click sur le bouton de suppression du salon
+     * pour le supprimer
+     *
      * @param position la position du salon dans la liste
      */
     @Override
     public void onDeleteClick(int position) {
         // mets a jour la liste des salons
-        Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
+        Salon salonASupprimer =
+                mesSalonsViewModel.getSalonListe().get(position);
         mesSalonsViewModel.removeSalon(salonASupprimer);
-        ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonASupprimer.getNom());
+        ArrayList<Prospect> prospects =
+                prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonASupprimer.getNom());
         for (Prospect prospect : prospects) {
-            mesProspectViewModel.removeProspect(prospect);
+            mesProspectViewModel.enleverProspect(prospect);
         }
         adapterMesSalons.notifyItemRemoved(position);
     }
 
     /**
-     * Méthode appellée lors du click sur le l'icone de salonpour accéder à la page des prospects
-     * @param position la position du salon dans la liste
+     * Méthode appellée lors du click sur le l'icone de salonpour accéder à
+     * la page des prospects
+     *
+     * @param position   la position du salon dans la liste
      * @param nouveauNom La liste des salons
      */
     @Override
@@ -226,7 +261,8 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
         Salon salonAModifier = mesSalonsViewModel.getSalonListe().get(position);
 
-        ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(),salonAModifier.getNom());
+        ArrayList<Prospect> prospects =
+                prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAModifier.getNom());
         // Pour chacun des prospects change le salon associé
         for (Prospect prospect : prospects) {
             prospect.setNomSalon(nouveauNom);
@@ -237,6 +273,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
     /**
      * Méthode appellée lors d'un clic sur un salon
+     *
      * @param position
      * @param salonList
      */
