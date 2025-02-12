@@ -79,7 +79,7 @@ public class CreationSalonsDialogFragment extends DialogFragment {
 
             } else {
                 Salon nouveauSalon = new Salon(title);
-                mesSalonsViewModel.addSalon(nouveauSalon);
+                mesSalonsViewModel.addSalon(nouveauSalon, getContext());
                 if (adapterMesSalons != null) {
                     adapterMesSalons.notifyDataSetChanged();
                 }

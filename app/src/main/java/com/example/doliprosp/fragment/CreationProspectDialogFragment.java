@@ -339,7 +339,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                             Prospect prospect = new Prospect(nomSalon, nom,
                                     codePostal, ville, adresse, mail, tel,
                                     client, "image", idDolibar, heureSaisieTimestamp);
-                            mesProspectViewModel.addProspect(prospect);
+                            mesProspectViewModel.addProspect(prospect, getContext());
                             dismiss();
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("prospect", prospect);

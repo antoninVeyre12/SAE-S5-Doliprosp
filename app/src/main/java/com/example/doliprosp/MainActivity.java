@@ -212,38 +212,25 @@ public class MainActivity extends AppCompatActivity {
         // prospects et utilisateurs
         salonsViewModel =
                 new ViewModelProvider(this).get(SalonsViewModel.class);
-        SharedPreferences sharedPreferencesSalon = getSharedPreferences(
-                "user_prefs", MODE_PRIVATE);
-        salonsViewModel.initSharedPreferences(sharedPreferencesSalon);
 
         mesSalonsViewModel =
                 new ViewModelProvider(this).get(MesSalonsViewModel.class);
-        SharedPreferences sharedPreferencesMesSalons = getSharedPreferences(
-                "user_prefs", MODE_PRIVATE);
-        mesSalonsViewModel.initSharedPreferences(sharedPreferencesMesSalons);
-
         mesProspectViewModel =
                 new ViewModelProvider(this).get(MesProspectViewModel.class);
-        SharedPreferences sharedPreferencesMesProspect =
-                getSharedPreferences("user_prefs", MODE_PRIVATE);
-        mesProspectViewModel.initSharedPreferences(sharedPreferencesMesProspect);
         mesProjetsViewModel =
                 new ViewModelProvider(this).get(MesProjetsViewModel.class);
-        SharedPreferences sharedPreferencesMesProjets = getSharedPreferences(
-                "user_prefs", MODE_PRIVATE);
-        mesProjetsViewModel.initSharedPreferences(sharedPreferencesMesProjets);
 
 
         // recuperer les salons
-        salonsViewModel.chargementSalons();
-        mesSalonsViewModel.chargementSalons();
+        salonsViewModel.chargementSalons(this);
+        mesSalonsViewModel.chargementSalons(this);
 
         UtilisateurViewModel utilisateurViewModel =
                 new ViewModelProvider(this).get(UtilisateurViewModel.class);
 
         utilisateurViewModel.chargementUtilisateur(this);
 
-        mesProspectViewModel.chargementProspect();
-        mesProjetsViewModel.chargementProjet();
+        mesProspectViewModel.chargementProspect(this);
+        mesProjetsViewModel.chargementProjet(this);
     }
 }

@@ -233,7 +233,7 @@ public class WaitingFragment extends Fragment {
                                     });
                         }
                     });
-            mesSalonsViewModel.removeSalon(salonAEnvoyer);
+            mesSalonsViewModel.removeSalon(salonAEnvoyer, getContext());
             adapterSalons.notifyDataSetChanged();
         }
     }
@@ -269,7 +269,7 @@ public class WaitingFragment extends Fragment {
                     }
                 });
             }
-            mesProspectViewModel.removeProspect(prospectAEnvoyer);
+            mesProspectViewModel.removeProspect(prospectAEnvoyer, getContext());
         }
     }
 
@@ -282,7 +282,7 @@ public class WaitingFragment extends Fragment {
             projetService.envoyerVersModule(utilisateur, getContext(),
                     projetAEnvoyer, prospectAEnvoyer,
                     salonAEnvoyer, idProspect);
-            mesProjetsViewModel.removeProjet(projetAEnvoyer);
+            mesProjetsViewModel.removeProjet(projetAEnvoyer, getContext());
         }
     }
 

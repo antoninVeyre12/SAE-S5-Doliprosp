@@ -172,10 +172,10 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
 
                 erreur.setVisibility(View.GONE);
                 // remet a 0 la liste des salons a afficher
-                salonsViewModel.clear();
+                salonsViewModel.clear(getContext());
                 // rajoute un a un les salons a afficher
                 for (Salon salon : shows) {
-                    salonsViewModel.addSalon(salon);
+                    salonsViewModel.addSalon(salon, getContext());
 
                 }
                 // Set l'adapter des salons récupéré
@@ -253,14 +253,14 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         // mets a jour la liste des salons
 
         Salon salonASupprimer = mesSalonsViewModel.getSalonListe().get(position);
-        mesSalonsViewModel.removeSalon(salonASupprimer);
+        mesSalonsViewModel.removeSalon(salonASupprimer, getContext());
 
         ArrayList<Prospect> prospects = prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonASupprimer.getNom());
         for (Prospect prospect : prospects) {
-            mesProspectViewModel.removeProspect(prospect);
+            mesProspectViewModel.removeProspect(prospect, getContext());
             List<Projet> projets = projetService.getProjetDUnProspect(mesProjetViewModel.getProjetListe(), prospect.getNom());
             for (Projet projet : projets) {
-                mesProjetViewModel.removeProjet(projet);
+                mesProjetViewModel.removeProjet(projet, getContext());
             }
         }
         adapterMesSalons.notifyItemRemoved(position);
@@ -283,7 +283,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
             prospect.setNomSalon(nouveauNom);
         }
         salonAModifier.setNom(nouveauNom);
-        mesSalonsViewModel.enregistrerSalons();
+        mesSalonsViewModel.enregistrerSalons(getContext());
         adapterMesSalons.notifyItemChanged(position);
     }
 
@@ -297,7 +297,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     public void onSelectClick(int position, List<Salon> salonList) {
         Salon salon = salonList.get(position);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("salon", (Serializable) salon);
+        bundle.putSerializable("salon", salon);
         ProspectFragment prospectFragment = new ProspectFragment();
         prospectFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(prospectFragment);

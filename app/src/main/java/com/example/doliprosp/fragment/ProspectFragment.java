@@ -171,11 +171,11 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     public void onDeleteClick(int position) {
 
         Prospect prospectASupprimer = mesProspectViewModel.getProspectListe().get(position);
-        mesProspectViewModel.removeProspect(prospectASupprimer);
+        mesProspectViewModel.removeProspect(prospectASupprimer, getContext());
         adapterProspect.notifyItemRemoved(position);
         ArrayList<Projet> projets = (ArrayList<Projet>) projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(), prospectASupprimer.getNom());
         for (Projet projet : projets) {
-            mesProjetsViewModel.removeProjet(projet);
+            mesProjetsViewModel.removeProjet(projet, getContext());
         }
         //adapterProspect.notifyDataSetChanged();
 
@@ -192,7 +192,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         prospectAModifier.setVille(nouvelleVille);
         prospectAModifier.setCodePostal(nouveauCodePostal);
 
-        mesProspectViewModel.enregistrerProspect();
+        mesProspectViewModel.enregistrerProspect(getContext());
         adapterProspect.notifyItemChanged(position);
     }
 }
