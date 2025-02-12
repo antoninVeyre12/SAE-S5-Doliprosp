@@ -65,8 +65,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
     private Utilisateur utilisateur;
     private ImageButton boutonRecherche;
     private TextView erreur;
-    private RecyclerView recyclerView;
-    private RecyclerView recyclerViewMesSalons;
+    private RecyclerView recyclerView, recyclerViewMesSalons;
     private Button boutonCreerSalon;
     private EditText texteRecherche;
     private ProgressBar chargement;

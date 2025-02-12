@@ -65,8 +65,7 @@ public class WaitingFragment extends Fragment {
     private List<Projet> projetsSelectionnes;
     private Utilisateur utilisateur;
 
-    private Button boutonEnvoyer;
-    private Button boutonToutSelectionne;
+    private Button boutonEnvoyer, boutonToutSelectionne;
 
     /**
      * Crée et retourne la vue associée à ce fragment.

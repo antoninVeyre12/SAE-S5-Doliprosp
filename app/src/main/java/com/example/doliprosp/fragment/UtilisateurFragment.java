@@ -9,11 +9,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
@@ -21,27 +16,21 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONObject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 public class UtilisateurFragment extends Fragment {
     private Utilisateur utilisateurActuel;
     private JSONObject objectJSON;
 
-    private String nom;
-    private String prenom;
-    private String userName;
-    private String mail;
-    private String adresse;
-    private String codePostal;
-    private String numTelephone;
-    private String ville;
+    private String nom, prenom, userName, mail, adresse, codePostal,
+            numTelephone, ville;
 
-    TextView textViewNom;
-    TextView textViewPrenom;
-    TextView textViewUserName;
-    TextView textViewMail;
-    TextView textViewAdresse;
-    TextView textViewCodePostale;
-    TextView textViewVille;
-    TextView textViewNumTelephone;
+    TextView textViewNom, textViewPrenom, textViewUserName, textViewMail,
+            textViewAdresse, textViewCodePostale, textViewVille, textViewNumTelephone;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

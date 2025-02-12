@@ -51,13 +51,9 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
-
     private ProspectAdapter adapterProspect;
     private ProgressBar chargement;
-    private String recherche;
     private RecyclerView prospectRecyclerView;
-    private String champ;
-    private String tri;
     private Bundle bundle;
 
     /**

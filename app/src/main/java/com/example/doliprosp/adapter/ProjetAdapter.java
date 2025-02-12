@@ -1,7 +1,5 @@
 package com.example.doliprosp.adapter;
 
-import static com.example.doliprosp.fragment.CreationProjetDialogFragment.convertirEnTimestamp;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,9 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.R;
 
@@ -26,6 +21,11 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.doliprosp.fragment.CreationProjetDialogFragment.convertirEnTimestamp;
 
 /**
  * ProjetAdapter est un adaptateur pour le RecyclerView qui affiche une liste
@@ -41,8 +41,7 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     private transient EditText editTextTitreProjet;
     private transient EditText editTextDescription;
     private transient DatePicker datePickerDateDebut;
-    private transient Button btnModifier;
-    private transient Button btnAnnuler;
+    private transient Button btnModifier, btnAnnuler;
     private transient TextView erreurChamp;
 
     /**

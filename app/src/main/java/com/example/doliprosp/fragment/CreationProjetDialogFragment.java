@@ -33,12 +33,9 @@ import androidx.lifecycle.ViewModelProvider;
 public class CreationProjetDialogFragment extends DialogFragment {
     private IProjetService projetService;
     private TextView erreur;
-    private EditText editTextTitreProjet;
-    private EditText editTextDescriptionProjet;
+    private EditText editTextTitreProjet, editTextDescriptionProjet;
     private DatePicker datePickerDateDebutProjet;
-    private Button boutonEnvoyer;
-    private Button boutonAnnuler;
-    private String nomSalon;
+    private Button boutonEnvoyer, boutonAnnuler;
     private String nomProspect;
     private ProjetAdapter adapterProjet;
 
@@ -101,7 +98,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
             mesProjetsViewModel.addProjet(projet, getContext());
             adapterProjet.setProjetListe(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
                     nomProspect));
-            
+
             dismiss();
         });
 
