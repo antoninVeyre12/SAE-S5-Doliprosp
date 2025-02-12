@@ -42,6 +42,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.example.doliprosp.fragment.ProjetFragment.dernierProspectSelectionne;
+import static com.example.doliprosp.fragment.ProspectFragment.dernierSalonSelectione;
+
 /**
  * Fragment affichant la liste des salons en attente.
  */
@@ -141,6 +144,8 @@ public class WaitingFragment extends Fragment {
         ArrayList<Salon> salons = new ArrayList<>(mesSalonsViewModel.getSalonListe());
 
         for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
+            Log.d("saasa", salonEnregistrer.getNom());
+
             if (prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).size() > 0) {
                 salons.add(salonEnregistrer);
             }
@@ -207,11 +212,16 @@ public class WaitingFragment extends Fragment {
                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                             int idSalon = Integer.parseInt(response);
 
-//                            salonsViewModel.removeSalon(salonAEnvoyer,
-//                                    getContext());
+                            empecheRetourApresEnvoie(salonAEnvoyer);
+
+
+                            salonsViewModel.removeSalon(salonAEnvoyer,
+                                    getContext());
                             adapterSalons.notifyDataSetChanged();
                             envoyerProspects(prospectSelectionnes, idSalon,
                                     salonAEnvoyer);
+
+
                         }
 
                         @Override
@@ -226,9 +236,13 @@ public class WaitingFragment extends Fragment {
                                             prospectSelectionnes =
                                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                                             mesSalonsViewModel.removeSalon(salonAEnvoyer, getContext());
+
+
+                                            empecheRetourApresEnvoie(salonAEnvoyer);
                                             adapterSalons.notifyDataSetChanged();
                                             envoyerProspects(prospectSelectionnes, idSalon,
                                                     salonAEnvoyer);
+
                                         }
 
                                         @Override
@@ -294,6 +308,15 @@ public class WaitingFragment extends Fragment {
         projetService.envoyerVersModule(utilisateur, getContext(),
                 projetAEnvoyer, prospectAEnvoyer,
                 salonAEnvoyer, idProspect);
+    }
+
+    private void empecheRetourApresEnvoie(Salon salonAEnvoyer) {
+        if (salonAEnvoyer == dernierSalonSelectione) {
+            dernierSalonSelectione = null;
+            dernierProspectSelectionne = null;
+            ((MainActivity) getActivity()).setColors(2, R.color.gray, false);
+            ((MainActivity) getActivity()).setColors(3, R.color.gray, false);
+        }
     }
 
 }

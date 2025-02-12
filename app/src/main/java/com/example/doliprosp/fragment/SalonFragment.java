@@ -20,7 +20,6 @@ import com.example.doliprosp.Modele.Prospect;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
-import com.example.doliprosp.Services.ChiffrementVigenere;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.Services.ProspectService;
@@ -109,7 +108,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         texteRecherche = view.findViewById(R.id.texte_recherche);
         erreur = view.findViewById(R.id.erreur_pas_de_salons);
         chargement = view.findViewById(R.id.chargement);
-        
+
 
         // Set l'adapter des salons de l'utilisateur
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
@@ -169,6 +168,8 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
                 erreur.setVisibility(View.GONE);
                 // remet a 0 la liste des salons a afficher
                 salonsViewModel.clear(getContext());
+                Log.d("salonViewModel",
+                        salonsViewModel.getSalonListe().toString());
                 // rajoute un a un les salons a afficher
                 for (Salon salon : shows) {
                     salonsViewModel.addSalon(salon, getContext());

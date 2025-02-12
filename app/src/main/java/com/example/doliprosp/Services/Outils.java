@@ -18,11 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
@@ -290,7 +288,6 @@ public class Outils {
     }
 
     public static boolean fichierValide(Context context, String nomFichier) {
-        Log.d("path", context.getFilesDir() + "/" + nomFichier);
         File file = new File(context.getFilesDir() + "/" + nomFichier);
         return file.exists();
     }
