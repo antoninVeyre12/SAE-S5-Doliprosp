@@ -106,14 +106,7 @@ public class SalonFragment extends Fragment implements MyShowAdapter.OnItemClick
         texteRecherche = view.findViewById(R.id.texte_recherche);
         erreur = view.findViewById(R.id.erreur_pas_de_salons);
         chargement = view.findViewById(R.id.chargement);
-
-
-        String cleChiffre =
-                ChiffrementVigenere.chiffrement(utilisateur.getCleApi());
-        String keyDechiffrement = ChiffrementVigenere.key;
-        String nomFichier = "cleApi.csv";
-        String contenu = keyDechiffrement;
-        Outils.ecrireDansFichierInterne(getContext(), nomFichier, contenu);
+        
 
         // Set l'adapter des salons de l'utilisateur
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
