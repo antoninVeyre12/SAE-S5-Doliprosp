@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,25 +13,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.example.doliprosp.fragments.ConnexionFragment;
+import com.example.doliprosp.fragments.ProjetFragment;
+import com.example.doliprosp.fragments.ProspectFragment;
+import com.example.doliprosp.fragments.SalonFragment;
+import com.example.doliprosp.fragments.UtilisateurFragment;
+import com.example.doliprosp.fragments.WaitingFragment;
+import com.example.doliprosp.viewModels.MesProjetsViewModel;
+import com.example.doliprosp.viewModels.MesProspectViewModel;
+import com.example.doliprosp.viewModels.MesSalonsViewModel;
+import com.example.doliprosp.viewModels.SalonsViewModel;
+import com.example.doliprosp.viewModels.UtilisateurViewModel;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.doliprosp.fragment.ConnexionFragment;
-import com.example.doliprosp.fragment.ProjetFragment;
-import com.example.doliprosp.fragment.ProspectFragment;
-import com.example.doliprosp.fragment.SalonFragment;
-import com.example.doliprosp.fragment.UtilisateurFragment;
-import com.example.doliprosp.fragment.WaitingFragment;
-import com.example.doliprosp.viewModel.MesProjetsViewModel;
-import com.example.doliprosp.viewModel.MesProspectViewModel;
-import com.example.doliprosp.viewModel.MesSalonsViewModel;
-import com.example.doliprosp.viewModel.SalonsViewModel;
-import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 public class MainActivity extends AppCompatActivity {
     // Déclaration des variables nécessaires
@@ -81,14 +80,14 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.findViewById(R.id.image_utilisateur)
         };
 
-        // Chargement du fragment par défaut (Connexion) si c'est la première
+        // Chargement du fragments par défaut (Connexion) si c'est la première
         // fois que l'activité est lancée
         if (savedInstanceState == null) {
             bottomNav.setVisibility(View.GONE); // Cache la barre de
             // navigation pour la première connexion
             ConnexionFragment connexionFragment = new ConnexionFragment(); //
             // Fragment de connexion
-            loadFragment(connexionFragment); // Chargement du fragment
+            loadFragment(connexionFragment); // Chargement du fragments
         }
 
         // Configuration des actions au clic sur chaque élément du menu de
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     loadFragment(getFragmentByIndex(index)); // Charger le
-                    // fragment correspondant
+                    // fragments correspondant
                     setColors(index, R.color.color_primary, true); // Changer
                     // la couleur de l'élément sélectionné
                 }
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Méthode pour récupérer le fragment à afficher selon l'index
+    // Méthode pour récupérer le fragments à afficher selon l'index
     private Fragment getFragmentByIndex(int index) {
         switch (index) {
             case 0:
@@ -151,13 +150,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Méthode pour charger un fragment dans le conteneur
+    // Méthode pour charger un fragments dans le conteneur
     public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction(); // Commencer
-        // la transaction du fragment
+        // la transaction du fragments
         transaction.replace(R.id.fragment_container, fragment); // Remplacer
-        // le fragment actuellement affiché par le nouveau
+        // le fragments actuellement affiché par le nouveau
         transaction.addToBackStack(null); // Ajouter à la pile arrière pour
         // pouvoir revenir
         transaction.commit(); // Valider la transaction
