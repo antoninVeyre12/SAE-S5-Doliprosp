@@ -12,7 +12,6 @@ import com.example.doliprosp.Interface.IProjetService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Projet;
 import com.example.doliprosp.Modele.Prospect;
-import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.R;
 import com.example.doliprosp.Services.ProjetService;
 import com.example.doliprosp.adapter.ProjetAdapter;
@@ -38,13 +37,14 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     private IProjetService projetService;
     private TextView prospectActuelTextView, salonActuelTextView;
     private Prospect prospectActuel;
-    private Salon salonActuel;
     public static Prospect dernierProspectSelectionne;
+    public static String dernierSalonSelectionne;
     private Button boutonCreerProjet;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
     private ProjetAdapter adapterProjet;
     private RecyclerView projetRecyclerView;
+    private String salonActuel;
 
 
     /**
@@ -61,10 +61,14 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         Bundle bundle = getArguments();
         if (bundle != null) {
             prospectActuel = (Prospect) bundle.getSerializable("prospect");
-            salonActuel = (Salon) bundle.getSerializable("salon");
+            salonActuel = (String) bundle.getSerializable("salon");
             dernierProspectSelectionne = prospectActuel;
+            dernierSalonSelectionne = salonActuel;
 
         } else {
+            if (dernierSalonSelectionne != null) {
+                salonActuel = dernierSalonSelectionne;
+            }
             if (dernierProspectSelectionne != null) {
                 prospectActuel = dernierProspectSelectionne;
             } else {
@@ -96,7 +100,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
 
         // Affiche le nom du prospect actuellement sélectionné
         prospectActuelTextView.setText(prospectActuel.getNom());
-        salonActuelTextView.setText(salonActuel.getNom());
+        salonActuelTextView.setText(salonActuel);
 
         // Configure le RecyclerView avec un layout en grille
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);

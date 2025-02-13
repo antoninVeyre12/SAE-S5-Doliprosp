@@ -15,14 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.doliprosp.Interface.IProspectService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Prospect;
@@ -36,6 +28,14 @@ import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Fragment permettant de créer un prospect et de gérer la recherche et la
@@ -321,8 +321,8 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         String idDolibar = idDolibarr.getText().toString().trim();
         long heureSaisieTimestamp = System.currentTimeMillis() / 1000;
         erreur.setVisibility(View.GONE);
-        if(idDolibar.equals("false")) {
-            if(!prospectService.existeDansViewModel(tel, mesProspectViewModel)) {
+        if (idDolibar.equals("false")) {
+            if (!prospectService.existeDansViewModel(tel, mesProspectViewModel)) {
                 prospectService.prospectDejaExistantDolibarr(getContext(), tel,
                         utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
                         new Outils.CallbackProspectExiste() {
@@ -346,7 +346,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             }
 
         } else {
-            if(prospectService.existeDansViewModel(tel, mesProspectViewModel)) {
+            if (prospectService.existeDansViewModel(tel, mesProspectViewModel)) {
                 erreur.setText("Un prospect avec ce numéro de " +
                         "téléphone existe déjà");
                 erreur.setVisibility(View.VISIBLE);
@@ -363,14 +363,14 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * et l'ajoute au modèle de vue des prospects. Ensuite, elle navigue vers un fragment de projet
      * en passant l'objet `Prospect` en tant que paramètre.
      *
-     * @param nom Le nom du prospect.
-     * @param mail L'adresse email du prospect.
-     * @param tel Le numéro de téléphone du prospect.
-     * @param adresse L'adresse complète du prospect.
-     * @param ville La ville où réside le prospect.
-     * @param codePostal Le code postal du prospect.
-     * @param client Le nom du client associé au prospect.
-     * @param idDolibar L'identifiant Dolibar du prospect.
+     * @param nom                  Le nom du prospect.
+     * @param mail                 L'adresse email du prospect.
+     * @param tel                  Le numéro de téléphone du prospect.
+     * @param adresse              L'adresse complète du prospect.
+     * @param ville                La ville où réside le prospect.
+     * @param codePostal           Le code postal du prospect.
+     * @param client               Le nom du client associé au prospect.
+     * @param idDolibar            L'identifiant Dolibar du prospect.
      * @param heureSaisieTimestamp Le timestamp de l'heure de saisie du prospect.
      */
     private void ajouterProspect(String nom, String mail, String tel, String adresse, String ville, String codePostal, String client, String idDolibar, long heureSaisieTimestamp) {
@@ -382,6 +382,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             dismiss();
             Bundle bundle = new Bundle();
             bundle.putSerializable("prospect", prospect);
+            bundle.putSerializable("salon", nomSalon);
             ProjetFragment projetFragment = new ProjetFragment();
             projetFragment.setArguments(bundle);
             ((MainActivity) getActivity()).loadFragment(projetFragment);
