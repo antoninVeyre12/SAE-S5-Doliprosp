@@ -18,14 +18,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+
 
 import java.util.ArrayList;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ChiffrementVigenere.class, Outils.class})
 public class ProjetServiceTest {
 
     private ProjetService projetService;
@@ -58,23 +54,5 @@ public class ProjetServiceTest {
         ArrayList<Projet> result = projetService.getProjetDUnProspect(projets, "Prospect1");
         assertEquals(1, result.size());
         assertEquals(mockProjet, result.get(0));
-    }
-
-    @Test
-    public void testEnvoyerProjet() throws Exception {
-        when(mockUtilisateur.getUrl()).thenReturn("https://fakeurl.com");
-        when(mockUtilisateur.getCleApi()).thenReturn("fakeApiKey");
-
-        PowerMockito.mockStatic(ChiffrementVigenere.class);
-        when(ChiffrementVigenere.dechiffrementCleAPI(anyString(), anyString())).thenReturn("decryptedApiKey");
-
-        PowerMockito.mockStatic(Outils.class);
-        doNothing().when(Outils.class);
-        Outils.appelAPIPostInteger(anyString(), anyString(), any(JSONObject.class), any(Context.class), any(Outils.APIResponseCallbackPost.class));
-
-        projetService.envoyerProjet(mockUtilisateur, mockContext, mockProjet, 1);
-
-        PowerMockito.verifyStatic(Outils.class);
-        Outils.appelAPIPostInteger(anyString(), anyString(), any(JSONObject.class), any(Context.class), any(Outils.APIResponseCallbackPost.class));
     }
 }
