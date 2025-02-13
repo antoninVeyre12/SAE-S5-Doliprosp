@@ -2,6 +2,7 @@ package com.example.doliprosp.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.ChiffrementVigenere;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
 
 import org.json.JSONObject;
@@ -78,12 +80,14 @@ public class UtilisateurFragment extends Fragment {
 
 
         if (utilisateurActuel.informationutilisateurDejaRecupere()) {
-            nom = utilisateurActuel.getNom();
-            prenom = utilisateurActuel.getPrenom();
+            nom = ChiffrementVigenere.dechiffrement(utilisateurActuel.getNom());
+            prenom = ChiffrementVigenere.dechiffrement(utilisateurActuel.getPrenom());
+            prenom = prenom.substring(0,1).toUpperCase() + prenom.substring(1);
             mail = utilisateurActuel.getMail();
             adresse = utilisateurActuel.getAdresse();
             codePostal = String.valueOf(utilisateurActuel.getCodePostal());
-            ville = utilisateurActuel.getVille();
+            ville = ChiffrementVigenere.dechiffrement(utilisateurActuel.getVille());
+            ville = ville.substring(0,1).toUpperCase() + ville.substring(1);
             numTelephone = utilisateurActuel.getNumTelephone();
             afficherInformations();
         }
@@ -101,7 +105,7 @@ public class UtilisateurFragment extends Fragment {
      * Méthode permettant d'afficher les informations de l'utilisateur
      */
     private void afficherInformations() {
-        textViewNom.setText(nom);
+        textViewNom.setText(nom.toUpperCase());
         textViewPrenom.setText(prenom);
         textViewUserName.setText(userName);
         textViewMail.setText(mail);

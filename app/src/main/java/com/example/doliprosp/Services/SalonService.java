@@ -39,7 +39,9 @@ public class SalonService implements ISalonService {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC";
         Log.d("urlAppel", urlAppel);
-        appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
+
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
+        appelAPIGetList(urlAppel, apiKeyDechiffre, context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
@@ -98,8 +100,9 @@ public class SalonService implements ISalonService {
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonSalon(salonAEnvoyer);
         Log.d("jsonBody", jsonBody.toString());
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
-        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
+        appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
             public void onSuccess(Integer response) throws JSONException {
                 callback.onSuccess(String.valueOf(response));
@@ -147,8 +150,10 @@ public class SalonService implements ISalonService {
         String apikey = utilisateur.getCleApi();
 
         Log.d("urlAppel", urlAppel);
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
-        appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
+
+        appelAPIGetList(urlAppel, apiKeyDechiffre, context, new Outils.APIResponseCallbackArray() {
 
             @Override
             public void onSuccess(JSONArray response) {
