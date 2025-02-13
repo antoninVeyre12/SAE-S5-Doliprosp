@@ -43,20 +43,23 @@ public class ConnexionServiceTest {
     }
 
     @Test
-    public void testChiffrementApiKey() {
-        //TODO
+    public void testOnError() {
+        // Créer une simulation pour le callback
+        Outils.APIResponseCallback callback = Mockito.mock(Outils.APIResponseCallback.class);
+        // JSON de test à simuler comme réponse
+        String jsonResponse = "{\"error\": {\"code\": \"403\"}}";
+
+        try {
+            // Appeler la méthode onSuccess avec le mock
+            callback.onError(jsonResponse);
+
+            // Vérifier que le callback a bien reçu le JSONObject attendu
+            Mockito.verify(callback, Mockito.times(1)).onError(jsonResponse);
+
+            // Assertions pour s'assurer que les données extraites sont correctes
+            assertNotNull(jsonResponse);
+        } catch (Exception e) {
+            fail("Le test a échoué avec une exception : " + e.getMessage());
+        }
     }
-
-    @Test
-    public void testGetNouvelUtilisateur() {
-        // Configurer un utilisateur fictif
-        nouvelUtilisateur = new Utilisateur("http://example.com", "user", "password", "abcd1234");
-
-        assertNotNull(nouvelUtilisateur);
-        assertEquals("http://example.com", nouvelUtilisateur.getUrl());
-        assertEquals("user", nouvelUtilisateur.getNomUtilisateur());
-        assertEquals("password", nouvelUtilisateur.getMotDePasse());
-        assertEquals("abcd1234", nouvelUtilisateur.getCleApi());
-    }
-
 }

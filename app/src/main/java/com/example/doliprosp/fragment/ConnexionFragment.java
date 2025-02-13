@@ -12,6 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.doliprosp.Interface.ConnexionCallBack;
 import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
@@ -27,11 +32,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 /**
  * Fragment permettant à un utilisateur de se connecter à l'application.
@@ -96,7 +96,7 @@ public class ConnexionFragment extends Fragment {
 
         setUp(vue);
 
-        if (utilisateur != null ) {
+        if (utilisateur != null) {
             Log.d("vfbjsvbjsvdj", "info user deja recup");
             recupereSaisieChamps();
             configurerUtilisateurExistant();
@@ -149,10 +149,7 @@ public class ConnexionFragment extends Fragment {
 
     private void gererConnexionUtilisateur(Utilisateur nouvelUtilisateur, String nomUtilisateur) {
         utilisateur = nouvelUtilisateur;
-//        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
         String urlUtilisateur = utilisateur.getUrl();
-//        utilisateur.setApiKey(apiKeyChiffre);
-        Log.d("APIKEY", utilisateur.getCleApi());
 
         if (!utilisateur.informationutilisateurDejaRecupere()) {
             recupereInfoCompteAvecAPI(urlUtilisateur, nomUtilisateur, utilisateur.getCleApi());
@@ -239,7 +236,7 @@ public class ConnexionFragment extends Fragment {
         utilisateur.setPrenom(ChiffrementVigenere.chiffrement(prenom.toLowerCase()));
         utilisateur.setVille(ChiffrementVigenere.chiffrement(ville.toLowerCase()));
         //Log.d("prenom dechiffre", ChiffrementVigenere.dechiffrement(utilisateur.getPrenom()));
-        utilisateur.setApiKey(ChiffrementVigenere.chiffrementCleAPI(utilisateur.getCleApi(),utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille()));
+        utilisateur.setApiKey(ChiffrementVigenere.chiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille()));
     }
 
     /**
