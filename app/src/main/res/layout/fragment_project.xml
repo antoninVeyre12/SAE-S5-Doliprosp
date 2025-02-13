@@ -26,22 +26,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/subtitle_marginTop"
                 android:layout_marginBottom="@dimen/subtitle_marginBottom" />
-            
-            <TextView
-                android:id="@+id/salonActuel"
-                style="@style/subTitle_pageProjet_haut" />
 
-            <TextView
-                android:id="@+id/prospectActuel"
-                style="@style/subTitle_pageProjet_bas" />
-
-            <ProgressBar
-                android:id="@+id/chargement"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:indeterminate="true"
-                android:layout_gravity="center" />
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/subtitle_marginTop">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/salon_actuel"
+                    style="@style/subTitle" />
+
+                <TextView
+                    android:id="@+id/salonActuel"
+                    style="@style/subTitle" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prospect_actuel"
+                    style="@style/subTitle" />
+
+                <TextView
+                    android:id="@+id/prospectActuel"
+                    style="@style/subTitle" />
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/projetRecyclerView"

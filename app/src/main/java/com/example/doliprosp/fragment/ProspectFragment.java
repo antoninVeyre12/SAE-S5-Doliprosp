@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +51,6 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private MesProspectViewModel mesProspectViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
     private ProspectAdapter adapterProspect;
-    private ProgressBar chargement;
     private RecyclerView prospectRecyclerView;
     private Bundle bundle;
 
@@ -100,7 +98,6 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
-        chargement = view.findViewById(R.id.chargement);
 
         salonActuelEditText.setText(salonActuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);

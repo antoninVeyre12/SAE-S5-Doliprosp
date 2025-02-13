@@ -52,7 +52,9 @@
     <dimen name="item_show_text_margin">5dp</dimen>
     <dimen name="subtitle_marginRight">25dp</dimen>
     <dimen name="subtitle_marginLeft">25dp</dimen>
+    <dimen name="soustitre_marginLeft">15dp</dimen>
     <dimen name="subtitle_marginTop">25dp</dimen>
+    <dimen name="soustitre_marginTop">10dp</dimen>
     <dimen name="subtitle_marginBottom">25dp</dimen>
     <dimen name="subtitle_pageProjet_marginTop">10dp</dimen>
     <dimen name="subtitle_pageProjet_marginBottom">10dp</dimen>

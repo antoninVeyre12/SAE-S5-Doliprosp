@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +44,6 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     private UtilisateurViewModel utilisateurViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
     private ProjetAdapter adapterProjet;
-    private ProgressBar chargement;
     private RecyclerView projetRecyclerView;
 
 
@@ -95,7 +93,6 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         projetRecyclerView = view.findViewById(R.id.projetRecyclerView);
-        chargement = view.findViewById(R.id.chargement);
 
         // Affiche le nom du prospect actuellement sélectionné
         prospectActuelTextView.setText(prospectActuel.getNom());
