@@ -11,11 +11,11 @@ public class ChiffrementVigenere {
     public static String key = UUID.randomUUID().toString();
 
 
-    public static String chiffrement(String cleApi) {
+    public static String chiffrement(String champAChiffre) {
         int keyIndex = 0;
         String cleChiffre = "";
-        for (int i = 0; i < cleApi.length(); i++) {
-            char caractere = cleApi.charAt(i);
+        for (int i = 0; i < champAChiffre.length(); i++) {
+            char caractere = champAChiffre.charAt(i);
             char caractereKey = key.charAt(keyIndex);
 
             int positionCaractereChiffre = getCaractereChiffre(caractere,
@@ -27,11 +27,48 @@ public class ChiffrementVigenere {
         return cleChiffre;
     }
 
-    public static String dechiffrement(String cleChiffre) {
+    public static String chiffrementCleAPI(String cleAPI, String cleChiffrage) {
+        int keyIndex = 0;
+        String cleChiffre = "";
+        for (int i = 0; i < cleAPI.length(); i++) {
+            char caractere = cleAPI.charAt(i);
+            char caractereKey = cleChiffrage.charAt(keyIndex);
+
+            int positionCaractereChiffre = getCaractereChiffre(caractere,
+                    caractereKey);
+            char caractereChiffre = alphabet[positionCaractereChiffre];
+            cleChiffre += caractereChiffre;
+            keyIndex = (keyIndex + 1) % cleChiffrage.length();
+        }
+        return cleChiffre;
+    }
+
+
+    public static String dechiffrementCleAPI(String cleAPIChiffre, String cleDechiffrage) {
         int keyIndex = 0;
         String cleDechiifre = "";
-        for (int i = 0; i < cleChiffre.length(); i++) {
-            char caractere = cleChiffre.charAt(i);
+        for (int i = 0; i < cleAPIChiffre.length(); i++) {
+            char caractere = cleAPIChiffre.charAt(i);
+            char caractereKey = cleDechiffrage.charAt(keyIndex);
+
+            int positionCaractereDeChiffre = getCaractereDeChiffre(caractere,
+                    caractereKey);
+            char caractereDeChiffre =
+                    alphabet[positionCaractereDeChiffre];
+            cleDechiifre += caractereDeChiffre;
+
+            keyIndex = (keyIndex + 1) % cleDechiffrage.length();
+
+        }
+        return cleDechiifre;
+
+    }
+
+    public static String dechiffrement(String champChiffre) {
+        int keyIndex = 0;
+        String cleDechiifre = "";
+        for (int i = 0; i < champChiffre.length(); i++) {
+            char caractere = champChiffre.charAt(i);
             char caractereKey = key.charAt(keyIndex);
 
             int positionCaractereDeChiffre = getCaractereDeChiffre(caractere,

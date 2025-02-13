@@ -46,8 +46,10 @@ public class ProjetService implements IProjetService {
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonProjet(projetAEnvoyer, idProspect);
         Log.d("jsonBody", jsonBody.toString());
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
-        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
+
+        appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
             public void onSuccess(Integer response) {
             }
@@ -94,7 +96,8 @@ public class ProjetService implements IProjetService {
         }
 
         Log.d("jsonBOdy", jsonBody.toString());
-        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
+        appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
             public void onSuccess(Integer response) {
             }

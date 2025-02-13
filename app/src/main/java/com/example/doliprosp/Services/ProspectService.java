@@ -32,8 +32,9 @@ public class ProspectService implements IProspectService {
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonProspect(prospectAEnvoyer);
         Log.d("jsonBody", jsonBody.toString());
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
-        appelAPIPostInteger(urlAppel, utilisateur.getCleApi(), jsonBody, context, new Outils.APIResponseCallbackPost() {
+        appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
 
             @Override
             public void onSuccess(Integer response) throws JSONException {
@@ -55,7 +56,9 @@ public class ProspectService implements IProspectService {
         // Récupération de l'ID Prospect
         Log.d("ID PROSPECT", String.valueOf(response));
         // Appel du callback pour transmettre l'ID Prospect
-        appelAPIPostJson(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallback() {
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
+
+        appelAPIPostJson(urlAppel, apiKeyDechiffre, context, new Outils.APIResponseCallback() {
 
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
@@ -117,7 +120,9 @@ public class ProspectService implements IProspectService {
         url = utilisateur.getUrl();
         String sqlfilters = creerSqlfilter(recherche);
         urlAppel = url + "/api/index.php/thirdparties?sortfield=t." + tri + "&sortorder=ASC&limit=6&sqlfilters=" + sqlfilters;
-        appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
+
+        appelAPIGetList(urlAppel, apiKeyDechiffre, context, new Outils.APIResponseCallbackArray() {
 
             @Override
             public void onSuccess(JSONArray response) {
@@ -158,7 +163,9 @@ public class ProspectService implements IProspectService {
         ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties?sortfield=t.rowid&sortorder=DESC&limit=6&sqlfilters=(t.phone%3Alike%3A'" + recherche + "')";
-        Outils.appelAPIGetList(urlAppel, utilisateur.getCleApi(), context, new Outils.APIResponseCallbackArray() {
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
+
+        Outils.appelAPIGetList(urlAppel, apiKeyDechiffre, context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
                 callback.onResponse();
@@ -174,7 +181,7 @@ public class ProspectService implements IProspectService {
     }
 
 
-    private boolean existeDansViewModel(String recherche, MesProspectViewModel mesProspectViewModel) {
+    public boolean existeDansViewModel(String recherche, MesProspectViewModel mesProspectViewModel) {
         boolean existe = false;
 
         for (Prospect prospect : mesProspectViewModel.getProspectListe()) {

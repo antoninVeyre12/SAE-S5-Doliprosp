@@ -17,6 +17,7 @@ import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.Modele.Utilisateur;
 import com.example.doliprosp.R;
+import com.example.doliprosp.Services.ChiffrementVigenere;
 import com.example.doliprosp.Services.ConnexionService;
 import com.example.doliprosp.Services.Outils;
 import com.example.doliprosp.viewModel.UtilisateurViewModel;
@@ -145,12 +146,13 @@ public class ConnexionFragment extends Fragment {
 
     private void gererConnexionUtilisateur(Utilisateur nouvelUtilisateur, String nomUtilisateur) {
         utilisateur = nouvelUtilisateur;
-        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
+//        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
         String urlUtilisateur = utilisateur.getUrl();
-        utilisateur.setApiKey(apiKeyChiffre);
+//        utilisateur.setApiKey(apiKeyChiffre);
+        Log.d("APIKEY", utilisateur.getCleApi());
 
         if (!utilisateur.informationutilisateurDejaRecupere()) {
-            recupereInfoCompteAvecAPI(urlUtilisateur, nomUtilisateur, apiKeyChiffre);
+            recupereInfoCompteAvecAPI(urlUtilisateur, nomUtilisateur, utilisateur.getCleApi());
         } else {
             naviguerVersSalon();
         }
@@ -222,7 +224,19 @@ public class ConnexionFragment extends Fragment {
         utilisateur.setVille(reponse.getString("town"));
         utilisateur.setNumTelephone(reponse.getString("office_phone"));
 
+        chiffrerAPIKey(utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getVille());
+
         utilisateurViewModel.setUtilisateur(utilisateur, getContext());
+    }
+
+    private void chiffrerAPIKey(String nom, String prenom, String ville) {
+        Log.d("nom de base", nom);
+        utilisateur.setNom(ChiffrementVigenere.chiffrement(nom.toLowerCase()));
+        Log.d("nom chiffre set", utilisateur.getNom());
+        utilisateur.setPrenom(ChiffrementVigenere.chiffrement(prenom.toLowerCase()));
+        utilisateur.setVille(ChiffrementVigenere.chiffrement(ville.toLowerCase()));
+        //Log.d("prenom dechiffre", ChiffrementVigenere.dechiffrement(utilisateur.getPrenom()));
+        utilisateur.setApiKey(ChiffrementVigenere.chiffrementCleAPI(utilisateur.getCleApi(),utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille()));
     }
 
     /**
