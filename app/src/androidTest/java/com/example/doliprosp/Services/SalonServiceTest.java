@@ -10,11 +10,13 @@ import static org.mockito.Mockito.verify;
 import com.example.doliprosp.Modele.Salon;
 import com.example.doliprosp.viewModel.MesSalonsViewModel;
 import com.example.doliprosp.viewModel.SalonsViewModel;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import java.util.List;
 
 public class SalonServiceTest {
@@ -115,6 +117,7 @@ public class SalonServiceTest {
         boolean result = salonService.salonExiste(nomRecherche, salonsViewModel, mesSalonsViewModel);
         assertFalse(result);
     }
+
     @Test
     public void testGetListeSalonsSelectionnes() {
         mesSalonsViewModel.getSalonListe().get(0).setEstSelectionne(true);
