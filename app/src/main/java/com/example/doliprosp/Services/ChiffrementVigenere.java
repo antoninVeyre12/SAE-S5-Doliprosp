@@ -8,10 +8,11 @@ public class ChiffrementVigenere {
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
             'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
 
-    public static String key = UUID.randomUUID().toString();
+    public static String key = "6daa50d5-2572-4aca-a58d-4af5deb906ec";
 
 
     public static String chiffrement(String champAChiffre) {
+        champAChiffre = champAChiffre.toLowerCase();
         int keyIndex = 0;
         String cleChiffre = "";
         for (int i = 0; i < champAChiffre.length(); i++) {
