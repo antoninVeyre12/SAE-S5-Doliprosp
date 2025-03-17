@@ -73,6 +73,7 @@ public class ProspectService implements IProspectService {
             jsonBody.put("name", prospect.getNom());
             jsonBody.put("address", prospect.getAdresse());
             jsonBody.put("zip", prospect.getCodePostal());
+            jsonBody.put("town", prospect.getVille());
             jsonBody.put("phone", prospect.getNumeroTelephone());
             jsonBody.put("email", prospect.getMail());
             jsonBody.put("client", prospect.getEstClient());
