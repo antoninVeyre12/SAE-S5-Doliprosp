@@ -64,18 +64,22 @@ public class UtilisateurFragment extends Fragment {
         textViewVille = view.findViewById(R.id.id_ville);
         textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
 
-
-        nom = ChiffrementVigenere.dechiffrement(utilisateurActuel.getNom().toLowerCase());
+        String key = utilisateurActuel.getClePremierChiffrement();
+        Log.d("keyyyyyyyyyy", utilisateurActuel.getClePremierChiffrement());
+        nom =
+                ChiffrementVigenere.dechiffrement(utilisateurActuel.getNom().toLowerCase(), key);
         Log.d("prenom", utilisateurActuel.getPrenom());
         Log.d("ville", utilisateurActuel.getVille());
-        prenom = ChiffrementVigenere.dechiffrement(utilisateurActuel.getPrenom());
+        prenom =
+                ChiffrementVigenere.dechiffrement(utilisateurActuel.getPrenom(), key);
         Log.d("getNom", utilisateurActuel.getNom());
         Log.d("getNom", nom);
         prenom = prenom.substring(0, 1).toUpperCase() + prenom.substring(1);
         mail = utilisateurActuel.getMail();
         adresse = utilisateurActuel.getAdresse();
         codePostal = String.valueOf(utilisateurActuel.getCodePostal());
-        ville = ChiffrementVigenere.dechiffrement(utilisateurActuel.getVille());
+        ville =
+                ChiffrementVigenere.dechiffrement(utilisateurActuel.getVille(), key);
         ville = ville.substring(0, 1).toUpperCase() + ville.substring(1);
         numTelephone = utilisateurActuel.getNumTelephone();
         afficherInformations();

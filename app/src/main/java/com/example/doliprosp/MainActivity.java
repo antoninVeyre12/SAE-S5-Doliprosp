@@ -18,9 +18,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.fragments.ConnexionFragment;
 import com.example.doliprosp.fragments.ProjetFragment;
 import com.example.doliprosp.fragments.ProspectFragment;
+import com.example.doliprosp.fragments.SalonAttenteFragment;
 import com.example.doliprosp.fragments.SalonFragment;
 import com.example.doliprosp.fragments.UtilisateurFragment;
-import com.example.doliprosp.fragments.WaitingFragment;
 import com.example.doliprosp.viewModels.MesProjetsViewModel;
 import com.example.doliprosp.viewModels.MesProspectViewModel;
 import com.example.doliprosp.viewModels.MesSalonsViewModel;
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getFragmentByIndex(int index) {
         switch (index) {
             case 0:
-                return new WaitingFragment(); // Fragment d'attente
+                return new SalonAttenteFragment(); // Fragment d'attente
             case 1:
                 return new SalonFragment(); // Fragment des salons
             case 2:

@@ -29,20 +29,23 @@ public class UtilisateurViewModel extends ViewModel {
      * Définit un nouvel utilisateur et l'enregistre dans le fichier CSV.
      *
      * @param nouvelUtilisateur L'utilisateur à définir.
+     * @param key               la cle de chiffrement
      */
-    public void setUtilisateur(Utilisateur nouvelUtilisateur, Context context) {
+    public void setUtilisateur(Utilisateur nouvelUtilisateur, Context context, String key) {
         this.utilisateur = nouvelUtilisateur;
-        enregistrerUtilisateur(context);
+        enregistrerUtilisateur(context, key);
     }
 
     /**
      * Enregistre les données de l'utilisateur dans un fichier CSV.
+     *
+     * @param key la cle de chiffrement
      */
-    public void enregistrerUtilisateur(Context context) {
-        String apiKeyChiifre =
-                ChiffrementVigenere.chiffrement(utilisateur.getCleApi());
+    public void enregistrerUtilisateur(Context context, String key) {
+        String apiKeyChifre =
+                ChiffrementVigenere.chiffrement(utilisateur.getCleApi(), key);
         String content =
-                utilisateur.getNomUtilisateur() + SEPARATOR + utilisateur.getUrl() + SEPARATOR + utilisateur.getMotDePasse() + SEPARATOR + utilisateur.getCleApi() + SEPARATOR + apiKeyChiifre + SEPARATOR + utilisateur.getMail() + SEPARATOR + utilisateur.getNom() + SEPARATOR + utilisateur.getPrenom() + SEPARATOR + utilisateur.getVille() + SEPARATOR + utilisateur.getCodePostal() + SEPARATOR + utilisateur.getAdresse() + SEPARATOR + utilisateur.getNumTelephone() + SEPARATOR;
+                utilisateur.getNomUtilisateur() + SEPARATOR + utilisateur.getUrl() + SEPARATOR + utilisateur.getMotDePasse() + SEPARATOR + utilisateur.getCleApi() + SEPARATOR + apiKeyChifre + SEPARATOR + utilisateur.getMail() + SEPARATOR + utilisateur.getNom() + SEPARATOR + utilisateur.getPrenom() + SEPARATOR + utilisateur.getVille() + SEPARATOR + utilisateur.getCodePostal() + SEPARATOR + utilisateur.getAdresse() + SEPARATOR + utilisateur.getNumTelephone() + SEPARATOR + key + SEPARATOR;
         Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
     }
 
@@ -69,8 +72,8 @@ public class UtilisateurViewModel extends ViewModel {
             utilisateur.setAdresse(valeurs[10]);
             utilisateur.setMail(valeurs[5]);
             utilisateur.setNumTelephone(valeurs[11]);
+            utilisateur.setClePremierChiffrement(valeurs[12]);
 
-            Log.d("bivfebivfbivf", "utilisateur retourné");
         }
         return utilisateur;
     }

@@ -1,17 +1,13 @@
 package com.example.doliprosp.services;
 
-import android.util.Log;
-
 public class ChiffrementVigenere {
 
     private static char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
             'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+    
 
-    public static String key = "3f45d694-c1cf-4115-b0c5-132dc91956bd";
-
-
-    public static String chiffrement(String champAChiffre) {
+    public static String chiffrement(String champAChiffre, String key) {
         int keyIndex = 0;
         String cleChiffre = "";
         for (int i = 0; i < champAChiffre.length(); i++) {
@@ -64,8 +60,8 @@ public class ChiffrementVigenere {
 
     }
 
-    public static String dechiffrement(String champChiffre) {
-        Log.d("kryyyy", key);
+    public static String dechiffrement(String champChiffre, String key) {
+        //Log.d("kryyyy", key);
         int keyIndex = 0;
         String cleDechiifre = "";
         for (int i = 0; i < champChiffre.length(); i++) {

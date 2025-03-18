@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -223,18 +224,21 @@ public class ConnexionFragment extends Fragment {
         utilisateur.setCodePostal(Integer.parseInt(reponse.getString("zip")));
         utilisateur.setVille(reponse.getString("town"));
         utilisateur.setNumTelephone(reponse.getString("office_phone"));
+        String key = String.valueOf(UUID.randomUUID());
+        utilisateur.setClePremierChiffrement(key);
+        Log.d("aiofaifaija", key);
+        chiffrerAPIKey(utilisateur.getNom(), utilisateur.getPrenom(),
+                utilisateur.getVille(), key);
 
-        chiffrerAPIKey(utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getVille());
-
-        utilisateurViewModel.setUtilisateur(utilisateur, getContext());
+        utilisateurViewModel.setUtilisateur(utilisateur, getContext(), key);
     }
 
-    private void chiffrerAPIKey(String nom, String prenom, String ville) {
-        utilisateur.setNom(ChiffrementVigenere.chiffrement(nom.toLowerCase()));
+    private void chiffrerAPIKey(String nom, String prenom, String ville,
+                                String key) {
+        utilisateur.setNom(ChiffrementVigenere.chiffrement(nom.toLowerCase(), key));
 
-        utilisateur.setPrenom(ChiffrementVigenere.chiffrement(prenom.toLowerCase()));
-        utilisateur.setVille(ChiffrementVigenere.chiffrement(ville.toLowerCase()));
-        //Log.d("prenom dechiffre", ChiffrementVigenere.dechiffrement(utilisateur.getPrenom()));
+        utilisateur.setPrenom(ChiffrementVigenere.chiffrement(prenom.toLowerCase(), key));
+        utilisateur.setVille(ChiffrementVigenere.chiffrement(ville.toLowerCase(), key));
         utilisateur.setApiKey(ChiffrementVigenere.chiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille()));
     }
 
@@ -260,10 +264,10 @@ public class ConnexionFragment extends Fragment {
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-        url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-        nomUtilisateur = "antonin";
-        motDePasse = "antoninantonin";
-        Log.d("url", url);
+        //url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        //nomUtilisateur = "antonin";
+        //motDePasse = "antoninantonin";
+        //Log.d("url", url);
     }
 
     /**

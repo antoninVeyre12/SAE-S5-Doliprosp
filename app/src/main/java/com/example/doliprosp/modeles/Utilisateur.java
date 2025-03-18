@@ -20,6 +20,7 @@ public class Utilisateur implements Serializable {
     private String ville;
     private String numTelephone;
     private String cleChiffrement;
+    private String clePremierChiffrement;
 
 
     /**
@@ -263,5 +264,13 @@ public class Utilisateur implements Serializable {
      */
     public void setCleChiffrement(String cleChiffrement) {
         this.cleChiffrement = cleChiffrement;
+    }
+
+    public String getClePremierChiffrement() {
+        return clePremierChiffrement;
+    }
+
+    public void setClePremierChiffrement(String clePremierChiffrement) {
+        this.clePremierChiffrement = clePremierChiffrement;
     }
 }

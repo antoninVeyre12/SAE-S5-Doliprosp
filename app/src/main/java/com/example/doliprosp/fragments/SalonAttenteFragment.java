@@ -48,7 +48,7 @@ import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelec
 /**
  * Fragment affichant la liste des salons en attente.
  */
-public class WaitingFragment extends Fragment {
+public class SalonAttenteFragment extends Fragment {
     private RecyclerView salonAttenteRecyclerView;
     private SalonAttenteAdapter adapterSalons;
     private MesSalonsViewModel mesSalonsViewModel;
