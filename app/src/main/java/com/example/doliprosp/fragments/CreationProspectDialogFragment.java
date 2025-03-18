@@ -377,7 +377,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         if (validerInformations(nom, mail, tel, adresse, ville) && validerCodePostal(codePostal)) {
             Prospect prospect = new Prospect(nomSalon, nom,
                     codePostal, ville, adresse, mail, tel,
-                    client, "image", idDolibar, heureSaisieTimestamp);
+                    client, idDolibar, heureSaisieTimestamp);
             mesProspectViewModel.addProspect(prospect, getContext());
             dismiss();
             Bundle bundle = new Bundle();

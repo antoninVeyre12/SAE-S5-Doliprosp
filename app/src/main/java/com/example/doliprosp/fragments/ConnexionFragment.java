@@ -264,10 +264,9 @@ public class ConnexionFragment extends Fragment {
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-        //url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-        //nomUtilisateur = "antonin";
-        //motDePasse = "antoninantonin";
-        //Log.d("url", url);
+        url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        nomUtilisateur = "antonin";
+        motDePasse = "antoninantonin";
     }
 
     /**

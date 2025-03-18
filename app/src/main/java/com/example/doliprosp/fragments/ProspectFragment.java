@@ -196,7 +196,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         prospectAModifier.setAdresse(nouvelleAdresse);
         prospectAModifier.setVille(nouvelleVille);
         prospectAModifier.setCodePostal(nouveauCodePostal);
-
+        prospectAModifier.setModifier(true);
         mesProspectViewModel.enregistrerProspect(getContext());
         adapterProspect.notifyItemChanged(position);
     }

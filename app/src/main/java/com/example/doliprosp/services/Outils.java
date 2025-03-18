@@ -241,6 +241,55 @@ public class Outils {
         fileRequete.add(requeteVolley);
     }
 
+    public static void appelAPIPut(String url, String cleApi, Context context,
+                                   JSONObject jsonBody, APIResponseCallback callback) {
+        ignorerSSLCertifcat();
+        StringRequest requeteVolley = new StringRequest(Request.Method.PUT, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String reponse) {
+                        JSONObject objectJSON = null;
+                        try {
+                            objectJSON = new JSONObject(reponse);
+                            callback.onSuccess(objectJSON);
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError("Erreur de requête : " + error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("DOLAPIKEY", cleApi);
+                headers.put("Connection", "close");
+                return headers;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+
+        fileRequete = getRequestQueue(context);
+        fileRequete.add(requeteVolley);
+    }
+
+
     /**
      * Retourne une instance de la file de requêtes Volley.
      *

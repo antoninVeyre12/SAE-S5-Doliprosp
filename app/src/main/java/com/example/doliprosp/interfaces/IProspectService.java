@@ -51,4 +51,7 @@ public interface IProspectService {
 
     boolean existeDansViewModel(String recherche, MesProspectViewModel mesProspectViewModel);
 
+    void modifierClient(Context context, Utilisateur utilisateur,
+                        Prospect prospectAModifier, String idProspect);
+
 }

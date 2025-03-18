@@ -78,12 +78,13 @@ public class MesProspectViewModel extends ViewModel {
 
         for (String prospect : content.split(SAUT_DE_LIGNE)) {
             String[] champs = prospect.split(SEPARATEUR);
-            if (champs.length == 11) {
+            if (champs.length == 10) {
                 Prospect monProspect = new Prospect(champs[0], champs[1], champs[2], champs[3], champs[4],
-                        champs[5], champs[6], champs[7], champs[8], champs[9],
-                        Long.valueOf(champs[10]));
+                        champs[5], champs[6], champs[7], champs[8],
+                        Long.valueOf(champs[9]));
                 prospectListe.add(monProspect);
             }
+
         }
     }
 
@@ -98,7 +99,7 @@ public class MesProspectViewModel extends ViewModel {
                 + SEPARATEUR + monProspect.getCodePostal() + SEPARATEUR + monProspect.getVille()
                 + SEPARATEUR + monProspect.getAdresse() + SEPARATEUR + monProspect.getMail()
                 + SEPARATEUR + monProspect.getNumeroTelephone() + SEPARATEUR
-                + monProspect.getEstClient() + SEPARATEUR + monProspect.getImage() + SEPARATEUR
+                + monProspect.getEstClient() + SEPARATEUR
                 + monProspect.getIdDolibarr() + SEPARATEUR + (monProspect.getHeureSaisieTimestamp());
     }
 }

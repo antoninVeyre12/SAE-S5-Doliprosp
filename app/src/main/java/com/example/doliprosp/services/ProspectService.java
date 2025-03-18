@@ -27,7 +27,6 @@ public class ProspectService implements IProspectService {
         urlAppel = url + "/api/index.php/thirdparties";
         String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonProspect(prospectAEnvoyer);
-        Log.d("jsonBody", jsonBody.toString());
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
         Outils.appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
@@ -50,7 +49,6 @@ public class ProspectService implements IProspectService {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties/" + response + "/categories/" + idSalon;
         // Récupération de l'ID Prospect
-        Log.d("ID PROSPECT", String.valueOf(response));
         // Appel du callback pour transmettre l'ID Prospect
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
@@ -139,7 +137,7 @@ public class ProspectService implements IProspectService {
                                 "id");
                         listeProspectCorrespondant.add(new Prospect(nomSalon, nom, codePostal,
                                 ville, adressePostale, mail, numeroTelephone,
-                                estClient, "lalala", idDolibarr, 0));
+                                estClient, idDolibarr, 0));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -177,6 +175,27 @@ public class ProspectService implements IProspectService {
 
     }
 
+    public void modifierClient(Context context, Utilisateur utilisateur,
+                               Prospect prospectAModifier, String idProspect) {
+        url = utilisateur.getUrl();
+        urlAppel = url + "/api/index.php/thirdparties/" + idProspect;
+        JSONObject jsonBody = creationJsonProspect(prospectAModifier);
+
+        String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
+
+        Outils.appelAPIPut(urlAppel, apiKeyDechiffre, context, jsonBody,
+                new Outils.APIResponseCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
+
+    }
 
     public boolean existeDansViewModel(String recherche, MesProspectViewModel mesProspectViewModel) {
         boolean existe = false;

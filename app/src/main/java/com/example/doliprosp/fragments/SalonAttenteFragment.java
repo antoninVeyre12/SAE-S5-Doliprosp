@@ -259,8 +259,12 @@ public class SalonAttenteFragment extends Fragment {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
 
             if (!prospectAEnvoyer.getIdDolibarr().equals("false")) {
+                int idProspect =
+                        Integer.parseInt(prospectAEnvoyer.getIdDolibarr());
                 prospectService.lieProspectSalon(utilisateur, getContext(),
-                        idSalon, Integer.parseInt(prospectAEnvoyer.getIdDolibarr()));
+                        idSalon, idProspect);
+
+                modificationClient(utilisateur, prospectAEnvoyer, idProspect);
 
                 projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
                         prospectAEnvoyer.getNom());
@@ -271,12 +275,13 @@ public class SalonAttenteFragment extends Fragment {
             } else {
                 prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
                     @Override
-                    public void onSuccess(String response) throws JSONException {
+                    public void onSuccess(String idProspect) throws JSONException {
+
                         projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
                                 prospectAEnvoyer.getNom());
 
                         envoyerProjets(projetsSelectionnes,
-                                Integer.parseInt(response), salonAEnvoyer, prospectAEnvoyer);
+                                Integer.parseInt(idProspect), salonAEnvoyer, prospectAEnvoyer);
                     }
 
                     @Override
@@ -308,6 +313,18 @@ public class SalonAttenteFragment extends Fragment {
         projetService.envoyerVersModule(utilisateur, getContext(),
                 projetAEnvoyer, prospectAEnvoyer,
                 salonAEnvoyer, idProspect);
+    }
+
+    private void modificationClient(Utilisateur utilisateur,
+                                    Prospect prospectAEnvoyer,
+                                    int idProspect) {
+        Log.d("getmodifier", String.valueOf(prospectAEnvoyer.getModifier()));
+        if (prospectAEnvoyer.getModifier() == true) {
+            prospectService.modifierClient(getContext(), utilisateur,
+                    prospectAEnvoyer,
+                    String.valueOf(idProspect));
+        }
+
     }
 
     private void empecheRetourApresEnvoie(Salon salonAEnvoyer) {

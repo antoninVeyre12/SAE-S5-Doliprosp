@@ -16,9 +16,9 @@ public class Prospect implements Serializable {
     private String mail;
     private String numeroTelephone;
     private String estClient;
-    private String image;
     private String idDolibarr;
     private long heureSaisieTimestamp;
+    private boolean modifier;
 
     /**
      * Constructeur de la classe Prospect.
@@ -31,11 +31,10 @@ public class Prospect implements Serializable {
      * @param mail            L'adresse e-mail du prospect.
      * @param numeroTelephone Le numéro de téléphone du prospect.
      * @param estClient       Indique si le prospect est un client ("oui" ou "non").
-     * @param image           Une image associée au prospect (URL ou chemin).
      */
     public Prospect(String nomSalon, String nom, String codePostal,
                     String ville, String adressePostale, String mail, String numeroTelephone,
-                    String estClient, String image, String idDolibarr, long heureSaisieTimestamp) {
+                    String estClient, String idDolibarr, long heureSaisieTimestamp) {
         this.nomSalon = nomSalon;
         this.nom = nom;
         this.codePostal = codePostal;
@@ -44,7 +43,6 @@ public class Prospect implements Serializable {
         this.mail = mail;
         this.numeroTelephone = numeroTelephone;
         this.estClient = estClient;
-        this.image = image;
         this.idDolibarr = idDolibarr;
         this.heureSaisieTimestamp = heureSaisieTimestamp;
     }
@@ -204,13 +202,14 @@ public class Prospect implements Serializable {
     }
 
     /**
-     * Définit si le prospect est un client.
+     * Défini si le prospect est un client.
      *
      * @param idDolibarr "oui" si c'est un client, sinon "non".
      */
     public void setIdDolibarr(String idDolibarr) {
         this.idDolibarr = idDolibarr;
     }
+
 
     public long getHeureSaisieTimestamp() {
         return heureSaisieTimestamp;
@@ -220,22 +219,12 @@ public class Prospect implements Serializable {
         this.heureSaisieTimestamp = heureSaisieTimestamp;
     }
 
-    /**
-     * Retourne l'image associée au prospect.
-     *
-     * @return L'URL ou le chemin de l'image.
-     */
-    public String getImage() {
-        return image;
+    public boolean getModifier() {
+        return modifier;
     }
 
-    /**
-     * Définit l'image associée au prospect.
-     *
-     * @param image L'URL ou le chemin de l'image.
-     */
-    public void setImage(String image) {
-        this.image = image;
+    public void setModifier(boolean modifier) {
+        this.modifier = modifier;
     }
 
 
