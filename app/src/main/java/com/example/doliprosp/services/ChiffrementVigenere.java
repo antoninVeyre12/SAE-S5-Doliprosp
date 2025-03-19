@@ -10,6 +10,7 @@ public class ChiffrementVigenere {
     public static String chiffrement(String champAChiffre, String key) {
         int keyIndex = 0;
         String cleChiffre = "";
+        champAChiffre = champAChiffre.toLowerCase();
         for (int i = 0; i < champAChiffre.length(); i++) {
             char caractere = champAChiffre.charAt(i);
             char caractereKey = key.charAt(keyIndex);
@@ -61,7 +62,6 @@ public class ChiffrementVigenere {
     }
 
     public static String dechiffrement(String champChiffre, String key) {
-        //Log.d("kryyyy", key);
         int keyIndex = 0;
         String cleDechiifre = "";
         for (int i = 0; i < champChiffre.length(); i++) {

@@ -4,16 +4,19 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import java.util.UUID;
+
 public class ChiffrementVigenereTest {
 
     @Test
     public void chiffrement() {
         //Arrange
+        String cle = "6daa50d5-2572-4aca-a58d-4af5deb906ec";
         String champAChiffrer = "Amebhdjcj-gread";
         String champChiffreAttendu = "6pebb3m7i1an6-7";
 
         //Act
-        String champChiffre = ChiffrementVigenere.chiffrement(champAChiffrer);
+        String champChiffre = ChiffrementVigenere.chiffrement(champAChiffrer, cle);
 
         //Assert
         assertEquals(champChiffreAttendu, champChiffre);
@@ -52,11 +55,12 @@ public class ChiffrementVigenereTest {
     @Test
     public void dechiffrement() {
         //Arrange
+        String cle = "6daa50d5-2572-4aca-a58d-4af5deb906ec";
         String champChiffre = "6pebb3m7i1an6-7";
         String champDechiffreAttendu = "amebhdjcj-gread";
 
         //Act
-        String champDechiffre = ChiffrementVigenere.dechiffrement(champChiffre);
+        String champDechiffre = ChiffrementVigenere.dechiffrement(champChiffre, cle);
 
         //Equals
         assertEquals(champDechiffreAttendu, champDechiffre);
