@@ -1,0 +1,113 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.DoliProsp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.DoliProsp" parent="Base.Theme.DoliProsp" />
+
+    <style name="label_dialog">
+        <item name="android:textSize">@dimen/label_dialog</item>
+    </style>
+
+    <style name="title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:color">@color/black</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textAlignment">center</item>
+
+    </style>
+
+    <style name="subTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:layout_marginTop">@dimen/soustitre_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/subtitle_marginBottom</item>
+        <item name="android:layout_marginLeft">@dimen/soustitre_marginLeft</item>
+    </style>
+
+    <style name="subTitle_pageProjet_haut">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:layout_marginTop">@dimen/subtitle_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/subtitle_pageProjet_marginBottom</item>
+        <item name="android:layout_marginLeft">@dimen/subtitle_marginLeft</item>
+    </style>
+
+    <style name="subTitle_pageProjet_bas">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:layout_marginTop">@dimen/subtitle_pageProjet_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/subtitle_marginBottom</item>
+        <item name="android:layout_marginLeft">@dimen/subtitle_marginLeft</item>
+    </style>
+
+    <style name="button_cancel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:text">@string/annuler</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="button_validate">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:text">@string/creer</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="button_create">
+        <item name="android:layout_width">@dimen/btn_new_width</item>
+        <item name="android:layout_height">@dimen/btn_new_height</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginBottom">@dimen/btn_new_marginBottom</item>
+        <item name="android:layout_marginEnd">@dimen/btn_new_marginEnd</item>
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:text">@string/plus</item>
+        <item name="android:textSize">@dimen/btn_new_text_size</item>
+    </style>
+
+    <style name="button_add">
+        <item name="android:layout_width">@dimen/search_img_width</item>
+        <item name="android:layout_height">@dimen/search_img_height</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:background">@drawable/ic_plus</item>
+        <item name="android:text">@string/plus</item>
+        <item name="android:textSize">@dimen/btn_add_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/search_bar_marginLeft</item>
+    </style>
+
+    <style name="button_less">
+        <item name="android:layout_width">@dimen/search_img_width</item>
+        <item name="android:layout_height">@dimen/search_img_height</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:text">@string/moins</item>
+        <item name="android:textSize">@dimen/btn_add_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/search_bar_marginLeft</item>
+    </style>
+
+
+    <style name="StyleDatePicker">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+</resources>

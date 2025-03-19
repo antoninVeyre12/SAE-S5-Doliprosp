@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_secondary"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/chargement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_progressBar"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:layout_marginTop="@dimen/espaceHaut"
+        android:layout_marginBottom="@dimen/espaceBas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textSize="30dp">
+    </TextView>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/url">
+    </TextView>
+
+    <EditText
+        android:id="@+id/url"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:hint="@string/url_example"
+        android:layout_height="wrap_content">
+    </EditText>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/username">
+    </TextView>
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+    </EditText>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/motDePasse">
+    </TextView>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/espaceBas"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content">
+    </EditText>
+
+    <Button
+        android:id="@+id/connexion"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:text="@string/btn_connexion"
+        android:backgroundTint="@color/black"
+        android:layout_height="wrap_content">
+    </Button>
+
+    <TextView
+        android:id="@+id/json"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        >
+    </TextView>
+    <TextView
+        android:id="@+id/Zonejson"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        >
+    </TextView>
+
+</LinearLayout>

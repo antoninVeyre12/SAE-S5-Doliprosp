@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_secondary"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/title"
+                android:text="@string/monCompte" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/btn_new_marginEnd"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:text="@string/nom"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_formulaire_compte" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_nom"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_margin_top"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textStyle="bold"
+                android:text="@string/prenom"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_formulaire_compte" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_prenom"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/username"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/user_margin_top"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_userName"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_margin_top"
+                android:textStyle="bold"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:text="@string/adresseMail"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_formulaire_compte" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_mail"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/adresse"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/user_margin_top"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_adresse"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/codePostal"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/user_margin_top"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_codePostal"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ville"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/user_margin_top"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_ville"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/numéroTéléphone"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/user_margin_top"
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_numTelephone"
+                android:text=""
+                android:layout_marginLeft="@dimen/user_margin_left"
+                android:textSize="@dimen/text_formulaire_compte"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btnDeconnexion"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Deconnexion"
+                android:backgroundTint="@color/red"
+                android:layout_marginTop="@dimen/margin_top_btn_deconnexion"
+                android:layout_marginBottom="@dimen/margin_bottom_btn_deconnexion"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

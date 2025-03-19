@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/icone"
+        android:layout_width="@dimen/icone_img_width"
+        android:layout_height="@dimen/icone_img_height"
+        android:src="@drawable/ic_user"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/nomprenom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="@dimen/information_size"
+        android:textColor="#000000"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <ImageButton
+            android:id="@+id/prospect_supprimer"
+            android:layout_width="@dimen/ic_height"
+            android:layout_height="@dimen/ic_width"
+            android:background="@drawable/ic_trash"
+            android:layout_gravity="center|bottom"
+            android:layout_margin="@dimen/item_show_text_margin" />
+
+        <ImageButton
+            android:id="@+id/prospect_modifier"
+            android:layout_width="@dimen/ic_height"
+            android:layout_height="@dimen/ic_width"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="@dimen/item_show_text_margin"
+            android:background="@drawable/ic_stylo" />
+
+    </LinearLayout>
+
+</LinearLayout>

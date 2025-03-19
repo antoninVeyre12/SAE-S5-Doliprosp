@@ -1,0 +1,47 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/salon_case"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_show_height"
+    android:layout_marginLeft="@dimen/item_show_margin"
+    android:layout_marginRight="@dimen/item_show_margin"
+    android:layout_marginTop="@dimen/item_show_margin"
+    android:layout_marginBottom="@dimen/item_show_margin">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/item_show_background" />
+
+    <ImageButton
+        android:id="@+id/salon_supprimer"
+        android:layout_width="@dimen/ic_height"
+        android:layout_height="@dimen/ic_width"
+        android:background="@drawable/ic_trash"
+        android:layout_gravity="end|top"
+        android:layout_margin="@dimen/item_show_text_margin" />
+
+    <ImageButton
+        android:id="@+id/salon_modifier"
+        android:layout_width="@dimen/ic_height"
+        android:layout_height="@dimen/ic_width"
+        android:background="@drawable/ic_stylo"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/item_show_text_margin" />
+
+    <TextView
+        android:id="@+id/salon_nom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="64dp"
+        android:textSize="30sp"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:scrollHorizontally="false"
+        android:breakStrategy="simple"
+        android:singleLine="false" />
+
+</FrameLayout>

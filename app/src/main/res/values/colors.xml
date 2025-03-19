@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="color_secondary">#EBE9E9</color>
+    <color name="black">#000000</color>
+    <color name="green">#43CD49</color>
+    <color name="red">#FF0000</color>
+    <color name="gray">#757575</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="border_gray">#DDDDDD</color>
+    <!-- Couleur principale -->
+    <color name="color_primary">#EE001C</color> <!-- Exemple de bleu-violet -->
+
+    <!-- Couleur principale plus foncée pour l'état pressé -->
+    <color name="color_primary_dark">#3700B3</color> <!-- Exemple de bleu-violet foncé -->
+
+    <!-- Couleur principale plus claire pour l'état focus -->
+    <color name="color_primary_light">#BB86FC</color> <!-- Exemple de bleu-violet clair -->
+    <color name="invalide">#7D7D7E</color> <!-- Exemple de bleu-violet clair -->
+
+</resources>

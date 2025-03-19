@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/salon_case"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_show_height"
+    android:layout_weight="1"
+    android:layout_marginLeft="@dimen/item_show_margin"
+    android:layout_marginRight="@dimen/item_show_margin"
+    android:layout_marginTop="@dimen/item_show_margin"
+    android:layout_marginBottom="@dimen/item_show_margin">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/item_show_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/item_show_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/salon_nom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_large"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:scrollHorizontally="false"
+                android:breakStrategy="simple"
+                android:singleLine="false" />
+
+            <CheckBox
+                android:id="@+id/salon_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="left"
+            android:layout_marginTop="@dimen/margin_medium">
+
+            <ImageView
+                android:id="@+id/icon_prospect"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_prospect" />
+
+            <TextView
+                android:id="@+id/nb_prospect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium"
+                android:text="2"
+                android:layout_marginRight="@dimen/margin_large" />
+
+            <ImageView
+                android:id="@+id/icon_projet"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_project"
+                android:layout_marginLeft="@dimen/margin_medium" />
+
+            <TextView
+                android:id="@+id/nb_projet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/nb_projet" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
