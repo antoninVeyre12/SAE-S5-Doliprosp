@@ -116,7 +116,7 @@ public class ProjetService implements IProjetService {
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("ref",
-                    salon.getNom() + '-' + projet.getTitre());
+                    salon.getNom() + '-' + projet.getTitre() + '-' + idProspect);
             jsonBody.put("refProjet",
                     projet.getTitre() + '-' + projet.getNomProspect());
             jsonBody.put("description", projet.getDescription());
