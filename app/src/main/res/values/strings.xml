@@ -86,6 +86,7 @@
     <string name="motDePasse">Mot de passe</string>
     <string name="url_invalide">Renseignez une URL valide débutant par http://</string>
     <string name="url_invalide_2">"Renseignez l'URL sans / à la fin"</string>
+    <string name="non_connecte">"Vous n'êtes pas connecté à internet, vous ne pouvez pas vous connecter."</string>
     <string name="informations_invalide">Veuillez renseigner une URL, un identifiant et un mot de passe avant de vous connecter</string>
     <string name="informations_saisies_incorrecte">"L'identifiant, le mot de passe ou l'URL sont invalides, veuillez réessayer"</string>
     <string name="url_example">http://dolibarr.xxxx.fr/xxxx/htdocs</string>

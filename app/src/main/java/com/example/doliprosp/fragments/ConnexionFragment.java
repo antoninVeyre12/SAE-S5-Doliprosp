@@ -34,6 +34,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import static com.example.doliprosp.MainActivity.estConnecte;
+
 /**
  * Fragment permettant à un utilisateur de se connecter à l'application.
  * Il permet d'entrer les informations nécessaires pour la connexion, de vérifier ces informations
@@ -203,6 +205,8 @@ public class ConnexionFragment extends Fragment {
     private void gererErreurConnexion(String url) {
         if (url.endsWith("/")) {
             Toast.makeText(getContext(), R.string.url_invalide_2, Toast.LENGTH_LONG).show();
+        } else if (estConnecte == false) {
+            Toast.makeText(getContext(), R.string.non_connecte, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getContext(), R.string.informations_saisies_incorrecte, Toast.LENGTH_LONG).show();
         }
@@ -264,9 +268,9 @@ public class ConnexionFragment extends Fragment {
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-        url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-        nomUtilisateur = "antonin";
-        motDePasse = "antoninantonin";
+        //url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
+        //nomUtilisateur = "antonin";
+        //motDePasse = "antoninantonin";
     }
 
     /**

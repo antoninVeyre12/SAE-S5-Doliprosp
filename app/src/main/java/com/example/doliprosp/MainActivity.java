@@ -36,7 +36,7 @@ import androidx.lifecycle.ViewModelProvider;
 public class MainActivity extends AppCompatActivity {
     // Déclaration des variables nécessaires
     private RequestQueue fileRequete;
-
+    public static boolean estConnecte;
     private ImageView statusConnection;  // Icône de statut de connexion
     private BroadcastReceiver networkReceiver;
 
@@ -123,9 +123,11 @@ public class MainActivity extends AppCompatActivity {
     private void updateConnectionStatus(boolean isConnected) {
         if (isConnected) {
             statusConnection.setImageResource(R.drawable.ic_plus); // Vert
+            estConnecte = true;
             // (connecté)
         } else {
             statusConnection.setImageResource(R.drawable.round_button); //
+            estConnecte = false;
             // Rouge (hors ligne)
         }
     }
