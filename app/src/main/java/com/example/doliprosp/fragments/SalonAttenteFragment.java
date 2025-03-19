@@ -56,6 +56,7 @@ public class SalonAttenteFragment extends Fragment {
     private MesProspectViewModel mesProspectViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
     private UtilisateurViewModel utilisateurViewModel;
+    private TextView erreurSalons;
     private ISalonService salonService;
     private IProspectService prospectService;
     private IProjetService projetService;
@@ -110,6 +111,7 @@ public class SalonAttenteFragment extends Fragment {
         salonAttenteRecyclerView =
                 view.findViewById(R.id.salonAttenteRecyclerView);
         boutonToutSelectionne = view.findViewById(R.id.btn_tout_selectionner);
+        erreurSalons = view.findViewById(R.id.erreur_pas_de_salons);
         salonAttenteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         boutonEnvoyer = view.findViewById(R.id.btn_envoyer_salon_attente);
         setupListeners();
@@ -247,6 +249,8 @@ public class SalonAttenteFragment extends Fragment {
 
                                         @Override
                                         public void onError(String errorMessage) {
+                                            erreurSalons.setVisibility(View.VISIBLE);
+                                            erreurSalons.setText(R.string.erreur_connexion);
                                         }
                                     });
                         }

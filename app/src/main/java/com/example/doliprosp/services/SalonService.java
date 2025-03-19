@@ -109,7 +109,7 @@ public class SalonService implements ISalonService {
 
             @Override
             public void onError(String errorMessage) {
-                //Log.d("onerror", errorMessage.toString());
+                callback.onError("erreur");
             }
         });
     }

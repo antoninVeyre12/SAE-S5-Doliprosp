@@ -32,7 +32,7 @@
 
     <!-- Page Salon -->
     <string name="mes_salons">Mes salons</string>
-    <string name="salons_suggeres">Salons suggérés</string>
+    <string name="salons_suggeres">Salons récents</string>
     <string name="erreur_pas_de_salons">"Aucun salon n'existe ou aucun salon ne correspond à votre recherche"</string>
     <string name="erreur_nom_salon_longueur">"Le nom d'un salon doit être compris entre 2 et 50 caractères"</string>
     <string name="erreur_nom_salon_vide">"Le nom d'un salon ne peut pas être vide"</string>
@@ -122,6 +122,7 @@
     <string name="erreur_checkbox">"La case doit être cochée avant d'envoyer"</string>
     <string name="texte_checkbox">Je suis sûr(e) de vouloir envoyer</string>
     <string name="confirmation_envoie">Êtes-vous sûr de vouloir envoyer les informations ?</string>
+    <string name="erreur_connexion">"L'envoi n'a pas pu être effectué, vous n'êtes pas connecté à Internet."</string>
 
     <string name="labelNomSalon">Nom</string>
     <string name="recherche_prospect_nul">Aucun prospect ne correspond aux critères saisis</string>

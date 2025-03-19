@@ -19,7 +19,7 @@
         android:layout_marginHorizontal="10dp"
         android:maxLength="50"
         android:hint="@string/hint_show"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZéèêëàâäôöûüîïç0123456789-_"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZéèêëàâäôöûüîïç0123456789-_ /"
         android:inputType="text"
         android:singleLine="true" />
 
