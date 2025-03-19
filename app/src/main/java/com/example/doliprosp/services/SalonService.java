@@ -6,8 +6,8 @@ import android.util.Log;
 import com.example.doliprosp.interfaces.ISalonService;
 import com.example.doliprosp.modeles.Salon;
 import com.example.doliprosp.modeles.Utilisateur;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +35,7 @@ public class SalonService implements ISalonService {
      * @param callback    Le callback pour récupérer la liste des salons trouvés.
      */
     public void getSalonsEnregistres(Context context, Utilisateur utilisateur, Outils.APIResponseCallbackArrayTest callback) {
-        ArrayList<Salon> listeSalonsEnregistres = new ArrayList<Salon>();
+        ArrayList<Salon> listeSalonsEnregistres = new ArrayList<>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC";
         Log.d("urlAppel", urlAppel);
@@ -76,9 +76,6 @@ public class SalonService implements ISalonService {
      */
     public boolean salonExiste(String nomRecherche, SalonsViewModel salonsViewModel, MesSalonsViewModel mesSalonsViewModel) {
         boolean existe = false;
-        if (nomRecherche == null || nomRecherche.isEmpty()) {
-            existe = false; // Si le nom de recherche est nul ou vide, on retourne directement false
-        }
         for (Salon salon : salonsViewModel.getSalonListe()) {
             if (salon.getNom().equalsIgnoreCase(nomRecherche)) {
                 existe = true; // Si le salon est trouvé dans salonsViewModel, on retourne true
@@ -96,7 +93,6 @@ public class SalonService implements ISalonService {
     public void envoyerSalon(Utilisateur utilisateur, Context context, Salon salonAEnvoyer, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories";
-        String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonSalon(salonAEnvoyer);
         Log.d("jsonBody", jsonBody.toString());
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
@@ -109,7 +105,7 @@ public class SalonService implements ISalonService {
 
             @Override
             public void onError(String errorMessage) {
-                //Log.d("onerror", errorMessage.toString());
+                Log.d("onerror", errorMessage);
             }
         });
     }
@@ -121,7 +117,7 @@ public class SalonService implements ISalonService {
             jsonBody.put("type", 2);
 
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.d("json exception", e.toString());
         }
         return jsonBody;
     }
@@ -146,7 +142,6 @@ public class SalonService implements ISalonService {
         url = utilisateur.getUrl();
         String rechercheSansEspace = remplaceEspace(recherche);
         urlAppel = url + "/api/index.php/categories?&sortorder=DESC&sqlfilters=(t.label%3A=%3A'" + rechercheSansEspace + "')";
-        String apikey = utilisateur.getCleApi();
 
         Log.d("urlAppel", urlAppel);
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());

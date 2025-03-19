@@ -24,11 +24,11 @@ import com.example.doliprosp.services.Outils;
 import com.example.doliprosp.services.ProjetService;
 import com.example.doliprosp.services.ProspectService;
 import com.example.doliprosp.services.SalonService;
-import com.example.doliprosp.viewModels.MesProjetsViewModel;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.MesProjetsViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
+import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
 import org.json.JSONException;
 
@@ -140,12 +140,11 @@ public class SalonAttenteFragment extends Fragment {
      * RecyclerView.
      */
     private void loadSalons() {
-        ArrayList<Salon> salons = new ArrayList<>(mesSalonsViewModel.getSalonListe());
+        List<Salon> salons = new ArrayList<>(mesSalonsViewModel.getSalonListe());
 
         for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
-            Log.d("saasa", salonEnregistrer.getNom());
 
-            if (prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).size() > 0) {
+            if (!prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).isEmpty()) {
                 salons.add(salonEnregistrer);
             }
         }
@@ -172,9 +171,9 @@ public class SalonAttenteFragment extends Fragment {
             AlertDialog dialog = builder.create();
             dialog.show();
 
-            btnAnnuler.setOnClickListener(v1 -> {
-                dialog.dismiss();
-            });
+            btnAnnuler.setOnClickListener(v1 ->
+                dialog.dismiss()
+            );
 
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
@@ -192,11 +191,9 @@ public class SalonAttenteFragment extends Fragment {
             });
         });
 
-        boutonToutSelectionne.setOnClickListener(v -> {
-            // Appeler une méthode dans l'adaptateur pour sélectionner toutes
-            // les checkboxes
-            adapterSalons.selectAllSalons();
-        });
+        boutonToutSelectionne.setOnClickListener(v ->
+            adapterSalons.selectAllSalons()
+        );
     }
 
     private void envoyerSalons() {
@@ -319,7 +316,7 @@ public class SalonAttenteFragment extends Fragment {
                                     Prospect prospectAEnvoyer,
                                     int idProspect) {
         Log.d("getmodifier", String.valueOf(prospectAEnvoyer.getModifier()));
-        if (prospectAEnvoyer.getModifier() == true) {
+        if (prospectAEnvoyer.getModifier()) {
             prospectService.modifierClient(getContext(), utilisateur,
                     prospectAEnvoyer,
                     String.valueOf(idProspect));

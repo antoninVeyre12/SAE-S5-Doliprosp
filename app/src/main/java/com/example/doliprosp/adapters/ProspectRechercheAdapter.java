@@ -29,7 +29,7 @@ public class ProspectRechercheAdapter extends RecyclerView.Adapter<ProspectReche
     /**
      * interfaces pour gérer les événements de clic sur les items du RecyclerView.
      */
-    private ProspectRechercheAdapter.OnItemClickListener onItemClickListener;
+    private transient ProspectRechercheAdapter.OnItemClickListener onItemClickListener;
 
     /**
      * Constructeur de l'adaptateur.
@@ -120,13 +120,13 @@ public class ProspectRechercheAdapter extends RecyclerView.Adapter<ProspectReche
      */
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView nom;
-        public TextView mail;
-        public TextView tel;
-        public TextView adresse;
-        public TextView codePostal;
-        public TextView ville;
-        public TextView initiales;
+        private TextView nom;
+        private TextView mail;
+        private TextView tel;
+        private TextView adresse;
+        private TextView codePostal;
+        private TextView ville;
+        private TextView initiales;
 
         /**
          * Constructeur du ViewHolder qui initialise les vues par leur ID.

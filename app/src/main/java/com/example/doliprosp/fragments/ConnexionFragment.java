@@ -20,7 +20,7 @@ import com.example.doliprosp.modeles.Utilisateur;
 import com.example.doliprosp.services.ChiffrementVigenere;
 import com.example.doliprosp.services.ConnexionService;
 import com.example.doliprosp.services.Outils;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,14 +40,18 @@ import androidx.lifecycle.ViewModelProvider;
  * et de naviguer vers la salle de discussion une fois connecté.
  */
 public class ConnexionFragment extends Fragment {
-    private EditText urlEditText, nomUtilisateurEditText, motDePasseEditText;
+    private EditText urlEditText;
+    private EditText nomUtilisateurEditText;
+    private EditText motDePasseEditText;
     private Button buttonSubmit;
     private IConnexionService connexionService;
     private Utilisateur utilisateur;
     private ProgressBar chargement;
     private LinearLayout bottomNav;
     private UtilisateurViewModel utilisateurViewModel;
-    private String url, nomUtilisateur, motDePasse;
+    private String url;
+    private String nomUtilisateur;
+    private String motDePasse;
 
 
     /**
@@ -147,10 +151,7 @@ public class ConnexionFragment extends Fragment {
 
     private void gererConnexionUtilisateur(Utilisateur nouvelUtilisateur, String nomUtilisateur) {
         utilisateur = nouvelUtilisateur;
-//        String apiKeyChiffre = connexionService.chiffrementApiKey(utilisateur.getCleApi());
         String urlUtilisateur = utilisateur.getUrl();
-//        utilisateur.setApiKey(apiKeyChiffre);
-        Log.d("APIKEY", utilisateur.getCleApi());
 
         if (!utilisateur.informationutilisateurDejaRecupere()) {
             recupereInfoCompteAvecAPI(urlUtilisateur, nomUtilisateur, utilisateur.getCleApi());

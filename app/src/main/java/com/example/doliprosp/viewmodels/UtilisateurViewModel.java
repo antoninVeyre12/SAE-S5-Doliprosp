@@ -1,4 +1,4 @@
-package com.example.doliprosp.viewModels;
+package com.example.doliprosp.viewmodels;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModel;
 public class UtilisateurViewModel extends ViewModel {
 
     private Utilisateur utilisateur;
-    private final String SEPARATOR = ";";
-    private final String NOM_FICHIER = "utilisateur.csv";
+    private static final String SEPARATOR = ";";
+    private static final String NOM_FICHIER = "utilisateur.csv";
 
 
     /**
@@ -57,7 +57,7 @@ public class UtilisateurViewModel extends ViewModel {
     public Utilisateur chargementUtilisateur(Context context) {
         if (Outils.fichierValide(context, NOM_FICHIER)) {
             Log.d("content", Outils.lireFichierInterne(context, NOM_FICHIER));
-            String valeurs[] = Outils.lireFichierInterne(context,
+            String[] valeurs = Outils.lireFichierInterne(context,
                     NOM_FICHIER).split(";");
             Log.d("valeurs", String.valueOf(valeurs.length));
             // Crée un nouvel objet Utilisateur avec les premiers paramètres obligatoires

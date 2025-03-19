@@ -6,7 +6,7 @@ import android.util.Log;
 import com.example.doliprosp.interfaces.IProspectService;
 import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.modeles.Utilisateur;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,15 +17,14 @@ import java.util.ArrayList;
 public class ProspectService implements IProspectService {
     private String url;
     private String urlAppel;
-    private final static String SEPARATEUR_OR = "%20or%20";
-    private final static String CHAMP_LIKE = "%3Alike%3A";
-    private final static String OUVERTURE_LIKE = "'%25";
-    private final static String FERMETURE_LIKE = "%25'";
+    private static final String SEPARATEUR_OR = "%20or%20";
+    private static final String CHAMP_LIKE = "%3Alike%3A";
+    private static final String OUVERTURE_LIKE = "'%25";
+    private static final String FERMETURE_LIKE = "%25'";
 
     public void envoyerProspect(Utilisateur utilisateur, Context context, Prospect prospectAEnvoyer, int idSalon, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties";
-        String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonProspect(prospectAEnvoyer);
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
@@ -39,7 +38,7 @@ public class ProspectService implements IProspectService {
 
             @Override
             public void onError(String errorMessage) {
-                Log.d("onerror", errorMessage.toString());
+                Log.d("onerror", errorMessage);
             }
         });
     }
@@ -76,7 +75,7 @@ public class ProspectService implements IProspectService {
             jsonBody.put("email", prospect.getMail());
             jsonBody.put("client", prospect.getEstClient());
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.d("json exception", e.toString());
         }
         return jsonBody;
     }
@@ -111,7 +110,7 @@ public class ProspectService implements IProspectService {
      * @param callback    Le callback à appeler une fois la réponse reçue de l'API.
      */
     public void prospectClientExiste(Context context, String recherche, String tri, Utilisateur utilisateur, Outils.APIResponseCallbackArrayProspect callback) {
-        ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
+        ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<>();
         url = utilisateur.getUrl();
         String sqlfilters = creerSqlfilter(recherche);
         urlAppel = url + "/api/index.php/thirdparties?sortfield=t." + tri + "&sortorder=ASC&limit=6&sqlfilters=" + sqlfilters;
@@ -155,7 +154,6 @@ public class ProspectService implements IProspectService {
 
     public void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur,
                                              MesProspectViewModel mesProspectViewModel, Outils.CallbackProspectExiste callback) {
-        ArrayList<Prospect> listeProspectCorrespondant = new ArrayList<Prospect>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties?sortfield=t.rowid&sortorder=DESC&limit=6&sqlfilters=(t.phone%3Alike%3A'" + recherche + "')";
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());

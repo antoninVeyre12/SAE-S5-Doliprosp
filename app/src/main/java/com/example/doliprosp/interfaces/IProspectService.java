@@ -5,7 +5,7 @@ import android.content.Context;
 import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.modeles.Utilisateur;
 import com.example.doliprosp.services.Outils;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
 
 import java.util.ArrayList;
 

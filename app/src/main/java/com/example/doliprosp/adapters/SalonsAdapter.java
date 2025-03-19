@@ -47,17 +47,17 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.MyViewHold
             Salon salon = salonListe.get(position); // Récupère le salon à la position donnée dans la liste
 
             // Remplie le TextView avec le nom du salon
-            holder.salon_nom.setText(salon.getNom());
+            holder.salonNom.setText(salon.getNom());
 
             // Définit un écouteur de clic sur la FrameLayout contenant l'item
-            holder.salon_case.setOnClickListener(v -> {
+            holder.salonCase.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
                     onItemClickListener.onSelectClick(position, salonListe); // Déclenche le clic sur le salon
                 }
             });
 
             // Définit également un écouteur de clic sur le nom du salon
-            holder.salon_nom.setOnClickListener(v -> {
+            holder.salonNom.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
                     onItemClickListener.onSelectClick(position, salonListe); // Déclenche le clic sur le nom du salon
                 }
@@ -87,14 +87,14 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.MyViewHold
     // Contient les vues d'un item : le nom du salon et la case contenant le salon.
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView salon_nom; // Référence au TextView pour le nom du salon
-        public FrameLayout salon_case; // Référence à la FrameLayout de l'item
+        private TextView salonNom;
+        private FrameLayout salonCase;
 
         // Constructeur pour récupérer les vues par leur ID
         public MyViewHolder(View itemView) {
             super(itemView);
-            salon_nom = itemView.findViewById(R.id.salon_nom); // Trouve le TextView du nom
-            salon_case = itemView.findViewById(R.id.salon_case); // Trouve la FrameLayout contenant l'item
+            salonNom = itemView.findViewById(R.id.salon_nom); // Trouve le TextView du nom
+            salonCase = itemView.findViewById(R.id.salon_case); // Trouve la FrameLayout contenant l'item
         }
     }
 }

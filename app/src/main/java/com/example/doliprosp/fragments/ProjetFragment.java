@@ -15,10 +15,7 @@ import com.example.doliprosp.interfaces.IProjetService;
 import com.example.doliprosp.modeles.Projet;
 import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.services.ProjetService;
-import com.example.doliprosp.viewModels.MesProjetsViewModel;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
-
-import java.io.Serializable;
+import com.example.doliprosp.viewmodels.MesProjetsViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,12 +32,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClickListener {
 
     private IProjetService projetService;
-    private TextView prospectActuelTextView, salonActuelTextView;
+    private TextView prospectActuelTextView;
+    private TextView salonActuelTextView;
     private Prospect prospectActuel;
     public static Prospect dernierProspectSelectionne;
-    public static String dernierSalonSelectionne;
+    private String dernierSalonSelectionne;
     private Button boutonCreerProjet;
-    private UtilisateurViewModel utilisateurViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
     private ProjetAdapter adapterProjet;
     private RecyclerView projetRecyclerView;
@@ -61,7 +58,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         Bundle bundle = getArguments();
         if (bundle != null) {
             prospectActuel = (Prospect) bundle.getSerializable("prospect");
-            salonActuel = (String) bundle.getSerializable("salon");
+            salonActuel = bundle.getString("salon");
             dernierProspectSelectionne = prospectActuel;
             dernierSalonSelectionne = salonActuel;
 
@@ -90,13 +87,8 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        projetService = new ProjetService();
-        boutonCreerProjet = view.findViewById(R.id.buttonCreateProject);
-        prospectActuelTextView = view.findViewById(R.id.prospectActuel);
-        salonActuelTextView = view.findViewById(R.id.salonActuel);
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
-        projetRecyclerView = view.findViewById(R.id.projetRecyclerView);
+        initialiserVue(view);
+
 
         // Affiche le nom du prospect actuellement sélectionné
         prospectActuelTextView.setText(prospectActuel.getNom());
@@ -109,6 +101,15 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         setupListeners();
     }
 
+    private void initialiserVue(View vue) {
+        projetService = new ProjetService();
+        boutonCreerProjet = vue.findViewById(R.id.buttonCreateProject);
+        prospectActuelTextView = vue.findViewById(R.id.prospectActuel);
+        salonActuelTextView = vue.findViewById(R.id.salonActuel);
+        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
+        projetRecyclerView = vue.findViewById(R.id.projetRecyclerView);
+    }
+
     /**
      * Initialise les listeners pour les boutons et interactions de l'interface.
      */
@@ -119,7 +120,7 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
             CreationProjetDialogFragment dialog = new CreationProjetDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("nomDuProspect", prospectActuel.getNom());
-            bundle.putSerializable("adapterProjet", (Serializable) adapterProjet);
+            bundle.putSerializable("adapterProjet", adapterProjet);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreerDialogueSalon");
         });
@@ -184,7 +185,6 @@ public class ProjetFragment extends Fragment implements ProjetAdapter.OnItemClic
         mesProjetsViewModel.enregistrerProjet(getContext());
         adapterProjet.notifyItemChanged(position);
 
-        // Log.d("ModifierProjet", "Projet reçu: " + projetAModifier.getTitre() + ", " + projetAModifier.getDescription() + ", " + projetAModifier.getDateDebut());
     }
 
 }

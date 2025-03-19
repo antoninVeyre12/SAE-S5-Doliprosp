@@ -60,6 +60,7 @@
     <string name="erreur_champ_vide">Les champs ne doivent pas être vides !</string>
     <string name="idEstProspect">2</string>
     <string name="idDolibarrBase">false</string>
+    <string name="prospectExisteDeja">Un prospect avec ce numéro de téléphone existe déjà"</string>
 
     <!-- Page Projet -->
     <string name="mes_projets">Mes projets</string>

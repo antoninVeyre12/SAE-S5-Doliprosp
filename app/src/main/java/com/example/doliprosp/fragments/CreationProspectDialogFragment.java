@@ -17,14 +17,13 @@ import android.widget.TextView;
 
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
-import com.example.doliprosp.adapters.ProspectAdapter;
 import com.example.doliprosp.adapters.ProspectRechercheAdapter;
 import com.example.doliprosp.interfaces.IProspectService;
 import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.services.Outils;
 import com.example.doliprosp.services.ProspectService;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +36,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Fragment permettant de créer un prospect et de gérer la recherche et la
  * sélection de prospects existants.
@@ -46,30 +47,41 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private IProspectService prospectService;
     private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
-    private TextView erreur, erreurRechercheprospect;
-    private EditText nomPrenomProspect, mailProspect, telProspect,
-            adresseProspect, villeProspect, codePostalProspect, estClient,
-            idDolibarr;
-    private Button boutonEnvoyer, boutonAnnuler;
+    private TextView erreur;
+    private TextView erreurRechercheprospect;
+    private EditText nomPrenomProspect;
+    private EditText mailProspect;
+    private EditText telProspect;
+    private EditText adresseProspect;
+    private EditText villeProspect;
+    private EditText codePostalProspect;
+    private EditText estClient;
+    private EditText idDolibarr;
+    private Button boutonEnvoyer;
+    private Button boutonAnnuler;
     private ProgressBar chargement;
-    private AppCompatButton boutonPlus, boutonMoins;
-    private EditText texteRecherche1, texteRecherche2;
-    private ImageButton boutonRecherche1, boutonRecherche2;
-    private LinearLayout secondeBarreDeRecherche, triContainer;
+    private AppCompatButton boutonPlus;
+    private AppCompatButton boutonMoins;
+    private EditText texteRecherche1;
+    private EditText texteRecherche2;
+    private ImageButton boutonRecherche1;
+    private ImageButton boutonRecherche2;
+    private LinearLayout secondeBarreDeRecherche;
+    private LinearLayout triContainer;
     private Spinner listeTri;
 
     private RecyclerView prospectRecyclerView;
     private ProspectRechercheAdapter adapter;
 
-    private String nomSalon, tri;
-    private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\" +
+    private String nomSalon;
+    private String tri;
+    private static final String REGEX_MAIL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\" +
             ".[a-zA-Z]{2,}$";
-    private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
+    private static final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
 
     private ArrayList<Prospect> listProspectRecherche = new ArrayList<>();
     private ArrayList<Prospect> premiereListeProspect = new ArrayList<>();
     private ArrayList<Prospect> deuxiemeListeProspect = new ArrayList<>();
-    private ProspectAdapter adapterProspect;
 
     /**
      * Crée le DialogFragment et définit son titre.
@@ -77,7 +89,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * @param savedInstanceState L'état de l'instance précédente.
      * @return Un dialog configuré.
      */
-    @Nullable
+    @NotNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -168,9 +180,6 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
 
         if (getArguments().containsKey("nomDuSalon")) {
             nomSalon = getArguments().getString("nomDuSalon");
-            adapterProspect =
-                    (ProspectAdapter) getArguments().getSerializable(
-                            "adapterProspect");
         }
     }
 
@@ -267,7 +276,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             public void onItemSelected(AdapterView<?> parentView,
                                        View selectedItemView, int position,
                                        long id) {
-                tri = GetChoixTri(parentView.getItemAtPosition(position).toString());
+                tri = getChoixTri(parentView.getItemAtPosition(position).toString());
                 effectuerTri();
                 adapter.notifyDataSetChanged();
             }
@@ -328,8 +337,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                         new Outils.CallbackProspectExiste() {
                             @Override
                             public void onResponse() {
-                                erreur.setText("Un prospect avec ce numéro de " +
-                                        "téléphone existe déjà");
+                                erreur.setText(R.string.prospectExisteDeja);
                                 erreur.setVisibility(View.VISIBLE);
                             }
 
@@ -408,7 +416,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_champ_vide);
             valide = false;
-        } else if (!mail.matches(REGEX_MAIl)) {
+        } else if (!mail.matches(REGEX_MAIL)) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_mail_prospect);
             valide = false;
@@ -441,25 +449,28 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private void effectuerTri() {
         switch (tri) {
             case "nom":
-                Collections.sort(listProspectRecherche, Prospect.compareNom);
+                Collections.sort(listProspectRecherche, Prospect.COMPARE_NOM);
                 break;
             case "mail":
-                Collections.sort(listProspectRecherche, Prospect.compareMail);
+                Collections.sort(listProspectRecherche, Prospect.COMPARE_MAIL);
                 break;
             case "numeroTelephone":
                 Collections.sort(listProspectRecherche,
-                        Prospect.compareTelephone);
+                        Prospect.COMPARE_TELEPHONE);
                 break;
             case "adresse":
                 Collections.sort(listProspectRecherche,
-                        Prospect.compareAdresse);
+                        Prospect.COMPARE_ADRESSE);
                 break;
             case "codePostal":
                 Collections.sort(listProspectRecherche,
-                        Prospect.compareCodePostal);
+                        Prospect.COMPARE_CODE_POSTAL);
                 break;
             case "ville":
-                Collections.sort(listProspectRecherche, Prospect.compareVille);
+                Collections.sort(listProspectRecherche, Prospect.COMPARE_VILLE);
+                break;
+            default:
+                Collections.sort(listProspectRecherche, Prospect.COMPARE_NOM);
                 break;
         }
     }
@@ -473,7 +484,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
      * @return La valeur associée au critère de tri sélectionné. Par défaut,
      * renvoie le nom si aucun cas ne correspond.
      */
-    private String GetChoixTri(String itemSelectionne) {
+    private String getChoixTri(String itemSelectionne) {
         String valeurTri = "";
         switch (itemSelectionne) {
             case "Aucun tri":
@@ -496,6 +507,9 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                 break;
             case "Ville":
                 valeurTri = "ville";
+                break;
+            default:
+                valeurTri = "nom";
                 break;
         }
         return valeurTri;

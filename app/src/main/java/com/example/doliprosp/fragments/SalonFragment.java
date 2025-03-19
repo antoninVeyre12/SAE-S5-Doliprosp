@@ -25,13 +25,12 @@ import com.example.doliprosp.services.Outils;
 import com.example.doliprosp.services.ProjetService;
 import com.example.doliprosp.services.ProspectService;
 import com.example.doliprosp.services.SalonService;
-import com.example.doliprosp.viewModels.MesProjetsViewModel;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.MesProjetsViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
+import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,10 +60,10 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
     private MesSalonsViewModel mesSalonsViewModel;
     private SalonsViewModel salonsViewModel;
     private UtilisateurViewModel utilisateurViewModel;
-    private Utilisateur utilisateur;
     private ImageButton boutonRecherche;
     private TextView erreur;
-    private RecyclerView recyclerView, recyclerViewMesSalons;
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewMesSalons;
     private Button boutonCreerSalon;
     private EditText texteRecherche;
     private ProgressBar chargement;
@@ -98,7 +97,6 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
         utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
         mesProjetViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
-        utilisateur = utilisateurViewModel.getUtilisateur();
         boutonCreerSalon = view.findViewById(R.id.buttonCreateShow);
         recyclerView = view.findViewById(R.id.showRecyclerView);
         recyclerViewMesSalons = view.findViewById(R.id.myShowRecyclerView);
@@ -125,6 +123,7 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
      * Méthode appellée lors du retour sur l'applicationa afin de restaurer l'état
      * précédemment enregistré
      */
+    @Override
     public void onResume() {
         super.onResume();
         dernierProspectSelectionne = null;
@@ -189,7 +188,6 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
             public void onError(String error) {
                 chargement.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapterSalons);
-                //erreur.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -199,18 +197,18 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
      */
     private void setupListeners() {
         // Lancer la recherche avec le texte saisi
-        boutonRecherche.setOnClickListener(v -> {
-            effectuerRechercheSalons();
-        });
-        texteRecherche.setOnClickListener(v -> {
-            effectuerRechercheSalons();
-        });
+        boutonRecherche.setOnClickListener(v ->
+            effectuerRechercheSalons()
+        );
+        texteRecherche.setOnClickListener(v ->
+            effectuerRechercheSalons()
+        );
 
         // Ajouter un salon
         boutonCreerSalon.setOnClickListener(v -> {
             CreationSalonsDialogFragment dialog = new CreationSalonsDialogFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("adapterMesSalons", (Serializable) adapterMesSalons);
+            bundle.putSerializable("adapterMesSalons", adapterMesSalons);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
@@ -223,7 +221,6 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
 
 
     private void rechercheSalons(String recherche) {
-        Utilisateur utilisateur = utilisateurViewModel.getUtilisateur();
         chargement.setVisibility(View.VISIBLE);
 
         List<Salon> mesSalonsListe =
