@@ -7,8 +7,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 
-import com.example.doliprosp.Modele.Prospect;
-import com.example.doliprosp.viewModel.MesProspectViewModel;
+import com.example.doliprosp.modeles.Prospect;
+import com.example.doliprosp.services.Outils;
+import com.example.doliprosp.services.ProspectService;
+import com.example.doliprosp.viewModels.MesProspectViewModel;
 
 import org.json.JSONObject;
 import org.junit.Before;
@@ -32,7 +34,7 @@ public class ProspectServiceTest {
         mesProspectViewModel = new MesProspectViewModel();
         mesProspectViewModel.getProspectListe().add(new Prospect("Salon A",
                 "Vincent TIM", "12000", "Rodez", "AV DE BORDEAUX", "a@a.fr",
-                "0690976866", "false", "lalala", "2", 1733839025));
+                "0690976866", "false", "2", 1733839025));
         prospectService = new ProspectService();
 
     }

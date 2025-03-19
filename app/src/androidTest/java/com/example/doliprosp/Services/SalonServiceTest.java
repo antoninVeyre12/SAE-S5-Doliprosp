@@ -1,5 +1,12 @@
 package com.example.doliprosp.services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.verify;
+
 import com.example.doliprosp.modeles.Salon;
 import com.example.doliprosp.viewModels.MesSalonsViewModel;
 import com.example.doliprosp.viewModels.SalonsViewModel;
@@ -10,26 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.verify;
-
-import com.example.doliprosp.Modele.Salon;
-import com.example.doliprosp.viewModel.MesSalonsViewModel;
-import com.example.doliprosp.viewModel.SalonsViewModel;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.util.List;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class SalonServiceTest {
     private SalonsViewModel salonsViewModel;

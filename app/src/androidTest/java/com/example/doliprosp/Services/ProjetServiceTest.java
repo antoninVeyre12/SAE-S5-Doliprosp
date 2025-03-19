@@ -7,9 +7,11 @@ import static org.mockito.Mockito.verify;
 
 import android.content.Context;
 
-import com.example.doliprosp.Modele.Projet;
-import com.example.doliprosp.Modele.Utilisateur;
-import com.example.doliprosp.viewModel.MesProjetsViewModel;
+import com.example.doliprosp.modeles.Projet;
+import com.example.doliprosp.modeles.Utilisateur;
+import com.example.doliprosp.services.Outils;
+import com.example.doliprosp.services.ProjetService;
+import com.example.doliprosp.viewModels.MesProjetsViewModel;
 
 import org.junit.Before;
 import org.junit.Test;

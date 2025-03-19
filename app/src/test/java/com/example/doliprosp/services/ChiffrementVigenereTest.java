@@ -1,8 +1,7 @@
-package com.example.doliprosp.Services;
+package com.example.doliprosp.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ChiffrementVigenereTest {

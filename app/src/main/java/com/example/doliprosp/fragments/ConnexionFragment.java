@@ -17,8 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.doliprosp.Interface.ConnexionCallBack;
-import com.example.doliprosp.Interface.IConnexionService;
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
 import com.example.doliprosp.interfaces.ConnexionCallBack;

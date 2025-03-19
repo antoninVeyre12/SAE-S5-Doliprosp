@@ -1,17 +1,14 @@
-package com.example.doliprosp.services;
+package com.example.doliprosp.Services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import com.example.doliprosp.modeles.Utilisateur;
+
+import com.example.doliprosp.services.Outils;
 
 import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 public class ConnexionServiceTest {
     @Test
