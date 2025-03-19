@@ -315,7 +315,6 @@ public class SalonAttenteFragment extends Fragment {
     private void modificationClient(Utilisateur utilisateur,
                                     Prospect prospectAEnvoyer,
                                     int idProspect) {
-        Log.d("getmodifier", String.valueOf(prospectAEnvoyer.getModifier()));
         if (prospectAEnvoyer.getModifier()) {
             prospectService.modifierClient(getContext(), utilisateur,
                     prospectAEnvoyer,

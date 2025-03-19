@@ -56,10 +56,8 @@ public class UtilisateurViewModel extends ViewModel {
      */
     public Utilisateur chargementUtilisateur(Context context) {
         if (Outils.fichierValide(context, NOM_FICHIER)) {
-            Log.d("content", Outils.lireFichierInterne(context, NOM_FICHIER));
             String[] valeurs = Outils.lireFichierInterne(context,
                     NOM_FICHIER).split(";");
-            Log.d("valeurs", String.valueOf(valeurs.length));
             // Crée un nouvel objet Utilisateur avec les premiers paramètres obligatoires
             utilisateur = new Utilisateur(valeurs[1], valeurs[0], valeurs[2], valeurs[3]);
 

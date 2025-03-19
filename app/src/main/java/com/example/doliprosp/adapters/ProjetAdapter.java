@@ -165,8 +165,6 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         editTextTitreProjet.setText(projet.getTitre());
         editTextDescription.setText(projet.getDescription());
         setDatePickerValue(datePickerDateDebut, projet.getDateDebut());
-
-        Log.d("Date debut : ", projet.getDateDebut());
     }
 
 
@@ -237,9 +235,6 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
                 convertirEnTimestamp(datePickerDateDebut.getDayOfMonth(),
                         datePickerDateDebut.getMonth() + 1,
                         datePickerDateDebut.getYear());
-
-        Log.d("Données : ",
-                nouveauTitre + ", " + nouvelleDescription + ", " + nouvelleDateDebut);
 
         // Vérification des champs
         if (champsValides(nouveauTitre, nouvelleDescription,

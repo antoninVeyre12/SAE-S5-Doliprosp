@@ -260,7 +260,6 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         ArrayList<Prospect> result = new ArrayList<>();
         for (Prospect prospectPremiereListe : premiereListeProspect) {
             if (deuxiemeListeProspect.contains(prospectPremiereListe)) {
-                Log.d("trouve", "prospect en commun trouve");
                 result.add(prospectPremiereListe);
             }
         }

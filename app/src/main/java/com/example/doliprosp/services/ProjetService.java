@@ -44,7 +44,6 @@ public class ProjetService implements IProjetService {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/projects";
         JSONObject jsonBody = creationJsonProjet(projetAEnvoyer, idProspect);
-        Log.d("jsonBody", jsonBody.toString());
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
 

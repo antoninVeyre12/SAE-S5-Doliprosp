@@ -99,7 +99,6 @@ public class ConnexionFragment extends Fragment {
         setUp(vue);
 
         if (utilisateur != null) {
-            Log.d("vfbjsvbjsvdj", "info user deja recup");
             recupereSaisieChamps();
             configurerUtilisateurExistant();
         } else {
@@ -227,7 +226,6 @@ public class ConnexionFragment extends Fragment {
         utilisateur.setNumTelephone(reponse.getString("office_phone"));
         String key = String.valueOf(UUID.randomUUID());
         utilisateur.setClePremierChiffrement(key);
-        Log.d("aiofaifaija", key);
         chiffrerAPIKey(utilisateur.getNom(), utilisateur.getPrenom(),
                 utilisateur.getVille(), key);
 

@@ -62,7 +62,6 @@ public class Outils {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
-                        Log.d("CONNEXION ECHOUE", "connexion échouée");
                         callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
                     }
                 });
@@ -84,7 +83,6 @@ public class Outils {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String reponse) {
-                        Log.d("onResponseAppelApiGETTT", reponse);
                         try {
                             JSONObject objectJSON = new JSONObject(reponse);
                             callback.onSuccess(objectJSON); // Notifie en cas de succès
@@ -96,7 +94,6 @@ public class Outils {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError erreur) {
-                        Log.d("onErrorRecupID", erreur.toString());
                         callback.onError("Erreur de requête : " + erreur.getMessage()); // Notifie l'erreur
                     }
                 }) {
