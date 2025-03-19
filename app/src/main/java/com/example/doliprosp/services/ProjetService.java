@@ -68,6 +68,7 @@ public class ProjetService implements IProjetService {
             jsonBody.put("title", projet.getTitre());
             jsonBody.put("date_start", projet.getDateTimestamp());
             jsonBody.put("socid", idProspect);
+            jsonBody.put("statut", "1");
             jsonBody.put("ref",
                     projet.getTitre() + '-' + projet.getNomProspect());
         } catch (JSONException e) {
@@ -144,10 +145,11 @@ public class ProjetService implements IProjetService {
      * Ces informations sont utilisées pour créer une référence de projet, un identifiant pour le prospect, des informations
      * de contact, etc., dans un format JSON. Cela permet de préparer un envoi ou une gestion de données via une API ou
      * une autre couche de communication.
+     *
      * @param utilisateur L'utilisateur actuel qui est en charge de la création du projet.
-     * @param prospect L'objet représentant le prospect pour lequel le projet est créé.
-     * @param salon L'objet représentant le salon où le projet est censé être créé.
-     * @param idProspect L'ID du prospect qui est associé au projet.
+     * @param prospect    L'objet représentant le prospect pour lequel le projet est créé.
+     * @param salon       L'objet représentant le salon où le projet est censé être créé.
+     * @param idProspect  L'ID du prospect qui est associé au projet.
      * @return JSONObject L'objet JSON contenant les informations formatées du projet sans projet associé.
      */
     private JSONObject creationJsonModuleSansProjet(Utilisateur utilisateur,
