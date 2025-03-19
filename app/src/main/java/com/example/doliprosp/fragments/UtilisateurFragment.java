@@ -2,7 +2,6 @@ package com.example.doliprosp.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
 import com.example.doliprosp.modeles.Utilisateur;
 import com.example.doliprosp.services.ChiffrementVigenere;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,11 +23,24 @@ import androidx.lifecycle.ViewModelProvider;
 public class UtilisateurFragment extends Fragment {
     private Utilisateur utilisateurActuel;
 
-    private String nom, prenom, userName, mail, adresse, codePostal,
-            numTelephone, ville;
+    private String nom;
+    private String prenom;
+    private String userName;
+    private String mail;
+    private String adresse;
+    private String codePostal;
+    private String numTelephone;
+    private String ville;
 
-    TextView textViewNom, textViewPrenom, textViewUserName, textViewMail,
-            textViewAdresse, textViewCodePostale, textViewVille, textViewNumTelephone;
+    private TextView textViewNom;
+    private TextView textViewPrenom;
+    private TextView textViewUserName;
+    private TextView textViewMail;
+    private TextView textViewAdresse;
+    private TextView textViewCodePostale;
+    private TextView textViewVille;
+    private TextView textViewNumTelephone;
+    private LinearLayout bottomNav;
 
 
     @Override
@@ -47,33 +59,16 @@ public class UtilisateurFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Activity activity = getActivity();
+        initialiserVue(view, activity);
 
         UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        utilisateurActuel = utilisateurViewModel.getUtilisateur();
-
-        userName = utilisateurActuel.getNomUtilisateur();
-        Activity activity = getActivity();
-
-        LinearLayout bottomNav = activity.findViewById(R.id.bottom_navigation);
-        textViewNom = view.findViewById(R.id.id_nom);
-        textViewPrenom = view.findViewById(R.id.id_prenom);
-        textViewUserName = view.findViewById(R.id.id_userName);
-        textViewMail = view.findViewById(R.id.id_mail);
-        textViewAdresse = view.findViewById(R.id.id_adresse);
-        textViewCodePostale = view.findViewById(R.id.id_codePostal);
-        textViewVille = view.findViewById(R.id.id_ville);
-        textViewNumTelephone = view.findViewById(R.id.id_numTelephone);
 
         String key = utilisateurActuel.getClePremierChiffrement();
-        Log.d("keyyyyyyyyyy", utilisateurActuel.getClePremierChiffrement());
         nom =
                 ChiffrementVigenere.dechiffrement(utilisateurActuel.getNom().toLowerCase(), key);
-        Log.d("prenom", utilisateurActuel.getPrenom());
-        Log.d("ville", utilisateurActuel.getVille());
         prenom =
                 ChiffrementVigenere.dechiffrement(utilisateurActuel.getPrenom(), key);
-        Log.d("getNom", utilisateurActuel.getNom());
-        Log.d("getNom", nom);
         prenom = prenom.substring(0, 1).toUpperCase() + prenom.substring(1);
         mail = utilisateurActuel.getMail();
         adresse = utilisateurActuel.getAdresse();
@@ -94,6 +89,23 @@ public class UtilisateurFragment extends Fragment {
         });
     }
 
+    private void initialiserVue(View vue, Activity activity) {
+        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        utilisateurActuel = utilisateurViewModel.getUtilisateur();
+
+        userName = utilisateurActuel.getNomUtilisateur();
+
+        bottomNav = activity.findViewById(R.id.bottom_navigation);
+        textViewNom = vue.findViewById(R.id.id_nom);
+        textViewPrenom = vue.findViewById(R.id.id_prenom);
+        textViewUserName = vue.findViewById(R.id.id_userName);
+        textViewMail = vue.findViewById(R.id.id_mail);
+        textViewAdresse = vue.findViewById(R.id.id_adresse);
+        textViewCodePostale = vue.findViewById(R.id.id_codePostal);
+        textViewVille = vue.findViewById(R.id.id_ville);
+        textViewNumTelephone = vue.findViewById(R.id.id_numTelephone);
+    }
+
     /**
      * Méthode permettant d'afficher les informations de l'utilisateur
      */
@@ -111,6 +123,7 @@ public class UtilisateurFragment extends Fragment {
     /**
      * Méthode appellée lors d'une seconde utilisation du fragments
      */
+    @Override
     public void onResume() {
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragments

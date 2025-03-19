@@ -1,4 +1,4 @@
-package com.example.doliprosp.viewModels;
+package com.example.doliprosp.viewmodels;
 
 import android.content.Context;
 
@@ -17,9 +17,9 @@ import androidx.lifecycle.ViewModel;
 public class MesProspectViewModel extends ViewModel {
     // Liste des prospects gérée dans le ViewModel
     private ArrayList<Prospect> prospectListe = new ArrayList<>();
-    private final String NOM_FICHIER = "mesProspects.csv";
-    private final String SEPARATEUR = ";";
-    private final String SAUT_DE_LIGNE = "\n";
+    private static final String NOM_FICHIER = "mesProspects.csv";
+    private static final String SEPARATEUR = ";";
+    private static final String SAUT_DE_LIGNE = "\n";
 
     /**
      * Retourne la liste des prospects.
@@ -58,11 +58,11 @@ public class MesProspectViewModel extends ViewModel {
      * @param context le context de l'acivité
      */
     public void enregistrerProspect(Context context) {
-        String content = "";
+        StringBuilder content = new StringBuilder();
         for (Prospect monProspect : prospectListe) {
-            content += saisieProspect(monProspect) + SAUT_DE_LIGNE;
+            content.append(saisieProspect(monProspect) + SAUT_DE_LIGNE);
         }
-        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
+        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content.toString());
     }
 
 

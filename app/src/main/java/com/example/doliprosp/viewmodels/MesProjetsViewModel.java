@@ -1,4 +1,4 @@
-package com.example.doliprosp.viewModels;
+package com.example.doliprosp.viewmodels;
 
 import android.content.Context;
 
@@ -18,9 +18,9 @@ public class MesProjetsViewModel extends ViewModel {
     // Liste des projets gérée dans le ViewModel
     private ArrayList<Projet> projetListe = new ArrayList<>();
 
-    private final String NOM_FICHIER = "mesProjets.csv";
-    private final String SEPARATEUR = ";";
-    private final String SAUT_DE_LIGNE = "\n";
+    private static final String NOM_FICHIER = "mesProjets.csv";
+    private static final String SEPARATEUR = ";";
+    private static final String SAUT_DE_LIGNE = "\n";
 
     /**
      * Retourne la liste des projets.
@@ -59,11 +59,11 @@ public class MesProjetsViewModel extends ViewModel {
      * @param context le context de l'activité
      */
     public void enregistrerProjet(Context context) {
-        String content = "";
+        StringBuilder content = new StringBuilder();
         for (Projet projet : projetListe) {
-            content += saisieProjet(projet) + SAUT_DE_LIGNE;
+            content.append(saisieProjet(projet) + SAUT_DE_LIGNE);
         }
-        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
+        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content.toString());
     }
 
     /**

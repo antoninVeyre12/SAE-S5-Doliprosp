@@ -1,4 +1,4 @@
-package com.example.doliprosp.viewModels;
+package com.example.doliprosp.viewmodels;
 
 import android.content.Context;
 
@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModel;
 public class SalonsViewModel extends ViewModel {
 
     private ArrayList<Salon> salonListe = new ArrayList<>();
-    private final String SEPARATOR = ";";
-    private final String NOM_FICHIER = "salons.csv";
+    private static final String SEPARATOR = ";";
+    private static final String NOM_FICHIER = "salons.csv";
 
 
     /**
@@ -58,11 +58,11 @@ public class SalonsViewModel extends ViewModel {
      * Enregistre la liste des salons dans un fichier CSV
      */
     private void enregistrerSalons(Context context) {
-        String content = "";
+        StringBuilder content = new StringBuilder();
         for (Salon salon : salonListe) {
-            content += salon.getNom() + SEPARATOR;
+            content.append(salon.getNom() + SEPARATOR);
         }
-        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content);
+        Outils.ecrireDansFichierInterne(context, NOM_FICHIER, content.toString());
     }
 
     /**

@@ -5,8 +5,8 @@ import android.content.Context;
 import com.example.doliprosp.modeles.Salon;
 import com.example.doliprosp.modeles.Utilisateur;
 import com.example.doliprosp.services.Outils;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
 
 import java.util.List;
 

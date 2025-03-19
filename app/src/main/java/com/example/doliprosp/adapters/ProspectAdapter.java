@@ -14,35 +14,28 @@ import android.widget.TextView;
 
 import com.example.doliprosp.R;
 import com.example.doliprosp.modeles.Prospect;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
 
 import java.io.Serializable;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
-
-// La classe ProspectAdapter est un adaptateur pour lier une liste de prospects à un RecyclerView.
-// Elle implémente Serializable pour la sérialisation de l'adaptateur.
 public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyViewHolder> implements Serializable {
-    // Regex pour vérifier les champs lors de la modification
-    private final String REGEX_MAIl = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
+    private static final String REGEX_MAIL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private static final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
 
-    // Liste des prospects à afficher dans le RecyclerView
     private List<Prospect> prospectListe;
-    private MesProspectViewModel mesProspectViewModel;
+    private MesProspectViewModel mesProspectsViewModel;
 
-    // interfaces pour gérer les événements de clic sur les items
-    private ProspectAdapter.OnItemClickListener onItemClickListener;
+    private transient ProspectAdapter.OnItemClickListener onItemClickListener;
 
     // Constructeur de l'adaptateur qui prend la liste des prospects et un gestionnaire de clics
     public ProspectAdapter(List<Prospect> prospectListe, ProspectAdapter.OnItemClickListener onItemClickListener,
-                           MesProspectViewModel mesProspectViewModel) {
+                           MesProspectViewModel mesProspectsViewModel) {
         this.prospectListe = prospectListe;
         this.onItemClickListener = onItemClickListener;
-        this.mesProspectViewModel = mesProspectViewModel;
+        this.mesProspectsViewModel = mesProspectsViewModel;
     }
 
     // Cette méthode est appelée pour créer un nouvel item dans le RecyclerView.
@@ -78,31 +71,23 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
         });
 
         // Clic sur le bouton modifier
-        holder.prospect_modifier.setOnClickListener(v -> {
-            afficherDialogModification(v, prospect, position);
-            //    onItemClickListener.OnModifyClick(position, nouveauNomPrenom, nouveauMail, nouveauTel,
-            //            nouvelleAdresse, nouvelleVille, nouveauCodePostal);
-        });
+        holder.prospectModifier.setOnClickListener(v ->
+            afficherDialogModification(v, prospect, position)
+        );
 
-        holder.prospect_supprimer.setOnClickListener(v -> {
+        holder.prospectSupprimer.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 new AlertDialog.Builder(v.getContext())
                         .setMessage(R.string.confirmation_suppresion_prospect)
-                        .setPositiveButton("Oui", (dialog, which) -> {
-                            // Si l'utilisateur confirme, appeler la méthode de suppression
-                            onItemClickListener.onDeleteClick(position);
-                        })
-                        .setNegativeButton("Non", (dialog, which) -> {
-                            // L'utilisateur annule la suppression
-                            dialog.dismiss();
-                        })
+                        .setPositiveButton("Oui", (dialog, which) ->
+                            onItemClickListener.onDeleteClick(position)
+                        )
+                        .setNegativeButton("Non", (dialog, which) ->
+                            dialog.dismiss()
+                        )
                         .show();
             }
         });
-
-        //String imageName = prospect.getImage();
-        //int imageResId = holder.itemView.getContext().getResources().getIdentifier(imageName, "drawable", holder.itemView.getContext().getPackageName());
-        // On affiche l'image
     }
 
     // Cette méthode retourne le nombre d'éléments à afficher dans le RecyclerView.
@@ -117,7 +102,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
 
         void onDeleteClick(int position);
 
-        void OnModifyClick(int position, String nouveauNomPrenom, String nouveauMail,
+        void onModifyClick(int position, String nouveauNomPrenom, String nouveauMail,
                            String nouveauTel, String nouvelleAdresse, String nouvelleVille,
                            String nouveauCodePostal);
 
@@ -127,19 +112,18 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
     // Contient les vues d'un item : le nom du prospect et l'icône.
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView nom;
-        public ImageView icone;
-        public ImageButton prospect_supprimer;
-
-        public ImageButton prospect_modifier;
+        private TextView nom;
+        private ImageView icone;
+        private ImageButton prospectSupprimer;
+        private ImageButton prospectModifier;
 
         // Constructeur pour récupérer les vues par leur ID
         public MyViewHolder(View itemView) {
             super(itemView);
             nom = itemView.findViewById(R.id.nomprenom);
             icone = itemView.findViewById(R.id.icone);
-            prospect_supprimer = itemView.findViewById(R.id.prospect_supprimer);
-            prospect_modifier = itemView.findViewById(R.id.prospect_modifier);
+            prospectSupprimer = itemView.findViewById(R.id.prospect_supprimer);
+            prospectModifier = itemView.findViewById(R.id.prospect_modifier);
 
         }
     }
@@ -171,9 +155,6 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
             LinearLayout deuxiemeBarreRecherche =
                     layout.findViewById(R.id.deuxiemeBarreRecherche);
 
-            AppCompatButton btnPlus = layout.findViewById(R.id.bouton_plus);
-            AppCompatButton btnMoins = layout.findViewById(R.id.bouton_moins);
-
             premiereBarreRecherche.setVisibility(View.GONE);
             deuxiemeBarreRecherche.setVisibility(View.GONE);
 
@@ -196,9 +177,9 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
 
             AlertDialog dialog = builder.create();
             dialog.show();
-            btnAnnuler.setOnClickListener(v1 -> {
-                dialog.dismiss();
-            });
+            btnAnnuler.setOnClickListener(v1 ->
+                dialog.dismiss()
+            );
             // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
 
             btnModifier.setOnClickListener(v1 -> {
@@ -217,7 +198,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
                     erreurProspect.setVisibility(View.VISIBLE);
                 }
                 // Vérification du mail
-                else if (!nouveauMail.matches(REGEX_MAIl)) {
+                else if (!nouveauMail.matches(REGEX_MAIL)) {
                     erreurProspect.setText(R.string.erreur_mail_prospect);
                     erreurProspect.setVisibility(View.VISIBLE);
                 }
@@ -247,7 +228,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
                     erreurProspect.setTextColor(Color.RED);
                     erreurProspect.setVisibility(View.GONE);
                     dialog.dismiss();
-                    onItemClickListener.OnModifyClick(position, nouveauNomPrenom, nouveauMail, nouveauTel, nouvelleAdresse, nouvelleVille, nouveauCodePostal);
+                    onItemClickListener.onModifyClick(position, nouveauNomPrenom, nouveauMail, nouveauTel, nouvelleAdresse, nouvelleVille, nouveauCodePostal);
                 }
             });
         }

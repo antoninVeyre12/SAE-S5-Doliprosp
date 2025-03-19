@@ -23,6 +23,7 @@ public class ConnexionService implements IConnexionService {
      * Constructeur par défaut de la classe ConnexionService.
      */
     public ConnexionService() {
+        //Besoin d'aucun paramètre pour instancier le service
     }
 
     /**

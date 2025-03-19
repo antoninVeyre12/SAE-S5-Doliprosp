@@ -12,8 +12,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.modeles.Salon;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,10 +37,6 @@ import javax.net.ssl.X509TrustManager;
 public class Outils {
 
     private static RequestQueue fileRequete;
-
-    private static String cleApi;
-
-    private UtilisateurViewModel utilisateurVueModele;
 
     /**
      * Effectue un appel API de connexion.

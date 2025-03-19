@@ -15,15 +15,14 @@ import com.example.doliprosp.R;
 import com.example.doliprosp.interfaces.ISalonService;
 import com.example.doliprosp.modeles.Salon;
 import com.example.doliprosp.services.SalonService;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
 
 import java.io.Serializable;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 // Adapter pour la liste des salons dans un RecyclerView
 public class MesSalonsAdapter extends RecyclerView.Adapter<MesSalonsAdapter.MyViewHolder> implements Serializable {
 
@@ -32,7 +31,7 @@ public class MesSalonsAdapter extends RecyclerView.Adapter<MesSalonsAdapter.MyVi
     private ISalonService salonService;
 
     // Listener pour gérer les actions sur chaque item de la liste
-    private OnItemClickListener onItemClickListener;
+    private transient OnItemClickListener onItemClickListener;
     private MesSalonsViewModel mesSalonsViewModel;
     private SalonsViewModel salonsViewModel;
 
@@ -56,42 +55,42 @@ public class MesSalonsAdapter extends RecyclerView.Adapter<MesSalonsAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Salon salon = salonListe.get(position);
-        holder.salon_nom.setText(salon.getNom());
+        holder.salonNom.setText(salon.getNom());
         salonService = new SalonService();
 
         // Clic sur le bouton supprimer
-        holder.salon_supprimer.setOnClickListener(v -> {
+        holder.salonSupprimer.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 new AlertDialog.Builder(v.getContext())
                         .setMessage(R.string.confirmation_suppresion_salon)
-                        .setPositiveButton("Oui", (dialog, which) -> {
+                        .setPositiveButton("Oui", (dialog, which) ->
                             // Si l'utilisateur confirme, appeler la méthode de suppression
-                            onItemClickListener.onDeleteClick(position);
-                        })
-                        .setNegativeButton("Non", (dialog, which) -> {
+                            onItemClickListener.onDeleteClick(position)
+                        )
+                        .setNegativeButton("Non", (dialog, which) ->
                             // L'utilisateur annule la suppression
-                            dialog.dismiss();
-                        })
+                            dialog.dismiss()
+                        )
                         .show();
             }
         });
 
         // Clic sur la case ou le nom du salon
-        holder.salon_case.setOnClickListener(v -> {
+        holder.salonCase.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onSelectClick(position, salonListe);
             }
         });
-        holder.salon_nom.setOnClickListener(v -> {
+        holder.salonNom.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onSelectClick(position, salonListe);
             }
         });
 
         // Clic sur le bouton modifier
-        holder.salon_modifier.setOnClickListener(v -> {
-            afficherDialogModification(v, salon, position);
-        });
+        holder.salonModifier.setOnClickListener(v ->
+            afficherDialogModification(v, salon, position)
+        );
     }
 
     private void afficherDialogModification(View v, Salon salon, int position) {
@@ -120,9 +119,7 @@ public class MesSalonsAdapter extends RecyclerView.Adapter<MesSalonsAdapter.MyVi
             AlertDialog dialog = builder.create();
             dialog.show();
 
-            btnAnnuler.setOnClickListener(v1 -> {
-                dialog.dismiss();
-            });
+            btnAnnuler.setOnClickListener(v1 -> dialog.dismiss());
             // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
             btnModifier.setOnClickListener(v1 -> {
                 String nouveauNom = editTextSalon.getText().toString();
@@ -169,17 +166,17 @@ public class MesSalonsAdapter extends RecyclerView.Adapter<MesSalonsAdapter.MyVi
     // Vue qui représente un item de la liste des salons
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView salon_nom;
-        public ImageButton salon_supprimer;
-        public ImageButton salon_modifier;
-        public FrameLayout salon_case;
+        private TextView salonNom;
+        private ImageButton salonSupprimer;
+        private ImageButton salonModifier;
+        private FrameLayout salonCase;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            salon_nom = itemView.findViewById(R.id.salon_nom);
-            salon_supprimer = itemView.findViewById(R.id.salon_supprimer);
-            salon_modifier = itemView.findViewById(R.id.salon_modifier);
-            salon_case = itemView.findViewById(R.id.salon_case);
+            salonNom = itemView.findViewById(R.id.salon_nom);
+            salonSupprimer = itemView.findViewById(R.id.salon_supprimer);
+            salonModifier = itemView.findViewById(R.id.salon_modifier);
+            salonCase = itemView.findViewById(R.id.salon_case);
         }
     }
 }

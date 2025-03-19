@@ -18,11 +18,9 @@ import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.modeles.Salon;
 import com.example.doliprosp.services.ProjetService;
 import com.example.doliprosp.services.ProspectService;
-import com.example.doliprosp.viewModels.MesProjetsViewModel;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.MesProjetsViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
 
-import java.io.Serializable;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -47,7 +45,6 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     private Salon salonActuel;
     static Salon dernierSalonSelectione;
     private Button boutonCreerProspect;
-    private UtilisateurViewModel utilisateurViewModel;
     private MesProspectViewModel mesProspectViewModel;
     private MesProjetsViewModel mesProjetsViewModel;
     private ProspectAdapter adapterProspect;
@@ -64,7 +61,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         if (bundle != null) {
             salonActuel = (Salon) bundle.getSerializable("salon");
             dernierSalonSelectione = salonActuel;
@@ -89,20 +86,23 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        prospectService = new ProspectService();
-        projetService = new ProjetService();
-        bundle = new Bundle();
-        boutonCreerProspect = view.findViewById(R.id.buttonCreateProspect);
-        salonActuelEditText = view.findViewById(R.id.salonActuel);
-        utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
-        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
-        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
-        prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
+        initialiserVue(view);
 
         salonActuelEditText.setText(salonActuel.getNom());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         prospectRecyclerView.setLayoutManager(layoutManager);
         setupListeners();
+    }
+
+    private void initialiserVue(View view) {
+        prospectService = new ProspectService();
+        projetService = new ProjetService();
+        bundle = new Bundle();
+        boutonCreerProspect = view.findViewById(R.id.buttonCreateProspect);
+        salonActuelEditText = view.findViewById(R.id.salonActuel);
+        mesProspectViewModel = new ViewModelProvider(requireActivity()).get(MesProspectViewModel.class);
+        mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
+        prospectRecyclerView = view.findViewById(R.id.prospectRecyclerView);
     }
 
     /**
@@ -112,8 +112,8 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
         // Ajoute un prospect via un dialog de création
         boutonCreerProspect.setOnClickListener(v -> {
             CreationProspectDialogFragment dialog = new CreationProspectDialogFragment();
-            bundle.putSerializable("nomDuSalon", (Serializable) salonActuel.getNom());
-            bundle.putSerializable("adapterProspect", (Serializable) adapterProspect);
+            bundle.putSerializable("nomDuSalon", salonActuel.getNom());
+            bundle.putSerializable("adapterProspect", adapterProspect);
             dialog.setArguments(bundle);
             dialog.show(getChildFragmentManager(), "CreateShowDialog");
         });
@@ -154,8 +154,8 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     @Override
     public void onSelectClick(int position, List<Prospect> prospectListe) {
         Prospect prospect = prospectListe.get(position);
-        bundle.putSerializable("prospect", (Serializable) prospect);
-        bundle.putSerializable("salon", (Serializable) salonActuel.getNom());
+        bundle.putSerializable("prospect", prospect);
+        bundle.putSerializable("salon", salonActuel.getNom());
         ProjetFragment projetFragment = new ProjetFragment();
         projetFragment.setArguments(bundle);
         ((MainActivity) getActivity()).loadFragment(projetFragment);
@@ -187,7 +187,7 @@ public class ProspectFragment extends Fragment implements ProspectAdapter.OnItem
     }
 
     @Override
-    public void OnModifyClick(int position, String nouveauNomPrenom, String nouveauMail, String nouveauTel, String nouvelleAdresse, String nouvelleVille, String nouveauCodePostal) {
+    public void onModifyClick(int position, String nouveauNomPrenom, String nouveauMail, String nouveauTel, String nouvelleAdresse, String nouvelleVille, String nouveauCodePostal) {
         Prospect prospectAModifier = mesProspectViewModel.getProspectListe().get(position);
 
         prospectAModifier.setNom(nouveauNomPrenom);

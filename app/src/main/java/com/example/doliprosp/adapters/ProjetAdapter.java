@@ -36,12 +36,13 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
 
     // Liste des projets qui sera affichée dans le RecyclerView
     private List<Projet> projetListe;
-    private ProjetAdapter.OnItemClickListener onItemClickListener;
+    private transient ProjetAdapter.OnItemClickListener onItemClickListener;
 
     private transient EditText editTextTitreProjet;
     private transient EditText editTextDescription;
     private transient DatePicker datePickerDateDebut;
-    private transient Button btnModifier, btnAnnuler;
+    private transient Button btnModifier;
+    private transient Button btnAnnuler;
     private transient TextView erreurChamp;
 
     /**
@@ -87,9 +88,9 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
         Projet projet = projetListe.get(position);
         holder.titre.setText(projet.getTitre());
 
-        holder.projet_supprimer.setOnClickListener(v -> afficherDialogConfirmation(v, position));
+        holder.projetSupprimer.setOnClickListener(v -> afficherDialogConfirmation(v, position));
 
-        holder.projet_modifier.setOnClickListener(v -> afficherDialogModification(v, projet, position));
+        holder.projetModifier.setOnClickListener(v -> afficherDialogModification(v, projet, position));
     }
 
     /**
@@ -138,10 +139,9 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
 
             // Actions des boutons
             btnAnnuler.setOnClickListener(v1 -> dialog.dismiss());
-            btnModifier.setOnClickListener(v1 -> {
-                handleModification(position, dialog);
-
-            });
+            btnModifier.setOnClickListener(v1 ->
+                handleModification(position, dialog)
+            );
         }
     }
 
@@ -190,7 +190,9 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
     private void setDatePickerValue(DatePicker datePicker, String date) {
         if (date != null) {
             try {
-                int year = 0, month = 0, day = 0;
+                int year = 0;
+                int month = 0;
+                int day = 0;
 
                 // Vérifie si la date est au format YYYY-MM-DD
                 if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -406,15 +408,15 @@ public class ProjetAdapter extends RecyclerView.Adapter<ProjetAdapter.MyViewHold
      */
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView titre;
-        public ImageButton projet_supprimer;
-        public ImageButton projet_modifier;
+        private TextView titre;
+        private ImageButton projetSupprimer;
+        private ImageButton projetModifier;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             titre = itemView.findViewById(R.id.projet_nom);
-            projet_supprimer = itemView.findViewById(R.id.projet_supprimer);
-            projet_modifier = itemView.findViewById(R.id.projet_modifier);
+            projetSupprimer = itemView.findViewById(R.id.projet_supprimer);
+            projetModifier = itemView.findViewById(R.id.projet_modifier);
         }
     }
 }

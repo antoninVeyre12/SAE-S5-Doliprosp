@@ -15,9 +15,8 @@ import com.example.doliprosp.adapters.MesSalonsAdapter;
 import com.example.doliprosp.interfaces.ISalonService;
 import com.example.doliprosp.modeles.Salon;
 import com.example.doliprosp.services.SalonService;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
 
 import java.io.Serializable;
 
@@ -32,14 +31,13 @@ public class CreationSalonsDialogFragment extends DialogFragment {
     private SalonsViewModel salonsViewModel;
     private ISalonService salonService;
     private EditText titreEditText;
-    private UtilisateurViewModel utilisateurViewModel;
-    // private ArrayList<Salon> listeSalonsSauvegarder;
     private MesSalonsAdapter adapterMesSalons;
 
     private TextView erreurNom;
-    private Button boutonEnvoyer, boutonAnnuler;
+    private Button boutonEnvoyer;
+    private Button boutonAnnuler;
 
-    @Nullable
+    @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -50,15 +48,8 @@ public class CreationSalonsDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_create_show, container, false);
-
-        salonService = new SalonService();
-        mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
-        salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
-        titreEditText = view.findViewById(R.id.editTextTitle);
-        boutonEnvoyer = view.findViewById(R.id.buttonSubmit);
-        boutonAnnuler = view.findViewById(R.id.buttonCancel);
-        erreurNom = view.findViewById(R.id.erreur_nom);
+        View vue = inflater.inflate(R.layout.dialog_create_show, container, false);
+        initialiserVue(vue);
 
         // Récupere les données de l'adapteur
         if (getArguments().containsKey("adapterMyShow")) {
@@ -91,11 +82,21 @@ public class CreationSalonsDialogFragment extends DialogFragment {
 
         });
 
-        boutonAnnuler.setOnClickListener(v -> {
-            dismiss();
-        });
+        boutonAnnuler.setOnClickListener(v ->
+            dismiss()
+        );
 
-        return view;
+        return vue;
+    }
+
+    private void initialiserVue(View vue) {
+        salonService = new SalonService();
+        mesSalonsViewModel = new ViewModelProvider(requireActivity()).get(MesSalonsViewModel.class);
+        salonsViewModel = new ViewModelProvider(requireActivity()).get(SalonsViewModel.class);
+        titreEditText = vue.findViewById(R.id.editTextTitle);
+        boutonEnvoyer = vue.findViewById(R.id.buttonSubmit);
+        boutonAnnuler = vue.findViewById(R.id.buttonCancel);
+        erreurNom = vue.findViewById(R.id.erreur_nom);
     }
 
 

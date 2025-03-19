@@ -43,7 +43,6 @@ public class ProjetService implements IProjetService {
     public void envoyerProjet(Utilisateur utilisateur, Context context, Projet projetAEnvoyer, int idProspect) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/projects";
-        String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = creationJsonProjet(projetAEnvoyer, idProspect);
         Log.d("jsonBody", jsonBody.toString());
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
@@ -52,11 +51,12 @@ public class ProjetService implements IProjetService {
         appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
             public void onSuccess(Integer response) {
+                Log.d("succes", response.toString());
             }
 
             @Override
             public void onError(String errorMessage) {
-                Log.d("onerror", errorMessage.toString());
+                Log.d("onerror", errorMessage);
             }
         });
     }
@@ -70,10 +70,8 @@ public class ProjetService implements IProjetService {
             jsonBody.put("socid", idProspect);
             jsonBody.put("ref",
                     projet.getTitre() + '-' + projet.getNomProspect());
-            jsonBody.put("statut", 1);
-            jsonBody.put("status", 1);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.d("jsonException", e.toString());
         }
         return jsonBody;
     }
@@ -85,7 +83,6 @@ public class ProjetService implements IProjetService {
 
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/doliprospapi/salons";
-        String apikey = utilisateur.getCleApi();
         JSONObject jsonBody = null;
         if (projetAEnvoyer == null) {
             jsonBody = creationJsonModuleSansProjet(utilisateur,
@@ -95,16 +92,16 @@ public class ProjetService implements IProjetService {
                     prospectAEnvoyer, salonAEnvoyer, idProspect);
         }
 
-        Log.d("jsonBOdy", jsonBody.toString());
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
         appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
             @Override
             public void onSuccess(Integer response) {
+                Log.d("on success", response.toString());
             }
 
             @Override
             public void onError(String errorMessage) {
-                Log.d("onerror", errorMessage.toString());
+                Log.d("one error", errorMessage);
             }
         });
 
@@ -136,11 +133,23 @@ public class ProjetService implements IProjetService {
             jsonBody.put("intituleSalon", salon.getNom());
             jsonBody.put("status", 1);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.d("json exception", e.toString());
         }
         return jsonBody;
     }
 
+    /**
+     * Crée un objet JSON représentant un projet sans projet associé pour un prospect donné.
+     * Cette méthode génère un objet `JSONObject` contenant des informations sur le prospect, le salon et l'utilisateur actuel.
+     * Ces informations sont utilisées pour créer une référence de projet, un identifiant pour le prospect, des informations
+     * de contact, etc., dans un format JSON. Cela permet de préparer un envoi ou une gestion de données via une API ou
+     * une autre couche de communication.
+     * @param utilisateur L'utilisateur actuel qui est en charge de la création du projet.
+     * @param prospect L'objet représentant le prospect pour lequel le projet est créé.
+     * @param salon L'objet représentant le salon où le projet est censé être créé.
+     * @param idProspect L'ID du prospect qui est associé au projet.
+     * @return JSONObject L'objet JSON contenant les informations formatées du projet sans projet associé.
+     */
     private JSONObject creationJsonModuleSansProjet(Utilisateur utilisateur,
                                                     Prospect prospect,
                                                     Salon salon, int idProspect) {
@@ -167,7 +176,7 @@ public class ProjetService implements IProjetService {
             jsonBody.put("intituleSalon", salon.getNom());
             jsonBody.put("status", 1);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            Log.d("JSON error", e.toString());
         }
         return jsonBody;
     }

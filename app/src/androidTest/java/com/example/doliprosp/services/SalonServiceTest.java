@@ -1,8 +1,8 @@
 package com.example.doliprosp.services;
 
 import com.example.doliprosp.modeles.Salon;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

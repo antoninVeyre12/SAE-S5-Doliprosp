@@ -2,7 +2,6 @@ package com.example.doliprosp.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import com.example.doliprosp.adapters.ProjetAdapter;
 import com.example.doliprosp.interfaces.IProjetService;
 import com.example.doliprosp.modeles.Projet;
 import com.example.doliprosp.services.ProjetService;
-import com.example.doliprosp.viewModels.MesProjetsViewModel;
+import com.example.doliprosp.viewmodels.MesProjetsViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,9 +32,11 @@ import androidx.lifecycle.ViewModelProvider;
 public class CreationProjetDialogFragment extends DialogFragment {
     private IProjetService projetService;
     private TextView erreur;
-    private EditText editTextTitreProjet, editTextDescriptionProjet;
+    private EditText editTextTitreProjet;
+    private EditText editTextDescriptionProjet;
     private DatePicker datePickerDateDebutProjet;
-    private Button boutonEnvoyer, boutonAnnuler;
+    private Button boutonEnvoyer;
+    private Button boutonAnnuler;
     private String nomProspect;
     private ProjetAdapter adapterProjet;
 
@@ -59,9 +60,8 @@ public class CreationProjetDialogFragment extends DialogFragment {
         recupereChampsVue(vue);
 
         if (getArguments().containsKey("nomDuProspect")) {
-            nomProspect = (String) getArguments().getSerializable("nomDuProspect");
+            nomProspect = getArguments().getString("nomDuProspect");
             adapterProjet = (ProjetAdapter) getArguments().getSerializable("adapterProjet");
-            Log.d("adapterProjet", adapterProjet.toString());
         }
         mesProjetsViewModel = new ViewModelProvider(requireActivity()).get(MesProjetsViewModel.class);
         initialisationBouton();
@@ -102,9 +102,9 @@ public class CreationProjetDialogFragment extends DialogFragment {
             dismiss();
         });
 
-        boutonAnnuler.setOnClickListener(v -> {
-            dismiss();
-        });
+        boutonAnnuler.setOnClickListener(v ->
+            dismiss()
+        );
     }
 
 
@@ -112,20 +112,17 @@ public class CreationProjetDialogFragment extends DialogFragment {
         if (titreProjet.isEmpty()) {
             erreur.setText(R.string.erreur_titre_projet_vide);
             erreur.setVisibility(View.VISIBLE);
-            return;
         }
 
         if (!Pattern.matches("^[a-zA-Z0-9\\s\\-]+$", titreProjet)) {
             erreur.setText(R.string.erreur_titre_projet_caracteres);
             erreur.setVisibility(View.VISIBLE);
-            return;
         }
 
         // 3️⃣ Vérification de la description trop longue (max 1500 caractères)
         if (descriptionProjet.length() > 1500) {
             erreur.setText(R.string.erreur_description_projet_longueur);
             erreur.setVisibility(View.VISIBLE);
-            return;
         }
     }
 
@@ -141,13 +138,11 @@ public class CreationProjetDialogFragment extends DialogFragment {
             if (!dateDebut.after(aujourdhui)) {
                 erreur.setText(R.string.erreur_date_debut_passee);
                 erreur.setVisibility(View.VISIBLE);
-                return;
             }
 
         } catch (ParseException e) {
             erreur.setText(R.string.erreur_date_invalide);
             erreur.setVisibility(View.VISIBLE);
-            return;
         }
     }
 

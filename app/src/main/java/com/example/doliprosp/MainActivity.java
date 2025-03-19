@@ -21,11 +21,11 @@ import com.example.doliprosp.fragments.ProspectFragment;
 import com.example.doliprosp.fragments.SalonAttenteFragment;
 import com.example.doliprosp.fragments.SalonFragment;
 import com.example.doliprosp.fragments.UtilisateurFragment;
-import com.example.doliprosp.viewModels.MesProjetsViewModel;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
-import com.example.doliprosp.viewModels.MesSalonsViewModel;
-import com.example.doliprosp.viewModels.SalonsViewModel;
-import com.example.doliprosp.viewModels.UtilisateurViewModel;
+import com.example.doliprosp.viewmodels.MesProjetsViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.MesSalonsViewModel;
+import com.example.doliprosp.viewmodels.SalonsViewModel;
+import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
