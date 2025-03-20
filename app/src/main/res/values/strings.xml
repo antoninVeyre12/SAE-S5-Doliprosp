@@ -40,7 +40,7 @@
 
     <!-- Page Salon attente -->
     <string name="salon_attente">Salon en attente</string>
-    <string name="erreur_aucun_salon">"Erreur : vous n'avez aucun salon à envoyer"</string>
+    <string name="erreur_aucun_salon">"Vous n'avez aucun salon à envoyer"</string>
     <string name="btn_envoyer_salon_attente">Envoyer</string>
 
     <!-- Page Prospect -->

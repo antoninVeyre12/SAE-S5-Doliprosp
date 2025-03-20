@@ -143,12 +143,18 @@ public class SalonAttenteFragment extends Fragment {
      */
     private void loadSalons() {
         List<Salon> salons = new ArrayList<>(mesSalonsViewModel.getSalonListe());
-
+        erreurSalons.setVisibility(View.GONE);
+        int compteurDeSalonAffiche = 0;
         for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
 
             if (!prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).isEmpty()) {
                 salons.add(salonEnregistrer);
+                compteurDeSalonAffiche++;
             }
+        }
+        Log.d("aaaaaaaa", String.valueOf(compteurDeSalonAffiche));
+        if (compteurDeSalonAffiche == 0) {
+            erreurSalons.setVisibility(View.VISIBLE);
         }
         adapterSalons = new SalonAttenteAdapter(salons, mesProspectViewModel, mesProjetsViewModel);
         salonAttenteRecyclerView.setAdapter(adapterSalons);
@@ -174,7 +180,7 @@ public class SalonAttenteFragment extends Fragment {
             dialog.show();
 
             btnAnnuler.setOnClickListener(v1 ->
-                dialog.dismiss()
+                    dialog.dismiss()
             );
 
             btnEnvoyer.setOnClickListener(v1 -> {
@@ -194,7 +200,7 @@ public class SalonAttenteFragment extends Fragment {
         });
 
         boutonToutSelectionne.setOnClickListener(v ->
-            adapterSalons.selectAllSalons()
+                adapterSalons.selectAllSalons()
         );
     }
 
