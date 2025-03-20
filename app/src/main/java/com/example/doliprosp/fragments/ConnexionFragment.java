@@ -159,6 +159,7 @@ public class ConnexionFragment extends Fragment {
     private void gererConnexionUtilisateur(Utilisateur nouvelUtilisateur, String nomUtilisateur) {
         utilisateur = nouvelUtilisateur;
         String urlUtilisateur = utilisateur.getUrl();
+        Log.d("url", urlUtilisateur);
 
         if (!utilisateur.informationutilisateurDejaRecupere()) {
             recupereInfoCompteAvecAPI(urlUtilisateur, nomUtilisateur, utilisateur.getCleApi());
@@ -270,13 +271,9 @@ public class ConnexionFragment extends Fragment {
      * Récupère les données saisies dans les champs du formulaire.
      */
     private void recupereSaisieChamps() {
-
         motDePasse = motDePasseEditText.getText().toString();
         nomUtilisateur = nomUtilisateurEditText.getText().toString();
         url = urlEditText.getText().toString();
-        //url = "https://www.doliprosptest.go.yj.fr/dolibarr-17.0.3/htdocs";
-        //nomUtilisateur = "antonin";
-        //motDePasse = "antoninantonin";
     }
 
     /**

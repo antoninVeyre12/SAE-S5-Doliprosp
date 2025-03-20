@@ -2,6 +2,7 @@ package com.example.doliprosp.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,16 +91,14 @@ public class CreationProjetDialogFragment extends DialogFragment {
 
             erreur.setVisibility(View.GONE);
 
-            verificationValiditeChamps(titreProjet, descriptionProjet);
-            verificationValiditeDate(dateDebutProjet);
+            if(verificationValiditeChamps(titreProjet, descriptionProjet) && verificationValiditeDate(dateDebutProjet)) {
+                Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, timestampDate);
+                mesProjetsViewModel.addProjet(projet, getContext());
+                adapterProjet.setProjetListe(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                        nomProspect));
 
-            // Tout est valide, création du projet
-            Projet projet = new Projet(nomProspect, titreProjet, descriptionProjet, dateDebutProjet, timestampDate);
-            mesProjetsViewModel.addProjet(projet, getContext());
-            adapterProjet.setProjetListe(projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
-                    nomProspect));
-
-            dismiss();
+                dismiss();
+            }
         });
 
         boutonAnnuler.setOnClickListener(v ->
@@ -108,34 +107,40 @@ public class CreationProjetDialogFragment extends DialogFragment {
     }
 
 
-    private void verificationValiditeChamps(String titreProjet, String descriptionProjet) {
+    private boolean verificationValiditeChamps(String titreProjet, String descriptionProjet) {
+        boolean estValide = true;
         if (titreProjet.isEmpty()) {
+            estValide = false;
             erreur.setText(R.string.erreur_titre_projet_vide);
             erreur.setVisibility(View.VISIBLE);
         }
 
         if (!Pattern.matches("^[a-zA-Z0-9\\s\\-]+$", titreProjet)) {
+            estValide = false;
             erreur.setText(R.string.erreur_titre_projet_caracteres);
             erreur.setVisibility(View.VISIBLE);
         }
 
         // 3️⃣ Vérification de la description trop longue (max 1500 caractères)
         if (descriptionProjet.length() > 1500) {
+            estValide = false;
             erreur.setText(R.string.erreur_description_projet_longueur);
             erreur.setVisibility(View.VISIBLE);
         }
+        return estValide;
     }
 
-    private void verificationValiditeDate(String dateDebutProjet) {
+    private boolean verificationValiditeDate(String dateDebutProjet) {
         // 4 Vérification des dates : existence réelle + logique + futur
+        boolean estValide = true;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         sdf.setLenient(false); // Empêche les dates invalides comme 32/01/2024
         try {
             Date dateDebut = sdf.parse(dateDebutProjet);
             Date aujourdhui = new Date();
-
             // Vérifier que la date est bien dans le futur
             if (!dateDebut.after(aujourdhui)) {
+                estValide = false;
                 erreur.setText(R.string.erreur_date_debut_passee);
                 erreur.setVisibility(View.VISIBLE);
             }
@@ -144,6 +149,7 @@ public class CreationProjetDialogFragment extends DialogFragment {
             erreur.setText(R.string.erreur_date_invalide);
             erreur.setVisibility(View.VISIBLE);
         }
+        return estValide;
     }
 
 
