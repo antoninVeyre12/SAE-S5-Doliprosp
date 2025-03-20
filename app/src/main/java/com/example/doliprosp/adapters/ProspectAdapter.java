@@ -21,6 +21,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyViewHolder> implements Serializable {
     private static final String REGEX_MAIL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private static final String REGEX_TEL = "^(0[1-9])(\\s?\\d{2}){4}$";
@@ -72,7 +73,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
 
         // Clic sur le bouton modifier
         holder.prospectModifier.setOnClickListener(v ->
-            afficherDialogModification(v, prospect, position)
+                afficherDialogModification(v, prospect, position)
         );
 
         holder.prospectSupprimer.setOnClickListener(v -> {
@@ -80,10 +81,10 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
                 new AlertDialog.Builder(v.getContext())
                         .setMessage(R.string.confirmation_suppresion_prospect)
                         .setPositiveButton("Oui", (dialog, which) ->
-                            onItemClickListener.onDeleteClick(position)
+                                onItemClickListener.onDeleteClick(position)
                         )
                         .setNegativeButton("Non", (dialog, which) ->
-                            dialog.dismiss()
+                                dialog.dismiss()
                         )
                         .show();
             }
@@ -178,7 +179,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
             AlertDialog dialog = builder.create();
             dialog.show();
             btnAnnuler.setOnClickListener(v1 ->
-                dialog.dismiss()
+                    dialog.dismiss()
             );
             // Validation du nom lorsque l'utilisateur appuie sur "Confirmer"
 
@@ -193,7 +194,7 @@ public class ProspectAdapter extends RecyclerView.Adapter<ProspectAdapter.MyView
                 // VERIFIER LES INFOS AU MOMENT DU RETOUR SUR L'APPLI
 
                 // Vérification du nom
-                if (nouveauNomPrenom.length() <= 2) {
+                if (nouveauNomPrenom.length() < 3 || nouveauNomPrenom.length() > 50) {
                     erreurProspect.setText(R.string.erreur_nom_prospect_longueur);
                     erreurProspect.setVisibility(View.VISIBLE);
                 }

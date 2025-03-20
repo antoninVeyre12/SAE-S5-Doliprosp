@@ -187,6 +187,7 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
             @Override
             public void onError(String error) {
                 chargement.setVisibility(View.GONE);
+                erreur.setVisibility(View.VISIBLE);
                 recyclerView.setAdapter(adapterSalons);
             }
         });
@@ -198,10 +199,10 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
     private void setupListeners() {
         // Lancer la recherche avec le texte saisi
         boutonRecherche.setOnClickListener(v ->
-            effectuerRechercheSalons()
+                effectuerRechercheSalons()
         );
         texteRecherche.setOnClickListener(v ->
-            effectuerRechercheSalons()
+                effectuerRechercheSalons()
         );
 
         // Ajouter un salon
@@ -230,7 +231,9 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
 
         adapterSalons.setSalonsList(salonsListe);
         adapterMesSalons.setSalonsList(mesSalonsListe);
-
+        if (salonsListe.size() == 0 && mesSalonsListe.size() == 0) {
+            erreur.setVisibility(View.VISIBLE);
+        }
         chargement.setVisibility(View.GONE);
 
     }

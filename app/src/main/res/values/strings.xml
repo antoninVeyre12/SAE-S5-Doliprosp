@@ -33,8 +33,8 @@
     <!-- Page Salon -->
     <string name="mes_salons">Mes salons</string>
     <string name="salons_suggeres">Salons récents</string>
-    <string name="erreur_pas_de_salons">"Aucun salon n'existe ou aucun salon ne correspond à votre recherche"</string>
-    <string name="erreur_nom_salon_longueur">"Le nom d'un salon doit être compris entre 2 et 50 caractères"</string>
+    <string name="erreur_pas_de_salons">"Aucun salon ne correspond à votre recherche"</string>
+    <string name="erreur_nom_salon_longueur">"Le nom d'un salon doit être compris entre 3 et 50 caractères"</string>
     <string name="erreur_nom_salon_vide">"Le nom d'un salon ne peut pas être vide"</string>
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
@@ -44,8 +44,8 @@
     <string name="btn_envoyer_salon_attente">Envoyer</string>
 
     <!-- Page Prospect -->
-    <string name="erreur_nom_prospect_longueur">"Le nom d'un prospect doit être compris entre 2 et 50 caractères"</string>
-    <string name="erreur_prenom_prospect_longueur">"Le prénom d'un prospect doit être compris entre 2 et 50 caractères"</string>
+    <string name="erreur_nom_prospect_longueur">"Le nom d'un prospect doit être compris entre 3 et 50 caractères"</string>
+    <string name="erreur_prenom_prospect_longueur">"Le prénom d'un prospect doit être compris entre 3 et 50 caractères"</string>
     <string name="erreur_mail_prospect">"Le champ email n'a pas été rempli avec un email valide"</string>
     <string name="erreur_tel_prospect">"Le numéro de téléphone d'un prospect doit être composé de 10 chiffres"</string>
     <string name="erreur_tel_prospect_zero">"Le numéro de téléphone d'un prospect doit débuter par un 0"</string>
@@ -110,7 +110,7 @@
     <string name="hint_descriptionProspect">Description du projet</string>
 
     <string name="confirmation_suppresion_salon">Êtes-vous sûr de vouloir supprimer ce salon ? Si ce salon possède des prospects et des projets, ils seront aussi supprimés</string>
-    <string name="confirmation_suppresion_prospect">Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect possède des projets, ils seront aussi supprimés</string>
+    <string name="confirmation_suppresion_prospect">Êtes-vous sûr de vouloir supprimer ce prospect ? Si ce prospect possède des projets, ils seront aussi supprimés. Si ce prospect provient de Dolibarr, il ne sera pas supprimé de Dolibarr.</string>
     <string name="confirmation_suppresion_projet">Êtes-vous sûr de vouloir supprimer ce projet ?</string>
 
     <!-- Toast selection-->

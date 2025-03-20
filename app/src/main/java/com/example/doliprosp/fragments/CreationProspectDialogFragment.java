@@ -25,6 +25,8 @@ import com.example.doliprosp.services.ProspectService;
 import com.example.doliprosp.viewmodels.MesProspectViewModel;
 import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -35,8 +37,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Fragment permettant de créer un prospect et de gérer la recherche et la
@@ -423,6 +423,10 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         } else if (!tel.matches(REGEX_TEL)) {
             erreur.setVisibility(View.VISIBLE);
             erreur.setText(R.string.erreur_tel_prospect);
+            valide = false;
+        } else if (nom.length() < 3 || nom.length() > 50) {
+            erreur.setText(R.string.erreur_nom_prospect_longueur);
+            erreur.setVisibility(View.VISIBLE);
             valide = false;
         }
 
