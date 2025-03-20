@@ -152,7 +152,6 @@ public class SalonAttenteFragment extends Fragment {
                 compteurDeSalonAffiche++;
             }
         }
-        Log.d("aaaaaaaa", String.valueOf(compteurDeSalonAffiche));
         if (compteurDeSalonAffiche == 0) {
             erreurSalons.setVisibility(View.VISIBLE);
         }

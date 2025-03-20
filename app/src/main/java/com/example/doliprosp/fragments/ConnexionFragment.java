@@ -246,10 +246,10 @@ public class ConnexionFragment extends Fragment {
 
     private void chiffrerAPIKey(String nom, String prenom, String ville,
                                 String key) {
-        utilisateur.setNom(ChiffrementVigenere.chiffrement(nom.toLowerCase(), key));
+        utilisateur.setNom(ChiffrementVigenere.chiffrement(nom, key));
 
-        utilisateur.setPrenom(ChiffrementVigenere.chiffrement(prenom.toLowerCase(), key));
-        utilisateur.setVille(ChiffrementVigenere.chiffrement(ville.toLowerCase(), key));
+        utilisateur.setPrenom(ChiffrementVigenere.chiffrement(prenom, key));
+        utilisateur.setVille(ChiffrementVigenere.chiffrement(ville, key));
         utilisateur.setApiKey(ChiffrementVigenere.chiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille()));
     }
 
