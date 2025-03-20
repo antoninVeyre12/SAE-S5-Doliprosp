@@ -38,7 +38,6 @@ public class SalonService implements ISalonService {
         ArrayList<Salon> listeSalonsEnregistres = new ArrayList<>();
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories?sortfield=t.date_creation&sortorder=DESC";
-        Log.d("urlAppel", urlAppel);
 
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
         appelAPIGetList(urlAppel, apiKeyDechiffre, context, new Outils.APIResponseCallbackArray() {
@@ -94,7 +93,6 @@ public class SalonService implements ISalonService {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories";
         JSONObject jsonBody = creationJsonSalon(salonAEnvoyer);
-        Log.d("jsonBody", jsonBody.toString());
         String apiKeyDechiffre = ChiffrementVigenere.dechiffrementCleAPI(utilisateur.getCleApi(), utilisateur.getNom() + utilisateur.getPrenom() + utilisateur.getVille());
 
         appelAPIPostInteger(urlAppel, apiKeyDechiffre, jsonBody, context, new Outils.APIResponseCallbackPost() {
@@ -102,7 +100,6 @@ public class SalonService implements ISalonService {
             public void onSuccess(Integer response) throws JSONException {
                 callback.onSuccess(String.valueOf(response));
             }
-
             @Override
             public void onError(String errorMessage) {
                 callback.onError("erreur");
@@ -152,7 +149,6 @@ public class SalonService implements ISalonService {
             @Override
             public void onSuccess(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
-
                     try {
                         JSONObject object = response.getJSONObject(i);
                         String idSalon = object.getString("id");
