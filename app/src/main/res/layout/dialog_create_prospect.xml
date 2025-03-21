@@ -16,6 +16,7 @@
         android:gravity="center_vertical">
 
         <LinearLayout
+            android:id="@+id/containerPremiereRecherche"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -64,6 +65,7 @@
         android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/containerDeuxiemeRecherche"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

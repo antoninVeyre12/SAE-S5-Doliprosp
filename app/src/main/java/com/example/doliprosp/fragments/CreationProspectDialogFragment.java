@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -67,7 +68,10 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
     private ImageButton boutonRecherche1;
     private ImageButton boutonRecherche2;
     private LinearLayout secondeBarreDeRecherche;
+    private ImageView statutConnexion;
     private LinearLayout triContainer;
+    private LinearLayout containerPremiereRecherche;
+    private LinearLayout containerDeuxiemeRecherche;
     private Spinner listeTri;
 
     private RecyclerView prospectRecyclerView;
@@ -154,6 +158,23 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         secondeBarreDeRecherche = vue.findViewById(R.id.deuxiemeBarreRecherche);
         listeTri = vue.findViewById(R.id.spinner_sort);
         triContainer = vue.findViewById(R.id.triContainer);
+        statutConnexion = vue.findViewById(R.id.status_connection);
+        containerPremiereRecherche = vue.findViewById(R.id.containerPremiereRecherche);
+        containerDeuxiemeRecherche = vue.findViewById(R.id.containerDeuxiemeRecherche);
+        if(!MainActivity.estConnecte) {
+            boutonPlus.setVisibility(View.GONE);
+            boutonMoins.setVisibility(View.GONE);
+            texteRecherche1.setVisibility(View.GONE);
+            texteRecherche2.setVisibility(View.GONE);
+            boutonRecherche1.setVisibility(View.GONE);
+            boutonRecherche2.setVisibility(View.GONE);
+            secondeBarreDeRecherche.setVisibility(View.GONE);
+            listeTri.setVisibility(View.GONE);
+            triContainer.setVisibility(View.GONE);
+            prospectRecyclerView.setVisibility(View.GONE);
+            containerPremiereRecherche.setVisibility(View.GONE);
+            containerDeuxiemeRecherche.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -260,7 +281,6 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         ArrayList<Prospect> result = new ArrayList<>();
         for (Prospect prospectPremiereListe : premiereListeProspect) {
             if (deuxiemeListeProspect.contains(prospectPremiereListe)) {
-                Log.d("trouve", "prospect en commun trouve");
                 result.add(prospectPremiereListe);
             }
         }

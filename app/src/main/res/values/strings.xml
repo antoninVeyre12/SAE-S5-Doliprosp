@@ -19,7 +19,7 @@
     <string name="labelCP">Code Postal</string>
     <string name="plus">+</string>
     <string name="annuler">Annuler</string>
-    <string name="creer">Créer</string>
+    <string name="creer">Ajouter</string>
     <string name="hint_show">Entrez le nom du salon</string>
     <string name="hint_nomPrenomProspect">Entrez le nom et prénom du prospect</string>
     <string name="hint_mailProspect">"Entrez l'email du prospect"</string>
