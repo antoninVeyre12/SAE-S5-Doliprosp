@@ -220,6 +220,7 @@ public class SalonAttenteFragment extends Fragment {
 
                             salonsViewModel.removeSalon(salonAEnvoyer,
                                     getContext());
+                            mesSalonsViewModel.removeSalon(salonAEnvoyer, getContext());
                             loadSalons();
 
                             envoyerProspects(prospectSelectionnes, idSalon,
