@@ -29,6 +29,7 @@ public class MesSalonsViewModel extends ViewModel {
      * @return La liste des salons.
      */
     public ArrayList<Salon> getSalonListe() {
+        Log.d("nombre mes salons", String.valueOf(salonListe.size()));
         return salonListe;
     }
 
