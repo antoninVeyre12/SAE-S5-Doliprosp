@@ -144,13 +144,16 @@ public class SalonAttenteFragment extends Fragment {
     private void loadSalons() {
         List<Salon> salons = new ArrayList<>(mesSalonsViewModel.getSalonListe());
         erreurSalons.setVisibility(View.GONE);
+        //int compteurDeSalonAffiche = 0;
         for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
 
             if (!prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).isEmpty()) {
                 salons.add(salonEnregistrer);
+                //compteurDeSalonAffiche++;
             }
         }
         if (salons.isEmpty()) {
+            erreurSalons.setText(R.string.erreur_aucun_salon);
             erreurSalons.setVisibility(View.VISIBLE);
         }
         adapterSalons = new SalonAttenteAdapter(salons, mesProspectViewModel, mesProjetsViewModel);
@@ -179,7 +182,6 @@ public class SalonAttenteFragment extends Fragment {
             btnAnnuler.setOnClickListener(v1 ->
                     dialog.dismiss()
             );
-
             btnEnvoyer.setOnClickListener(v1 -> {
                 if (checkboxConfirmation.isChecked()) {
                     salonsSelectionnes =
@@ -187,7 +189,7 @@ public class SalonAttenteFragment extends Fragment {
                     envoyerSalons();
                     erreur.setVisibility(View.GONE);
                     dialog.dismiss();
-
+                    erreurSalons.setVisibility(View.GONE);
                 } else {
                     erreur.setText(R.string.erreur_checkbox);
                     erreur.setVisibility(View.VISIBLE);
@@ -202,12 +204,13 @@ public class SalonAttenteFragment extends Fragment {
     }
 
     private void envoyerSalons() {
+        erreurSalons.setVisibility(View.GONE);
         for (Salon salonAEnvoyer : salonsSelectionnes) {
-
             salonService.recupererIdSalon(utilisateur, salonAEnvoyer.getNom()
                     , getContext(), new Outils.APIResponseCallbackString() {
                         @Override
                         public void onSuccess(String response) {
+                            erreurSalons.setVisibility(View.GONE);
                             prospectSelectionnes =
                                     prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonAEnvoyer.getNom());
                             int idSalon = Integer.parseInt(response);
