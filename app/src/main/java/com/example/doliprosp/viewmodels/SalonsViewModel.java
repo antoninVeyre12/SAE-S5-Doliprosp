@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.doliprosp.modeles.Salon;
 import com.example.doliprosp.services.Outils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import androidx.lifecycle.ViewModel;
@@ -70,12 +71,22 @@ public class SalonsViewModel extends ViewModel {
      */
     public void chargementSalons(Context context) {
         salonListe.clear();
-        String content = Outils.lireFichierInterne(context, NOM_FICHIER);
-        for (String champ : content.split(";")) {
-            if (!champ.isEmpty()) {
-                Salon salon = new Salon(champ);
-                salonListe.add(salon);
+        File file = context.getFileStreamPath(NOM_FICHIER);
+        if(file.exists()) {
+            String content = Outils.lireFichierInterne(context, NOM_FICHIER);
+            for (String champ : content.split(";")) {
+                if (!champ.isEmpty()) {
+                    Salon salon = new Salon(champ);
+                    salonListe.add(salon);
+                }
             }
         }
     }
+    /**
+     * Vide la liste de mes salons
+     */
+    public void clearListe() {
+        salonListe.clear();
+    }
+
 }

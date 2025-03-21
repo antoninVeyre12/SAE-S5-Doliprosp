@@ -108,7 +108,7 @@ public class UtilisateurFragment extends Fragment {
 
             // Action du bouton Se Déconnecter
             btnLogout.setOnClickListener(view1 -> {
-                utilisateurViewModel.supprimerDonnerUtilisateur(getContext());
+                utilisateurViewModel.supprimerDonnerUtilisateur(requireActivity());
                 ConnexionFragment connexionFragment = new ConnexionFragment();
                 ((MainActivity) getActivity()).loadFragment(connexionFragment);
                 bottomNav.setVisibility(View.GONE);

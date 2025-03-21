@@ -1,5 +1,6 @@
 package com.example.doliprosp.viewmodels;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -7,7 +8,13 @@ import com.example.doliprosp.modeles.Utilisateur;
 import com.example.doliprosp.services.ChiffrementVigenere;
 import com.example.doliprosp.services.Outils;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class UtilisateurViewModel extends ViewModel {
 
@@ -81,8 +88,25 @@ public class UtilisateurViewModel extends ViewModel {
     /**
      * Supprime les données utilisateur en supprimant le fichier CSV associé.
      */
-    public void supprimerDonnerUtilisateur(Context context) {
+    public void supprimerDonnerUtilisateur(FragmentActivity fragmentActivity) {
         utilisateur = null;
-        context.deleteFile(NOM_FICHIER);
+        fragmentActivity.deleteFile(NOM_FICHIER);
+
+
+        MesSalonsViewModel mesSalonsViewModel = new ViewModelProvider(fragmentActivity).get(MesSalonsViewModel.class);
+        mesSalonsViewModel.clearListe();
+        fragmentActivity.deleteFile("mesSalons.csv");
+
+        fragmentActivity.deleteFile("salons.csv");
+        SalonsViewModel salonsViewModel = new ViewModelProvider(fragmentActivity).get(SalonsViewModel.class);
+        salonsViewModel.clearListe();
+
+        fragmentActivity.deleteFile("mesProspects.csv");
+        MesProspectViewModel mesProspectViewModel = new ViewModelProvider(fragmentActivity).get(MesProspectViewModel.class);
+        mesProspectViewModel.clearListe();
+        
+        fragmentActivity.deleteFile("mesProjets.csv");
+        MesProjetsViewModel mesProjetsViewModel = new ViewModelProvider(fragmentActivity).get(MesProjetsViewModel.class);
+        mesProjetsViewModel.clearListe();
     }
 }

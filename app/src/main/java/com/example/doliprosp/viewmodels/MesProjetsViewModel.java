@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.doliprosp.modeles.Projet;
 import com.example.doliprosp.services.Outils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import androidx.lifecycle.ViewModel;
@@ -73,13 +74,15 @@ public class MesProjetsViewModel extends ViewModel {
      */
     public void chargementProjet(Context context) {
         projetListe.clear();
-        String content = Outils.lireFichierInterne(context, NOM_FICHIER);
-
-        for (String projet : content.split(SAUT_DE_LIGNE)) {
-            String[] champs = projet.split(SEPARATEUR);
-            if (champs.length == 5) {
-                Projet monProjet = new Projet(champs[0], champs[1], champs[2], champs[3], Long.valueOf(champs[4]));
-                projetListe.add(monProjet);
+        File file = context.getFileStreamPath(NOM_FICHIER);
+        if(file.exists()) {
+            String content = Outils.lireFichierInterne(context, NOM_FICHIER);
+            for (String projet : content.split(SAUT_DE_LIGNE)) {
+                String[] champs = projet.split(SEPARATEUR);
+                if (champs.length == 5) {
+                    Projet monProjet = new Projet(champs[0], champs[1], champs[2], champs[3], Long.valueOf(champs[4]));
+                    projetListe.add(monProjet);
+                }
             }
         }
     }
@@ -94,5 +97,12 @@ public class MesProjetsViewModel extends ViewModel {
         return monProjet.getNomProspect() + SEPARATEUR + monProjet.getTitre()
                 + SEPARATEUR + monProjet.getDescription() + SEPARATEUR + monProjet.getDateDebut()
                 + SEPARATEUR + monProjet.getDateTimestamp();
+    }
+
+    /**
+     * Vide la liste des projets
+     */
+    public void clearListe() {
+        projetListe.clear();
     }
 }

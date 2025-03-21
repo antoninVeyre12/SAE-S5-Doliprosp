@@ -1,10 +1,12 @@
 package com.example.doliprosp.viewmodels;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.services.Outils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import androidx.lifecycle.ViewModel;
@@ -27,6 +29,7 @@ public class MesProspectViewModel extends ViewModel {
      * @return La liste des prospects.
      */
     public ArrayList<Prospect> getProspectListe() {
+        Log.d("mesprospects", String.valueOf(prospectListe.size()));
         return prospectListe;
     }
 
@@ -74,18 +77,20 @@ public class MesProspectViewModel extends ViewModel {
     public void chargementProspect(Context context) {
 
         prospectListe.clear();
-        String content = Outils.lireFichierInterne(context, NOM_FICHIER);
-
-        for (String prospect : content.split(SAUT_DE_LIGNE)) {
-            String[] champs = prospect.split(SEPARATEUR);
-            if (champs.length == 10) {
-                Prospect monProspect = new Prospect(champs[0], champs[1], champs[2], champs[3], champs[4],
-                        champs[5], champs[6], champs[7], champs[8],
-                        Long.valueOf(champs[9]));
-                prospectListe.add(monProspect);
+        File file = context.getFileStreamPath(NOM_FICHIER);
+        if(file.exists()) {
+            String content = Outils.lireFichierInterne(context, NOM_FICHIER);
+            for (String prospect : content.split(SAUT_DE_LIGNE)) {
+                String[] champs = prospect.split(SEPARATEUR);
+                if (champs.length == 10) {
+                    Prospect monProspect = new Prospect(champs[0], champs[1], champs[2], champs[3], champs[4],
+                            champs[5], champs[6], champs[7], champs[8],
+                            Long.valueOf(champs[9]));
+                    prospectListe.add(monProspect);
+                }
             }
-
         }
+
     }
 
     /**
@@ -101,5 +106,12 @@ public class MesProspectViewModel extends ViewModel {
                 + SEPARATEUR + monProspect.getNumeroTelephone() + SEPARATEUR
                 + monProspect.getEstClient() + SEPARATEUR
                 + monProspect.getIdDolibarr() + SEPARATEUR + (monProspect.getHeureSaisieTimestamp());
+    }
+
+    /**
+     * Vide la liste des prospects
+     */
+    public void clearListe() {
+        prospectListe.clear();
     }
 }
