@@ -1,6 +1,7 @@
 package com.example.doliprosp.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +10,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
 import com.example.doliprosp.modeles.Utilisateur;
 import com.example.doliprosp.services.ChiffrementVigenere;
 import com.example.doliprosp.viewmodels.UtilisateurViewModel;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 public class UtilisateurFragment extends Fragment {
     private Utilisateur utilisateurActuel;
@@ -50,19 +51,24 @@ public class UtilisateurFragment extends Fragment {
     }
 
     /**
-     * Méthode pour gérer l'affichage des éléments de la vue et le clic sur le bouton deconnecter
+     * Méthode pour gérer l'affichage des éléments de la vue et le clic sur
+     * le bouton deconnecter
      *
-     * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
-     * @param savedInstanceState If non-null, this fragments is being re-constructed
+     * @param view               The View returned by
+     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragments is being
+     *                           re-constructed
      *                           from a previous saved state as given here.
      */
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Activity activity = getActivity();
         initialiserVue(view, activity);
 
-        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        UtilisateurViewModel utilisateurViewModel =
+                new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
 
         String key = utilisateurActuel.getClePremierChiffrement();
         nom =
@@ -82,15 +88,40 @@ public class UtilisateurFragment extends Fragment {
 
         Button btnDeconnexion = view.findViewById(R.id.btnDeconnexion);
         btnDeconnexion.setOnClickListener(v -> {
-            utilisateurViewModel.supprimerDonnerUtilisateur(getContext());
-            ConnexionFragment connexionFragment = new ConnexionFragment();
-            ((MainActivity) getActivity()).loadFragment(connexionFragment);
-            bottomNav.setVisibility(View.GONE);
+            // Afficher la boîte de dialogue de confirmation
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View dialogView =
+                    inflater.inflate(R.layout.dialog_confirm_deconnexion, null);
+
+            AlertDialog.Builder dialogBuilder =
+                    new AlertDialog.Builder(getContext());
+            dialogBuilder.setView(dialogView);
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+
+            // Récupération des boutons de la boîte de dialogue
+            Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
+            Button btnLogout = dialogView.findViewById(R.id.btn_logout);
+
+            // Action du bouton Annuler
+            btnCancel.setOnClickListener(view1 -> alertDialog.dismiss());
+
+            // Action du bouton Se Déconnecter
+            btnLogout.setOnClickListener(view1 -> {
+                utilisateurViewModel.supprimerDonnerUtilisateur(getContext());
+                ConnexionFragment connexionFragment = new ConnexionFragment();
+                ((MainActivity) getActivity()).loadFragment(connexionFragment);
+                bottomNav.setVisibility(View.GONE);
+                alertDialog.dismiss(); // Fermer la boîte de dialogue après
+                // l'action
+            });
         });
+
     }
 
     private void initialiserVue(View vue, Activity activity) {
-        UtilisateurViewModel utilisateurViewModel = new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
+        UtilisateurViewModel utilisateurViewModel =
+                new ViewModelProvider(requireActivity()).get(UtilisateurViewModel.class);
         utilisateurActuel = utilisateurViewModel.getUtilisateur();
 
         userName = utilisateurActuel.getNomUtilisateur();
@@ -127,12 +158,15 @@ public class UtilisateurFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Met en primaryColor l'icone et le texte du fragments
-        ((MainActivity) getActivity()).setColors(4, R.color.color_primary, true);
+        ((MainActivity) getActivity()).setColors(4, R.color.color_primary,
+                true);
         if (ProspectFragment.dernierSalonSelectione == null) {
-            ((MainActivity) getActivity()).setColors(2, R.color.invalide, false);
+            ((MainActivity) getActivity()).setColors(2, R.color.invalide,
+                    false);
         }
         if (ProjetFragment.dernierProspectSelectionne == null) {
-            ((MainActivity) getActivity()).setColors(3, R.color.invalide, false);
+            ((MainActivity) getActivity()).setColors(3, R.color.invalide,
+                    false);
         }
     }
 }

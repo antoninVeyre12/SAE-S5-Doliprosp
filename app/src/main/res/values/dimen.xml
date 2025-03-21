@@ -71,6 +71,8 @@
     <dimen name="text_formulaire_compte">30sp</dimen>
     <dimen name="margin_top_btn_deconnexion">10dp</dimen>
     <dimen name="margin_bottom_btn_deconnexion">10dp</dimen>
+    <dimen name="btn_deconnexion_size">20sp</dimen>
+    <dimen name="btn_deconnexion_layout">200dp</dimen>
 
     <!-- dialog salon -->
     <dimen name="dialog_choix_hauteur">50dp</dimen>
@@ -92,6 +94,8 @@
     <!-- Dialog confirmation envoie -->
     <dimen name="margin_dialog_envoie">16dp</dimen>
     <dimen name="taille_texte">16sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_big">20sp</dimen>
 
     <!-- item recherche -->
     <dimen name="padding_default">10dp</dimen>
@@ -108,6 +112,7 @@
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">20dp</dimen>
+    <dimen name="padding_dialog_deconnexion">20dp</dimen>
 
     <!-- Icon Sizes -->
     <dimen name="icon_size">40dp</dimen>

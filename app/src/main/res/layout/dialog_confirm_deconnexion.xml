@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_dialog_deconnexion">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deconnexion"
+        android:textSize="@dimen/text_size_big"
+        android:textStyle="bold"
+        android:paddingBottom="@dimen/padding_default"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/dialog_warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_warn_deconnexion_msg"
+        android:textSize="@dimen/text_size_small"
+        android:textColor="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:paddingBottom="@dimen/padding_default" />
+
+    <TextView
+        android:id="@+id/dialog_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_info_deconnexion_msg"
+        android:textSize="@dimen/taille_texte"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/margin_large"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/annuler"
+            android:backgroundTint="@color/gray"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_button_deconnexion"
+            android:backgroundTint="@color/red"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="@dimen/margin_start" />
+    </LinearLayout>
+</LinearLayout>

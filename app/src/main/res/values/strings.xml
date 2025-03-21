@@ -1,7 +1,7 @@
 <resources>
     <!-- Bottom nav bar -->
     <string name="app_name">DoliProsp</string>
-    <string name="attente">Attente</string>
+    <string name="attente">Export</string>
     <string name="prospects">Prospects</string>
     <string name="salons">Salons</string>
     <string name="compte">Compte</string>
@@ -39,7 +39,7 @@
     <string name="erreur_nom_salon_existe">Un salon avec le même nom existe déjà</string>
 
     <!-- Page Salon attente -->
-    <string name="salon_attente">Salon en attente</string>
+    <string name="salon_attente">Salon en attente d\'exportation</string>
     <string name="erreur_aucun_salon">"Vous n'avez aucun salon à envoyer"</string>
     <string name="btn_envoyer_salon_attente">Envoyer</string>
 
@@ -70,7 +70,6 @@
     <string name="erreur_titre_projet_caracteres">Le titre ne peut contenir que des lettres, chiffres, espaces et tirets.</string>
     <string name="erreur_description_projet_longueur">La description ne peut pas dépasser 1500 caractères.</string>
     <string name="erreur_date_debut_vide">La date de début est obligatoire.</string>
-    <string name="erreur_date_fin_vide">La date de fin est obligatoire.</string>
     <string name="erreur_date_debut_format">Le format de la date de début doit être JJ/MM/AAAA.</string>
     <string name="erreur_date_fin_format">Le format de la date de fin doit être JJ/MM/AAAA.</string>
     <string name="erreur_date_debut_passee">La date de début ne peut pas être dans le passé.</string>
@@ -135,4 +134,9 @@
     <!-- Texte à afficher -->
     <string name="nb_prospect">2</string>
     <string name="nb_projet">0</string>
+
+    <string name="deconnexion">Déconnexion</string>
+    <string name="dialog_warn_deconnexion_msg">Attention : Si vous vous déconnectez maintenant, toutes les données locales non encore exportées vers Dolibarr seront perdues.</string>
+    <string name="dialog_info_deconnexion_msg">Êtes-vous sûr de vouloir vous déconnecter ?</string>
+    <string name="dialog_button_deconnexion">Se déconnecter</string>
 </resources>
