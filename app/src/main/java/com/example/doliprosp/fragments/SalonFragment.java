@@ -1,5 +1,8 @@
 package com.example.doliprosp.fragments;
 
+import static com.example.doliprosp.fragments.ProjetFragment.dernierProspectSelectionne;
+import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelectione;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
@@ -33,16 +43,6 @@ import com.example.doliprosp.viewmodels.UtilisateurViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static com.example.doliprosp.fragments.ProjetFragment.dernierProspectSelectionne;
-import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelectione;
 
 /**
  * Classe comprenant l'ensemble des méthodes de gestion et d'utilisation du fragments salon
@@ -231,7 +231,7 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
 
         adapterSalons.setSalonsList(salonsListe);
         adapterMesSalons.setSalonsList(mesSalonsListe);
-        if (salonsListe.size() == 0 && mesSalonsListe.size() == 0) {
+        if (!salonsListe.isEmpty() && !mesSalonsListe.isEmpty()) {
             erreur.setVisibility(View.VISIBLE);
         }
         chargement.setVisibility(View.GONE);
