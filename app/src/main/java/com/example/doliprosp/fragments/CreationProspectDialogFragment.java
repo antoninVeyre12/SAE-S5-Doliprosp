@@ -2,7 +2,6 @@ package com.example.doliprosp.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,7 +160,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
         statutConnexion = vue.findViewById(R.id.status_connection);
         containerPremiereRecherche = vue.findViewById(R.id.containerPremiereRecherche);
         containerDeuxiemeRecherche = vue.findViewById(R.id.containerDeuxiemeRecherche);
-        if(!MainActivity.estConnecte) {
+        if (!MainActivity.estConnecte) {
             boutonPlus.setVisibility(View.GONE);
             boutonMoins.setVisibility(View.GONE);
             texteRecherche1.setVisibility(View.GONE);
@@ -356,7 +355,7 @@ public class CreationProspectDialogFragment extends DialogFragment implements Pr
                         utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
                         new Outils.CallbackProspectExiste() {
                             @Override
-                            public void onResponse() {
+                            public void onResponse(String idDolibarr) {
                                 erreur.setText(R.string.prospectExisteDeja);
                                 erreur.setVisibility(View.VISIBLE);
                             }

@@ -163,7 +163,7 @@ public class SalonAttenteFragment extends Fragment {
     private void setupListeners() {
         boutonEnvoyer.setOnClickListener(v -> {
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
-            View layout = inflater.inflate(R.layout.dialog_confirmer_envoie, null);
+            View layout = inflater.inflate(R.layout.dialog_confirm_send, null);
 
             Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
             Button btnEnvoyer = layout.findViewById(R.id.buttonSubmit);
