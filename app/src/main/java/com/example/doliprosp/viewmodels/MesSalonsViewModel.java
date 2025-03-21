@@ -69,7 +69,6 @@ public class MesSalonsViewModel extends ViewModel {
      */
     public void chargementSalons(Context context) {
         salonListe.clear();
-        Log.d("chargement salons", String.valueOf(salonListe.size()));
         File file = context.getFileStreamPath(NOM_FICHIER);
         if(file.exists()) {
             Log.d("mes salons", "fichier existe");
