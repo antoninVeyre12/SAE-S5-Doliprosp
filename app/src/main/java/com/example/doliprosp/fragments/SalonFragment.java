@@ -4,6 +4,7 @@ import static com.example.doliprosp.fragments.ProjetFragment.dernierProspectSele
 import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelectione;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,7 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
         recyclerViewMesSalons.setLayoutManager(layoutManagerMyShow);
 
         recupererSalonsDolibarr();
+        erreur.setVisibility(View.GONE);
         setupListeners();
 
     }
@@ -186,8 +188,13 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
              */
             @Override
             public void onError(String error) {
+                Log.d("errr", error);
                 chargement.setVisibility(View.GONE);
-                erreur.setVisibility(View.VISIBLE);
+                if (error.contains("UnknownHostException") || error.contains("No address associated with hostname")) {
+                    erreur.setVisibility(View.GONE);
+                } else {
+                    erreur.setVisibility(View.VISIBLE);
+                }
                 recyclerView.setAdapter(adapterSalons);
             }
         });
@@ -231,12 +238,14 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
 
         adapterSalons.setSalonsList(salonsListe);
         adapterMesSalons.setSalonsList(mesSalonsListe);
-        erreur.setVisibility(View.GONE);
-        if (salonsListe.isEmpty() && mesSalonsListe.isEmpty()) {
+        if (adapterSalons.getItemCount() == 0 && adapterMesSalons.getItemCount() == 0) {
             erreur.setVisibility(View.VISIBLE);
+        } else if (salonsListe.isEmpty() && mesSalonsListe.isEmpty()) {
+            erreur.setVisibility(View.VISIBLE);
+        } else {
+            erreur.setVisibility(View.GONE);
         }
         chargement.setVisibility(View.GONE);
-
     }
 
     /**
