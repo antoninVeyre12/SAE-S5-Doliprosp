@@ -231,7 +231,7 @@ public class SalonFragment extends Fragment implements MesSalonsAdapter.OnItemCl
 
         adapterSalons.setSalonsList(salonsListe);
         adapterMesSalons.setSalonsList(mesSalonsListe);
-        if (!salonsListe.isEmpty() && !mesSalonsListe.isEmpty()) {
+        if (salonsListe.isEmpty() && mesSalonsListe.isEmpty()) {
             erreur.setVisibility(View.VISIBLE);
         }
         chargement.setVisibility(View.GONE);
