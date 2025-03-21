@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.doliprosp.modeles.Prospect;
 import com.example.doliprosp.modeles.Salon;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -387,7 +388,7 @@ public class Outils {
     }
 
     public interface CallbackProspectExiste {
-        void onResponse();
+        void onResponse(String idProspect);
 
         void onError();
     }

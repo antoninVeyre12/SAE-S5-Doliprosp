@@ -1,8 +1,5 @@
 package com.example.doliprosp.fragments;
 
-import static com.example.doliprosp.fragments.ProjetFragment.dernierProspectSelectionne;
-import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelectione;
-
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
@@ -44,6 +34,16 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.doliprosp.fragments.ProjetFragment.dernierProspectSelectionne;
+import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelectione;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -163,7 +163,7 @@ public class SalonAttenteFragment extends Fragment {
     private void setupListeners() {
         boutonEnvoyer.setOnClickListener(v -> {
             LayoutInflater inflater = LayoutInflater.from(v.getContext());
-            View layout = inflater.inflate(R.layout.dialog_confirm_send, null);
+            View layout = inflater.inflate(R.layout.dialog_confirmer_envoie, null);
 
             Button btnAnnuler = layout.findViewById(R.id.buttonCancel);
             Button btnEnvoyer = layout.findViewById(R.id.buttonSubmit);
@@ -266,41 +266,64 @@ public class SalonAttenteFragment extends Fragment {
         for (Prospect prospectAEnvoyer : listeAEnvoyer) {
 
             if (!prospectAEnvoyer.getIdDolibarr().equals("false")) {
-                int idProspect =
-                        Integer.parseInt(prospectAEnvoyer.getIdDolibarr());
-                prospectService.lieProspectSalon(utilisateur, getContext(),
-                        idSalon, idProspect);
-
-                modificationClient(utilisateur, prospectAEnvoyer, idProspect);
-
-                projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
-                        prospectAEnvoyer.getNom());
-
-                envoyerProjets(projetsSelectionnes,
-                        Integer.parseInt(prospectAEnvoyer.getIdDolibarr()), salonAEnvoyer,
-                        prospectAEnvoyer);
+                lieProspectAvecSalon(prospectAEnvoyer, idSalon, salonAEnvoyer);
             } else {
-                prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
-                    @Override
-                    public void onSuccess(String idProspect) throws JSONException {
+                prospectService.prospectDejaExistantDolibarr(getContext()
+                        , prospectAEnvoyer.getNumeroTelephone(),
+                        utilisateurViewModel.getUtilisateur(), mesProspectViewModel,
+                        new Outils.CallbackProspectExiste() {
+                            @Override
+                            public void onResponse(String idDolibarr) {
+                                Log.d("idDolibarr", idDolibarr);
+                                prospectAEnvoyer.setIdDolibarr(idDolibarr);
+                                lieProspectAvecSalon(prospectAEnvoyer, idSalon, salonAEnvoyer);
 
-                        projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
-                                prospectAEnvoyer.getNom());
+                            }
 
-                        envoyerProjets(projetsSelectionnes,
-                                Integer.parseInt(idProspect), salonAEnvoyer, prospectAEnvoyer);
-                    }
+                            @Override
+                            public void onError() {
+                                prospectService.envoyerProspect(utilisateur, getContext(), prospectAEnvoyer, idSalon, new Outils.APIResponseCallbackString() {
+                                    @Override
+                                    public void onSuccess(String idProspect) throws JSONException {
 
-                    @Override
-                    public void onError(String errorMessage) {
-                        envoyerVersModule(null, prospectAEnvoyer, salonAEnvoyer,
-                                0);
-                    }
-                });
+                                        projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                                                prospectAEnvoyer.getNom());
+
+                                        envoyerProjets(projetsSelectionnes,
+                                                Integer.parseInt(idProspect), salonAEnvoyer, prospectAEnvoyer);
+                                    }
+
+                                    @Override
+                                    public void onError(String errorMessage) {
+                                        envoyerVersModule(null, prospectAEnvoyer, salonAEnvoyer,
+                                                0);
+                                    }
+                                });
+                            }
+
+                        });
             }
             mesProspectViewModel.removeProspect(prospectAEnvoyer, getContext());
         }
     }
+
+    private void lieProspectAvecSalon(Prospect prospectAEnvoyer, int idSalon,
+                                      Salon salonAEnvoyer) {
+        int idProspect =
+                Integer.parseInt(prospectAEnvoyer.getIdDolibarr());
+        prospectService.lieProspectSalon(utilisateur, getContext(),
+                idSalon, idProspect);
+
+        modificationClient(utilisateur, prospectAEnvoyer, idProspect);
+
+        projetsSelectionnes = projetService.getProjetDUnProspect(mesProjetsViewModel.getProjetListe(),
+                prospectAEnvoyer.getNom());
+
+        envoyerProjets(projetsSelectionnes,
+                Integer.parseInt(prospectAEnvoyer.getIdDolibarr()), salonAEnvoyer,
+                prospectAEnvoyer);
+    }
+
 
     private void envoyerProjets(List<Projet> listeAEnvoyer, int idProspect,
                                 Salon salonAEnvoyer,
@@ -325,7 +348,6 @@ public class SalonAttenteFragment extends Fragment {
     private void modificationClient(Utilisateur utilisateur,
                                     Prospect prospectAEnvoyer,
                                     int idProspect) {
-        Log.d("getmodifier", String.valueOf(prospectAEnvoyer.getModifier()));
         if (prospectAEnvoyer.getModifier()) {
             prospectService.modifierClient(getContext(), utilisateur,
                     prospectAEnvoyer,

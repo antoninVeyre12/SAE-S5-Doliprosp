@@ -161,7 +161,19 @@ public class ProspectService implements IProspectService {
         Outils.appelAPIGetList(urlAppel, apiKeyDechiffre, context, new Outils.APIResponseCallbackArray() {
             @Override
             public void onSuccess(JSONArray response) {
-                callback.onResponse();
+                String idDolibarr = "";
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        idDolibarr = object.getString(
+                                "id");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                callback.onResponse(idDolibarr);
             }
 
             @Override
