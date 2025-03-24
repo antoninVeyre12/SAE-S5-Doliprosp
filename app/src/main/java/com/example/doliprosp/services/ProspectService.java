@@ -22,6 +22,15 @@ public class ProspectService implements IProspectService {
     private static final String OUVERTURE_LIKE = "'%25";
     private static final String FERMETURE_LIKE = "%25'";
 
+    /**
+     * Permet d'envoyer un prospect dans Dolibarr
+     *
+     * @param utilisateur
+     * @param context
+     * @param prospectAEnvoyer Le prospect à ajouter.
+     * @param idSalon
+     * @param callback
+     */
     public void envoyerProspect(Utilisateur utilisateur, Context context, Prospect prospectAEnvoyer, int idSalon, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/thirdparties";
@@ -43,6 +52,14 @@ public class ProspectService implements IProspectService {
         });
     }
 
+    /**
+     * Permets de lier un prospect à un salon de Dolibarr
+     *
+     * @param utilisateur
+     * @param context
+     * @param idSalon
+     * @param response
+     */
     public void lieProspectSalon(Utilisateur utilisateur, Context context,
                                  int idSalon, int response) {
         url = utilisateur.getUrl();
@@ -151,7 +168,16 @@ public class ProspectService implements IProspectService {
         });
     }
 
-
+    /**
+     * Recherche dans Dolibarr au moment de l'nevoie si le prospect est déjà
+     * existant via le numéro de téléphone
+     *
+     * @param context
+     * @param recherche
+     * @param utilisateur
+     * @param mesProspectViewModel
+     * @param callback
+     */
     public void prospectDejaExistantDolibarr(Context context, String recherche, Utilisateur utilisateur,
                                              MesProspectViewModel mesProspectViewModel, Outils.CallbackProspectExiste callback) {
         url = utilisateur.getUrl();
@@ -185,6 +211,14 @@ public class ProspectService implements IProspectService {
 
     }
 
+    /**
+     * Permet de mettre à jour les informations d'un client de Dolibarr
+     *
+     * @param context
+     * @param utilisateur
+     * @param prospectAModifier
+     * @param idProspect
+     */
     public void modifierClient(Context context, Utilisateur utilisateur,
                                Prospect prospectAModifier, String idProspect) {
         url = utilisateur.getUrl();
@@ -207,6 +241,13 @@ public class ProspectService implements IProspectService {
 
     }
 
+    /**
+     * Vérifie que le propsect n'existe pas en local via le numéro de téléphone
+     *
+     * @param recherche
+     * @param mesProspectViewModel
+     * @return
+     */
     public boolean existeDansViewModel(String recherche, MesProspectViewModel mesProspectViewModel) {
         boolean existe = false;
 

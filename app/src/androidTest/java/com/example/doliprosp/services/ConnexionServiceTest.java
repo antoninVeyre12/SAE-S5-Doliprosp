@@ -1,10 +1,8 @@
-package com.example.doliprosp.Services;
+package com.example.doliprosp.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-
-import com.example.doliprosp.services.Outils;
 
 import org.json.JSONObject;
 import org.junit.Test;

@@ -44,10 +44,10 @@ public interface ISalonService {
 
     void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackString callback);
 
-    public List<Salon> rechercheSalons(String recherche,
-                                       SalonsViewModel salonsViewModel);
+    List<Salon> rechercheSalons(String recherche,
+                                SalonsViewModel salonsViewModel);
 
-    public List<Salon> rechercheMesSalons(String recherche,
-                                          MesSalonsViewModel mesSalonsViewModel);
+    List<Salon> rechercheMesSalons(String recherche,
+                                   MesSalonsViewModel mesSalonsViewModel);
 
 }

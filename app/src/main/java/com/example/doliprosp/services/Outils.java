@@ -153,6 +153,15 @@ public class Outils {
         fileRequete.add(requeteVolley);
     }
 
+    /**
+     * Effectue une requête HTTP POST vers une API en envoyant un corps JSON et attend un entier en réponse.
+     *
+     * @param url      L'URL de l'API cible.
+     * @param cleApi   La clé API utilisée pour l'authentification.
+     * @param jsonBody L'objet JSON à envoyer dans le corps de la requête.
+     * @param context  Le contexte de l'application.
+     * @param callback Interface de rappel pour gérer la réponse (entier attendu).
+     */
     public static void appelAPIPostInteger(String url, String cleApi, JSONObject jsonBody, Context context, APIResponseCallbackPost callback) {
         ignorerSSLCertifcat();
         StringRequest requeteVolley = new StringRequest(Request.Method.POST, url,
@@ -198,7 +207,14 @@ public class Outils {
         fileRequete.add(requeteVolley);
     }
 
-
+    /**
+     * Effectue une requête HTTP POST vers une API en utilisant la bibliothèque Volley.
+     *
+     * @param url      L'URL de l'API cible.
+     * @param cleApi   La clé API utilisée pour l'authentification.
+     * @param context  Le contexte de l'application.
+     * @param callback Interface de rappel pour gérer la réponse de l'API.
+     */
     public static void appelAPIPostJson(String url, String cleApi, Context context, APIResponseCallback callback) {
         ignorerSSLCertifcat();
         StringRequest requeteVolley = new StringRequest(Request.Method.POST, url,
@@ -236,6 +252,15 @@ public class Outils {
         fileRequete.add(requeteVolley);
     }
 
+    /**
+     * Effectue une requête HTTP PUT vers une API en utilisant la bibliothèque Volley.
+     *
+     * @param url      L'URL de l'API cible.
+     * @param cleApi   La clé API utilisée pour l'authentification.
+     * @param context  Le contexte de l'application.
+     * @param jsonBody Le corps de la requête en format JSON.
+     * @param callback Interface de rappel pour gérer la réponse de l'API.
+     */
     public static void appelAPIPut(String url, String cleApi, Context context,
                                    JSONObject jsonBody, APIResponseCallback callback) {
         ignorerSSLCertifcat();
@@ -298,6 +323,13 @@ public class Outils {
         return fileRequete;
     }
 
+    /**
+     * Écrit du contenu dans un fichier interne.
+     *
+     * @param context    Le contexte de l'application.
+     * @param nomFichier Le nom du fichier dans lequel écrire.
+     * @param contenu    Le contenu à écrire dans le fichier.
+     */
     public static void ecrireDansFichierInterne(Context context, String nomFichier, String contenu) {
         try {
             // Ouvre le fichier en mode privé pour écrire dedans
@@ -310,6 +342,13 @@ public class Outils {
         }
     }
 
+    /**
+     * Lit le contenu d'un fichier interne.
+     *
+     * @param context    Le contexte de l'application.
+     * @param fichierNom Le nom du fichier à lire.
+     * @return Le contenu du fichier sous forme de chaîne de caractères, ou une chaîne vide en cas d'erreur.
+     */
     public static String lireFichierInterne(Context context,
                                             String fichierNom) {
         String contenu = "";
@@ -331,6 +370,13 @@ public class Outils {
         return contenu;
     }
 
+    /**
+     * Vérifie si un fichier interne existe.
+     *
+     * @param context    Le contexte de l'application.
+     * @param nomFichier Le nom du fichier à vérifier.
+     * @return {@code true} si le fichier existe, sinon {@code false}.
+     */
     public static boolean fichierValide(Context context, String nomFichier) {
         File file = new File(context.getFilesDir() + "/" + nomFichier);
         return file.exists();
@@ -345,6 +391,10 @@ public class Outils {
         void onError(String errorMessage);
     }
 
+    /**
+     * interfaces de callback pour la gestion de la réponse d'un appel API
+     * renvoyant un string.
+     */
     public interface APIResponseCallbackString {
         void onSuccess(String response) throws JSONException;
 
@@ -387,6 +437,10 @@ public class Outils {
         void onError(String errorMessage);
     }
 
+    /**
+     * interfaces de callback pour la gestion de la réponse d'un appel API
+     * renvoyant un prospect existant.
+     */
     public interface CallbackProspectExiste {
         void onResponse(String idProspect);
 

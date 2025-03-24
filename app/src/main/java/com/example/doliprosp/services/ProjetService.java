@@ -1,5 +1,7 @@
 package com.example.doliprosp.services;
 
+import static com.example.doliprosp.services.Outils.appelAPIPostInteger;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -14,13 +16,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.doliprosp.services.Outils.appelAPIPostInteger;
-
 public class ProjetService implements IProjetService {
 
     private String url;
     private String urlAppel;
 
+    /**
+     * Permet de mettre à jour les informations d'un projet localement
+     *
+     * @param projet        Le projet à mettre à jour.
+     * @param titre         Le nouveau titre à mettre à jour.
+     * @param description   La nouvelle description à mettre à jour.
+     * @param dateDebut     La nouvelle date de début du projet à mettre à jour.
+     * @param dateTimestamp
+     */
     public void updateProjet(Projet projet, String titre, String description, String dateDebut, long dateTimestamp) {
         projet.setTitre(titre);
         projet.setDescription(description);
@@ -28,6 +37,13 @@ public class ProjetService implements IProjetService {
         projet.setDateTimestamp(dateTimestamp);
     }
 
+    /**
+     * Liste tous les projets d'un prospect
+     *
+     * @param projetListe La liste des projets disponibles.
+     * @param nomProspect Le nom du prospect dont on souhaite récupérer les projets.
+     * @return
+     */
     @Override
     public ArrayList<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect) {
 
@@ -40,6 +56,14 @@ public class ProjetService implements IProjetService {
         return projetDuProspect;
     }
 
+    /**
+     * Envoyer les projets des prospects dans Dolibarr
+     *
+     * @param utilisateur
+     * @param context
+     * @param projetAEnvoyer
+     * @param idProspect
+     */
     public void envoyerProjet(Utilisateur utilisateur, Context context, Projet projetAEnvoyer, int idProspect) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/projects";
@@ -61,6 +85,13 @@ public class ProjetService implements IProjetService {
         });
     }
 
+    /**
+     * Créer le json Body à envoyer pour créer les projets
+     *
+     * @param projet
+     * @param idProspect
+     * @return jsonBody body contenant les informations à enovyer
+     */
     private JSONObject creationJsonProjet(Projet projet, int idProspect) {
         JSONObject jsonBody = new JSONObject();
         try {
@@ -77,6 +108,16 @@ public class ProjetService implements IProjetService {
         return jsonBody;
     }
 
+    /**
+     * Envoyer les informations au module Doliprosp
+     *
+     * @param utilisateur
+     * @param context
+     * @param projetAEnvoyer
+     * @param prospectAEnvoyer
+     * @param salonAEnvoyer
+     * @param idProspect
+     */
     public void envoyerVersModule(Utilisateur utilisateur, Context context,
                                   Projet projetAEnvoyer,
                                   Prospect prospectAEnvoyer,
@@ -108,6 +149,16 @@ public class ProjetService implements IProjetService {
 
     }
 
+    /**
+     * Créer le Json Body pour le module Doliprosp
+     *
+     * @param utilisateur
+     * @param projet
+     * @param prospect
+     * @param salon
+     * @param idProspect
+     * @return jsonBody pour le module
+     */
     private JSONObject creationJsonModule(Utilisateur utilisateur, Projet projet,
                                           Prospect prospect,
                                           Salon salon, int idProspect) {

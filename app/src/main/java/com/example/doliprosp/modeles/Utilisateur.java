@@ -266,10 +266,20 @@ public class Utilisateur implements Serializable {
         this.cleChiffrement = cleChiffrement;
     }
 
+    /**
+     * Retourne la clé utilisée pour le premier chiffrement.
+     *
+     * @return La clé de premier chiffrement sous forme de chaîne de caractères.
+     */
     public String getClePremierChiffrement() {
         return clePremierChiffrement;
     }
 
+    /**
+     * Définit la clé utilisée pour le premier chiffrement.
+     *
+     * @param clePremierChiffrement La nouvelle clé de premier chiffrement à affecter.
+     */
     public void setClePremierChiffrement(String clePremierChiffrement) {
         this.clePremierChiffrement = clePremierChiffrement;
     }
