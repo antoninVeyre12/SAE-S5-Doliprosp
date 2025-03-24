@@ -1,4 +1,4 @@
-package com.example.doliprosp.Services;
+package com.example.doliprosp.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -8,9 +8,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 
 import com.example.doliprosp.modeles.Prospect;
-import com.example.doliprosp.services.Outils;
-import com.example.doliprosp.services.ProspectService;
-import com.example.doliprosp.viewModels.MesProspectViewModel;
+import com.example.doliprosp.viewmodels.MesProspectViewModel;
 
 import org.json.JSONObject;
 import org.junit.Before;

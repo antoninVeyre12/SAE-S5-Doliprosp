@@ -35,12 +35,12 @@ public interface IProjetService {
      */
     List<Projet> getProjetDUnProspect(ArrayList<Projet> projetListe, String nomProspect);
 
-    public void envoyerProjet(Utilisateur utilisateur, Context context,
-                              Projet projetAEnvoyer, int idProspect);
+    void envoyerProjet(Utilisateur utilisateur, Context context,
+                       Projet projetAEnvoyer, int idProspect);
 
-    public void envoyerVersModule(Utilisateur utilisateur, Context context,
-                                  Projet projetAEnvoyer,
-                                  Prospect prospectAEnvoyer,
-                                  Salon salonAEnvoyer, int idProspect);
+    void envoyerVersModule(Utilisateur utilisateur, Context context,
+                           Projet projetAEnvoyer,
+                           Prospect prospectAEnvoyer,
+                           Salon salonAEnvoyer, int idProspect);
 
 }

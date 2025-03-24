@@ -1,5 +1,8 @@
 package com.example.doliprosp.services;
 
+import static com.example.doliprosp.services.Outils.appelAPIGetList;
+import static com.example.doliprosp.services.Outils.appelAPIPostInteger;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -15,9 +18,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.doliprosp.services.Outils.appelAPIGetList;
-import static com.example.doliprosp.services.Outils.appelAPIPostInteger;
 
 /**
  * Service gérant les salons de l'application.
@@ -88,7 +88,14 @@ public class SalonService implements ISalonService {
         return existe; // Si le salon n'est pas trouvé dans les deux listes, on retourne false
     }
 
-
+    /**
+     * Méthode pour envoyer les salons dans Dolibarr
+     *
+     * @param utilisateur
+     * @param context
+     * @param salonAEnvoyer
+     * @param callback
+     */
     public void envoyerSalon(Utilisateur utilisateur, Context context, Salon salonAEnvoyer, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         urlAppel = url + "/api/index.php/categories";
@@ -100,6 +107,7 @@ public class SalonService implements ISalonService {
             public void onSuccess(Integer response) throws JSONException {
                 callback.onSuccess(String.valueOf(response));
             }
+
             @Override
             public void onError(String errorMessage) {
                 callback.onError("erreur");
@@ -107,6 +115,12 @@ public class SalonService implements ISalonService {
         });
     }
 
+    /**
+     * Méthode pour créer le body JSON à envoyer
+     *
+     * @param salonAEnvoyer
+     * @return jsonBody Renvoi le json à envoyer pour Dolibarr
+     */
     private JSONObject creationJsonSalon(Salon salonAEnvoyer) {
         JSONObject jsonBody = new JSONObject();
         try {
@@ -119,6 +133,14 @@ public class SalonService implements ISalonService {
         return jsonBody;
     }
 
+    /**
+     * Méthode qui renvoie la liste des salons sélectionnés
+     *
+     * @param mesSalonsViewModel
+     * @param salonsViewModel
+     * @return salonSelectionnes renvoie la liste des salons sélectionnées
+     * par l'utilisateur
+     */
     public List<Salon> getListeSalonsSelectionnes(MesSalonsViewModel mesSalonsViewModel, SalonsViewModel salonsViewModel) {
 
         List<Salon> salonsSelectionnes = new ArrayList<>();
@@ -135,6 +157,14 @@ public class SalonService implements ISalonService {
         return salonsSelectionnes;
     }
 
+    /**
+     * Renvoie l'id d'un salon enregistré dans Dolibarr
+     *
+     * @param utilisateur
+     * @param recherche
+     * @param context
+     * @param callback
+     */
     public void recupererIdSalon(Utilisateur utilisateur, String recherche, Context context, Outils.APIResponseCallbackString callback) {
         url = utilisateur.getUrl();
         String rechercheSansEspace = remplaceEspace(recherche);
@@ -168,6 +198,14 @@ public class SalonService implements ISalonService {
         });
     }
 
+    /**
+     * Renvoie la liste des salons trouvés après une recherche au sein des
+     * salons en local
+     *
+     * @param recherche
+     * @param mesSalonsViewModel
+     * @return resultat
+     */
     public List<Salon> rechercheMesSalons(String recherche,
                                           MesSalonsViewModel mesSalonsViewModel) {
 
@@ -184,6 +222,13 @@ public class SalonService implements ISalonService {
         return resultat;
     }
 
+    /**
+     * Renvoie la liste des salons trouvés après une recherche
+     *
+     * @param recherche
+     * @param salonsViewModel
+     * @return resultat
+     */
     public List<Salon> rechercheSalons(String recherche, SalonsViewModel salonsViewModel) {
 
         List<Salon> resultat = new ArrayList<>();
@@ -199,10 +244,14 @@ public class SalonService implements ISalonService {
         return resultat;
     }
 
+    /**
+     * Méthode pour ajouter des %20 à la place des espaces
+     *
+     * @param str
+     * @return renvoie le champs à envoyer à l'API sans espace
+     */
     private String remplaceEspace(String str) {
         // Remplacer chaque espace par "%20"
         return str.replace(" ", "%20");
     }
-
-
 }

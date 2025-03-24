@@ -1,4 +1,4 @@
-package com.example.doliprosp.Services;
+package com.example.doliprosp.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -9,9 +9,7 @@ import android.content.Context;
 
 import com.example.doliprosp.modeles.Projet;
 import com.example.doliprosp.modeles.Utilisateur;
-import com.example.doliprosp.services.Outils;
-import com.example.doliprosp.services.ProjetService;
-import com.example.doliprosp.viewModels.MesProjetsViewModel;
+import com.example.doliprosp.viewmodels.MesProjetsViewModel;
 
 import org.junit.Before;
 import org.junit.Test;

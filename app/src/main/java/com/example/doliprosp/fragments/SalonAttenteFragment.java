@@ -1,5 +1,8 @@
 package com.example.doliprosp.fragments;
 
+import static com.example.doliprosp.fragments.ProjetFragment.dernierProspectSelectionne;
+import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelectione;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doliprosp.MainActivity;
 import com.example.doliprosp.R;
@@ -34,16 +44,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static com.example.doliprosp.fragments.ProjetFragment.dernierProspectSelectionne;
-import static com.example.doliprosp.fragments.ProspectFragment.dernierSalonSelectione;
 
 /**
  * Fragment affichant la liste des salons en attente.
@@ -144,12 +144,10 @@ public class SalonAttenteFragment extends Fragment {
     private void loadSalons() {
         List<Salon> salons = new ArrayList<>(mesSalonsViewModel.getSalonListe());
         erreurSalons.setVisibility(View.GONE);
-        //int compteurDeSalonAffiche = 0;
         for (Salon salonEnregistrer : salonsViewModel.getSalonListe()) {
 
             if (!prospectService.getProspectDUnSalon(mesProspectViewModel.getProspectListe(), salonEnregistrer.getNom()).isEmpty()) {
                 salons.add(salonEnregistrer);
-                //compteurDeSalonAffiche++;
             }
         }
         if (salons.isEmpty()) {

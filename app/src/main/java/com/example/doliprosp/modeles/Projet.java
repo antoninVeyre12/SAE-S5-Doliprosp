@@ -95,7 +95,7 @@ public class Projet {
     /**
      * Définit la date de début du projet.
      *
-     * @param dateDebut La date de début sous forme de String.
+     * @param dateTimestamp La date de début sous forme de String.
      */
     public void setDateTimestamp(long dateTimestamp) {
         this.dateTimestamp = dateTimestamp;
